@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "description": "Структура проекта:",
   "main": "index.js",
-  "scripts": {"test": "echo \"Error: no test specified\" && exit 1",
-      "dev": "vite",
-      "build": "vite build",
-      "preview": "vite preview",
-      "lint": "eslint \"src/**/*.{js,ts,vue}\" --fix"
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint \"src/**/*.{js,ts,vue}\" --fix"
   },
   "repository": {
     "type": "git",
@@ -21,9 +22,12 @@
   },
   "homepage": "https://github.com/1Ayakiro1/Aetheris-community-Private1#readme",
   "dependencies": {
+    "@primeuix/themes": "^1.2.3",
     "@vitejs/plugin-vue": "^6.0.1",
     "alova": "^3.3.4",
     "pinia": "^3.0.3",
+    "primeicons": "^7.0.0",
+    "primevue": "^4.3.7",
     "scss": "^0.2.4",
     "typescript": "^5.9.2",
     "vite": "^7.1.3",
