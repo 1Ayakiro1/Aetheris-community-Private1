@@ -1,4 +1,5 @@
-import './assets/main.css';
+import './assets/tailwind.css';
+import './assets/main.scss';
 
 //primeui
 import PrimeVue from 'primevue/config';
