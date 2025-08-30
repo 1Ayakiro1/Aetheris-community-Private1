@@ -1,4 +1,4 @@
-import './assets/main.scss';
+import './assets/main.css';
 
 //primeui
 import PrimeVue from 'primevue/config';
