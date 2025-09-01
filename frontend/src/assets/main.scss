@@ -1,129 +1,93 @@
+
 // Импорт шрифтов
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap');
 
-// CSS переменные для тем по умолчанию
-:root {
-  --bg-primary: #ffffff;
-  --bg-secondary: #f3f4f6;
-  --text-primary: #1f2937;
-  --text-secondary: #6b7280;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  scroll-behavior: smooth;
+}
+
+//Aquamarine theme (default theme for our website)
+:root[data-theme='aquamarine'] {
+  --bg-primary: #16181C;
+  --bg-secondary: #26292F;
+  --btn-primary: #434956;
+  --text-primary: #ECF9FB;
+  --text-secondary: #5A6272;
   --text-third: #AFB7C7;
   --text-red: #FF3B3B;
   --text-hover: #8a9495;
-  --accent: #3b82f6;
-  --border: #e5e7eb;
-  --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --primary-violet: #8C00FF;
+  --primary-pink: #EE00FF;
+  --primary-blue: #505BE5;
+  --ico-color: #9BA4AE;
+  
+  // Шрифты
+  --font-primary: 'Comfortaa', sans-serif;
+  --font-secondary: 'Arial', sans-serif;
+  --font-heading: 'Comfortaa', sans-serif;
+  --font-body: 'Comfortaa', sans-serif;
 }
 
-/* Утилитарные классы для использования CSS переменных */
-.bg-bg-primary {
+// //Light theme
+// :root[data-theme='light'] {
+//   --bg-primary: #E5E7EB;
+//   --bg-secondary: #FFFFFF;
+//   --btn-primary: #FAFAFA;
+//   --text-primary: #111827;
+//   --text-secondary: #1A202C;
+//   --text-third: #1A202C;
+//   --text-red: #FF3B3B;
+//   --primary-violet: #8C00FF;
+//   --primary-pink: #EE00FF;
+//   --primary-blue: #505BE5;
+//   --ico-color: #1c1d1f;
+// }
+
+// //Dark theme
+// :root[data-theme='dark'] {
+//   --bg-primary: #000000;
+//   --bg-secondary: #101013;
+//   --btn-primary: #222329;
+//   --text-primary: #ECF9FB;
+//   --text-secondary: #B0BAC5;
+//   --text-third: #AFB7C7;
+//   --text-red: #FF3B3B;
+//   --primary-violet: #8C00FF;
+//   --primary-pink: #EE00FF;
+//   --primary-blue: #505BE5;
+//   --ico-color: #9BA4AE;
+// }
+
+.bg-bg-primary { background-color: var(--bg-primary); }
+.bg-bg-secondary { background-color: var(--bg-secondary); }
+.bg-btn-primary { background-color: var(--btn-primary); }
+.bg-primary-violet { background-color: var(--primary-violet); }
+.bg-primary-blue { background-color: var(--primary-blue); }
+.bg-linear-violet { background: linear-gradient(180deg, #16181C 0%, #21003d 100%); }
+.bg-linear-violet-pink { background: linear-gradient(to right, #B200FF 0%, #EE00FF 100%); }
+.text-text-primary { color: var(--text-primary); }
+.text-text-secondary { color: var(--text-secondary); }
+.text-third { color: var(--text-third); }
+.text-theme-card { color: var(--theme-card-text); }
+.text-red { color: var(--text-red); }
+.text-hover { color: var(--text-hover); }
+.text-primary-violet { color: var(--primary-violet); }
+.text-primary-pink { color: var(--primary-pink); }
+.text-primary-blue { color: var(--primary-blue); }
+.footer-bg { background-color: #121212; }
+
+.body {
   background-color: var(--bg-primary);
-}
-
-.text-text-third {
-  color: var(--text-third);
-}
-
-.text-text-red {
-  color: var(--text-red);
-}
-
-.text-text-hover {
-  color: var(--text-hover);
-}
-
-.bg-bg-secondary {
-  background-color: var(--bg-secondary);
-}
-
-.text-text-primary {
   color: var(--text-primary);
-}
-
-.text-text-secondary {
-  color: var(--text-secondary);
-}
-
-.text-accent {
-  color: var(--accent);
-}
-
-.bg-accent {
-  background-color: var(--accent);
-}
-
-.border-border {
-  border-color: var(--border);
-}
-
-.shadow-theme {
-  box-shadow: var(--shadow);
-}
-
-/* Плавные переходы для смены тем */
-* {
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-}
-
-body {
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-.card {
-  padding: 2em;
-}
-
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+  font-family: var(--sans);
 }

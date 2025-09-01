@@ -302,7 +302,7 @@ const toggleAdditional = () => {
 }
 
 .site-title {
-  font-family: 'Comfortaa', sans-serif;
+  font-family: var(--font-primary);
   font-size: 35px;
   font-weight: 700;
   color: var(--text-primary);

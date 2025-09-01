@@ -1,5 +1,8 @@
 import './assets/main.scss';
 
+// Устанавливаем тему по умолчанию
+document.documentElement.setAttribute('data-theme', 'aquamarine');
+
 //primeui
 import PrimeVue from 'primevue/config';
 import Aura from '@primeuix/themes/aura';
