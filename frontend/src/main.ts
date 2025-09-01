@@ -1,4 +1,3 @@
-import './assets/tailwind.css';
 import './assets/main.scss';
 
 //primeui
@@ -11,11 +10,13 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
 
-console.log('Vue app started/Веб приложение запущено сука');
+console.log('Vue app started/Веб приложение запущено');
 const app = createApp(App);
 
 app.use(PrimeVue, {
     theme: { preset: Aura }
 });
-app.use(router)
+
+app.use(router);
+
 app.mount('#app');

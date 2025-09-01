@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://unpkg.com/vue3-smooth-scroll"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/theme.js"></script>
+    <!-- Custom CSS colors -->
+    <link rel="stylesheet" href="../css/main.css">
+    <script src="../js/settings_appearance.js" defer></script>
+    <title>Settings</title>
+</head>
+<body>
+    <div class="">
+        <div>
+            <!--  HEADER -->
+            <div class="flex row items-center">
+                <img src="../resources/svgs/logo.svg" alt="Logo" class="w-[118px] h-[134px] ml-[150px]">
+                <p class="text-comfortaa text-[35px] font-['Comfortaa'] font-bold ml-[10px]">Aetheris Community</p>
+                <!--Navigation btn-->
+                <button type="button" id="nav-btn" class="ml-12 flex items-center bg-[#434956] bg-opacity-0 hover:bg-opacity-100 rounded-[15px]  w-[240px] h-[52px] transition duration-300 ease-in-out">
+                    <svg class="ml-[17px]" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15.0013 28.3333C22.3651 28.3333 28.3346 22.3638 28.3346 15C28.3346 7.63619 22.3651 1.66666 15.0013 1.66666C7.63751 1.66666 1.66797 7.63619 1.66797 15C1.66797 22.3638 7.63751 28.3333 15.0013 28.3333Z" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M20.6546 9.34666L17.828 17.8267L9.34797 20.6533L12.1746 12.1733L20.6546 9.34666Z" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    <p class="ml-[14px] text-text-primary text-[23px] font-sans font-bold">Navigation</p>
+                    <svg class="ml-4" width="25" height="15" viewBox="0 0 25 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2.25 2.375L12.5 12.625L22.75 2.375" stroke="#9BA4AE" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                </button>
+    
+                <!--Navigation panel-->
+                <div id="navigation_panel" class="w-[240px] h-[280px] bg-bg-secondary rounded-[20px] absolute ml-[695px] mt-[380px] flex flex-col border-[2px] border-[#9BA4AE] items-center pointer-events-none transition duration-300 hidden opacity-0 opacity-100">
+                  <div class="flex flex-col gap-2 mt-2">
+                    <a href="../html/home_page.html">
+                      <button class="w-[220px] h-[59px] bg-[#434956] bg-opacity-0 hover:bg-opacity-100 rounded-[15px] text-text-primary text-[23px] font-sans font-bold transition duration-300 ease-in-out flex items-center">
+                        <svg class="ml-4" width="23" height="28" viewBox="0 0 23 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M1.83333 17.9019C1.83333 17.9019 3.04166 16.6111 6.66666 16.6111C10.2917 16.6111 12.7083 19.1927 16.3333 19.1927C19.9583 19.1927 21.1667 17.9019 21.1667 17.9019V2.41226C21.1667 2.41226 19.9583 3.70306 16.3333 3.70306C12.7083 3.70306 10.2917 1.12146 6.66666 1.12146C3.04166 1.12146 1.83333 2.41226 1.83333 2.41226V17.9019ZM1.83333 17.9019V26.9375" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <p class="ml-4 text-text-primary text-[23px] font-sans font-bold">Start page</p>
+                      </button>
+                    </a>
+    
+                    <a href="../html/articles_page.html">
+                      <button class="w-[220px] h-[59px] bg-[#434956] bg-opacity-0 hover:bg-opacity-100 rounded-[15px] text-text-primary text-[23px] font-sans font-bold transition duration-300 ease-in-out flex items-center">
+                        <svg class="ml-4" width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M13.5 6.94345C13.5 5.57408 12.9908 4.2608 12.0844 3.29251C11.1779 2.32422 9.94855 1.78024 8.66667 1.78024H1.41667V21.1423H9.87501C10.8364 21.1423 11.7584 21.5503 12.4383 22.2765C13.1181 23.0027 13.5 23.9876 13.5 25.0147M13.5 6.94345V25.0147M13.5 6.94345C13.5 5.57408 14.0092 4.2608 14.9157 3.29251C15.8221 2.32422 17.0515 1.78024 18.3333 1.78024H25.5833V21.1423H17.125C16.1636 21.1423 15.2416 21.5503 14.5617 22.2765C13.8819 23.0027 13.5 23.9876 13.5 25.0147" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <p class="ml-4 text-text-primary text-[23px] font-sans font-bold">Articles</p>
+                      </button>
+                    </a>
+    
+                    <a href="../html/articles_interactive.html">
+                      <button class="w-[220px] h-[59px] bg-[#434956] bg-opacity-0 hover:bg-opacity-100 rounded-[15px] text-text-primary text-[23px] font-sans font-bold transition duration-300 ease-in-out flex items-center">
+                        <svg class="ml-4" width="27" height="29" viewBox="0 0 27 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M13.5 27.6735C20.1734 27.6735 25.5833 21.8943 25.5833 14.7654C25.5833 7.63654 20.1734 1.85742 13.5 1.85742C6.82656 1.85742 1.41667 7.63654 1.41667 14.7654C1.41667 21.8943 6.82656 27.6735 13.5 27.6735Z" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                          <path d="M18.6233 9.29244L16.0617 17.5019L8.37667 20.2384L10.9383 12.0289L18.6233 9.29244Z" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <p class="ml-4 text-text-primary text-[23px] font-sans font-bold">Interactive</p>
+                      </button>
+                    </a>
+    
+                    <a href="../html/articles_companies.html">
+                      <button class="w-[220px] h-[59px] bg-[#434956] bg-opacity-0 hover:bg-opacity-100 rounded-[15px] text-text-primary text-[23px] font-sans font-bold transition duration-300 ease-in-out flex items-center">
+                        <svg class="ml-4" width="27" height="26" viewBox="0 0 27 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M18.3333 24.7506V4.09781C18.3333 3.41312 18.0787 2.75648 17.6255 2.27234C17.1723 1.78819 16.5576 1.5162 15.9167 1.5162H11.0833C10.4424 1.5162 9.82771 1.78819 9.3745 2.27234C8.92128 2.75648 8.66667 3.41312 8.66667 4.09781V24.7506M3.83334 6.67941H23.1667C24.5014 6.67941 25.5833 7.83524 25.5833 9.26102V22.169C25.5833 23.5948 24.5014 24.7506 23.1667 24.7506H3.83334C2.49865 24.7506 1.41667 23.5948 1.41667 22.169V9.26102C1.41667 7.83524 2.49865 6.67941 3.83334 6.67941Z" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <p class="ml-4 text-text-primary text-[23px] font-sans font-bold">Companies</p>
+                      </button>
+                    </a>
+                  </div>
+                </div>
+    
+                <!--FAQ btn-->
+                <button type="button" id="faq-btn" class="w-[170px] h-[52px] rounded-[20px] bg-[#434956] bg-opacity-0 hover:bg-opacity-100 ml-[210px] items-center flex transition duration-300 ease-in-out">
+                    <svg class="ml-4" width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14.5 9.66669V14.5M14.5 19.3334H14.512M9.49746 2.41669H19.5025L26.5833 9.49752V19.5025L19.5025 26.5834H9.49746L2.41663 19.5025V9.49752L9.49746 2.41669Z" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    <p class="ml-4 font-sans text-[23px] font-bold">FAQ</p>
+                    <svg class="ml-4" width="24" height="14" viewBox="0 0 24 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 2L12.25 12.25L22.5 2" stroke="#9BA4AE" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                </button>
+    
+                <!--FAQ navigation panel-->
+                <div id="faq_navigation_panel" class="w-[240px] h-[280px] bg-bg-secondary rounded-[20px] absolute ml-[1110px] mt-[380px] flex flex-col border-[2px] border-[#9BA4AE] items-center transition duration-300 ease-in-out hidden pointer-events-none opacity-0 opacity-100">
+                  <div class="flex flex-col mt-2 gap-2">
+                    <a href="../html/FAQ_faq.html">
+                      <button class="w-[220px] h-[59px] bg-[#434956] bg-opacity-0 hover:bg-opacity-100 rounded-[15px] text-text-primary text-[23px] font-sans font-bold transition duration-300 ease-in-out flex items-center">
+                        <svg class="ml-4" width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M13.5 8.66669V13.5M13.5 18.3334H13.512M8.49746 1.41669H18.5025L25.5833 8.49752V18.5025L18.5025 25.5834H8.49746L1.41663 18.5025V8.49752L8.49746 1.41669Z" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <p class="ml-4 text-text-primary text-[23px] font-sans font-bold">FAQ page</p>
+                      </button>
+                    </a>
+    
+                    <a href="../html/FAQ_help.html">
+                      <button class="w-[220px] h-[59px] bg-[#434956] bg-opacity-0 hover:bg-opacity-100 rounded-[15px] text-text-primary text-[23px] font-sans font-bold transition duration-300 ease-in-out flex items-center">
+                        <svg class="ml-4" width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M9.98371 9.87502C10.2678 9.06745 10.8285 8.38648 11.5666 7.95272C12.3046 7.51896 13.1724 7.3604 14.0161 7.50513C14.8599 7.64986 15.6252 8.08853 16.1765 8.74345C16.7278 9.39837 17.0296 10.2273 17.0283 11.0834C17.0283 13.5 13.4033 14.7084 13.4033 14.7084M13.5 19.5417H13.512M25.5833 13.5C25.5833 20.1735 20.1734 25.5834 13.5 25.5834C6.82652 25.5834 1.41663 20.1735 1.41663 13.5C1.41663 6.82658 6.82652 1.41669 13.5 1.41669C20.1734 1.41669 25.5833 6.82658 25.5833 13.5Z" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <p class="ml-4 text-text-primary text-[23px] font-sans font-bold">Help</p>
+                      </button>
+                    </a>
+    
+                    <a href="../html/FAQ_changes.html">
+                      <button class="w-[220px] h-[59px] bg-[#434956] bg-opacity-0 hover:bg-opacity-100 rounded-[15px] text-text-primary text-[23px] font-sans font-bold transition duration-300 ease-in-out flex items-center">
+                        <svg class="ml-4" width="29" height="13" viewBox="0 0 29 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M1.2688 6.50002H8.45838M20.5538 6.50002H27.7434M19.3334 6.50002C19.3334 9.1694 17.1694 11.3334 14.5 11.3334C11.8307 11.3334 9.66672 9.1694 9.66672 6.50002C9.66672 3.83064 11.8307 1.66669 14.5 1.66669C17.1694 1.66669 19.3334 3.83064 19.3334 6.50002Z" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <p class="ml-4 text-text-primary text-[23px] font-sans font-bold">Site changes</p>
+                      </button>
+                    </a>
+    
+                    <a href="../html/legal_community_rules.html">
+                      <button class="w-[220px] h-[59px] bg-[#434956] bg-opacity-0 hover:bg-opacity-100 rounded-[15px] text-text-primary text-[23px] font-sans font-bold transition duration-300 ease-in-out flex items-center">
+                        <svg class="ml-4" width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <g clip-path="url(#clip0_419_87)">
+                            <path d="M27.0527 23.3366C27.0276 23.3614 26.9866 23.3518 26.9797 23.363C26.6479 23.9041 26.164 23.9439 25.5986 23.8274C24.8254 23.6681 24.0439 23.5492 23.2657 23.4139C21.822 23.1629 20.3627 23.161 18.9088 23.2178C18.0168 23.2526 17.1299 23.4285 16.2418 23.5484C16.0403 23.5756 15.8429 23.6329 15.6437 23.6764C15.6277 23.6542 15.6118 23.6319 15.5958 23.6097C15.9737 23.3219 16.3356 23.0097 16.7325 22.7512C17.7792 22.0695 18.9332 21.65 20.1562 21.4081C21.078 21.2257 22.0068 21.1603 22.946 21.1372C24.1175 21.1085 25.1285 20.2797 25.3109 19.0864C25.3422 18.8818 25.3629 18.6732 25.363 18.4665C25.3661 14.609 25.3653 10.7515 25.3653 6.89403C25.3653 6.78898 25.3653 6.68394 25.3653 6.54344C25.8249 6.55545 26.2905 6.44348 26.692 6.75511C26.8191 6.85376 26.9189 6.98762 27.042 7.08587C27.0527 12.4815 27.0527 17.8967 27.0527 23.3366Z" fill="#9BA4AE" />
+                            <path d="M0.0527344 7.09109C0.102835 7.04166 0.176728 7.03028 0.199248 6.99011C0.369408 6.68654 0.657569 6.58038 0.97058 6.54469C1.21245 6.51711 1.45999 6.53919 1.7402 6.53919C1.7402 6.6534 1.7402 6.75498 1.7402 6.85656C1.74021 10.7925 1.73652 14.7285 1.74241 18.6645C1.74424 19.8901 2.61666 20.9403 3.8649 21.0922C4.13154 21.1247 4.40136 21.1355 4.67012 21.1454C6.18672 21.2009 7.65946 21.4558 9.06319 22.0609C9.91734 22.429 10.7004 22.9005 11.3809 23.5369C11.4177 23.5714 11.4488 23.612 11.4999 23.669C10.9938 23.5756 10.5184 23.4835 10.0413 23.4013C9.71913 23.3458 9.39551 23.2717 9.07088 23.2622C7.95047 23.2293 6.82611 23.1597 5.70927 23.2184C4.19678 23.2979 2.69756 23.5278 1.21865 23.8778C0.781604 23.9812 0.42325 23.7825 0.160223 23.4208C0.13559 23.387 0.105128 23.3573 0.065054 23.3435C0.0527344 17.9461 0.0527344 12.531 0.0527344 7.09109Z" fill="#9BA4AE" />
+                            <path d="M14.291 18.0879C14.291 14.7051 14.3002 11.3486 14.2807 7.99224C14.2779 7.51945 14.4016 7.13089 14.6758 6.76955C15.5393 5.63149 16.6033 4.75263 17.9278 4.18831C18.873 3.78563 19.8429 3.48555 20.8639 3.37772C21.5793 3.30216 22.2986 3.25684 23.0173 3.22209C23.3601 3.20552 23.8925 3.57809 23.8919 4.11214C23.8864 9.015 23.889 13.9179 23.8882 18.8207C23.8882 19.2432 23.4694 19.6597 23.0329 19.6691C21.7425 19.6971 20.4634 19.8141 19.2106 20.1442C17.7682 20.5243 16.4185 21.0971 15.2555 22.055C14.9406 22.3144 14.6315 22.5809 14.291 22.8683C14.291 21.2793 14.291 19.6968 14.291 18.0879Z" fill="#9BA4AE" />
+                            <path d="M3.21682 5.64259C3.21682 5.11543 3.21477 4.61463 3.21741 4.11385C3.2199 3.64198 3.63568 3.22198 4.10909 3.21757C5.77252 3.20209 7.38993 3.46063 8.93946 4.07562C10.1337 4.54959 11.1583 5.27812 12.0091 6.24116C12.236 6.49795 12.4486 6.77514 12.6193 7.07097C12.7299 7.26273 12.8061 7.50517 12.8066 7.72509C12.8169 12.6715 12.8145 17.618 12.8145 22.5644C12.8145 22.6591 12.8145 22.7539 12.8145 22.8811C12.578 22.6751 12.3643 22.4922 12.1543 22.3053C10.7876 21.0886 9.16304 20.4171 7.39662 20.0347C6.5755 19.857 5.75134 19.7318 4.90937 19.7182C4.56539 19.7127 4.21415 19.6933 3.88067 19.617C3.44603 19.5175 3.2169 19.177 3.21689 18.7423C3.21678 14.3845 3.21682 10.0267 3.21682 5.64259Z" fill="#9BA4AE" />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_419_87">
+                              <rect width="27" height="27" fill="white" />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                        <p class="ml-4 text-text-primary text-[23px] font-sans font-bold">Forum rules</p>
+                      </button>
+                    </a>
+                  </div>
+                </div>
+    
+                <!--additional btn-->
+                <button id="add-btn" class="w-32 h-[52px] ml-auto bg-[#434956] bg-opacity-0 hover:bg-opacity-100 rounded-[20px] items-center flex pr-5 transition duration-300 ease-in-out">
+                    <svg class="ml-3" width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 7.91666V30.0833M7.91663 19H30.0833" stroke="#9BA4AE" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+    
+                    <svg class="ml-auto " width="24" height="14" viewBox="0 0 24 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 2L12.25 12.25L22.5 2" stroke="#9BA4AE" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+    
+                <!--additional panel-->
+                <div id="additional_panel" class="w-[240px] h-[290px] bg-bg-secondary rounded-[20px] absolute ml-[1290px] mt-[380px] flex flex-col border-[2px] border-[#9BA4AE] items-center transition duration-300 ease-in-out opacity-0 opacity-100 hidden pointer-events-none">
+                  <div class="flex flex-col gap-2 mt-2">
+    
+                    <a href="../html/create_article_page.html">
+                      <button class="w-[220px] h-[59px] bg-[#434956] bg-opacity-0 hover:bg-opacity-100 rounded-[15px] text-text-primary text-[23px] font-sans font-bold transition duration-300 ease-in-out flex items-center">
+                        <svg class="ml-4" width="25" height="29" viewBox="0 0 25 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M1.95125 7.72856L12.5 14.2471L23.0488 7.72856M12.5 27.2455V14.2342M23.375 19.3974V9.07099C23.3746 8.61827 23.2627 8.17364 23.0506 7.78169C22.8385 7.38974 22.5337 7.06426 22.1667 6.8379L13.7083 1.6747C13.341 1.44811 12.9242 1.32883 12.5 1.32883C12.0758 1.32883 11.659 1.44811 11.2917 1.6747L2.83333 6.8379C2.46632 7.06426 2.16148 7.38974 1.94939 7.78169C1.73731 8.17364 1.62543 8.61827 1.625 9.07099V19.3974C1.62543 19.8501 1.73731 20.2948 1.94939 20.6867C2.16148 21.0787 2.46632 21.4041 2.83333 21.6305L11.2917 26.7937C11.659 27.0203 12.0758 27.1396 12.5 27.1396C12.9242 27.1396 13.341 27.0203 13.7083 26.7937L22.1667 21.6305C22.5337 21.4041 22.8385 21.0787 23.0506 20.6867C23.2627 20.2948 23.3746 19.8501 23.375 19.3974Z" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <p class="ml-4 text-text-primary text-[23px] font-sans font-bold">New article</p>
+                      </button>
+                    </a>
+                    <div class="w-[120px] h-[1px] bg-btn-primary ml-12"></div>
+    
+                    <button class="w-[220px] h-[59px] bg-[#434956] bg-opacity-0 hover:bg-opacity-100 rounded-[15px] text-text-primary text-[23px] font-sans font-bold transition duration-300 ease-in-out flex items-center">
+                      <svg class="ml-4" width="25" height="18" viewBox="0 0 25 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1.625 8.83069H23.375M1.625 1.08588H23.375M1.625 16.5755H23.375" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                      <p class="ml-4 text-text-primary text-[23px] font-sans font-bold">List</p>
+                    </button>
+    
+                    <button class="w-[220px] h-[59px] bg-[#434956] bg-opacity-0 hover:bg-opacity-100 rounded-[15px] text-text-primary text-[23px] font-sans font-bold transition duration-300 ease-in-out flex items-center">
+                      <svg class="ml-4" width="25" height="26" viewBox="0 0 25 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10.0833 1.58188H1.625V10.6175H10.0833V1.58188Z" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M23.375 1.58188H14.9167V10.6175H23.375V1.58188Z" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M23.375 15.7807H14.9167V24.8163H23.375V15.7807Z" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M10.0833 15.7807H1.625V24.8163H10.0833V15.7807Z" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                      <p class="ml-4 text-text-primary text-[23px] font-sans font-bold">Grid</p>
+                    </button>
+    
+                    <button class="w-[220px] h-[59px] bg-[#434956] bg-opacity-0 hover:bg-opacity-100 rounded-[15px] text-text-primary text-[23px] font-sans font-bold transition duration-300 ease-in-out flex items-center">
+                      <svg class="ml-4" width="25" height="27" viewBox="0 0 25 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M23.375 13.5668V22.6024C23.375 23.2871 23.1204 23.9437 22.6672 24.4279C22.214 24.912 21.5993 25.184 20.9583 25.184H4.04167C3.40073 25.184 2.78604 24.912 2.33283 24.4279C1.87961 23.9437 1.625 23.2871 1.625 22.6024V13.5668M23.375 13.5668V4.53116C23.375 3.84647 23.1204 3.18983 22.6672 2.70569C22.214 2.22154 21.5993 1.94955 20.9583 1.94955H4.04167C3.40073 1.94955 2.78604 2.22154 2.33283 2.70569C1.87961 3.18983 1.625 3.84647 1.625 4.53116V13.5668M23.375 13.5668H1.625" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                      <p class="ml-4 text-text-primary text-[23px] font-sans font-bold">Default</p>
+                    </button>
+                    
+                  </div>
+                </div>
+    
+                <!--logo-->
+                <button id="logo-btn" class="w-[300px] h-[56px] bg-transparent rounded-[15px] text-text-primary text-[25px] font-sans font-bold transition-colors duration-200 items-center flex">
+                  <div class="bg-btn-primary ml-3 rounded-[50px] h-[56px] w-[56px]"></div>
+                  <svg class="ml-2 mr-[191px]" width="25" height="15" viewBox="0 0 25 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.25 2.375L12.5 12.625L22.75 2.375" stroke="#9BA4AE" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </button>
+    
+                  <!--Profile panel-->
+                  <div id="profile_panel" class="w-[270px] h-[777px] bg-bg-secondary rounded-[20px] absolute ml-[1370px] mt-[878px] flex flex-col border-[2px] border-[#9BA4AE] items-center transition duration-300 ease-in-out opacity-0 opacity-100 hidden pointer-events-none">
+                    <div class="flex flex-col gap-2 mt-2">
+    
+                      <a href="../html/profile_page.html">
+                        <button class="w-[250px] h-[59px] bg-[#434956] bg-opacity-0 hover:bg-opacity-100 rounded-[15px] text-text-primary text-[23px] font-sans font-bold transition duration-300 ease-in-out flex items-center">
+                          <svg class="ml-4" width="23" height="26" viewBox="0 0 23 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21.1666 24.9105V22.3289C21.1666 20.9595 20.6574 19.6463 19.751 18.678C18.8446 17.7097 17.6152 17.1657 16.3333 17.1657H6.66665C5.38477 17.1657 4.15539 17.7097 3.24896 18.678C2.34254 19.6463 1.83331 20.9595 1.83331 22.3289V24.9105M16.3333 6.83929C16.3333 9.69085 14.1694 12.0025 11.5 12.0025C8.8306 12.0025 6.66665 9.69085 6.66665 6.83929C6.66665 3.98773 8.8306 1.67609 11.5 1.67609C14.1694 1.67609 16.3333 3.98773 16.3333 6.83929Z" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                          <p class="ml-4 text-text-primary text-[23px] font-sans font-bold">Profile</p>
+                        </button>
+                      </a>
+    
+                      <a href="../html/notifications.html">
+                        <button class="w-[250px] h-[59px] bg-[#434956] bg-opacity-0 hover:bg-opacity-100 rounded-[15px] text-text-primary text-[23px] font-sans font-bold transition duration-300 ease-in-out flex items-center">
+                          <svg class="ml-4" width="25" height="29" viewBox="0 0 25 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14.5904 26.2785C14.378 26.6697 14.0731 26.9945 13.7062 27.2202C13.3393 27.4459 12.9234 27.5648 12.5 27.5648C12.0766 27.5648 11.6607 27.4459 11.2938 27.2202C10.9269 26.9945 10.622 26.6697 10.4096 26.2785M19.75 9.49811C19.75 7.44406 18.9862 5.47413 17.6265 4.0217C16.2669 2.56926 14.4228 1.7533 12.5 1.7533C10.5772 1.7533 8.73312 2.56926 7.37348 4.0217C6.01384 5.47413 5.25 7.44406 5.25 9.49811C5.25 18.5337 1.625 21.1153 1.625 21.1153H23.375C23.375 21.1153 19.75 18.5337 19.75 9.49811Z" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                          <p class="ml-4 text-text-primary text-[23px] font-sans font-bold">Notifications</p>
+                        </button>
+                      </a>
+    
+                      <a href="../html/stared_articles.html">
+                        <button class="w-[250px] h-[59px] bg-[#434956] bg-opacity-0 hover:bg-opacity-100 rounded-[15px] text-text-primary text-[23px] font-sans font-bold transition duration-300 ease-in-out flex items-center">
+                          <svg class="ml-4" width="26" height="27" viewBox="0 0 26 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7.45835 7.57529H7.47044M23.8796 15.8493L15.2159 25.1044C14.9914 25.3444 14.7249 25.5348 14.4315 25.6647C14.1381 25.7947 13.8236 25.8615 13.5061 25.8615C13.1885 25.8615 12.874 25.7947 12.5806 25.6647C12.2872 25.5348 12.0207 25.3444 11.7963 25.1044L1.41669 14.0293V1.12128H13.5L23.8796 12.2093C24.3297 12.693 24.5824 13.3473 24.5824 14.0293C24.5824 14.7113 24.3297 15.3656 23.8796 15.8493Z" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                          <p class="ml-4 text-text-primary text-[23px] font-sans font-bold">Stared articles</p>
+                        </button>
+                      </a>
+    
+                      <a href="../html/settings_appearance.html">
+                        <button class="w-[250px] h-[59px] bg-[#434956] bg-opacity-0 hover:bg-opacity-100 rounded-[15px] text-text-primary text-[23px] font-sans font-bold transition duration-300 ease-in-out flex items-center">
+                          <svg class="ml-4" width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14.5 18.125C16.502 18.125 18.125 16.502 18.125 14.5C18.125 12.4979 16.502 10.875 14.5 10.875C12.4979 10.875 10.875 12.4979 10.875 14.5C10.875 16.502 12.4979 18.125 14.5 18.125Z" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M23.4416 18.125C23.2808 18.4894 23.2328 18.8937 23.3039 19.2857C23.375 19.6777 23.5618 20.0394 23.8404 20.3241L23.9129 20.3966C24.1376 20.6211 24.3158 20.8876 24.4375 21.181C24.5591 21.4744 24.6217 21.7888 24.6217 22.1064C24.6217 22.424 24.5591 22.7385 24.4375 23.0319C24.3158 23.3253 24.1376 23.5918 23.9129 23.8162C23.6885 24.0409 23.4219 24.2192 23.1285 24.3408C22.8352 24.4624 22.5207 24.525 22.2031 24.525C21.8855 24.525 21.571 24.4624 21.2777 24.3408C20.9843 24.2192 20.7178 24.0409 20.4933 23.8162L20.4208 23.7437C20.136 23.4652 19.7743 23.2783 19.3824 23.2072C18.9904 23.1362 18.5861 23.1841 18.2216 23.345C17.8643 23.4981 17.5595 23.7525 17.3448 24.0767C17.1301 24.4009 17.0149 24.7807 17.0133 25.1696V25.375C17.0133 26.0159 16.7587 26.6306 16.3055 27.0838C15.8523 27.537 15.2376 27.7916 14.5966 27.7916C13.9557 27.7916 13.341 27.537 12.8878 27.0838C12.4346 26.6306 12.18 26.0159 12.18 25.375V25.2662C12.1706 24.8663 12.0412 24.4784 11.8084 24.153C11.5757 23.8276 11.2505 23.5797 10.875 23.4416C10.5105 23.2808 10.1062 23.2328 9.71427 23.3039C9.32229 23.375 8.96059 23.5618 8.67581 23.8404L8.60331 23.9129C8.37887 24.1376 8.11234 24.3158 7.81896 24.4375C7.52558 24.5591 7.21111 24.6217 6.89352 24.6217C6.57593 24.6217 6.26146 24.5591 5.96808 24.4375C5.6747 24.3158 5.40817 24.1376 5.18373 23.9129C4.95904 23.6885 4.78079 23.4219 4.65917 23.1285C4.53755 22.8352 4.47495 22.5207 4.47495 22.2031C4.47495 21.8855 4.53755 21.571 4.65917 21.2777C4.78079 20.9843 4.95904 20.7178 5.18373 20.4933L5.25623 20.4208C5.53479 20.136 5.72166 19.7743 5.79273 19.3824C5.86381 18.9904 5.81583 18.5861 5.65498 18.2216C5.50181 17.8643 5.24748 17.5595 4.92329 17.3448C4.59911 17.1301 4.21922 17.0149 3.8304 17.0133H3.62498C2.98404 17.0133 2.36935 16.7587 1.91614 16.3055C1.46293 15.8523 1.20831 15.2376 1.20831 14.5966C1.20831 13.9557 1.46293 13.341 1.91614 12.8878C2.36935 12.4346 2.98404 12.18 3.62498 12.18H3.73373C4.13368 12.1706 4.52157 12.0412 4.84697 11.8084C5.17236 11.5757 5.42022 11.2505 5.55831 10.875C5.71916 10.5105 5.76714 10.1062 5.69607 9.71427C5.625 9.32229 5.43813 8.96059 5.15956 8.67581L5.08706 8.60331C4.86237 8.37887 4.68412 8.11234 4.5625 7.81896C4.44088 7.52558 4.37829 7.21111 4.37829 6.89352C4.37829 6.57593 4.44088 6.26146 4.5625 5.96808C4.68412 5.6747 4.86237 5.40817 5.08706 5.18373C5.31151 4.95904 5.57804 4.78079 5.87142 4.65917C6.16479 4.53755 6.47927 4.47495 6.79685 4.47495C7.11444 4.47495 7.42891 4.53755 7.72229 4.65917C8.01567 4.78079 8.2822 4.95904 8.50665 5.18373L8.57915 5.25623C8.86392 5.53479 9.22562 5.72166 9.6176 5.79273C10.0096 5.86381 10.4139 5.81583 10.7783 5.65498H10.875C11.2324 5.50181 11.5372 5.24748 11.7519 4.92329C11.9665 4.59911 12.0818 4.21922 12.0833 3.8304V3.62498C12.0833 2.98404 12.3379 2.36935 12.7911 1.91614C13.2444 1.46293 13.859 1.20831 14.5 1.20831C15.1409 1.20831 15.7556 1.46293 16.2088 1.91614C16.662 2.36935 16.9166 2.98404 16.9166 3.62498V3.73373C16.9182 4.12255 17.0334 4.50244 17.2481 4.82663C17.4628 5.15081 17.7676 5.40514 18.125 5.55831C18.4894 5.71916 18.8937 5.76714 19.2857 5.69607C19.6777 5.625 20.0394 5.43813 20.3241 5.15956L20.3966 5.08706C20.6211 4.86237 20.8876 4.68412 21.181 4.5625C21.4744 4.44088 21.7888 4.37829 22.1064 4.37829C22.424 4.37829 22.7385 4.44088 23.0319 4.5625C23.3253 4.68412 23.5918 4.86237 23.8162 5.08706C24.0409 5.31151 24.2192 5.57804 24.3408 5.87142C24.4624 6.16479 24.525 6.47927 24.525 6.79685C24.525 7.11444 24.4624 7.42891 24.3408 7.72229C24.2192 8.01567 24.0409 8.2822 23.8162 8.50665L23.7437 8.57915C23.4652 8.86392 23.2783 9.22562 23.2072 9.6176C23.1362 10.0096 23.1841 10.4139 23.345 10.7783V10.875C23.4981 11.2324 23.7525 11.5372 24.0767 11.7519C24.4009 11.9665 24.7807 12.0818 25.1696 12.0833H25.375C26.0159 12.0833 26.6306 12.3379 27.0838 12.7911C27.537 13.2444 27.7916 13.859 27.7916 14.5C27.7916 15.1409 27.537 15.7556 27.0838 16.2088C26.6306 16.662 26.0159 16.9166 25.375 16.9166H25.2662C24.8774 16.9182 24.4975 17.0334 24.1733 17.2481C23.8491 17.4628 23.5948 17.7676 23.4416 18.125Z" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                          <p class="ml-4 text-text-primary text-[23px] font-sans font-bold">Settings</p>
+                        </button>
+                      </a>
+                      <div class="w-[180px] h-[1px] bg-btn-primary ml-[38px]"></div>
+    
+                      <a href="../html/your_articles.html">
+                        <button class="w-[250px] h-[59px] bg-[#434956] bg-opacity-0 hover:bg-opacity-100 rounded-[15px] text-text-primary text-[23px] font-sans font-bold transition duration-300 ease-in-out flex items-center">
+                          <svg class="ml-4" width="27" height="28" viewBox="0 0 27 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19.5417 2.44482C19.859 2.1058 20.2358 1.83688 20.6505 1.6534C21.0651 1.46992 21.5095 1.37549 21.9584 1.37549C22.4072 1.37549 22.8516 1.46992 23.2662 1.6534C23.6809 1.83688 24.0577 2.1058 24.375 2.44482C24.6924 2.78384 24.9441 3.18632 25.1159 3.62927C25.2876 4.07223 25.376 4.54698 25.376 5.02643C25.376 5.50588 25.2876 5.98063 25.1159 6.42358C24.9441 6.86653 24.6924 7.26901 24.375 7.60803L8.06252 25.0339L1.41669 26.9701L3.22919 19.8706L19.5417 2.44482Z" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                          <p class="ml-4 text-text-primary text-[23px] font-sans font-bold">Your articles</p>
+                        </button>
+                      </a>
+    
+                      <a href="../html/draft.html">
+                        <button class="w-[250px] h-[59px] bg-[#434956] bg-opacity-0 hover:bg-opacity-100 rounded-[15px] text-text-primary text-[23px] font-sans font-bold transition duration-300 ease-in-out flex items-center">
+                          <svg class="ml-4" width="29" height="27" viewBox="0 0 29 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M25.375 8.26669V25.0471H3.62498V8.26669M12.0833 13.4299H16.9166M1.20831 1.81268H27.7916V8.26669H1.20831V1.81268Z" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                          <p class="ml-4 text-text-primary text-[23px] font-sans font-bold">Draft</p>
+                        </button>
+                      </a>
+    
+                      <a href="../html/analytics.html">
+                        <button class="w-[250px] h-[59px] bg-[#434956] bg-opacity-0 hover:bg-opacity-100 rounded-[15px] text-text-primary text-[23px] font-sans font-bold transition duration-300 ease-in-out flex items-center">
+                          <svg class="ml-4" width="17" height="24" viewBox="0 0 17 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8.5 22.1244V9.21637M15.75 22.1244V1.47156M1.25 22.1244V16.9612" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                          <p class="ml-4 text-text-primary text-[23px] font-sans font-bold">Analytics</p>
+                        </button>
+                      </a>
+    
+                      <a href="../html/settings_subscription.html">
+                        <button class="w-[250px] h-[59px] bg-[#434956] bg-opacity-0 hover:bg-opacity-100 rounded-[15px] text-text-primary text-[23px] font-sans font-bold transition duration-300 ease-in-out flex items-center">
+                          <img class="ml-4 w-[29px] h-[29px]" src="../resources/imgs/balance.png" alt="">
+                          <p class="ml-4 text-text-primary text-[23px] font-sans font-bold">Balance</p>
+                        </button>
+                      </a>
+                      <div class="w-[180px] h-[1px] bg-btn-primary ml-[38px]"></div>
+    
+                      <a href="../html/settings_subscrition.html">
+                        <button class="w-[250px] h-[59px] bg-[#434956] bg-opacity-0 hover:bg-opacity-100 rounded-[15px] text-text-primary text-[23px] font-sans font-bold transition duration-300 ease-in-out flex items-center">
+                          <svg class="ml-4" width="23" height="17" viewBox="0 0 23 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21.1666 1.31439L7.87498 15.5132L1.83331 9.0592" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                          <p class="ml-4 text-text-primary text-[23px] font-sans font-bold">Subscription</p>
+                        </button>
+                      </a>
+    
+                      <a href="../html/shop.html">
+                        <button class="w-[250px] h-[59px] bg-[#434956] bg-opacity-0 hover:bg-opacity-100 rounded-[15px] text-text-primary text-[23px] font-sans font-bold transition duration-300 ease-in-out flex items-center">
+                          <svg class="ml-4" width="27" height="29" viewBox="0 0 27 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M23.1667 14.4272V27.3352H3.83335V14.4272M13.5 27.3352V7.97317M13.5 7.97317H8.06252C7.26135 7.97317 6.49298 7.63319 5.92647 7.02801C5.35995 6.42283 5.04169 5.60202 5.04169 4.74617C5.04169 3.89031 5.35995 3.06951 5.92647 2.46433C6.49298 1.85915 7.26135 1.51917 8.06252 1.51917C12.2917 1.51917 13.5 7.97317 13.5 7.97317ZM13.5 7.97317H18.9375C19.7387 7.97317 20.5071 7.63319 21.0736 7.02801C21.6401 6.42283 21.9584 5.60202 21.9584 4.74617C21.9584 3.89031 21.6401 3.06951 21.0736 2.46433C20.5071 1.85915 19.7387 1.51917 18.9375 1.51917C14.7084 1.51917 13.5 7.97317 13.5 7.97317ZM1.41669 7.97317H25.5834V14.4272H1.41669V7.97317Z" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                          <p class="ml-4 text-text-primary text-[23px] font-sans font-bold">Shop</p>
+                        </button>
+                      </a>
+                      <div class="w-[180px] h-[1px] bg-btn-primary ml-[38px]"></div>
+    
+                      <button class="w-[250px] h-[59px] bg-[#434956] bg-opacity-0 hover:bg-opacity-100 rounded-[15px] text-text-primary text-[23px] font-sans font-bold transition duration-300 ease-in-out flex items-center">
+                        <svg class="ml-4" width="25" height="26" viewBox="0 0 25 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M8.875 24.9376H4.04167C3.40073 24.9376 2.78604 24.6656 2.33283 24.1815C1.87961 23.6973 1.625 23.0407 1.625 22.356V4.28476C1.625 3.60008 1.87961 2.94343 2.33283 2.45929C2.78604 1.97514 3.40073 1.70316 4.04167 1.70316H8.875M17.3333 19.7744L23.375 13.3204M23.375 13.3204L17.3333 6.86636M23.375 13.3204H8.875" stroke="#FF3B3B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <p class="ml-4 text-[#FF3B3B] text-[23px] font-sans font-bold">Sign out</p>
+                      </button>
+                    </div>
+                  </div>
+            </div> 
+    
+            <!--    BODY    -->
+            <div class="flex mt-12">
+                <!--   side bar   -->
+                <div class="bg-bg-secondary w-[395px] h-[685px] ml-44 rounded-[25px] flex flex-col">
+                    <p class="text-text-primary text-[25px] font-sans font-bold ml-[44px] mt-[33px]">Display</p>
+                    
+                    <a href="../html/settings_appearance.html">
+                      <button class="w-[300px] h-[56px] bg-[#434956] ml-[44px] bg-opacity-0 hover:bg-opacity-100 rounded-[15px] text-text-primary text-[23px] font-sans font-bold transition duration-300 ease-in-out flex items-center mt-[3px]">
+                          <img class="ml-4 w-[26px] h-[19px]" src="../resources/imgs/eye.png" alt="">
+                          <p class="ml-4">Appearance</p>
+                      </button>
+                    </a>
+                    <p class="text-text-primary text-[25px] font-sans font-bold ml-[44px] mt-[30px]">Account</p>
+                    <div class="flex flex-col mt-[3px] ml-[44px] gap-[8px]">
+                        <a href="../html/settings_profile.html">
+                          <button class="w-[300px] h-[56px] bg-[#434956] bg-opacity-0 hover:bg-opacity-100 rounded-[15px] text-text-primary text-[23px] font-sans font-bold transition duration-300 ease-in-out flex items-center mt-[3px]">
+                              <svg class="ml-4" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                  <rect width="30" height="30" fill="url(#pattern0_99_35)"/>
+                                  <defs>
+                                  <pattern id="pattern0_99_35" patternContentUnits="objectBoundingBox" width="1" height="1">
+                                  <use xlink:href="#image0_99_35" transform="scale(0.00390625)"/>
+                                  </pattern>
+                                  <image id="image0_99_35" width="256" height="256" preserveAspectRatio="none" xlink:href="data:image/png;base64,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"/>
+                                  </defs>
+                                  </svg>
+                              <p class="ml-4">Display profile</p>
+                          </button>
+                        </a>
+    
+                        <a href="../html/settings_privacy_and_security.html">
+                          <button class="w-[300px] h-[56px] bg-[#434956] bg-opacity-0 hover:bg-opacity-100 rounded-[15px] text-text-primary text-[23px] font-sans font-bold transition duration-300 ease-in-out flex items-center mt-[3px]">
+                              <svg class="ml-4" width="23" height="27" viewBox="0 0 23 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M11.5 25.5834C11.5 25.5834 21.1667 20.75 21.1667 13.5V5.04169L11.5 1.41669L1.83333 5.04169V13.5C1.83333 20.75 11.5 25.5834 11.5 25.5834Z" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                              <p class="ml-4">Privacy & Security</p>
+                          </button>
+                        </a>
+                        
+                        <a href="../html/settings_sessions.html">
+                          <button class="w-[300px] h-[56px] bg-[#434956] bg-opacity-0 hover:bg-opacity-100 rounded-[15px] text-text-primary text-[23px] font-sans font-bold transition duration-300 ease-in-out flex items-center mt-[3px]">
+                              <svg class="ml-4" width="27" height="25" viewBox="0 0 27 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M25.5833 12.5H20.75L17.125 23.375L9.875 1.625L6.25 12.5H1.41667" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                  </svg>  
+                              <p class="ml-4">Sessions</p>
+                          </button>
+                        </a>
+    
+                        <a href="../html/settings_subscription.html">
+                          <button class="w-[300px] h-[56px] bg-[#434956] bg-opacity-0 hover:bg-opacity-100 rounded-[15px] text-text-primary text-[23px] font-sans font-bold transition duration-300 ease-in-out flex items-center mt-[3px]">
+                              <svg class="ml-4" width="23" height="16" viewBox="0 0 23 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M21.1667 1.25L7.875 14.5417L1.83333 8.5" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>                           
+                              <p class="ml-4">Subscription</p>
+                          </button>
+                        </a>
+                    </div>
+                    <p class="text-text-primary text-[25px] font-sans font-bold ml-[44px] mt-[30px]">Another</p>
+                    <div class="flex flex-col mt-[3px] ml-[44px] gap-[8px]">
+                        <a href="../html/settings_support_and_info.html">
+                          <button class="w-[300px] h-[56px] bg-[#434956] bg-opacity-0 hover:bg-opacity-100 rounded-[15px] text-text-primary text-[23px] font-sans font-bold transition duration-300 ease-in-out flex items-center mt-[3px]">
+                              <svg class="ml-4" width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M13.5 8.66663V13.5M13.5 18.3333H13.5121M25.5833 13.5C25.5833 20.1734 20.1734 25.5833 13.5 25.5833C6.82656 25.5833 1.41667 20.1734 1.41667 13.5C1.41667 6.82652 6.82656 1.41663 13.5 1.41663C20.1734 1.41663 25.5833 6.82652 25.5833 13.5Z" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>                           
+                              <p class="ml-4">Support & info</p>
+                          </button>
+                        </a>
+                        
+                        <a href="../html/settings_another.html">
+                          <button class="w-[300px] h-[56px] bg-[#434956] bg-opacity-0 hover:bg-opacity-100 rounded-[15px] text-text-primary text-[23px] font-sans font-bold transition duration-300 ease-in-out flex items-center mt-[3px]">
+                              <svg class="ml-4" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M15.7625 6.61247C15.5411 6.83834 15.4171 7.14201 15.4171 7.4583C15.4171 7.77458 15.5411 8.07826 15.7625 8.30413L17.6958 10.2375C17.9217 10.4589 18.2254 10.5829 18.5417 10.5829C18.858 10.5829 19.1616 10.4589 19.3875 10.2375L23.9429 5.68205C24.5505 7.02474 24.7345 8.52071 24.4703 9.9706C24.2061 11.4205 23.5064 12.7554 22.4643 13.7976C21.4221 14.8397 20.0872 15.5394 18.6373 15.8036C17.1874 16.0678 15.6914 15.8838 14.3488 15.2762L5.99917 23.6258C5.51846 24.1065 4.86649 24.3766 4.18667 24.3766C3.50685 24.3766 2.85487 24.1065 2.37417 23.6258C1.89346 23.1451 1.62341 22.4931 1.62341 21.8133C1.62341 21.1335 1.89346 20.4815 2.37417 20.0008L10.7238 11.6512C10.1162 10.3085 9.93219 8.81256 10.1964 7.36267C10.4605 5.91277 11.1603 4.57782 12.2024 3.53571C13.2445 2.4936 14.5795 1.79384 16.0294 1.52966C17.4793 1.26549 18.9752 1.44946 20.3179 2.05705L15.7625 6.61247Z" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                                             
+                              <p class="ml-4">Another</p>
+                          </button>
+
+                        </a>
+                    </div>
+                </div>
+                <!--   content  -->
+                <div class="flex flex-col items-center ml-[12px]">
+                    <!--   profile block   -->
+                    <div class="bg-bg-secondary w-[980px] h-[949px] rounded-[25px] flex flex-col">
+                      <h1 class="mt-10 ml-12 text-text-primary text-[25px] font-sans font-bold">Profile information</h1>
+                      <h2 class="text-text-secondary text-[20px] font-sans font-bold mt-1 ml-12 w-[700px]">Menu for changing profile information that is displayed to all users</h2>
+                      <h1 class="mt-10 ml-12 text-text-primary text-[25px] font-sans font-bold">Avatar</h1>
+                      <!--Avatar block-->
+                        <div class="flex flex-row gap-4 ml-12 mt-4">
+                            <div class="bg-btn-primary rounded-full w-[150px] h-[150px]"></div>
+                            <div class="flex flex-col gap-2">
+                                <button class="w-[230px] h-[56px] bg-[#434956] bg-opacity-0 hover:bg-opacity-100 rounded-[15px] text-text-primary text-[23px] font-sans font-bold transition duration-300 ease-in-out flex items-center justify-center mt-4">upload image</button>
+                                <button class="w-[230px] h-[56px] bg-[#434956] bg-opacity-0 hover:bg-opacity-100 rounded-[15px] text-text-primary text-[23px] font-sans font-bold transition duration-300 ease-in-out flex items-center justify-center">remove image</button>
+                            </div>
+                            <button class="w-[200px] h-[56px] bg-[#434956] bg-opacity-0 hover:bg-opacity-100 rounded-[15px] text-text-primary text-[23px] font-sans font-bold transition duration-300 ease-in-out flex items-center justify-center mt-12">
+                                <svg width="27" height="26" viewBox="0 0 27 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1.20831 3.02937V10.7742M1.20831 10.7742H8.45831M1.20831 10.7742L6.81498 5.14629C8.48358 3.36681 10.6484 2.21484 12.9831 1.86393C15.3179 1.51302 17.6962 1.98219 19.7597 3.20074C21.8231 4.4193 23.46 6.32123 24.4236 8.61996C25.3872 10.9187 25.6253 13.4897 25.1022 15.9456C24.579 18.4015 23.3228 20.6092 21.523 22.2362C19.7231 23.8631 17.477 24.8211 15.1231 24.9659C12.7693 25.1106 10.4351 24.4342 8.4724 23.0386C6.50968 21.643 5.02471 19.6038 4.24123 17.2282" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <p class="text-text-primary text-[25px] font-sans font-bold ml-2">reset</p>
+                            </button>
+                       </div>
+                       <h1 class="mt-10 ml-12 text-text-primary text-[25px] font-sans font-bold">Nickname</h1>
+                       <h2 class="text-text-secondary text-[20px] font-sans font-bold mt-1 ml-12 w-[700px]">Change the name displayed on your account</h2>
+                       <input type="text" placeholder="Enter your nickname" class="w-[360px] h-[65px] bg-btn-primary rounded-[15px] ml-12 mt-4 font-bold placeholder: pl-4  text-[22px] placeholder: pr-4"></input>
+                       <h1 class="mt-10 ml-12 text-text-primary text-[25px] font-sans font-bold">Bio</h1>
+                       <h2 class="text-text-secondary text-[20px] font-sans font-bold mt-1 ml-12 w-[700px]">Add information about you and your hobbies and skills</h2>
+                       <input type="text" placeholder="Enter your bio" class="w-[520px] h-[167px] bg-btn-primary rounded-[15px] ml-12 mt-4 font-bold placeholder: pl-4  text-[22px] placeholder: pr-4 placeholder: pb-28"></input>  
+                    </div>
+                </div>
+            </div>
+    
+    
+    
+            <!--   FOOTER   -->
+            <div class="h-1 w-full bg-linear-violet-pink mt-[126px]"></div>
+            <div class="bg-footer-bg flex flex-row w-full h-[430px]">
+                <!--Logo and links block-->
+                <div class="flex flex-col items-center">
+                    <img src="../resources/svgs/logo.svg" alt="Logo" class="w-[168px] h-[184px] ml-[20px] absolute">
+                    <p class="text-comfortaa text-[38px] font-['Comfortaa'] font-bold ml-[30px] mt-[140px]">Aetheris Community</p>
+                    <p class="text-text-secondary text-[30px] font-['Comfortaa'] font-bold ml-[30px]">Eternity in our hands</p>
+                    <!--Social media buttons-->
+                    <div class="flex flex-row gap-[20px]">
+                      <a href="https://discord.gg/XUFmR4bDMw">
+                        <button class="w-[76px] h-[76px] rounded-full border-2 border-white mt-[20px] items-center flex justify-center hover:filter hover:brightness-50 transition duration-300 ease-in-out">
+                            <img class="hover:filter hover:brightness-50 transition duration-300 ease-in-out w-[60px] h-[60px]" src="../resources/imgs/discord_ico.png" alt="discord" class="w-[50px] h-[50px]">
+                        </button>
+                      </a>
+    
+                      <a href="https://t.me/AetherisNews">
+                        <button class="w-[76px] h-[76px] rounded-full border-2 border-white mt-[20px] items-center flex justify-center hover:filter hover:brightness-50 transition duration-300 ease-in-out">
+                            <img class="hover:filter hover:brightness-50 transition duration-300 ease-in-out h-[50px] w-[50px] mr-1" src="../resources/imgs/telegram_ico.png" alt="discord" class="w-[50px] h-[50px] mr-[5px]">
+                        </button>
+                      </a>
+    
+                      <a href="https://boosty.to/aetheris">
+                        <button class="w-[76px] h-[76px] rounded-full border-2 border-white mt-[20px] items-center flex justify-center hover:filter hover:brightness-50 transition duration-300 ease-in-out">
+                            <img class="hover:filter hover:brightness-50 transition duration-300 ease-in-out h-[50px] w-[45px] ml-1" src="../resources/imgs/boosty_ico.png" alt="discord" class="w-[44px] h-[50px] ml-[5px]">
+                        </button>
+                      </a>
+                    </div>
+                    <p class="text-text-secondary text-[25px] font-['Comfortaa'] font-bold mt-[30px] ml-[30px]">Community is <a href="https://github.com/Aetheris-Community" class="text-primary-blue hover:underline transition duration-300 ease-in-out">opensource</a></p>
+    
+    
+    
+                </div>
+                <!--About us block-->
+                <div class="flex flex-col items-center gap-[20px] ml-auto">
+                    <p class="text-text-primary text-[33px] font-['Comfortaa'] font-bold mt-[50px]">About</p>
+                    <a href="../html/news.html">
+                      <p class="text-text-primary text-[25px] font-['Comfortaa'] font-bold hover:text-[#8a9495] hover: cursor-pointer transition duration-300 ease-in-out">News</p>
+                    </a>
+                    <a href="https://github.com/1Ayakiro1/Aetheris_Community/commits/main/">
+                      <p class="text-text-primary text-[25px] font-['Comfortaa'] font-bold hover:text-[#8a9495] hover: cursor-pointer transition duration-300 ease-in-out">Changelog</p>
+                    </a>
+                </div>
+                <!--Resources block-->
+                <div class="flex flex-col items-center gap-[20px] ml-auto">
+                    <p class="text-text-primary text-[33px] font-['Comfortaa'] font-bold mt-[50px]">Resources</p>
+                    <a href="../html/FAQ_help.html">
+                      <p class="text-text-primary text-[25px] font-['Comfortaa'] font-bold hover:text-[#8a9495] hover: cursor-pointer transition duration-300 ease-in-out">Help Center</p>
+                    </a>
+                    <a href="../html/FAQ_faq.html">
+                      <p class="text-text-primary text-[25px] font-['Comfortaa'] font-bold hover:text-[#8a9495] hover: cursor-pointer transition duration-300 ease-in-out">FAQ</p>
+                    </a>
+                </div>
+                <!--Legal block-->
+                <div class="flex flex-col items-center gap-[20px] ml-auto mr-[100px]">
+                    <p class="text-text-primary text-[33px] font-['Comfortaa'] font-bold mt-[50px]">Legal</p>
+                    <a href="../html/legal_terms_of_use.html">
+                      <p class="text-text-primary text-[25px] font-['Comfortaa'] font-bold hover:text-[#8a9495] hover: cursor-pointer transition duration-300 ease-in-out">Terms of use</p>
+                    </a>
+                    <a href="../html/legal_privacy_policy.html">
+                      <p class="text-text-primary text-[25px] font-['Comfortaa'] font-bold hover:text-[#8a9495] hover: cursor-pointer transition duration-300 ease-in-out">Privacy Policy</p>
+                    </a>
+                    <a href="../html/legal_community_rules.html">
+                      <p class="text-text-primary text-[25px] font-['Comfortaa'] font-bold hover:text-[#8a9495] hover: cursor-pointer transition duration-300 ease-in-out">Content rules</p>
+                    </a>
+                    <a href="../html/legal_copyright_policy.html">
+                      <p class="text-text-primary text-[25px] font-['Comfortaa'] font-bold hover:text-[#8a9495] hover: cursor-pointer transition duration-300 ease-in-out">Copyright policy</p>
+                    </a>
+                </div>
+            </div>
+    </div>
+</body>
+</html>
