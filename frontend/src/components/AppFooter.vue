@@ -138,6 +138,10 @@
 
     &:hover {
         filter: brightness(50%);
+        
+        .social-icon {
+            filter: brightness(50%);
+        }
     }
 }
 
@@ -145,10 +149,6 @@
     width: 60px;
     height: 60px;
     transition: filter 0.3s ease-in-out;
-
-    &:hover {
-        filter: brightness(50%);
-    }
 }
 
 .telegram-icon {
@@ -233,8 +233,4 @@ a {
 a:hover {
     text-decoration: none;
 }
-
-
-
-
 </style>
