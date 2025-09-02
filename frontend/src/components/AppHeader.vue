@@ -122,7 +122,7 @@
     <!-- Profile button -->
     <button id="logo-btn" class="profile-button">
       <div class="profile-avatar"></div>
-      <div class="icon-placeholder dropdown-icon"></div>
+      <DropdownIcon class="dropdown-icon" />
     </button>
 
     <!-- Profile panel -->
@@ -432,19 +432,36 @@ onMounted(() => {
   align-items: center;
   background-color: transparent;
   border-radius: 15px;
-  width: 300px;
+  width: 100px;
   height: 56px;
+  margin-right: 210px;
   transition: background-color 0.2s ease-in-out;
   border: none;
   cursor: pointer;
+
+  &:hover {
+    background-color: rgba(67, 73, 86, 1);
+  }
 }
 
 .profile-avatar {
   background-color: var(--btn-primary);
-  border-radius: 50px;
-  height: 56px;
-  width: 56px;
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+  flex-shrink: 0;
   margin-left: 12px;
+}
+
+// Profile button dropdown icon
+.profile-button .dropdown-icon {
+  color: var(--text-primary);
+  transition: transform 0.2s ease-in-out;
+  margin-left: 8px;
+}
+
+.profile-button:hover .dropdown-icon {
+  transform: rotate(180deg);
 }
 
 // Button text
