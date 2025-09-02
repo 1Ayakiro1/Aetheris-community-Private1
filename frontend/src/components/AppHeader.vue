@@ -5,14 +5,14 @@
     <p class="header-title">Aetheris Community</p>
     
     <!-- Navigation button -->
-    <button type="button" @click="toggleNavigation" class="nav-button">
+    <button type="button" id="nav-btn" class="nav-button">
       <NavigationIcon class="nav-icon" />
       <p class="button-text">Navigation</p>
       <DropdownIcon class="dropdown-icon" />
     </button>
 
     <!-- Navigation panel -->
-    <div v-show="showNavigation" class="dropdown-panel navigation-panel">
+    <div id="navigation_panel" class="dropdown-panel navigation-panel hidden opacity-0 pointer-events-none">
       <div class="panel-content">
         <router-link to="/">
           <button class="panel-button">
@@ -45,14 +45,14 @@
     </div>
 
     <!-- FAQ button -->
-    <button type="button" @click="toggleFAQ" class="faq-button">
+    <button type="button" id="faq-btn" class="faq-button">
       <FAQIcon class="faq-icon" />
       <p class="button-text">FAQ</p>
       <DropdownIcon class="dropdown-icon" />
     </button>
 
     <!-- FAQ navigation panel -->
-    <div v-show="showFAQ" class="dropdown-panel faq-panel">
+    <div id="faq_navigation_panel" class="dropdown-panel faq-panel hidden opacity-0 pointer-events-none">
       <div class="panel-content">
         <router-link to="/faq">
           <button class="panel-button">
@@ -85,13 +85,13 @@
     </div>
 
     <!-- Additional button -->
-    <button @click="toggleAdditional" class="additional-button">
+    <button id="add-btn" class="additional-button">
       <AddIcon class="add-icon" />
       <DropdownIcon class="dropdown-icon" />
     </button>
 
     <!-- Additional panel -->
-    <div v-show="showAdditional" class="dropdown-panel additional-panel">
+    <div id="additional_panel" class="dropdown-panel additional-panel hidden opacity-0 pointer-events-none">
       <div class="panel-content">
         <router-link to="/create-article">
           <button class="panel-button">
@@ -120,13 +120,13 @@
     </div>
 
     <!-- Profile button -->
-    <button @click="toggleProfile" class="profile-button">
+    <button id="logo-btn" class="profile-button">
       <div class="profile-avatar"></div>
       <div class="icon-placeholder dropdown-icon"></div>
     </button>
 
     <!-- Profile panel -->
-    <div v-show="showProfile" class="dropdown-panel profile-panel">
+    <div id="profile_panel" class="dropdown-panel profile-panel hidden opacity-0 pointer-events-none">
       <div class="panel-content">
         <router-link to="/profile">
           <button class="panel-button">
@@ -214,7 +214,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import Logo from './Logo.vue'
 import NavigationIcon from '@/components/icons/NavigationIcon.vue'
 import DropdownIcon from '@/components/icons/DropdownIcon.vue'
@@ -239,52 +239,111 @@ import SignOutIcon from '@/components/icons/SignOutIcon.vue'
 import ChangesIcon from '@/components/icons/ChangesIcon.vue'
 import RulesIcon from '@/components/icons/RulesIcon.vue'
 
-// Reactive state for dropdown panels
-const showNavigation = ref(false)
-const showFAQ = ref(false)
-const showAdditional = ref(false)
-const showProfile = ref(false)
-
-// Toggle functions for dropdown panels
-const toggleNavigation = () => {
-  showNavigation.value = !showNavigation.value
-  // Close other panels when opening this one
-  if (showNavigation.value) {
-    showFAQ.value = false
-    showAdditional.value = false
-    showProfile.value = false
-  }
+// Type definitions
+interface PanelElement {
+  panel: HTMLElement | null
+  button: HTMLElement | null
 }
 
-const toggleFAQ = () => {
-  showFAQ.value = !showFAQ.value
-  // Close other panels when opening this one
-  if (showFAQ.value) {
-    showNavigation.value = false
-    showAdditional.value = false
-    showProfile.value = false
-  }
+interface PanelsConfig {
+  nav: PanelElement
+  faq: PanelElement
+  add: PanelElement
+  prof: PanelElement
 }
 
-const toggleAdditional = () => {
-  showAdditional.value = !showAdditional.value
-  // Close other panels when opening this one
-  if (showAdditional.value) {
-    showNavigation.value = false
-    showFAQ.value = false
-    showProfile.value = false
-  }
+// Panel configuration
+const panels: PanelsConfig = {
+  nav: {
+    panel: null,
+    button: null,
+  },
+  faq: {
+    panel: null,
+    button: null,
+  },
+  add: {
+    panel: null,
+    button: null,
+  },
+  prof: {
+    panel: null,
+    button: null,
+  },
 }
 
-const toggleProfile = () => {
-  showProfile.value = !showProfile.value
-  // Close other panels when opening this one
-  if (showProfile.value) {
-    showNavigation.value = false
-    showFAQ.value = false
-    showAdditional.value = false
-  }
+// Universal functions
+function showPanel(panel: HTMLElement): void {
+  // Close all other panels
+  Object.values(panels).forEach(({ panel: p }) => {
+    if (p && p !== panel) hidePanel(p)
+  })
+
+  panel.classList.remove('hidden')
+
+  // First frame - just show
+  requestAnimationFrame(() => {
+    // Second frame - apply smooth animation
+    requestAnimationFrame(() => {
+      panel.classList.remove('opacity-0', 'pointer-events-none')
+      panel.classList.add('opacity-100')
+    })
+  })
 }
+
+function hidePanel(panel: HTMLElement): void {
+  panel.classList.remove('opacity-100')
+  panel.classList.add('opacity-0', 'pointer-events-none')
+
+  const handler = (): void => {
+    if (panel.classList.contains('opacity-0')) {
+      panel.classList.add('hidden')
+    }
+    panel.removeEventListener('transitionend', handler)
+  }
+  panel.addEventListener('transitionend', handler)
+}
+
+// Initialize panels and add event listeners
+onMounted(() => {
+  // Get panel elements
+  panels.nav.panel = document.getElementById('navigation_panel')
+  panels.nav.button = document.getElementById('nav-btn')
+  panels.faq.panel = document.getElementById('faq_navigation_panel')
+  panels.faq.button = document.getElementById('faq-btn')
+  panels.add.panel = document.getElementById('additional_panel')
+  panels.add.button = document.getElementById('add-btn')
+  panels.prof.panel = document.getElementById('profile_panel')
+  panels.prof.button = document.getElementById('logo-btn')
+
+  // Add click handlers to buttons
+  Object.values(panels).forEach(({ panel, button }) => {
+    if (panel && button) {
+      button.addEventListener('click', (e: Event) => {
+        if (panel.classList.contains('hidden')) {
+          showPanel(panel)
+        } else {
+          hidePanel(panel)
+        }
+        e.stopPropagation()
+      })
+    }
+  })
+
+  // Global click handler for closing panels
+  document.addEventListener('click', (e: Event) => {
+    const target = e.target as HTMLElement
+    Object.values(panels).forEach(({ panel, button }) => {
+      if (panel && button) {
+        if (!panel.contains(target) && !button.contains(target)) {
+          if (!panel.classList.contains('hidden')) {
+            hidePanel(panel)
+          }
+        }
+      }
+    })
+  })
+})
 </script>
 
 <style lang="scss" scoped>
@@ -310,6 +369,7 @@ const toggleProfile = () => {
 
 // Navigation button
 .nav-button {
+  position: relative;
   display: flex;
   align-items: center;
   background-color: rgba(67, 73, 86, 0);
@@ -328,6 +388,7 @@ const toggleProfile = () => {
 
 // FAQ button
 .faq-button {
+  position: relative;
   display: flex;
   align-items: center;
   background-color: rgba(67, 73, 86, 0);
@@ -346,6 +407,7 @@ const toggleProfile = () => {
 
 // Additional button
 .additional-button {
+  position: relative;
   display: flex;
   align-items: center;
   background-color: rgba(67, 73, 86, 0);
@@ -365,6 +427,7 @@ const toggleProfile = () => {
 
 // Profile button
 .profile-button {
+  position: relative;
   display: flex;
   align-items: center;
   background-color: transparent;
@@ -417,42 +480,60 @@ const toggleProfile = () => {
 // Dropdown panels
 .dropdown-panel {
   position: absolute;
+  top: calc(100% + 2em);
+  left: 0;
   background-color: var(--bg-secondary);
   border-radius: 20px;
   border: 2px solid var(--text-secondary);
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: opacity 0.3s ease-in-out;
   z-index: 1000;
+  min-width: 200px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  transition: opacity 0.3s ease-in-out;
+}
+
+// Animation classes
+.hidden {
+  display: none !important;
+}
+
+.opacity-0 {
+  opacity: 0;
+}
+
+.opacity-100 {
+  opacity: 1;
+}
+
+.pointer-events-none {
+  pointer-events: none;
 }
 
 .navigation-panel {
   width: 240px;
   height: 280px;
   left: 695px;
-  top: 380px;
+  
 }
 
 .faq-panel {
   width: 240px;
   height: 280px;
   left: 1110px;
-  top: 380px;
 }
 
 .additional-panel {
   width: 240px;
   height: 290px;
-  left: 1290px;
-  top: 380px;
+  left: 1430px;
 }
 
 .profile-panel {
   width: 270px;
   height: 777px;
-  left: 1370px;
-  top: 878px;
+  left: 1530px;
 }
 
 .panel-content {
