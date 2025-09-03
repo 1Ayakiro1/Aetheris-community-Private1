@@ -369,6 +369,7 @@ onMounted(() => {
   height: 80px;
   background-color: var(--bg-primary);
   position: relative;
+  margin-top: 20px;
 }
 
 
