@@ -76,7 +76,6 @@
     background: linear-gradient(180deg, var(--primary-violet) 0%, var(--primary-pink) 100%);
     height: 4px;
     width: 100%;
-    margin-top: 126px;
 }
 
 .footer-container {
@@ -214,7 +213,7 @@
 .block-link {
     font-family: var(--font-primary);
     font-size: 25px;
-    font-weight: bold;
+    font-weight: normal;
     color: var(--text-primary);
     text-decoration: none;
     transition: color 0.3s ease-in-out;

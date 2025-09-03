@@ -2,7 +2,7 @@
   <div class="home-container">
     <!-- Slide1 -->
     <div data-element="slide1" class="slide1">
-      <img src="/src/assets/svgs/logo.svg" alt="Logo" class="slide1-logo">
+      <img src="../assets/svgs/logo.svg" alt="Logo" class="slide1-logo">
       <h1 class="slide1-title">Aetheris</h1>
       <h2 class="slide1-subtitle">
         A community of IT developers, neural network scientists and ML engineers
@@ -20,8 +20,8 @@
       <div class="blur-effect blur-4"></div>
       
       <!-- Images -->
-      <img src="/src/assets/imgs/slide_img1.svg" alt="Slide Image 1" class="slide-img-1">
-      <img src="/src/assets/imgs/slide_img2.svg" alt="Slide Image 2" class="slide-img-2">
+      <img src="/src/assets/svgs/slide_img1.png" alt="Slide Image 1" class="slide-img-1">
+      
       
       <h1 class="slide2-title slide2-title-1">
         Find ways to solve problems more effectively
@@ -30,7 +30,7 @@
         Ask questions and work with others to find the best solutions to anything.
       </h2>
       
-      <img src="/src/assets/imgs/slide_img3.svg" alt="Slide Image 3" class="slide-img-3">
+      <img src="/src/assets/svgs/slide_img3.png" alt="Slide Image 3" class="slide-img-3">
       
       <h1 class="slide2-title slide2-title-2">
         Develop and improve yourself by testing your skills on real projects
@@ -40,10 +40,10 @@
       </h2>
       
       <!-- Cubes -->
-      <img src="/src/assets/imgs/cubes1.svg" alt="Cubes 1" class="cubes-1">
-      <img src="/src/assets/imgs/cubes2.svg" alt="Cubes 2" class="cubes-2">
+      <img src="/src/assets/svgs/cubes1.png" alt="Cubes 1" class="cubes-1">
+      <img src="/src/assets/svgs/cubes2.png" alt="Cubes 2" class="cubes-2">
       
-      <img src="/src/assets/imgs/slide_img4.svg" alt="Slide Image 4" class="slide-img-4">
+      <img src="/src/assets/imgs/slide_img4.png" alt="Slide Image 4" class="slide-img-4">
       
       <h1 class="slide2-title slide2-title-3">
         Solve problems together to achieve the desired result
@@ -52,11 +52,11 @@
         Got an error or don't know how it works? Ask others!
       </h2>
       
-      <img src="/src/assets/imgs/cubes4.svg" alt="Cubes 4" class="cubes-4">
-      <img src="/src/assets/imgs/cubes3.svg" alt="Cubes 3" class="cubes-3">
-      <img src="/src/assets/imgs/cubes5.svg" alt="Cubes 5" class="cubes-5">
-      <img src="/src/assets/imgs/cubes6.svg" alt="Cubes 6" class="cubes-6">
-      <img src="/src/assets/imgs/slide_img5.svg" alt="Slide Image 5" class="slide-img-5">
+      <img src="/src/assets/svgs/cubes4.png" alt="Cubes 4" class="cubes-4">
+      <img src="/src/assets/svgs/cubes3.png" alt="Cubes 3" class="cubes-3">
+      <img src="/src/assets/svgs/cubes5.png" alt="Cubes 5" class="cubes-5">
+      <img src="/src/assets/svgs/cubes6.png" alt="Cubes 6" class="cubes-6">
+      <img src="/src/assets/svgs/slide_img5.png" alt="Slide Image 5" class="slide-img-5">
       
       <h1 class="slide2-title slide2-title-4">
         Collaborate and join teams to turn ideas into reality
@@ -69,7 +69,7 @@
         Join our community to create!
       </h2>
       
-      <router-link to="/sign-in">
+      <router-link to="/sign-in" class="register-link">
         <button class="register-button">
           <p class="register-text">
             Register
@@ -95,19 +95,22 @@
   background-color: var(--bg-primary);
   display: flex;
   flex-direction: column;
-  padding-bottom: 13rem; /* pb-52 */
+  position: relative;
+  min-height: 100vh; /* Минимальная высота экрана */
 }
 
 .slide1-logo {
   position: absolute;
   width: 768px;
   height: 784px;
-  top: 120px;
+  top: 0;
+  left: 0;
+  z-index: 10;
 }
 
 .slide1-title {
   font-family: var(--font-sans);
-  font-weight: bold;
+  font-weight: normal;
   font-size: 75px;
   margin-left: auto;
   margin-right: 510px;
@@ -270,7 +273,7 @@
 /* Slide2 Text Styles */
 .slide2-title {
   font-family: var(--font-sans);
-  font-weight: bold;
+  font-weight: normal;
   font-size: 50px;
   text-align: center;
   color: var(--text-primary);
@@ -342,11 +345,12 @@
 
 .slide2-cta {
   font-family: var(--font-sans);
-  font-weight: bold;
+  font-weight: normal;
   color: var(--text-primary);
   font-size: 45px;
   text-align: center;
-  margin-left: 540px;
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 470px;
   width: 700px;
 }
@@ -357,7 +361,8 @@
   height: 80px;
   border-radius: 25px;
   background-color: var(--primary-blue);
-  margin-left: 700px;
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 20px;
   display: flex;
   align-items: center;
@@ -365,10 +370,15 @@
   border: none;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
+  filter: brightness(1);
 }
 
 .register-button:hover {
-  opacity: 0.9;
+  filter: brightness(0.8);
+}
+
+.register-link {
+  text-decoration: none;
 }
 
 .register-text {
@@ -376,10 +386,5 @@
   color: var(--text-primary);
   font-size: 33px;
   font-weight: bold;
-  transition: color 0.3s ease-in-out;
-}
-
-.register-button:hover .register-text {
-  color: var(--text-secondary);
 }
 </style>
