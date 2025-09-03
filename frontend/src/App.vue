@@ -17,9 +17,13 @@ import AppFooter from './components/AppFooter.vue';
 </script>
 
 <style lang="scss" scoped>
-
+.app-wrapper {
+  background-color: var(--bg-primary);
+  min-height: 100vh;
+}
 
 .app-main {
   padding: 0;
+  background-color: var(--bg-primary);
 }
 </style>

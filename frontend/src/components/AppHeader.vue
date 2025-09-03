@@ -1,15 +1,15 @@
 <template>
   <div class="header-container">
     <!-- Logo and title -->
-    <Logo />
+    <Logo class="logo" />
     <p class="header-title">Aetheris Community</p>
     
     <!-- Navigation button -->
-    <button type="button" id="nav-btn" class="nav-button">
-      <NavigationIcon class="nav-icon" />
-      <p class="button-text">Navigation</p>
-      <DropdownIcon class="dropdown-icon" />
-    </button>
+            <button type="button" id="nav-btn" class="nav-button">
+          <NavigationIcon class="nav-icon" />
+          <p class="button-text">Navigation</p>
+          <DropdownIcon class="dropdown-icon nav-arrow" />
+        </button>
 
     <!-- Navigation panel -->
     <div id="navigation_panel" class="dropdown-panel navigation-panel hidden opacity-0 pointer-events-none">
@@ -48,7 +48,7 @@
     <button type="button" id="faq-btn" class="faq-button">
       <FAQIcon class="faq-icon" />
       <p class="button-text">FAQ</p>
-      <DropdownIcon class="dropdown-icon" />
+      <DropdownIcon class="dropdown-icon faq-arrow" />
     </button>
 
     <!-- FAQ navigation panel -->
@@ -87,7 +87,7 @@
     <!-- Additional button -->
     <button id="add-btn" class="additional-button">
       <AddIcon class="add-icon" />
-      <DropdownIcon class="dropdown-icon" />
+      <DropdownIcon class="dropdown-icon additional-arrow" />
     </button>
 
     <!-- Additional panel -->
@@ -122,7 +122,7 @@
     <!-- Profile button -->
     <button id="logo-btn" class="profile-button">
       <div class="profile-avatar"></div>
-      <DropdownIcon class="dropdown-icon" />
+      <DropdownIcon class="dropdown-icon profile-arrow" />
     </button>
 
     <!-- Profile panel -->
@@ -275,11 +275,18 @@ const panels: PanelsConfig = {
 // Universal functions
 function showPanel(panel: HTMLElement): void {
   // Close all other panels
-  Object.values(panels).forEach(({ panel: p }) => {
-    if (p && p !== panel) hidePanel(p)
+  Object.values(panels).forEach(({ panel: p, button: b }) => {
+    if (p && p !== panel) {
+      hidePanel(p)
+      if (b) b.classList.remove('active')
+    }
   })
 
   panel.classList.remove('hidden')
+
+  // Add active class to corresponding button
+  const button = Object.values(panels).find(({ panel: p }) => p === panel)?.button
+  if (button) button.classList.add('active')
 
   // First frame - just show
   requestAnimationFrame(() => {
@@ -294,6 +301,10 @@ function showPanel(panel: HTMLElement): void {
 function hidePanel(panel: HTMLElement): void {
   panel.classList.remove('opacity-100')
   panel.classList.add('opacity-0', 'pointer-events-none')
+
+  // Remove active class from corresponding button
+  const button = Object.values(panels).find(({ panel: p }) => p === panel)?.button
+  if (button) button.classList.remove('active')
 
   const handler = (): void => {
     if (panel.classList.contains('opacity-0')) {
@@ -347,6 +358,9 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
+.logo {
+  margin-left: 245px;
+}
 .header-container {
   display: flex;
   flex-direction: row;
@@ -360,9 +374,10 @@ onMounted(() => {
 
 
 .header-title {
-  font-family: var(--font-primary);
+  font-family: 'Comfortaa', sans-serif;
   font-size: 35px;
   font-weight: bold;
+  width: 500px;
   margin-left: 10px;
   color: var(--text-primary);
 }
@@ -374,9 +389,9 @@ onMounted(() => {
   align-items: center;
   background-color: rgba(67, 73, 86, 0);
   border-radius: 15px;
-  width: 240px;
+  width: 260px;
   height: 52px;
-  margin-left: 48px;
+  margin-left: 40px;
   transition: background-color 0.3s ease-in-out;
   border: none;
   cursor: pointer;
@@ -393,9 +408,10 @@ onMounted(() => {
   align-items: center;
   background-color: rgba(67, 73, 86, 0);
   border-radius: 20px;
-  width: 170px;
+  width: 180px;
   height: 52px;
-  margin-left: 210px;
+  margin-left: 200px;
+  margin-right: 20px;
   transition: background-color 0.3s ease-in-out;
   border: none;
   cursor: pointer;
@@ -412,7 +428,8 @@ onMounted(() => {
   align-items: center;
   background-color: rgba(67, 73, 86, 0);
   border-radius: 20px;
-  width: 128px;
+  width: 105px;
+  margin-right: 20px;
   height: 52px;
   margin-left: auto;
   padding-right: 20px;
@@ -434,7 +451,7 @@ onMounted(() => {
   border-radius: 15px;
   width: 100px;
   height: 56px;
-  margin-right: 210px;
+  margin-right: 275px;
   transition: background-color 0.2s ease-in-out;
   border: none;
   cursor: pointer;
@@ -453,14 +470,40 @@ onMounted(() => {
   margin-left: 12px;
 }
 
-// Profile button dropdown icon
-.profile-button .dropdown-icon {
+// Dropdown icons rotation
+.dropdown-icon {
   color: var(--text-primary);
-  transition: transform 0.2s ease-in-out;
-  margin-left: 8px;
+  transition: transform 0.3s ease-in-out;
+  margin-left: 16px;
 }
 
-.profile-button:hover .dropdown-icon {
+// Navigation arrow special spacing
+.nav-arrow {
+  margin-right: 20px;
+}
+
+// FAQ arrow spacing
+.faq-arrow {
+  margin-left: 10px;
+  margin-right: 12px;
+}
+
+// Additional arrow spacing
+.additional-arrow {
+  margin-left: 10px;
+}
+
+// Profile arrow spacing
+.profile-arrow {
+  margin-left: 10px;
+  margin-right: 12px;
+}
+
+// Active state for dropdown icons (when panel is open)
+.nav-button.active .dropdown-icon,
+.faq-button.active .dropdown-icon,
+.additional-button.active .dropdown-icon,
+.profile-button.active .dropdown-icon {
   transform: rotate(180deg);
 }
 
@@ -486,19 +529,15 @@ onMounted(() => {
   margin-left: 12px;
 }
 
-.dropdown-icon {
-  margin-left: 16px;
-}
 
 .panel-icon {
   margin-left: 16px;
+  margin-right: 12px;
 }
 
 // Dropdown panels
 .dropdown-panel {
   position: absolute;
-  top: calc(100% + 2em);
-  left: 0;
   background-color: var(--bg-secondary);
   border-radius: 20px;
   border: 2px solid var(--text-secondary);
@@ -531,26 +570,29 @@ onMounted(() => {
 .navigation-panel {
   width: 240px;
   height: 280px;
-  left: 695px;
-  
+  left: 797px;
+  top: 100px;
 }
 
 .faq-panel {
   width: 240px;
   height: 280px;
-  left: 1110px;
+  left: 1205px;
+  top: 100px;
 }
 
 .additional-panel {
   width: 240px;
   height: 290px;
-  left: 1430px;
+  left: 1355px;
+  top: 100px;
 }
 
 .profile-panel {
   width: 270px;
   height: 777px;
-  left: 1530px;
+  left: 1460px;
+  top: 100px;
 }
 
 .panel-content {
