@@ -568,28 +568,28 @@ onMounted(() => {
 }
 
 .navigation-panel {
-  width: 240px;
+  width: 260px;
   height: 280px;
-  left: 797px;
+  left: 807px;
   top: 100px;
 }
 
 .faq-panel {
-  width: 240px;
+  width: 260px;
   height: 280px;
   left: 1205px;
   top: 100px;
 }
 
 .additional-panel {
-  width: 240px;
+  width: 260px;
   height: 290px;
   left: 1355px;
   top: 100px;
 }
 
 .profile-panel {
-  width: 270px;
+  width: 290px;
   height: 777px;
   left: 1460px;
   top: 100px;
@@ -608,7 +608,7 @@ onMounted(() => {
   align-items: center;
   background-color: rgba(67, 73, 86, 0);
   border-radius: 15px;
-  width: 220px;
+  width: 240px;
   height: 59px;
   color: var(--text-primary);
   font-family: var(--font-primary);
@@ -624,7 +624,7 @@ onMounted(() => {
 }
 
 .profile-panel .panel-button {
-  width: 250px;
+  width: 270px;
 }
 
 .panel-text {
@@ -632,7 +632,7 @@ onMounted(() => {
   font-size: 23px;
   font-weight: bold;
   color: var(--text-primary);
-  margin-left: 16px;
+  margin-left: 6px;
 }
 
 // Panel divider
