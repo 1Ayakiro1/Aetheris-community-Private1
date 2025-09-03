@@ -570,21 +570,21 @@ onMounted(() => {
 .navigation-panel {
   width: 260px;
   height: 280px;
-  left: 807px;
+  left: 785px;
   top: 100px;
 }
 
 .faq-panel {
   width: 260px;
   height: 280px;
-  left: 1205px;
+  left: 1200px;
   top: 100px;
 }
 
 .additional-panel {
   width: 260px;
   height: 290px;
-  left: 1355px;
+  left: 1345px;
   top: 100px;
 }
 

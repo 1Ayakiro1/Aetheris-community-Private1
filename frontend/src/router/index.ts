@@ -24,6 +24,7 @@ const routes = [
   { path: '/legal/terms-of-use', name: 'LegalTermsOfUse', component: () => import('../views/LegalTermsOfUse.vue') },
   { path: '/legal/copyright-policy', name: 'LegalCopyrightPolicy', component: () => import('../views/LegalCopyrightPolicy.vue') },
   { path: '/legal/security', name: 'LegalSecurity', component: () => import('../views/LegalSecurity.vue') },
+  { path: '/legal/another', name: 'LegalAnother', component: () => import('../views/LegalAnother.vue') },
   
   // User pages
   { path: '/profile', name: 'Profile', component: () => import('../views/Profile.vue') },

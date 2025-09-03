@@ -1,5 +1,5 @@
 <template>
-  <div class="legal-terms-of-use-container">
+  <div class="legal-another-container">
     <!-- Body -->
     <h2 class="page-title">Site Policy Page</h2>
     <div class="content-wrapper">
@@ -60,7 +60,7 @@
 </script>
 
 <style lang="scss" scoped>
-.legal-terms-of-use-container {
+.legal-another-container {
   max-width: 1920px;
   margin: 0 auto;
   background-color: var(--bg-primary);
