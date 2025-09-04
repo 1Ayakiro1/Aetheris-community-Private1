@@ -1,5 +1,5 @@
 <template>
-  <div class="settings-sessions-container">
+  <div class="settings-another-container">
     <AppHeader />
     
     <!-- Main Body -->
@@ -33,7 +33,7 @@
           </router-link>
           
           <router-link to="/settings/sessions">
-            <button class="sidebar-button active">
+            <button class="sidebar-button">
               <div class="button-icon"></div>
               <p class="button-text">Sessions</p>
             </button>
@@ -57,7 +57,7 @@
           </router-link>
           
           <router-link to="/settings/another">
-            <button class="sidebar-button">
+            <button class="sidebar-button active">
               <div class="button-icon"></div>
               <p class="button-text">Another</p>
             </button>
@@ -67,21 +67,9 @@
       
       <!-- Content -->
       <div class="content">
-        <!-- Active Sessions Section -->
-        <div class="sessions-section">
-          <h1 class="section-title">Active sessions</h1>
-          <h2 class="section-subtitle">This section contains all active sessions that you can manage.</h2>
-          <h2 class="section-warning">If you notice a session whose details you don't know or notice a new suspicious login, we recommend changing the password and activating 2FA</h2>
-          
-          <div class="sessions-content">
-            <!-- Session placeholder -->
-            <div class="session-placeholder"></div>
-            
-            <!-- Delete all sessions button -->
-            <button class="delete-all-button" @click="deleteAllSessions">
-              Delete all sessions and leave
-            </button>
-          </div>
+        <div class="development-message">
+          <h1 class="development-text">This page in development now</h1>
+          <p class="development-subtitle">We are working on additional settings and features for this section.</p>
         </div>
       </div>
     </div>
@@ -91,14 +79,11 @@
 </template>
 
 <script setup lang="ts">
-const deleteAllSessions = () => {
-  // Logic for deleting all sessions
-  console.log('Deleting all sessions...')
-}
+// Another settings logic can be added here
 </script>
 
 <style scoped lang="scss">
-.settings-sessions-container {
+.settings-another-container {
   max-width: 1920px;
   margin: 0 auto;
   background-color: var(--bg-primary);
@@ -188,83 +173,32 @@ const deleteAllSessions = () => {
   flex-direction: column;
   align-items: center;
   margin-left: 12px;
-}
-
-.sessions-section {
-  background-color: var(--bg-secondary);
-  width: 980px;
-  height: 900px;
-  border-radius: 25px;
-  display: flex;
-  flex-direction: column;
-}
-
-.section-title {
-  margin-top: 40px; // mt-10
-  margin-left: 48px; // ml-12
-  color: var(--text-primary);
-  font-size: 25px;
-  font-family: var(--font-sans);
-  font-weight: bold;
-}
-
-.section-subtitle {
-  color: var(--text-secondary);
-  font-size: 20px;
-  font-family: var(--font-sans);
-  font-weight: bold;
-  margin-top: 4px;
-  margin-left: 48px;
-  width: 700px;
-}
-
-.section-warning {
-  color: var(--text-secondary);
-  font-size: 20px;
-  font-family: var(--font-sans);
-  font-weight: bold;
-  margin-top: 16px;
-  margin-left: 48px;
-  width: 900px;
-}
-
-.sessions-content {
-  display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
   flex: 1;
 }
 
-.session-placeholder {
-  background-color: var(--bg-primary);
-  width: 890px;
-  height: 139px;
-  border-radius: 25px;
-  margin-top: 40px;
-  margin-left: 48px;
+.development-message {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  text-align: center;
 }
 
-.delete-all-button {
-  width: 890px;
-  height: 59px;
-  background-color: rgba(67, 73, 86, 0);
-  border-radius: 15px;
-  color: var(--text-primary);
-  font-size: 23px;
+.development-text {
+  color: var(--text-secondary);
+  font-size: 30px;
   font-family: var(--font-sans);
   font-weight: bold;
-  transition: all 0.3s ease-in-out;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  cursor: pointer;
-  margin-left: 48px;
-  margin-top: 16px;
+  margin-bottom: 16px;
+}
 
-  &:hover {
-    background-color: rgba(67, 73, 86, 1);
-  }
+.development-subtitle {
+  color: var(--text-secondary);
+  font-size: 18px;
+  font-family: var(--font-sans);
+  font-weight: normal;
+  opacity: 0.8;
 }
 </style>
