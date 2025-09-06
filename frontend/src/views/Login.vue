@@ -1,206 +1,198 @@
 <template>
   <div class="login-container">
-    <div class="login-card">
-      <div class="login-header">
-        <h1 class="login-title">Welcome Back</h1>
-        <p class="login-subtitle">Sign in to your account</p>
-      </div>
-      
-      <form class="login-form">
-        <div class="form-group">
-          <label class="form-label">Email</label>
-          <input type="email" class="form-input" placeholder="Enter your email">
+    
+    <!-- Main Body -->
+    <div class="main-body">
+      <div class="login-content">
+        <h2 class="login-title">Log in</h2>
+        <div class="login-form">
+          <h2 class="field-label">Nickname/mail</h2>
+          <input 
+            id="nickname" 
+            v-model="nickname"
+            type="text" 
+            placeholder="Enter your nickname/mail" 
+            class="input-field"
+            :class="{ 'error': nicknameError }"
+          >
+          <p v-if="nicknameError" class="error-message">Nickname is invalid</p>
+          
+          <h2 class="field-label">Password</h2>
+          <input 
+            id="password" 
+            v-model="password"
+            type="password" 
+            placeholder="Enter your password" 
+            class="input-field"
+            :class="{ 'error': passwordError }"
+          >
+          <p v-if="passwordError" class="error-message">Password is invalid</p>
+          
+          <p class="forgot-password">Forgot password?</p>
+          <p class="sign-in-link">Or <router-link to="/signin" class="link">sign in</router-link></p>
+          
+          <button @click="handleLogin" class="login-button">Log in</button>
         </div>
-        
-        <div class="form-group">
-          <label class="form-label">Password</label>
-          <input type="password" class="form-input" placeholder="Enter your password">
-        </div>
-        
-        <div class="form-options">
-          <label class="checkbox-label">
-            <input type="checkbox" class="checkbox">
-            <span class="checkbox-text">Remember me</span>
-          </label>
-          <a href="#" class="forgot-link">Forgot password?</a>
-        </div>
-        
-        <button type="submit" class="login-button">
-          Sign In
-        </button>
-      </form>
-      
-      <div class="login-footer">
-        <p class="signup-text">
-          Don't have an account? 
-          <router-link to="/signin" class="signup-link">Sign up</router-link>
-        </p>
       </div>
     </div>
+    
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
+
+const nickname = ref('')
+const password = ref('')
+const nicknameError = ref(false)
+const passwordError = ref(false)
+
+const validateNickname = (value: string): boolean => {
+  return value.length >= 3 && value.length <= 20
+}
+
+const validatePassword = (value: string): boolean => {
+  return value.length >= 6
+}
+
+const handleLogin = () => {
+  const nicknameValid = validateNickname(nickname.value)
+  const passwordValid = validatePassword(password.value)
+  
+  nicknameError.value = !nicknameValid
+  passwordError.value = !passwordValid
+  
+  if (nicknameValid && passwordValid) {
+    // Stub: send to backend
+    console.log('Login payload', {
+      nickname: nickname.value,
+      password: '[REDACTED]'
+    })
+    alert('Login request sent (stub). Hook this to your API.')
+  }
+}
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .login-container {
   max-width: 1920px;
   margin: 0 auto;
   background-color: var(--bg-primary);
   min-height: 100vh;
+}
+
+.main-body {
   display: flex;
-  align-items: center;
   justify-content: center;
-  padding: 40px;
+  align-items: center;
+  min-height: calc(100vh - 200px);
+  padding: 30px 0;
 }
 
-.login-card {
-  background-color: var(--bg-secondary);
-  border-radius: 20px;
-  padding: 48px;
-  width: 100%;
-  max-width: 400px;
-  border: 1px solid var(--text-secondary);
-}
-
-.login-header {
-  text-align: center;
-  margin-bottom: 32px;
+.login-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .login-title {
-  font-family: var(--font-sans);
-  font-size: 32px;
-  font-weight: 500;
   color: var(--text-primary);
-  margin: 0 0 8px 0;
-}
-
-.login-subtitle {
+  font-size: 50px;
   font-family: var(--font-sans);
-  font-size: 16px;
-  font-weight: 500;
-  color: var(--text-secondary);
-  margin: 0;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
 .login-form {
+  width: 600px;
+  height: 470px;
+  background-color: var(--bg-secondary);
+  border-radius: 20px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  padding: 32px 48px;
 }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.form-label {
+.field-label {
+  color: var(--text-primary);
+  font-size: 25px;
   font-family: var(--font-sans);
+  font-weight: bold;
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+.input-field {
+  width: 500px;
+  height: 68px;
+  background-color: var(--btn-primary);
+  border-radius: 15px;
+  border: none;
+  font-weight: bold;
+  padding: 0 16px;
+  font-size: 22px;
+  color: var(--text-primary);
+  
+  &::placeholder {
+    color: var(--text-secondary);
+  }
+  
+  &.error {
+    border: 2px solid #FF3B3B;
+  }
+}
+
+.error-message {
+  color: #FF3B3B;
   font-size: 14px;
-  font-weight: 500;
-  color: var(--text-primary);
+  font-family: var(--font-sans);
+  margin-top: 4px;
+  margin-bottom: 0;
 }
 
-.form-input {
-  padding: 12px 16px;
-  border: 1px solid var(--text-secondary);
-  border-radius: 8px;
-  background-color: var(--bg-primary);
+.forgot-password {
   color: var(--text-primary);
-  font-family: var(--font-sans);
   font-size: 16px;
-  transition: border-color 0.3s ease-in-out;
-}
-
-.form-input:focus {
-  outline: none;
-  border-color: var(--primary-blue);
-}
-
-.form-input::placeholder {
-  color: var(--text-third);
-}
-
-.form-options {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.checkbox-label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-}
-
-.checkbox {
-  width: 16px;
-  height: 16px;
-  accent-color: var(--primary-blue);
-}
-
-.checkbox-text {
   font-family: var(--font-sans);
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--text-secondary);
+  font-weight: bold;
+  margin-top: 16px;
+  text-align: center;
 }
 
-.forgot-link {
-  font-family: var(--font-sans);
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--primary-blue);
-  text-decoration: none;
-  transition: color 0.3s ease-in-out;
-}
-
-.forgot-link:hover {
+.sign-in-link {
   color: var(--text-primary);
+  font-size: 16px;
+  font-family: var(--font-sans);
+  font-weight: bold;
+  margin-top: 16px;
+  text-align: center;
+}
+
+.link {
+  color: var(--btn-primary);
+  text-decoration: none;
+  
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 .login-button {
-  width: 100%;
-  padding: 16px;
-  background-color: var(--primary-blue);
-  color: var(--text-primary);
+  width: 269px;
+  height: 56px;
+  background-color: var(--btn-primary);
+  border-radius: 15px;
   border: none;
-  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 25px;
   font-family: var(--font-sans);
-  font-size: 16px;
-  font-weight: 500;
+  font-weight: bold;
+  margin: 16px auto 0;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-}
-
-.login-button:hover {
-  opacity: 0.9;
-}
-
-.login-footer {
-  text-align: center;
-  margin-top: 24px;
-}
-
-.signup-text {
-  font-family: var(--font-sans);
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--text-secondary);
-  margin: 0;
-}
-
-.signup-link {
-  color: var(--primary-blue);
-  text-decoration: none;
-  transition: color 0.3s ease-in-out;
-}
-
-.signup-link:hover {
-  color: var(--text-primary);
+  
+  &:hover {
+    opacity: 0.8;
+  }
 }
 </style>
