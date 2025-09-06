@@ -1,8 +1,10 @@
 <template>
   <div class="header-container">
     <!-- Logo and title -->
-    <Logo class="logo" />
-    <p class="header-title">Aetheris Community</p>
+    <router-link to="/" class="header-brand-link">
+      <Logo class="logo" />
+      <p class="header-title">Aetheris Community</p>
+    </router-link>
     
     <!-- Navigation button -->
             <button type="button" id="nav-btn" class="nav-button">
@@ -358,9 +360,33 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.logo {
+.header-brand-link {
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  display: flex;
+  align-items: center;
   margin-left: 245px;
+  
+  &:hover {
+    opacity: 0.8;
+  }
 }
+
+.logo {
+  margin: 0;
+}
+
+.header-title {
+  font-family: 'Comfortaa', sans-serif;
+  font-size: 35px;
+  font-weight: bold;
+  color: var(--text-primary);
+  margin: 0;
+  margin-left: 10px;
+  white-space: nowrap;
+}
+
 .header-container {
   display: flex;
   flex-direction: row;
@@ -370,17 +396,6 @@ onMounted(() => {
   background-color: var(--bg-primary);
   position: relative;
   margin-top: 20px;
-}
-
-
-
-.header-title {
-  font-family: 'Comfortaa', sans-serif;
-  font-size: 35px;
-  font-weight: bold;
-  width: 500px;
-  margin-left: 10px;
-  color: var(--text-primary);
 }
 
 // Navigation button

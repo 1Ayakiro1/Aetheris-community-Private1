@@ -97,7 +97,9 @@
               :class="{ active: selectedTheme === 'system' }"
               @click="selectTheme('system')"
             >
-              <div class="theme-preview"></div>
+              <div class="theme-preview">
+                <img :src="themeImages['system']" alt="System theme preview" class="theme-preview-image" />
+              </div>
               <div class="theme-label">
                 <div class="theme-indicator">
                   <div class="theme-indicator-dot"></div>
@@ -112,7 +114,9 @@
               :class="{ active: selectedTheme === 'white' }"
               @click="selectTheme('white')"
             >
-              <div class="theme-preview"></div>
+              <div class="theme-preview">
+                <img :src="themeImages['white']" alt="White theme preview" class="theme-preview-image" />
+              </div>
               <div class="theme-label">
                 <div class="theme-indicator">
                   <div class="theme-indicator-dot"></div>
@@ -127,7 +131,9 @@
               :class="{ active: selectedTheme === 'aquamarine' }"
               @click="selectTheme('aquamarine')"
             >
-              <div class="theme-preview"></div>
+              <div class="theme-preview">
+                <img :src="themeImages['aquamarine']" alt="Aquamarine theme preview" class="theme-preview-image" />
+              </div>
               <div class="theme-label">
                 <div class="theme-indicator">
                   <div class="theme-indicator-dot"></div>
@@ -142,7 +148,9 @@
               :class="{ active: selectedTheme === 'night-dark' }"
               @click="selectTheme('night-dark')"
             >
-              <div class="theme-preview"></div>
+              <div class="theme-preview">
+                <img :src="themeImages['night-dark']" alt="Dark theme preview" class="theme-preview-image" />
+              </div>
               <div class="theme-label">
                 <div class="theme-indicator">
                   <div class="theme-indicator-dot"></div>
@@ -177,14 +185,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+// Импорты изображений тем
+import theme1Image from '@/assets/imgs/theme3.png'
+import theme2Image from '@/assets/imgs/theme2.png'
+import theme3Image from '@/assets/imgs/theme1.png'
+import { useTheme } from '@/composables/useTheme'
 
-const selectedTheme = ref('aquamarine')
+// Используем composable для управления темами
+const { selectedTheme, selectTheme } = useTheme()
 
-const selectTheme = (theme: string) => {
-  selectedTheme.value = theme
-  // Здесь можно добавить логику для применения темы
-  document.documentElement.setAttribute('data-theme', theme)
+const themeImages = {
+  'system': theme1Image,
+  'white': theme2Image,
+  'aquamarine': theme3Image,
+  'night-dark': theme1Image
 }
 </script>
 
@@ -350,11 +364,35 @@ const selectTheme = (theme: string) => {
   cursor: pointer;
 
   &:hover {
-    opacity: 0.7;
+    transform: translateY(-2px); // Легкий подъем при наведении
   }
 
+  // Состояние при наведении
+  &:hover .theme-indicator-dot {
+    background-color: #8b5cf6; // purple-500 - только центральный кружок
+  }
+
+  // Состояние активной темы
+  &.active {
+    transform: scale(1.02); // Легкое увеличение активной темы
+  }
+  
+  // Активный блок при наведении тоже должен подниматься
+  &.active:hover {
+    transform: scale(1.02) translateY(-2px); // Увеличение + подъем
+  }
+  
+  &.active .theme-indicator {
+    border-color: #8b5cf6; // purple-500
+    width: 22px; // Увеличиваем размер вместо scale
+    height: 22px;
+    margin-left: 15px; // Корректируем отступ
+  }
+  
   &.active .theme-indicator-dot {
-    opacity: 1;
+    background-color: #8b5cf6; // purple-500
+    width: 12.5px; // Увеличиваем размер вместо scale
+    height: 12.5px;
   }
 }
 
@@ -362,6 +400,18 @@ const selectTheme = (theme: string) => {
   width: 208px;
   height: 145px;
   background-color: var(--btn-primary);
+  border-radius: 25px 25px 0 0;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   border-radius: 25px 25px 0 0;
 }
 
@@ -373,26 +423,26 @@ const selectTheme = (theme: string) => {
   align-items: center;
   border-radius: 0 0 25px 25px;
   position: absolute;
-  margin-top: 120px;
+  margin-top: 130px;
 }
 
 .theme-indicator {
   width: 20px;
   height: 20px;
-  border: 2px solid var(--btn-primary);
+  border: 2px solid #d1d5db; // gray-300 - цвет границы по умолчанию
   border-radius: 50%;
   margin-left: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.3s ease-in-out;
 }
 
 .theme-indicator-dot {
   width: 11.5px;
   height: 11.5px;
-  background-color: #d1d5db; // gray-300
+  background-color: transparent; // Прозрачный по умолчанию
   border-radius: 50%;
-  opacity: 0;
   transition: all 0.3s ease-in-out;
 }
 
@@ -408,7 +458,7 @@ const selectTheme = (theme: string) => {
 .font-section {
   background-color: var(--bg-secondary);
   width: 980px;
-  height: 409px;
+  height: 440px;
   border-radius: 25px;
   margin-top: 12px;
 }

@@ -40,35 +40,74 @@ html, body {
   --font-sans: 'Comfortaa', sans-serif;
 }
 
-// //Light theme
-// :root[data-theme='light'] {
-//   --bg-primary: #E5E7EB;
-//   --bg-secondary: #FFFFFF;
-//   --btn-primary: #FAFAFA;
-//   --text-primary: #111827;
-//   --text-secondary: #1A202C;
-//   --text-third: #1A202C;
-//   --text-red: #FF3B3B;
-//   --primary-violet: #8C00FF;
-//   --primary-pink: #EE00FF;
-//   --primary-blue: #505BE5;
-//   --ico-color: #1c1d1f;
-// }
+// System theme (автоматически определяет светлую/темную)
+:root[data-theme='system'] {
+  --bg-primary: #16181C;
+  --bg-secondary: #26292F;
+  --btn-primary: #434956;
+  --text-primary: #ECF9FB;
+  --text-secondary: #5A6272;
+  --text-third: #AFB7C7;
+  --text-red: #FF3B3B;
+  --text-hover: #8a9495;
+  --primary-violet: #8C00FF;
+  --primary-pink: #EE00FF;
+  --primary-blue: #505BE5;
+  --ico-color: #9BA4AE;
+  
+  // Шрифты
+  --font-primary: 'Comfortaa', sans-serif;
+  --font-secondary: 'Arial', sans-serif;
+  --font-heading: 'Comfortaa', sans-serif;
+  --font-body: 'Comfortaa', sans-serif;
+  --font-sans: 'Comfortaa', sans-serif;
+}
 
-// //Dark theme
-// :root[data-theme='dark'] {
-//   --bg-primary: #000000;
-//   --bg-secondary: #101013;
-//   --btn-primary: #222329;
-//   --text-primary: #ECF9FB;
-//   --text-secondary: #B0BAC5;
-//   --text-third: #AFB7C7;
-//   --text-red: #FF3B3B;
-//   --primary-violet: #8C00FF;
-//   --primary-pink: #EE00FF;
-//   --primary-blue: #505BE5;
-//   --ico-color: #9BA4AE;
-// }
+// White theme
+:root[data-theme='white'] {
+  --bg-primary: #E5E7EB;
+  --bg-secondary: #FFFFFF;
+  --btn-primary: #FAFAFA;
+  --text-primary: #111827;
+  --text-secondary: #1A202C;
+  --text-third: #1A202C;
+  --text-red: #FF3B3B;
+  --text-hover: #4B5563;
+  --primary-violet: #8C00FF;
+  --primary-pink: #EE00FF;
+  --primary-blue: #505BE5;
+  --ico-color: #1c1d1f;
+  
+  // Шрифты
+  --font-primary: 'Comfortaa', sans-serif;
+  --font-secondary: 'Arial', sans-serif;
+  --font-heading: 'Comfortaa', sans-serif;
+  --font-body: 'Comfortaa', sans-serif;
+  --font-sans: 'Comfortaa', sans-serif;
+}
+
+// Night Dark theme
+:root[data-theme='night-dark'] {
+  --bg-primary: #000000;
+  --bg-secondary: #101013;
+  --btn-primary: #222329;
+  --text-primary: #ECF9FB;
+  --text-secondary: #B0BAC5;
+  --text-third: #AFB7C7;
+  --text-red: #FF3B3B;
+  --text-hover: #8a9495;
+  --primary-violet: #8C00FF;
+  --primary-pink: #EE00FF;
+  --primary-blue: #505BE5;
+  --ico-color: #9BA4AE;
+  
+  // Шрифты
+  --font-primary: 'Comfortaa', sans-serif;
+  --font-secondary: 'Arial', sans-serif;
+  --font-heading: 'Comfortaa', sans-serif;
+  --font-body: 'Comfortaa', sans-serif;
+  --font-sans: 'Comfortaa', sans-serif;
+}
 
 .bg-bg-primary { background-color: var(--bg-primary); }
 .bg-bg-secondary { background-color: var(--bg-secondary); }
