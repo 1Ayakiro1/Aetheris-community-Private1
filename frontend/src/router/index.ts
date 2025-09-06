@@ -42,6 +42,7 @@ const routes = [
   { path: '/settings/subscription', name: 'SettingsSubscription', component: () => import('../views/SettingsSubscription.vue') },
   { path: '/settings/sessions', name: 'SettingsSessions', component: () => import('../views/SettingsSessions.vue') },
   { path: '/settings/support', name: 'SettingsSupport', component: () => import('../views/SettingsSupport.vue') },
+  { path: '/settings/another', name: 'SettingsAnother', component: () => import('../views/SettingsAnother.vue') },
   
   // Additional pages
   { path: '/notifications', name: 'Notifications', component: () => import('../views/Notifications.vue') },
