@@ -206,6 +206,7 @@ import SettingsSidebar from '@/components/SettingsSidebar.vue'
   height: 430px;
   border-radius: 25px;
   margin-top: 12px;
+  margin-bottom: 200px;
   display: flex;
   flex-direction: column;
 }

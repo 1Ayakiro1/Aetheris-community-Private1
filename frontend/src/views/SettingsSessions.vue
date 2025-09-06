@@ -1,6 +1,5 @@
 <template>
   <div class="settings-sessions-container">
-    <AppHeader />
     
     <!-- Main Body -->
     <div class="main-body">
@@ -28,13 +27,10 @@
       </div>
     </div>
     
-    <AppFooter />
   </div>
 </template>
 
 <script setup lang="ts">
-import AppHeader from '@/components/AppHeader.vue'
-import AppFooter from '@/components/AppFooter.vue'
 import SettingsSidebar from '@/components/SettingsSidebar.vue'
 
 const deleteAllSessions = () => {
@@ -107,6 +103,7 @@ const deleteAllSessions = () => {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-top: 200px;
   align-items: center;
   flex: 1;
 }

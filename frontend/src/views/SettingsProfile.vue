@@ -23,7 +23,9 @@
               <button class="avatar-button">remove image</button>
             </div>
             <button class="reset-button">
-              <div class="reset-icon"></div>
+              <svg class="reset-icon" width="27" height="26" viewBox="0 0 27 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1.20831 3.02937V10.7742M1.20831 10.7742H8.45831M1.20831 10.7742L6.81498 5.14629C8.48358 3.36681 10.6484 2.21484 12.9831 1.86393C15.3179 1.51302 17.6962 1.98219 19.7597 3.20074C21.8231 4.4193 23.46 6.32123 24.4236 8.61996C25.3872 10.9187 25.6253 13.4897 25.1022 15.9456C24.579 18.4015 23.3228 20.6092 21.523 22.2362C19.7231 23.8631 17.477 24.8211 15.1231 24.9659C12.7693 25.1106 10.4351 24.4342 8.4724 23.0386C6.50968 21.643 5.02471 19.6038 4.24123 17.2282" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
               <p class="reset-text">reset</p>
             </button>
           </div>
@@ -89,6 +91,7 @@ const bio = ref('')
   width: 980px;
   height: 949px;
   border-radius: 25px;
+  margin-bottom: 200px;
   display: flex;
   flex-direction: column;
 }
@@ -184,8 +187,6 @@ const bio = ref('')
 .reset-icon {
   width: 27px;
   height: 26px;
-  background-color: var(--ico-color);
-  border-radius: 2px;
 }
 
 .reset-text {
