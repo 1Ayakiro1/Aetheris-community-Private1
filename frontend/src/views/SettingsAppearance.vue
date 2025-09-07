@@ -13,8 +13,8 @@
       <div class="content">
         <!-- Color Theme Section -->
         <div class="theme-section">
-          <h1 class="section-title">Color theme</h1>
-          <h2 class="section-subtitle">Choose your favorite color theme for this web-site</h2>
+          <h1 class="section-title">{{ t('settings.appearance.theme') }}</h1>
+          <h2 class="section-subtitle">{{ t('settings.appearance.theme.subtitle') }}</h2>
           
           <div class="theme-buttons">
             <button 
@@ -30,7 +30,7 @@
                 <div class="theme-indicator">
                   <div class="theme-indicator-dot"></div>
                 </div>
-                <p class="theme-text">System theme</p>
+                <p class="theme-text">{{ t('settings.appearance.theme.system') }}</p>
               </div>
             </button>
 
@@ -47,7 +47,7 @@
                 <div class="theme-indicator">
                   <div class="theme-indicator-dot"></div>
                 </div>
-                <p class="theme-text">White</p>
+                <p class="theme-text">{{ t('settings.appearance.theme.white') }}</p>
               </div>
             </button>
 
@@ -64,7 +64,7 @@
                 <div class="theme-indicator">
                   <div class="theme-indicator-dot"></div>
                 </div>
-                <p class="theme-text">Aquamarine</p>
+                <p class="theme-text">{{ t('settings.appearance.theme.aquamarine') }}</p>
               </div>
             </button>
 
@@ -81,26 +81,88 @@
                 <div class="theme-indicator">
                   <div class="theme-indicator-dot"></div>
                 </div>
-                <p class="theme-text">Dark</p>
+                <p class="theme-text">{{ t('settings.appearance.theme.dark') }}</p>
               </div>
             </button>
           </div>
         </div>
         
+        <!-- Language Section -->
+        <div class="language-section">
+          <h1 class="section-title">{{ t('settings.appearance.language') }}</h1>
+          <h2 class="section-subtitle">{{ t('settings.appearance.language.subtitle') }}</h2>
+          
+          <div class="language-dropdown">
+            <button 
+              class="language-select-button"
+              @click="toggleLanguageDropdown"
+            >
+              <div class="selected-language">
+                <span class="language-flag">{{ getCurrentLanguageFlag() }}</span>
+                <span class="language-name">{{ getCurrentLanguageName() }}</span>
+              </div>
+              <svg class="dropdown-icon" width="22" height="12" viewBox="0 0 25 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2.25 2.375L12.5 12.625L22.75 2.375" stroke="#9BA4AE" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+
+            <div 
+              class="language-dropdown-menu"
+              :class="{ 'open': isLanguageDropdownOpen }"
+            >
+              <div 
+                class="language-option"
+                :class="{ 'active': getCurrentLanguage === 'en' }"
+                @click="selectLanguage('en')"
+              >
+                <span class="language-flag">🇺🇸</span>
+                <span class="language-name">English</span>
+              </div>
+              
+              <div 
+                class="language-option"
+                :class="{ 'active': getCurrentLanguage === 'ru' }"
+                @click="selectLanguage('ru')"
+              >
+                <span class="language-flag">🇷🇺</span>
+                <span class="language-name">Русский</span>
+              </div>
+              
+              <div 
+                class="language-option"
+                :class="{ 'active': getCurrentLanguage === 'es' }"
+                @click="selectLanguage('es')"
+              >
+                <span class="language-flag">🇪🇸</span>
+                <span class="language-name">Español</span>
+              </div>
+              
+              <div 
+                class="language-option"
+                :class="{ 'active': getCurrentLanguage === 'fr' }"
+                @click="selectLanguage('fr')"
+              >
+                <span class="language-flag">🇫🇷</span>
+                <span class="language-name">Français</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
         <!-- Article Font Section -->
         <div class="font-section">
-          <h1 class="section-title">Article font</h1>
-          <h2 class="section-subtitle">Choose a font that is convenient for you, which will be used in the article as the main one</h2>
+          <h1 class="section-title">{{ t('settings.appearance.font') }}</h1>
+          <h2 class="section-subtitle">{{ t('settings.appearance.font.subtitle') }}</h2>
           
           <button class="font-select-button">
-            <p class="font-select-text">Select font</p>
+            <p class="font-select-text">{{ t('settings.appearance.font.select') }}</p>
             <svg class="dropdown-icon" width="22" height="12" viewBox="0 0 25 15" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M2.25 2.375L12.5 12.625L22.75 2.375" stroke="#9BA4AE" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </button>
 
           <div class="font-preview">
-            <h1 class="font-preview-text">Example of text article. Here exist more different words,which can use in any article and news,science facts and another places</h1>
+            <h1 class="font-preview-text">{{ t('settings.appearance.font.preview') }}</h1>
           </div>
         </div>
       </div>
@@ -111,15 +173,46 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
 // Импорты изображений тем
 import theme1Image from '@/assets/imgs/theme3.png'
 import theme2Image from '@/assets/imgs/theme2.png'
 import theme3Image from '@/assets/imgs/theme1.png'
 import { useTheme } from '@/composables/useTheme'
+import { useI18n } from '@/composables/useI18n'
 import SettingsSidebar from '@/components/SettingsSidebar.vue'
 
-// Используем composable для управления темами
+// Используем composables
 const { selectedTheme, selectTheme } = useTheme()
+const { t, setLanguage, getCurrentLanguage, getCurrentLanguageData, initLanguage, languages } = useI18n()
+
+// Состояние выпадающего списка
+const isLanguageDropdownOpen = ref(false)
+
+// Функция переключения выпадающего списка
+const toggleLanguageDropdown = () => {
+  isLanguageDropdownOpen.value = !isLanguageDropdownOpen.value
+}
+
+// Функция выбора языка
+const selectLanguage = (language: string) => {
+  setLanguage(language)
+  isLanguageDropdownOpen.value = false
+}
+
+// Функции для получения текущего языка
+const getCurrentLanguageFlag = () => {
+  return getCurrentLanguageData.value?.flag || '🇺🇸'
+}
+
+const getCurrentLanguageName = () => {
+  return getCurrentLanguageData.value?.name || 'English'
+}
+
+// Инициализация языка при загрузке компонента
+onMounted(() => {
+  initLanguage()
+})
 
 const themeImages = {
   'system': theme1Image,
@@ -144,12 +237,13 @@ const themeImages = {
 
 
 // Content Styles
-.content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-left: 12px;
-}
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 12px;
+    margin-bottom: 200px;
+  }
 
 
 .theme-section {
@@ -162,7 +256,7 @@ const themeImages = {
 }
 
 .section-title {
-  margin-top: 48px; // mt-12
+  margin-top: 24px; // mt-12
   margin-left: 48px; // ml-12
   color: var(--text-primary);
   font-size: 25px;
@@ -287,6 +381,112 @@ const themeImages = {
   font-family: var(--font-sans);
   font-weight: bold;
   margin-left: 8px;
+}
+
+// Language Section Styles
+.language-section {
+  background-color: var(--bg-secondary);
+  width: 980px;
+  height: 200px;
+  border-radius: 25px;
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.language-dropdown {
+  position: relative;
+  margin-left: 48px;
+  margin-top: 16px;
+}
+
+.language-select-button {
+  width: 300px;
+  height: 56px;
+  background-color: rgba(67, 73, 86, 0);
+  border-radius: 15px;
+  color: var(--text-primary);
+  font-size: 20px;
+  font-family: var(--font-sans);
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: none;
+  cursor: pointer;
+  padding: 0 16px;
+
+  &:hover {
+    background-color: rgba(67, 73, 86, 1);
+  }
+}
+
+.selected-language {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.language-flag {
+  font-size: 24px;
+}
+
+.language-name {
+  color: var(--text-primary);
+  font-size: 20px;
+  font-family: var(--font-sans);
+  font-weight: bold;
+}
+
+.language-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 300px;
+  background-color: var(--bg-secondary);
+  border-radius: 15px;
+  border: 2px solid var(--text-secondary);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease-in-out;
+
+  &.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+}
+
+.language-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  border-radius: 13px;
+  margin: 4px;
+
+  &:hover {
+    background-color: rgba(67, 73, 86, 1);
+  }
+
+  &.active {
+    background-color: rgba(139, 92, 246, 0.2);
+    color: var(--primary-violet);
+  }
+
+  &:first-child {
+    border-radius: 13px 13px 0 0;
+  }
+
+  &:last-child {
+    border-radius: 0 0 13px 13px;
+  }
 }
 
 // Font Section Styles
