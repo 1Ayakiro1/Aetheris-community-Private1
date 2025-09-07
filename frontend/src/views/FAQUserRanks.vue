@@ -49,7 +49,7 @@
 .page-title {
   color: var(--text-primary);
   font-size: 30px;
-  font-family: sans-serif;
+  font-family: var(--font-sans-serif);
   font-weight: bold;
   margin-top: 20px;
   text-align: center;
@@ -81,7 +81,7 @@
   border-radius: 15px;
   color: var(--text-primary);
   font-size: 25px;
-  font-family: sans-serif;
+  font-family: var(--font-sans-serif);
   font-weight: bold;
   transition: all 0.3s ease-in-out;
   border: none;
@@ -104,7 +104,7 @@
 .content-title {
   color: var(--text-primary);
   font-size: 30px;
-  font-family: sans-serif;
+  font-family: var(--font-sans-serif);
   font-weight: bold;
   margin-top: 20px;
   text-align: center;

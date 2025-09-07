@@ -25,11 +25,7 @@
       <!-- Action Buttons -->
       <div class="action-buttons">
         <button class="edit-button">
-          <svg class="edit-icon" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M22.5 7.5L25 5L27.5 7.5L25 10L22.5 7.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M20 10L25 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M5 25L20 10L25 15L10 30L5 25Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+          <img src="/src/assets/imgs/pen.png" alt="Edit" class="edit-icon" width="30" height="30">
           <span class="edit-text">Edit</span>
         </button>
         
@@ -69,8 +65,9 @@
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  padding: 0 180px;
+  margin-left: 270px;
   margin-top: 40px;
+  width: 1365px;
 }
 
 /* Avatar */
@@ -193,9 +190,10 @@
 /* Profile Divider */
 .profile-divider {
   height: 2px;
-  width: 1400px;
+  width: 1360px;
   background-color: var(--btn-primary);
-  margin: 8px auto 0 180px;
+  margin-left: 270px;
+  margin-top: 20px;
 }
 
 /* Profile Content */

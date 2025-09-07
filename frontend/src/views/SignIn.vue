@@ -13,9 +13,10 @@
             type="text" 
             placeholder="Enter your nickname" 
             class="input-field"
-            :class="{ 'error': nicknameError }"
+            :class="{ 'error': !nicknameError.isValid }"
+            maxlength="24"
           >
-          <p v-if="nicknameError" class="error-message">Nickname is invalid</p>
+          <p v-if="!nicknameError.isValid" class="error-message">{{ nicknameError.message }}</p>
           
           <h2 class="field-label">Mail</h2>
           <input 
@@ -24,9 +25,10 @@
             type="email" 
             placeholder="Enter your mail" 
             class="input-field"
-            :class="{ 'error': emailError }"
+            :class="{ 'error': !emailError.isValid }"
+            maxlength="254"
           >
-          <p v-if="emailError" class="error-message">Email must contain @</p>
+          <p v-if="!emailError.isValid" class="error-message">{{ emailError.message }}</p>
           
           <h2 class="field-label">Password</h2>
           <input 
@@ -35,9 +37,10 @@
             type="password" 
             placeholder="Enter your password" 
             class="input-field"
-            :class="{ 'error': passwordError }"
+            :class="{ 'error': !passwordError.isValid }"
+            maxlength="48"
           >
-          <p v-if="passwordError" class="error-message">Password is invalid</p>
+          <p v-if="!passwordError.isValid" class="error-message">{{ passwordError.message }}</p>
           
           <p class="login-link">Or <router-link to="/login" class="link">log in</router-link></p>
           
@@ -50,44 +53,67 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import { useValidation, type ValidationResult } from '../composables/useValidation'
 
+const { sanitizeNickname, sanitizePassword, validateNickname, validatePassword, validateEmail } = useValidation()
+
+// Реактивные данные формы
 const nickname = ref('')
 const email = ref('')
 const password = ref('')
-const nicknameError = ref(false)
-const emailError = ref(false)
-const passwordError = ref(false)
 
-const validateNickname = (value: string): boolean => {
-  return value.length >= 3 && value.length <= 20
-}
+// Состояния ошибок валидации
+const nicknameError = ref<ValidationResult>({ isValid: true, message: '' })
+const emailError = ref<ValidationResult>({ isValid: true, message: '' })
+const passwordError = ref<ValidationResult>({ isValid: true, message: '' })
 
-const validateEmail = (value: string): boolean => {
-  return value.includes('@') && value.length > 5
-}
+// Валидация в реальном времени
+watch(nickname, (newValue) => {
+  const sanitized = sanitizeNickname(newValue)
+  if (sanitized !== newValue) {
+    nickname.value = sanitized
+  }
+  nicknameError.value = validateNickname(nickname.value)
+})
 
-const validatePassword = (value: string): boolean => {
-  return value.length >= 6
-}
+watch(email, (newValue) => {
+  emailError.value = validateEmail(newValue)
+})
+
+watch(password, (newValue) => {
+  const sanitized = sanitizePassword(newValue)
+  if (sanitized !== newValue) {
+    password.value = sanitized
+  }
+  passwordError.value = validatePassword(password.value)
+})
 
 const handleSignIn = () => {
-  const nicknameValid = validateNickname(nickname.value)
-  const emailValid = validateEmail(email.value.trim())
-  const passwordValid = validatePassword(password.value)
+  // Финальная валидация всех полей
+  const nicknameValidation = validateNickname(nickname.value)
+  const emailValidation = validateEmail(email.value)
+  const passwordValidation = validatePassword(password.value)
   
-  nicknameError.value = !nicknameValid
-  emailError.value = !emailValid
-  passwordError.value = !passwordValid
+  nicknameError.value = nicknameValidation
+  emailError.value = emailValidation
+  passwordError.value = passwordValidation
   
-  if (nicknameValid && emailValid && passwordValid) {
-    // Stub: send to backend
+  // Проверяем, что все поля валидны
+  const isFormValid = nicknameValidation.isValid && 
+                     emailValidation.isValid && 
+                     passwordValidation.isValid
+  
+  if (isFormValid) {
+    // Sending data to backend
     console.log('Sign up payload', {
       nickname: nickname.value,
       email: email.value,
       password: '[REDACTED]'
     })
     alert('Sign in request sent (stub). Hook this to your API.')
+  } else {
+    console.log('Form validation failed')
   }
 }
 </script>

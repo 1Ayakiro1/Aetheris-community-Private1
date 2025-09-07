@@ -378,7 +378,7 @@ onMounted(() => {
 }
 
 .header-title {
-  font-family: 'Comfortaa', sans-serif;
+  font-family: var(--font-comfortaa);
   font-size: 35px;
   font-weight: bold;
   color: var(--text-primary);
@@ -525,7 +525,7 @@ onMounted(() => {
 
 // Button text
 .button-text {
-  font-family: var(--font-primary);
+  font-family: var(--font-sans-serif);
   font-size: 23px;
   font-weight: bold;
   color: var(--text-primary);
@@ -627,7 +627,7 @@ onMounted(() => {
   width: 240px;
   height: 59px;
   color: var(--text-primary);
-  font-family: var(--font-primary);
+  font-family: var(--font-sans-serif);
   font-size: 23px;
   font-weight: bold;
   transition: background-color 0.3s ease-in-out;
@@ -644,7 +644,7 @@ onMounted(() => {
 }
 
 .panel-text {
-  font-family: var(--font-primary);
+  font-family: var(--font-sans-serif);
   font-size: 23px;
   font-weight: bold;
   color: var(--text-primary);

@@ -75,7 +75,7 @@
   margin-top: 16px;
   color: var(--text-primary);
   font-size: 30px;
-  font-family: sans-serif;
+  font-family: var(--font-sans-serif);
   font-weight: bold;
 }
 
@@ -118,7 +118,7 @@
 .block-title {
   color: var(--text-primary);
   font-size: 25px;
-  font-family: sans-serif;
+  font-family: var(--font-sans-serif);
   font-weight: bold;
   margin-top: 16px;
   margin-left: 48px;
@@ -146,7 +146,7 @@
   border-radius: 15px;
   color: var(--text-primary);
   font-size: 23px;
-  font-family: sans-serif;
+  font-family: var(--font-sans-serif);
   font-weight: bold;
   transition: all 0.3s ease-in-out;
   cursor: pointer;

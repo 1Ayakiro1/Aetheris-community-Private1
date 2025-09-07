@@ -2,6 +2,10 @@
 // Импорт шрифтов
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap');
 
+// Определение шрифтов
+$font-comfortaa: 'Comfortaa', cursive;
+$font-sans-serif: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+
 * {
   margin: 0;
   padding: 0;
@@ -33,11 +37,13 @@ html, body {
   --ico-color: #9BA4AE;
   
   // Шрифты
-  --font-primary: 'Comfortaa', sans-serif;
-  --font-secondary: 'Arial', sans-serif;
-  --font-heading: 'Comfortaa', sans-serif;
-  --font-body: 'Comfortaa', sans-serif;
-  --font-sans: 'Comfortaa', sans-serif;
+  --font-comfortaa: #{$font-comfortaa};
+  --font-sans-serif: #{$font-sans-serif};
+  --font-primary: var(--font-comfortaa);
+  --font-secondary: var(--font-sans-serif);
+  --font-heading: var(--font-comfortaa);
+  --font-body: var(--font-comfortaa);
+  --font-sans: var(--font-sans-serif);
 }
 
 // System theme (автоматически определяет светлую/темную)
@@ -56,11 +62,13 @@ html, body {
   --ico-color: #9BA4AE;
   
   // Шрифты
-  --font-primary: 'Comfortaa', sans-serif;
-  --font-secondary: 'Arial', sans-serif;
-  --font-heading: 'Comfortaa', sans-serif;
-  --font-body: 'Comfortaa', sans-serif;
-  --font-sans: 'Comfortaa', sans-serif;
+  --font-comfortaa: #{$font-comfortaa};
+  --font-sans-serif: #{$font-sans-serif};
+  --font-primary: var(--font-comfortaa);
+  --font-secondary: var(--font-sans-serif);
+  --font-heading: var(--font-comfortaa);
+  --font-body: var(--font-comfortaa);
+  --font-sans: var(--font-sans-serif);
 }
 
 // White theme
@@ -79,11 +87,13 @@ html, body {
   --ico-color: #1c1d1f;
   
   // Шрифты
-  --font-primary: 'Comfortaa', sans-serif;
-  --font-secondary: 'Arial', sans-serif;
-  --font-heading: 'Comfortaa', sans-serif;
-  --font-body: 'Comfortaa', sans-serif;
-  --font-sans: 'Comfortaa', sans-serif;
+  --font-comfortaa: #{$font-comfortaa};
+  --font-sans-serif: #{$font-sans-serif};
+  --font-primary: var(--font-comfortaa);
+  --font-secondary: var(--font-sans-serif);
+  --font-heading: var(--font-comfortaa);
+  --font-body: var(--font-comfortaa);
+  --font-sans: var(--font-sans-serif);
 }
 
 // Night Dark theme
@@ -102,11 +112,13 @@ html, body {
   --ico-color: #9BA4AE;
   
   // Шрифты
-  --font-primary: 'Comfortaa', sans-serif;
-  --font-secondary: 'Arial', sans-serif;
-  --font-heading: 'Comfortaa', sans-serif;
-  --font-body: 'Comfortaa', sans-serif;
-  --font-sans: 'Comfortaa', sans-serif;
+  --font-comfortaa: #{$font-comfortaa};
+  --font-sans-serif: #{$font-sans-serif};
+  --font-primary: var(--font-comfortaa);
+  --font-secondary: var(--font-sans-serif);
+  --font-heading: var(--font-comfortaa);
+  --font-body: var(--font-comfortaa);
+  --font-sans: var(--font-sans-serif);
 }
 
 .bg-bg-primary { background-color: var(--bg-primary); }

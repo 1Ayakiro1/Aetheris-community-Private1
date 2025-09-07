@@ -109,7 +109,7 @@
 }
 
 .site-subtitle {
-    font-family: sans-serif;
+    font-family: var(--font-comfortaa);
     font-size: 30px;
     font-weight: bold;
     margin-left: 30px;
@@ -163,7 +163,7 @@
 }
 
 .opensource-text {
-    font-family: sans-serif;
+    font-family: var(--font-comfortaa);
     font-size: 25px;
     font-weight: bold;
     margin-top: 30px;
@@ -203,7 +203,7 @@
 }
 
 .block-title {
-    font-family: sans-serif;
+    font-family: var(--font-comfortaa);
     font-size: 33px;
     font-weight: bold;
     margin-top: 50px;
@@ -211,7 +211,7 @@
 }
 
 .block-link {
-    font-family: sans-serif;
+    font-family: var(--font-comfortaa);
     font-size: 25px;
     font-weight: normal;
     color: var(--text-primary);

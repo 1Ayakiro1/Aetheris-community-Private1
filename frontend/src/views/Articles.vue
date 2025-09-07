@@ -57,16 +57,17 @@
         <!-- Similar Articles -->
         <div class="similar-articles-card">
           <div class="card-header">
+            <svg class="card-icon" width="25" height="27" viewBox="0 0 25 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M13.7083 1.41666L1.625 15.9167H12.5L11.2917 25.5833L23.375 11.0833H12.5L13.7083 1.41666Z" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
             <h2 class="card-title">Similar articles</h2>
           </div>
           
-          <div class="similar-list">
-            <p class="similar-item">same article</p>
-            <p class="similar-item">same article</p>
-            <p class="similar-item">same article</p>
-            <p class="similar-item">same article</p>
-            <p class="similar-item">same article</p>
-          </div>
+          <div class="similar-item">same article</div>
+          <div class="similar-item">same article</div>
+          <div class="similar-item">same article</div>
+          <div class="similar-item">same article</div>
+          <div class="similar-item">same article</div>
         </div>
       </div>
     </div>
@@ -174,8 +175,10 @@
   font-size: 25px;
   font-family: var(--font-sans);
   font-weight: 500;
-  margin-left: 16px;
-  margin: 0;
+  margin-left: 10px;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-right: 0;
 }
 
 .info-item {
@@ -208,11 +211,8 @@
   background-color: var(--bg-secondary);
   margin-top: 16px;
   border-radius: 30px;
-}
-
-.similar-list {
-  margin-left: 24px;
-  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
 }
 
 .similar-item {
@@ -221,6 +221,8 @@
   font-family: var(--font-sans);
   font-weight: 500;
   margin-top: 24px;
-  margin: 0;
+  margin-left: 24px;
+  margin-bottom: 0;
+  margin-right: 0;
 }
 </style>

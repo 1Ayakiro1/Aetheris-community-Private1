@@ -69,7 +69,7 @@
         Join our community to create!
       </h2>
       
-      <router-link to="/sign-in" class="register-link">
+      <router-link to="/signin" class="register-link">
         <button class="register-button">
           <p class="register-text">
             Register
