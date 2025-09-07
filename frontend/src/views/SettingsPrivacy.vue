@@ -1046,14 +1046,18 @@ const lockProfile = async () => {
   border: 2px solid var(--text-secondary);
   border-radius: 18px;
   background-color: var(--btn-primary);
-  color: var(--text-primary);
+  color: #ffffff;
   font-size: 19px;
   font-family: var(--font-sans);
+  font-weight: 600;
   transition: all 0.3s ease;
+  opacity: 1;
   
   &:focus {
     outline: none;
     border-color: var(--primary-violet);
+    color: #ffffff;
+    opacity: 1;
   }
   
   &.error {
@@ -1062,6 +1066,7 @@ const lockProfile = async () => {
   
   &::placeholder {
     color: var(--text-secondary);
+    opacity: 0.8;
   }
 }
 
@@ -1071,15 +1076,19 @@ const lockProfile = async () => {
   border: 2px solid var(--text-secondary);
   border-radius: 18px;
   background-color: var(--btn-primary);
-  color: var(--text-primary);
+  color: #ffffff;
   font-size: 19px;
   font-family: var(--font-sans);
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  opacity: 1;
   
   &:focus {
     outline: none;
     border-color: var(--primary-violet);
+    color: #ffffff;
+    opacity: 1;
   }
 }
 
