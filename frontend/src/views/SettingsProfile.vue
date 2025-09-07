@@ -37,17 +37,24 @@
             type="text" 
             placeholder="Enter your nickname" 
             class="nickname-input"
+            :class="{ 'error': nicknameError }"
             v-model="nickname"
           />
+          <p v-if="nicknameError" class="error-message">{{ nicknameError }}</p>
           
           <!-- Bio Section -->
-          <h1 class="section-title">Bio</h1>
-          <h2 class="section-subtitle">Add information about you and your hobbies and skills</h2>
-          <textarea 
-            placeholder="Enter your bio" 
-            class="bio-input"
-            v-model="bio"
-          ></textarea>
+          <div class="bio-section">
+            <h1 class="section-title">Bio</h1>
+            <h2 class="section-subtitle">Add information about you and your hobbies and skills</h2>
+            <textarea 
+              placeholder="Enter your bio" 
+              class="bio-input"
+              :class="{ 'error': bioError }"
+              v-model="bio"
+            ></textarea>
+            <p v-if="bioError" class="error-message">{{ bioError }}</p>
+            <p class="character-count">{{ bio.length }}/300</p>
+          </div>
         </div>
       </div>
     </div>
@@ -57,11 +64,59 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import SettingsSidebar from '@/components/SettingsSidebar.vue'
 
 const nickname = ref('')
 const bio = ref('')
+
+// Состояния ошибок валидации
+const nicknameError = ref('')
+const bioError = ref('')
+
+// Валидация никнейма
+const validateNickname = (value: string): string => {
+  if (!value.trim()) {
+    return 'Nickname is required'
+  }
+  
+  if (value.length > 50) {
+    return 'Nickname must be no more than 50 characters'
+  }
+  
+  // Разрешенные символы: базовая латиница и кириллица
+  const allowedPattern = /^[a-zA-Zа-яА-ЯёЁ\s]+$/
+  if (!allowedPattern.test(value)) {
+    return 'Nickname can only contain Latin letters, Cyrillic letters and spaces'
+  }
+  
+  return ''
+}
+
+// Валидация описания
+const validateBio = (value: string): string => {
+  if (value.length > 300) {
+    return 'Bio must be no more than 300 characters'
+  }
+  
+  return ''
+}
+
+
+// Валидация в реальном времени
+watch(nickname, (newValue) => {
+  // Убираем недопустимые символы, но не обрезаем по длине
+  const sanitized = newValue.replace(/[^a-zA-Zа-яА-ЯёЁ\s]/g, '')
+  if (sanitized !== newValue) {
+    nickname.value = sanitized
+  }
+  nicknameError.value = validateNickname(nickname.value)
+})
+
+watch(bio, (newValue) => {
+  // Не обрезаем текст автоматически, только показываем ошибку
+  bioError.value = validateBio(newValue)
+})
 </script>
 
 <style scoped lang="scss">
@@ -220,6 +275,10 @@ const bio = ref('')
     outline: none;
     border: 2px solid var(--primary-blue);
   }
+  
+  &.error {
+    border: 2px solid #FF3B3B;
+  }
 }
 
 .bio-input {
@@ -245,5 +304,31 @@ const bio = ref('')
     outline: none;
     border: 2px solid var(--primary-blue);
   }
+  
+  &.error {
+    border: 2px solid #FF3B3B;
+  }
+}
+
+.error-message {
+  color: #FF3B3B;
+  font-size: 14px;
+  font-family: var(--font-sans);
+  margin-top: 4px;
+  margin-left: 48px;
+  margin-bottom: 0;
+}
+
+.character-count {
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-family: var(--font-sans);
+  margin-top: 4px;
+  margin-left: 48px;
+  margin-bottom: 0;
+}
+
+.bio-section {
+  // Секция без дополнительных стилей
 }
 </style>

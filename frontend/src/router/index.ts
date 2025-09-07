@@ -49,6 +49,7 @@ const routes = [
   { path: '/news', name: 'News', component: () => import('../views/News.vue') },
   { path: '/shop', name: 'Shop', component: () => import('../views/Shop.vue') },
   { path: '/analytics', name: 'Analytics', component: () => import('../views/Analytics.vue') },
+  { path: '/balance', name: 'Balance', component: () => import('../views/Balance.vue') },
 ];
 
 const router = createRouter({

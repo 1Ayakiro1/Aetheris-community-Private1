@@ -181,7 +181,7 @@
           </button>
         </router-link>
 
-        <router-link to="/settings/subscription">
+        <router-link to="/balance">
           <button class="panel-button">
             <BalanceIcon class="panel-icon" />
             <p class="panel-text">Balance</p>

@@ -66,6 +66,7 @@ const deleteAllSessions = () => {
   width: 980px;
   height: 900px;
   border-radius: 25px;
+  margin-bottom: 200px;
   display: flex;
   flex-direction: column;
 }
@@ -103,9 +104,7 @@ const deleteAllSessions = () => {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-top: 200px;
-  align-items: center;
-  flex: 1;
+  margin-top: 50px;
 }
 
 .session-placeholder {
@@ -113,7 +112,6 @@ const deleteAllSessions = () => {
   width: 890px;
   height: 139px;
   border-radius: 25px;
-  margin-top: 40px;
   margin-left: 48px;
 }
 
@@ -136,7 +134,7 @@ const deleteAllSessions = () => {
   margin-top: 16px;
 
   &:hover {
-    background-color: rgba(67, 73, 86, 1);
+    background-color: var(--text-red);
   }
 }
 </style>
