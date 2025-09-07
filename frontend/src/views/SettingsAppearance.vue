@@ -154,15 +154,73 @@
           <h1 class="section-title">{{ t('settings.appearance.font') }}</h1>
           <h2 class="section-subtitle">{{ t('settings.appearance.font.subtitle') }}</h2>
           
-          <button class="font-select-button">
-            <p class="font-select-text">{{ t('settings.appearance.font.select') }}</p>
-            <svg class="dropdown-icon" width="22" height="12" viewBox="0 0 25 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M2.25 2.375L12.5 12.625L22.75 2.375" stroke="#9BA4AE" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
+          <div class="font-dropdown">
+            <button 
+              class="font-select-button"
+              @click="toggleFontDropdown"
+            >
+              <p class="font-select-text">{{ getCurrentFontName() }}</p>
+              <svg class="dropdown-icon" width="22" height="12" viewBox="0 0 25 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2.25 2.375L12.5 12.625L22.75 2.375" stroke="#9BA4AE" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+
+            <div 
+              class="font-dropdown-menu"
+              :class="{ 'open': isFontDropdownOpen }"
+            >
+              <div 
+                class="font-option"
+                :class="{ 'active': selectedFont === 'comfortaa' }"
+                @click="selectFont('comfortaa')"
+              >
+                <span class="font-name">Comfortaa</span>
+                <span class="font-sample" style="font-family: 'Comfortaa', cursive;">Aa</span>
+              </div>
+              
+              <div 
+                class="font-option"
+                :class="{ 'active': selectedFont === 'roboto' }"
+                @click="selectFont('roboto')"
+              >
+                <span class="font-name">Roboto</span>
+                <span class="font-sample" style="font-family: 'Roboto', sans-serif;">Aa</span>
+              </div>
+              
+              <div 
+                class="font-option"
+                :class="{ 'active': selectedFont === 'opensans' }"
+                @click="selectFont('opensans')"
+              >
+                <span class="font-name">Open Sans</span>
+                <span class="font-sample" style="font-family: 'Open Sans', sans-serif;">Aa</span>
+              </div>
+              
+              <div 
+                class="font-option"
+                :class="{ 'active': selectedFont === 'lato' }"
+                @click="selectFont('lato')"
+              >
+                <span class="font-name">Lato</span>
+                <span class="font-sample" style="font-family: 'Lato', sans-serif;">Aa</span>
+              </div>
+              
+              <div 
+                class="font-option"
+                :class="{ 'active': selectedFont === 'montserrat' }"
+                @click="selectFont('montserrat')"
+              >
+                <span class="font-name">Montserrat</span>
+                <span class="font-sample" style="font-family: 'Montserrat', sans-serif;">Aa</span>
+              </div>
+            </div>
+          </div>
 
           <div class="font-preview">
-            <h1 class="font-preview-text">{{ t('settings.appearance.font.preview') }}</h1>
+            <h1 
+              class="font-preview-text"
+              :style="{ fontFamily: getCurrentFontFamily() }"
+            >{{ t('settings.appearance.font.preview') }}</h1>
           </div>
         </div>
       </div>
@@ -186,18 +244,54 @@ import SettingsSidebar from '@/components/SettingsSidebar.vue'
 const { selectedTheme, selectTheme } = useTheme()
 const { t, setLanguage, getCurrentLanguage, getCurrentLanguageData, initLanguage, languages } = useI18n()
 
-// Состояние выпадающего списка
+// Состояние выпадающих списков
 const isLanguageDropdownOpen = ref(false)
+const isFontDropdownOpen = ref(false)
 
-// Функция переключения выпадающего списка
+// Состояние выбранного шрифта
+const selectedFont = ref<FontKey>('comfortaa')
+
+// Типы для шрифтов
+interface FontData {
+  name: string
+  family: string
+}
+
+type FontKey = 'comfortaa' | 'roboto' | 'opensans' | 'lato' | 'montserrat'
+
+// Доступные шрифты
+const fonts: Record<FontKey, FontData> = {
+  'comfortaa': { name: 'Comfortaa', family: "'Comfortaa', cursive" },
+  'roboto': { name: 'Roboto', family: "'Roboto', sans-serif" },
+  'opensans': { name: 'Open Sans', family: "'Open Sans', sans-serif" },
+  'lato': { name: 'Lato', family: "'Lato', sans-serif" },
+  'montserrat': { name: 'Montserrat', family: "'Montserrat', sans-serif" }
+}
+
+// Функция переключения выпадающего списка языков
 const toggleLanguageDropdown = () => {
   isLanguageDropdownOpen.value = !isLanguageDropdownOpen.value
+  isFontDropdownOpen.value = false // Закрываем другой список
+}
+
+// Функция переключения выпадающего списка шрифтов
+const toggleFontDropdown = () => {
+  isFontDropdownOpen.value = !isFontDropdownOpen.value
+  isLanguageDropdownOpen.value = false // Закрываем другой список
 }
 
 // Функция выбора языка
 const selectLanguage = (language: string) => {
   setLanguage(language)
   isLanguageDropdownOpen.value = false
+}
+
+// Функция выбора шрифта
+const selectFont = (font: FontKey) => {
+  selectedFont.value = font
+  isFontDropdownOpen.value = false
+  // Сохраняем выбор в localStorage
+  localStorage.setItem('selected-font', font)
 }
 
 // Функции для получения текущего языка
@@ -209,9 +303,24 @@ const getCurrentLanguageName = () => {
   return getCurrentLanguageData.value?.name || 'English'
 }
 
-// Инициализация языка при загрузке компонента
+// Функции для получения текущего шрифта
+const getCurrentFontName = () => {
+  return fonts[selectedFont.value].name
+}
+
+const getCurrentFontFamily = () => {
+  return fonts[selectedFont.value].family
+}
+
+// Инициализация языка и шрифта при загрузке компонента
 onMounted(() => {
   initLanguage()
+  
+  // Инициализация шрифта из localStorage
+  const savedFont = localStorage.getItem('selected-font') as FontKey
+  if (savedFont && fonts[savedFont]) {
+    selectedFont.value = savedFont
+  }
 })
 
 const themeImages = {
@@ -498,6 +607,12 @@ const themeImages = {
   margin-top: 12px;
 }
 
+.font-dropdown {
+  position: relative;
+  margin-left: 48px;
+  margin-top: 16px;
+}
+
 .font-select-button {
   width: 200px;
   height: 47px;
@@ -507,13 +622,13 @@ const themeImages = {
   font-size: 20px;
   text-align: center;
   color: var(--text-third);
-  margin-top: 32px; // mt-8
-  margin-left: 48px; // ml-12
   display: flex;
   align-items: center;
+  justify-content: space-between;
   border: none;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
+  padding: 0 16px;
 
   &:hover {
     background-color: rgba(67, 73, 86, 1);
@@ -522,11 +637,76 @@ const themeImages = {
 
 .font-select-text {
   color: var(--text-primary);
-  margin-left: 32px; // ml-8
+  font-size: 20px;
+  font-family: var(--font-sans);
+  font-weight: bold;
 }
 
 .dropdown-icon {
   margin-left: 16px; // ml-4
+}
+
+.font-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 200px;
+  background-color: var(--bg-secondary);
+  border-radius: 20px;
+  border: 2px solid var(--text-secondary);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease-in-out;
+
+  &.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+}
+
+.font-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  border-radius: 18px;
+  margin: 4px;
+
+  &:hover {
+    background-color: rgba(67, 73, 86, 1);
+  }
+
+  &.active {
+    background-color: rgba(139, 92, 246, 0.2);
+    color: var(--primary-violet);
+  }
+
+  &:first-child {
+    border-radius: 18px 18px 0 0;
+  }
+
+  &:last-child {
+    border-radius: 0 0 18px 18px;
+  }
+}
+
+.font-name {
+  color: var(--text-primary);
+  font-size: 18px;
+  font-family: var(--font-sans);
+  font-weight: bold;
+}
+
+.font-sample {
+  color: var(--text-primary);
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .font-preview {
@@ -543,7 +723,6 @@ const themeImages = {
 .font-preview-text {
   color: var(--text-primary);
   font-size: 18px;
-  font-family: var(--font-sans);
   font-weight: 600;
   margin-top: 24px; // mt-6
   text-align: center;

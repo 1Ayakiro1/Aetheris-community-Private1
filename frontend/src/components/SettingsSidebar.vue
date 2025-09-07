@@ -82,7 +82,7 @@
   width: 395px;
   height: 685px;
   background-color: var(--bg-secondary);
-  margin-left: 176px; // ml-44
+  margin-left: 270px;
   border-radius: 25px;
   display: flex;
   flex-direction: column;
