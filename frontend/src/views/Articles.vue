@@ -13,17 +13,46 @@
             <path d="M35.8507 35.75L27.6701 27.5937M32.0895 17C32.0895 25.2843 25.3538 32 17.0448 32C8.73577 32 2 25.2843 2 17C2 8.71573 8.73577 2 17.0448 2C25.3538 2 32.0895 8.71573 32.0895 17Z" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           <!-- Search Bar -->
-          <input type="text" class="search-input" placeholder="Search anything">
+          <input 
+            type="text" 
+            class="search-input" 
+            placeholder="Find articles..."
+            :value="searchQuery"
+            @input="onSearchInput"
+          >
         </div>
         
         <!-- Articles Container -->
         <div class="articles-container">
-          <ArticleCard />
-          <ArticleCard />
-          <ArticleCard />
+          <!-- Loading State -->
+          <div v-if="loading" class="loading-container">
+            <div class="loading-spinner"></div>
+            <p class="loading-text" >Loading articles...</p>
+          </div>
+          
+          <!-- Empty State -->
+          <div v-else-if="isEmpty" class="empty-state">
+            <h3>Статьи не найдены</h3>
+            <p>Попробуйте изменить фильтры или поисковый запрос</p>
+            <button @click="resetFilters" class="reset-filters-btn">
+              Сбросить фильтры
+            </button>
+          </div>
+          
+          <!-- Articles List -->
+          <template v-else>
+            <ArticleCard 
+              v-for="article in articles" 
+              :key="article.id"
+              :article="article"
+              @tag-click="handleTagClick"
+              @author-click="handleAuthorClick"
+              @article-click="handleArticleClick"
+            />
+          </template>
           
           <!-- Pagination -->
-          <div class="pagination-container">
+          <div v-if="!loading && !isEmpty" class="pagination-container">
             <Paginator 
               v-model:first="first" 
               :rows="rows" 
@@ -104,22 +133,93 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, watch } from 'vue'
 import ArticleCard from '@/components/ArticleCard.vue'
 import Paginator from 'primevue/paginator'
+import { useArticles } from '@/composables/useArticles'
+
+// Используем composable для работы со статьями
+const {
+  articles,
+  loading,
+  error,
+  total,
+  currentPage,
+  hasMore,
+  isEmpty,
+  fetchArticles,
+  loadMore,
+  searchArticles,
+  filterByTag,
+  filterByAuthor,
+  resetFilters
+} = useArticles()
 
 const first = ref(0)
 const rows = ref(10)
 const totalRecords = ref(100)
 const showBackToTop = ref(false)
 const buttonOpacity = ref(1)
+const searchQuery = ref('')
 
-const onPageChange = (event: any) => {
+// Обновляем totalRecords при изменении total
+watch(total, (newTotal) => {
+  totalRecords.value = newTotal
+})
+
+const onPageChange = async (event: any) => {
   first.value = event.first
   rows.value = event.rows
   console.log('Page changed:', event)
-  // Here will be the logic for loading articles for the new page
+  
+  // Загружаем статьи для новой страницы
+  await fetchArticles({}, { 
+    page: Math.floor(event.first / event.rows) + 1, 
+    limit: event.rows 
+  })
 }
+
+// Обработчики событий ArticleCard
+const handleTagClick = async (tag: string) => {
+  console.log('Клик по тегу:', tag)
+  await filterByTag(tag)
+}
+
+const handleAuthorClick = async (authorId: number) => {
+  console.log('Клик по автору:', authorId)
+  await filterByAuthor(authorId)
+}
+
+const handleArticleClick = (articleId: number) => {
+  console.log('Клик по статье:', articleId)
+  // Здесь можно добавить переход к полной статье
+  // router.push(`/article/${articleId}`)
+}
+
+// Обработчик поиска
+const handleSearch = async () => {
+  if (searchQuery.value.trim()) {
+    await searchArticles(searchQuery.value.trim())
+  } else {
+    await resetFilters()
+  }
+}
+
+// Обработчик изменения поискового запроса
+const onSearchInput = async (event: Event) => {
+  const target = event.target as HTMLInputElement
+  searchQuery.value = target.value
+  
+  // Дебаунс для поиска
+  if (searchTimeout.value) {
+    clearTimeout(searchTimeout.value)
+  }
+  searchTimeout.value = setTimeout(() => {
+    handleSearch()
+  }, 500)
+}
+
+const searchTimeout = ref<ReturnType<typeof setTimeout> | null>(null)
 
 const scrollToTop = () => {
   window.scrollTo({
@@ -211,8 +311,10 @@ const handleScroll = () => {
   }
 }
 
-onMounted(() => {
+onMounted(async () => {
   window.addEventListener('scroll', handleScroll)
+  // Загружаем статьи при монтировании компонента
+  await fetchArticles()
 })
 
 onUnmounted(() => {
@@ -286,6 +388,13 @@ onUnmounted(() => {
 
 .search-input::placeholder {
   color: var(--text-third);
+}
+
+.loading-text {
+  color: var(--text-secondary);
+  font-size: 20px;
+  font-family: var(--font-sans);
+  font-weight: 700;
 }
 
 /* Articles Container */
@@ -394,6 +503,69 @@ onUnmounted(() => {
 /* Button above footer - styles applied via JavaScript */
 .back-to-top-btn.above-footer {
   transition: opacity 0.5s ease !important;
+}
+
+/* Loading and Empty States */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: var(--text-secondary);
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--bg-secondary);
+  border-top: 4px solid var(--btn-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.empty-state h3 {
+  color: var(--text-primary);
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.empty-state p {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.reset-filters-btn {
+  background-color: var(--btn-primary);
+  color: var(--text-primary);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.reset-filters-btn:hover {
+  background-color: var(--btn-primary-hover);
+  transform: translateY(-1px);
 }
 
 /* Second Right Block - Sidebar Section */

@@ -1,0 +1,279 @@
+import { ref, computed } from 'vue'
+import type { Article, ArticlesResponse, ArticleFilters, PaginationParams } from '../types/article'
+
+// Состояние для статей
+const articles = ref<Article[]>([])
+const loading = ref(true) // Начинаем с загрузки
+const error = ref<string | null>(null)
+const total = ref(0)
+const currentPage = ref(1)
+const hasMore = ref(false)
+const initialized = ref(false) // Флаг инициализации
+
+// Фильтры
+const filters = ref<ArticleFilters>({})
+const pagination = ref<PaginationParams>({
+  page: 1,
+  limit: 10,
+  sortBy: 'createdAt',
+  sortOrder: 'desc'
+})
+
+export function useArticles() {
+  // Получение статей с сервера
+  const fetchArticles = async (newFilters?: Partial<ArticleFilters>, newPagination?: Partial<PaginationParams>) => {
+    loading.value = true
+    error.value = null
+
+    try {
+      // Обновляем фильтры и пагинацию
+      if (newFilters) {
+        filters.value = { ...filters.value, ...newFilters }
+      }
+      if (newPagination) {
+        pagination.value = { ...pagination.value, ...newPagination }
+      }
+
+      // Здесь должен быть реальный API вызов
+      // const response = await api.getArticles(filters.value, pagination.value)
+      
+      // Имитируем задержку сети
+      await new Promise(resolve => setTimeout(resolve, 500))
+      
+      // Пока используем моковые данные
+      const mockResponse: ArticlesResponse = {
+        articles: generateMockArticles(pagination.value.limit, pagination.value.page),
+        total: 100,
+        page: pagination.value.page,
+        limit: pagination.value.limit,
+        hasMore: pagination.value.page < 10
+      }
+
+      // Всегда заменяем статьи при загрузке новой страницы
+      articles.value = mockResponse.articles
+
+      total.value = mockResponse.total
+      currentPage.value = mockResponse.page
+      hasMore.value = mockResponse.hasMore
+      initialized.value = true
+
+    } catch (err) {
+      error.value = err instanceof Error ? err.message : 'Произошла ошибка при загрузке статей'
+      console.error('Ошибка загрузки статей:', err)
+      initialized.value = true
+    } finally {
+      loading.value = false
+    }
+  }
+
+  // Загрузка следующей страницы (для бесконечной прокрутки)
+  const loadMore = async () => {
+    if (hasMore.value && !loading.value) {
+      const nextPage = currentPage.value + 1
+      loading.value = true
+      error.value = null
+
+      try {
+        // Генерируем моковые данные для следующей страницы
+        const mockResponse: ArticlesResponse = {
+          articles: generateMockArticles(pagination.value.limit, nextPage),
+          total: 100,
+          page: nextPage,
+          limit: pagination.value.limit,
+          hasMore: nextPage < 10
+        }
+
+        // Добавляем к существующим статьям (для бесконечной прокрутки)
+        articles.value.push(...mockResponse.articles)
+        total.value = mockResponse.total
+        currentPage.value = mockResponse.page
+        hasMore.value = mockResponse.hasMore
+
+      } catch (err) {
+        error.value = err instanceof Error ? err.message : 'Произошла ошибка при загрузке статей'
+        console.error('Ошибка загрузки статей:', err)
+      } finally {
+        loading.value = false
+      }
+    }
+  }
+
+  // Обновление фильтров
+  const updateFilters = async (newFilters: Partial<ArticleFilters>) => {
+    await fetchArticles(newFilters, { page: 1 })
+  }
+
+  // Поиск статей
+  const searchArticles = async (query: string) => {
+    await updateFilters({ search: query })
+  }
+
+  // Фильтрация по тегам
+  const filterByTag = async (tag: string) => {
+    const currentTags = filters.value.tags || []
+    const newTags = currentTags.includes(tag) 
+      ? currentTags.filter(t => t !== tag)
+      : [...currentTags, tag]
+    
+    await updateFilters({ tags: newTags })
+  }
+
+  // Фильтрация по автору
+  const filterByAuthor = async (authorId: number) => {
+    await updateFilters({ authorId })
+  }
+
+  // Сброс фильтров
+  const resetFilters = async () => {
+    filters.value = {}
+    await fetchArticles({}, { page: 1 })
+  }
+
+  // Получение статьи по ID
+  const getArticleById = async (id: number): Promise<Article | null> => {
+    try {
+      // Здесь должен быть реальный API вызов
+      // const response = await api.getArticle(id)
+      
+      // Пока возвращаем моковую статью
+      return generateMockArticle(id)
+    } catch (err) {
+      console.error('Ошибка загрузки статьи:', err)
+      return null
+    }
+  }
+
+  // Вычисляемые свойства
+  const filteredArticles = computed(() => {
+    let result = articles.value
+
+    // Применяем фильтры на клиенте (если нужно)
+    if (filters.value.search) {
+      const searchLower = filters.value.search.toLowerCase()
+      result = result.filter(article => 
+        article.title.toLowerCase().includes(searchLower) ||
+        article.content.toLowerCase().includes(searchLower) ||
+        article.tags.some(tag => tag.toLowerCase().includes(searchLower))
+      )
+    }
+
+    if (filters.value.tags && filters.value.tags.length > 0) {
+      result = result.filter(article =>
+        filters.value.tags!.some(tag => article.tags.includes(tag))
+      )
+    }
+
+    if (filters.value.authorId) {
+      result = result.filter(article => article.author.id === filters.value.authorId)
+    }
+
+    if (filters.value.status) {
+      result = result.filter(article => article.status === filters.value.status)
+    }
+
+    return result
+  })
+
+  const isEmpty = computed(() => articles.value.length === 0 && !loading.value && initialized.value)
+  const isLoading = computed(() => loading.value)
+  const hasError = computed(() => error.value !== null)
+
+  return {
+    // Состояние
+    articles: filteredArticles,
+    loading: isLoading,
+    error,
+    total,
+    currentPage,
+    hasMore,
+    filters,
+    pagination,
+    initialized,
+
+    // Вычисляемые свойства
+    isEmpty,
+    hasError,
+
+    // Методы
+    fetchArticles,
+    loadMore,
+    updateFilters,
+    searchArticles,
+    filterByTag,
+    filterByAuthor,
+    resetFilters,
+    getArticleById
+  }
+}
+
+// Функция для генерации моковых данных
+function generateMockArticles(count: number, page: number = 1): Article[] {
+  const mockArticles: Article[] = []
+  const startId = (page - 1) * count + 1
+  
+  for (let i = 0; i < count; i++) {
+    mockArticles.push(generateMockArticle(startId + i))
+  }
+  
+  return mockArticles
+}
+
+function generateMockArticle(id: number): Article {
+  const authors = [
+    { id: 1, username: 'Аякиро', avatar: 'https://via.placeholder.com/85x85/434956/FFFFFF?text=A' },
+    { id: 2, username: 'Developer', avatar: 'https://via.placeholder.com/85x85/6366f1/FFFFFF?text=D' },
+    { id: 3, username: 'Designer', avatar: 'https://via.placeholder.com/85x85/10b981/FFFFFF?text=D' },
+    { id: 4, username: 'Anonymous', avatar: undefined },
+    { id: 5, username: 'Guest', avatar: undefined },
+    { id: 6, username: 'NewUser', avatar: undefined }
+  ]
+
+  const tags = [
+    ['Vue.js', 'TypeScript', 'Frontend'],
+    ['React', 'JavaScript', 'Web'],
+    ['Node.js', 'Backend', 'API'],
+    ['CSS', 'Design', 'UI/UX'],
+    ['Python', 'Django', 'Database']
+  ]
+
+  const titles = [
+    'Как создать современное веб-приложение',
+    'Основы TypeScript для начинающих',
+    'Лучшие практики Vue.js разработки',
+    'Создание адаптивного дизайна',
+    'Оптимизация производительности веб-приложений',
+    'Введение в React и его экосистему',
+    'Современные подходы к CSS',
+    'Работа с базами данных в Node.js',
+    'Микросервисная архитектура',
+    'DevOps практики для разработчиков',
+    'Тестирование в JavaScript',
+    'Паттерны проектирования в веб-разработке',
+    'Безопасность веб-приложений',
+    'Мобильная разработка с React Native',
+    'GraphQL vs REST API'
+  ]
+
+  const author = authors[id % authors.length]
+  const articleTags = tags[id % tags.length]
+  const title = titles[id % titles.length]
+
+  return {
+    id,
+    title,
+    content: `Это полное содержание статьи номер ${id}. Здесь будет подробное описание темы, примеры кода, объяснения и много другой полезной информации для читателей.`,
+    excerpt: `Краткое описание статьи номер ${id} с основными моментами и ключевыми идеями.`,
+    author,
+    tags: articleTags,
+    createdAt: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000), // случайная дата в последние 30 дней
+    updatedAt: new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000), // случайная дата в последние 7 дней
+    publishedAt: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000),
+    status: 'published' as const,
+    views: Math.floor(Math.random() * 5000) + 100,
+    likes: Math.floor(Math.random() * 200) + 10,
+    commentsCount: Math.floor(Math.random() * 50),
+    featured: Math.random() > 0.8,
+    category: ['Tutorial', 'Guide', 'Tips', 'News'][Math.floor(Math.random() * 4)],
+    readingTime: Math.floor(Math.random() * 15) + 5
+  }
+}
