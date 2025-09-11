@@ -12,8 +12,8 @@
           <div v-else class="avatar-placeholder">
             <svg 
               class="question-icon" 
-              width="32" 
-              height="32" 
+              width="22" 
+              height="22" 
               viewBox="0 0 24 24" 
               fill="none" 
               xmlns="http://www.w3.org/2000/svg"
@@ -104,21 +104,51 @@
                 </button>
                 
                 <button class="action-btn dislike-btn" @click.stop="onDislike" :class="{ 'active': isDisliked }">
-                    <i class="pi pi-thumbs-down"></i>
+                    <svg class="dislike-icon" :class="{ 'filled': isDisliked }" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17" 
+                              stroke="currentColor" 
+                              stroke-width="2" 
+                              stroke-linecap="round" 
+                              stroke-linejoin="round"
+                              :fill="isDisliked ? 'currentColor' : 'none'"
+                        />
+                    </svg>
                     <span class="action-count">{{ dislikesCount }}</span>
                 </button>
                 
-                <button class="action-btn comment-btn" @click.stop="onComment">
-                    <i class="pi pi-comment"></i>
+                <button class="action-btn comment-btn" @click.stop="onComment" :class="{ 'active': isCommentsOpen }">
+                    <svg class="comment-icon" :class="{ 'filled': isCommentsOpen }" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" 
+                              stroke="currentColor" 
+                              stroke-width="2" 
+                              stroke-linecap="round" 
+                              stroke-linejoin="round"
+                              :fill="isCommentsOpen ? 'currentColor' : 'none'"
+                        />
+                    </svg>
                     <span class="action-count">{{ commentsCount }}</span>
                 </button>
                 
                 <button class="action-btn bookmark-btn" @click.stop="onBookmark" :class="{ 'active': isBookmarked }">
-                    <i class="pi pi-bookmark" :class="{ 'pi-bookmark-fill': isBookmarked }"></i>
+                    <svg class="bookmark-icon" :class="{ 'filled': isBookmarked }" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" 
+                              stroke="currentColor" 
+                              stroke-width="2" 
+                              stroke-linecap="round" 
+                              stroke-linejoin="round"
+                              :fill="isBookmarked ? 'currentColor' : 'none'"
+                        />
+                    </svg>
                 </button>
                 
-                <button class="action-btn share-btn" @click.stop="onShare">
-                    <i class="pi pi-share-alt"></i>
+                <button class="action-btn share-btn" @click.stop="onShare" :class="{ 'active': isShared }">
+                    <svg class="share-icon" :class="{ 'filled': isShared }" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="18" cy="5" r="3" stroke="currentColor" stroke-width="2" :fill="isShared ? 'currentColor' : 'none'"/>
+                        <circle cx="6" cy="12" r="3" stroke="currentColor" stroke-width="2" :fill="isShared ? 'currentColor' : 'none'"/>
+                        <circle cx="18" cy="19" r="3" stroke="currentColor" stroke-width="2" :fill="isShared ? 'currentColor' : 'none'"/>
+                        <path d="m8.59 13.51 6.83 3.98" stroke="currentColor" stroke-width="2"/>
+                        <path d="m15.41 6.51-6.82 3.98" stroke="currentColor" stroke-width="2"/>
+                    </svg>
                 </button>
             </div>
         </div>
@@ -145,6 +175,8 @@ const emit = defineEmits<ArticleCardEmits>()
 const isLiked = ref(false)
 const isDisliked = ref(false)
 const isBookmarked = ref(false)
+const isCommentsOpen = ref(false)
+const isShared = ref(false)
 const likesCount = ref(props.article.likes || 0)
 const dislikesCount = ref(props.article.dislikes || 0)
 const commentsCount = ref(props.article.comments || 0)
@@ -211,6 +243,8 @@ const onDislike = () => {
 }
 
 const onComment = () => {
+  // Переключаем состояние комментариев
+  isCommentsOpen.value = !isCommentsOpen.value
   // Переход к комментариям или открытие модального окна
   emit('articleClick', props.article.id)
 }
@@ -221,6 +255,12 @@ const onBookmark = () => {
 }
 
 const onShare = () => {
+  // Активируем состояние "поделился" на короткое время
+  isShared.value = true
+  setTimeout(() => {
+    isShared.value = false
+  }, 1000) // Возвращаем обратно через 1 секунду
+  
   // Логика для шаринга статьи
   if (navigator.share) {
     navigator.share({
@@ -262,11 +302,11 @@ const onShare = () => {
 }
 
 .logo {
-    width: 85px;
+    width: 60px; /* Уменьшено с 85px на 30% */
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 85px;
+    height: 60px; /* Уменьшено с 85px на 30% */
     background-color: #434956;
     border-radius: 100%;
     margin-left: 30px;
@@ -297,7 +337,7 @@ const onShare = () => {
     align-items: center;
     background-color: var(--btn-primary);
     color: var(--text-primary);
-    font-size: 32px;
+    font-size: 22px; /* Уменьшено с 32px на 30% */
     font-weight: 700;
     font-family: var(--font-sans);
 }
@@ -656,11 +696,43 @@ const onShare = () => {
     &:hover {
         background-color: rgba(156, 163, 175, 0.1);
         color: #9ca3af;
+        
+        .dislike-icon {
+            color: #9ca3af;
+            transform: scale(1.1);
+        }
     }
 
     &.active {
         background-color: rgba(156, 163, 175, 0.15);
         color: #9ca3af;
+
+        .dislike-icon {
+            color: #9ca3af;
+            animation: dislikePulse 0.3s ease-out;
+        }
+    }
+}
+
+.dislike-icon {
+    transition: all 0.3s ease;
+    
+    &.filled {
+        color: #9ca3af;
+        transform: scale(1.05);
+        filter: drop-shadow(0 0 4px rgba(156, 163, 175, 0.3));
+    }
+}
+
+@keyframes dislikePulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.3);
+    }
+    100% {
+        transform: scale(1.05);
     }
 }
 
@@ -668,6 +740,43 @@ const onShare = () => {
     &:hover {
         background-color: rgba(59, 130, 246, 0.1);
         color: #3b82f6;
+        
+        .comment-icon {
+            color: #3b82f6;
+            transform: scale(1.1);
+        }
+    }
+
+    &.active {
+        background-color: rgba(59, 130, 246, 0.15);
+        color: #3b82f6;
+
+        .comment-icon {
+            color: #3b82f6;
+            animation: commentPulse 0.3s ease-out;
+        }
+    }
+}
+
+.comment-icon {
+    transition: all 0.3s ease;
+    
+    &.filled {
+        color: #3b82f6;
+        transform: scale(1.05);
+        filter: drop-shadow(0 0 4px rgba(59, 130, 246, 0.3));
+    }
+}
+
+@keyframes commentPulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.3);
+    }
+    100% {
+        transform: scale(1.05);
     }
 }
 
@@ -675,15 +784,43 @@ const onShare = () => {
     &:hover {
         background-color: rgba(245, 158, 11, 0.1);
         color: #f59e0b;
+        
+        .bookmark-icon {
+            color: #f59e0b;
+            transform: scale(1.1);
+        }
     }
 
     &.active {
         background-color: rgba(245, 158, 11, 0.15);
         color: #f59e0b;
 
-        i {
+        .bookmark-icon {
             color: #f59e0b;
+            animation: bookmarkPulse 0.3s ease-out;
         }
+    }
+}
+
+.bookmark-icon {
+    transition: all 0.3s ease;
+    
+    &.filled {
+        color: #f59e0b;
+        transform: scale(1.05);
+        filter: drop-shadow(0 0 4px rgba(245, 158, 11, 0.3));
+    }
+}
+
+@keyframes bookmarkPulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.3);
+    }
+    100% {
+        transform: scale(1.05);
     }
 }
 
@@ -691,6 +828,43 @@ const onShare = () => {
     &:hover {
         background-color: rgba(34, 197, 94, 0.1);
         color: #22c55e;
+        
+        .share-icon {
+            color: #22c55e;
+            transform: scale(1.1);
+        }
+    }
+
+    &.active {
+        background-color: rgba(34, 197, 94, 0.15);
+        color: #22c55e;
+
+        .share-icon {
+            color: #22c55e;
+            animation: sharePulse 0.3s ease-out;
+        }
+    }
+}
+
+.share-icon {
+    transition: all 0.3s ease;
+    
+    &.filled {
+        color: #22c55e;
+        transform: scale(1.05);
+        filter: drop-shadow(0 0 4px rgba(34, 197, 94, 0.3));
+    }
+}
+
+@keyframes sharePulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.3);
+    }
+    100% {
+        transform: scale(1.05);
     }
 }
 </style>
