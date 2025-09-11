@@ -50,25 +50,47 @@
     <!-- Content -->
     <div class="article-card-content">
         <h2 class="article-card-content-title">{{ article.title }}</h2>
+        
+        <!-- Metadata Panel -->
+        <div class="metadata-panel">
+            <div class="metadata-item difficulty">
+                <i class="pi pi-chart-line metadata-icon"></i>
+                <span class="metadata-text">complex</span>
+            </div>
+            <div class="metadata-item time">
+                <i class="pi pi-clock metadata-icon"></i>
+                <span class="metadata-text">22 min</span>
+            </div>
+            <div class="metadata-item views">
+                <i class="pi pi-eye metadata-icon"></i>
+                <span class="metadata-text">3</span>
+            </div>
+        </div>
+        
         <div class="tags-container">
-            <button 
+            <Tag 
               v-for="(tag, index) in article.tags" 
               :key="index"
-              class="tag"
-              :class="{ 
-                'tag-hovered': hoveredTags.includes(index),
-                'tag-leaving': leavingTags.includes(index)
-              }"
+              :value="tag"
+              class="custom-tag"
               @click="onTagClick(tag)"
-              @mouseenter="onTagHover(index)"
-              @mouseleave="onTagLeave(index)"
             >
-              <span>{{ tag }}</span>
-            </button>
+              <template #default>
+                <i class="pi pi-hashtag" style="font-size: 12px; margin-right: 6px; font-weight: 900;"></i>
+                <span>{{ tag }}</span>
+              </template>
+            </Tag>
         </div>
         <div class="article-card-content-text">
             {{ article.excerpt || article.content }}
         </div>
+    </div>
+    
+    <!-- Footer block with read more button -->
+    <div class="article-card-footer">
+        <button class="read-more-btn" @click.stop="onArticleClick">
+            Читать далее
+        </button>
     </div>
   </div>
 </template>
@@ -76,6 +98,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import type { Article, ArticleCardProps, ArticleCardEmits } from '../types/article'
+import Tag from 'primevue/tag'
 
 // Пропсы компонента
 const props = defineProps<ArticleCardProps>()
@@ -121,31 +144,6 @@ const onArticleClick = () => {
   emit('articleClick', props.article.id)
 }
 
-// Состояние для отслеживания наведенных тегов
-const hoveredTags = ref<number[]>([])
-const leavingTags = ref<number[]>([])
-
-const onTagHover = (index: number) => {
-  if (!hoveredTags.value.includes(index)) {
-    hoveredTags.value.push(index)
-  }
-  // Убираем из списка уходящих
-  leavingTags.value = leavingTags.value.filter(i => i !== index)
-}
-
-const onTagLeave = (index: number) => {
-  // Убираем из наведенных сразу
-  hoveredTags.value = hoveredTags.value.filter(i => i !== index)
-  
-  // Добавляем в список уходящих
-  leavingTags.value.push(index)
-  
-  // Убираем из уходящих через время анимации, но оставляем кубик в правой позиции
-  setTimeout(() => {
-    leavingTags.value = leavingTags.value.filter(i => i !== index)
-    // Кубик остается в правой позиции (left: 100%)
-  }, 400)
-}
 
 
 </script>
@@ -155,9 +153,10 @@ const onTagLeave = (index: number) => {
     width: 1055px;
     height: 600px;
     background-color: var(--bg-secondary);
-    border-radius: 30px;
+    border-radius: 30px 30px 8px 30px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
+    position: relative;
 
     &:hover {
         transform: translateY(-2px);
@@ -255,6 +254,9 @@ const onTagLeave = (index: number) => {
     margin-top: 30px;
     flex-direction: column;
     margin-left: 30px;
+    margin-right: 30px;
+    height: calc(100% - 188px); /* Высота карточки минус header (108px) и footer (80px) */
+    overflow: hidden;
 }
 
 .article-card-content-title {
@@ -264,6 +266,47 @@ const onTagLeave = (index: number) => {
     font-weight: 700;
 }
 
+.metadata-panel {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.metadata-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.metadata-item.difficulty {
+    padding: 8px 16px;
+    border-radius: 40px;
+    background-color: rgba(239, 68, 68, 0.2);
+    min-width: 60px;
+    height: 32px;
+    transition: all 0.3s ease;
+}
+
+.metadata-item.difficulty .metadata-icon,
+.metadata-item.difficulty .metadata-text {
+    color: #DC2626;
+}
+
+.metadata-icon {
+    font-size: 16px;
+    color: #6B7280;
+}
+
+.metadata-text {
+    font-size: 16px;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    color: #6B7280;
+}
+
 .tags-container {
     display: flex;
     flex-direction: row;
@@ -271,98 +314,43 @@ const onTagLeave = (index: number) => {
     margin-top: 10px;
 }
 
-.tag {
-    position: relative;
-    border: 2px solid #FFFFFF;
-    background-color: transparent;
-    width: 160px;
-    height: 40px;
-    border-radius: 10px;
-    font-size: 20px;
-    font-family: var(--font-sans);
-    font-weight: 700;
-    color: var(--text-primary);
+.custom-tag {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    min-width: 60px;
+    height: 28px !important;
+    padding: 0 12px !important;
+    border-radius: 7px !important;
+    font-size: 14px !important;
+    font-family: var(--font-sans) !important;
+    font-weight: 420 !important;
+    color: rgba(255, 255, 255, 0.6) !important;
     cursor: pointer;
-    overflow: hidden;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    letter-spacing: 1px;
+    text-transform: lowercase;
+    border: none !important;
+    margin-right: 10px;
 
- /* ЗДЕСЬ ЭТА КРАСИВАЯ АНИМАЦИЯ ХОВЕРА ЮХУУУУУ Я СДЕЛАЛ ЕЕ */
-
-    &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background-color: #FFFFFF;
-        z-index: -1;
-    }
-
-    &::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.1);
-        opacity: 0;
-        transition: opacity 0.4s ease;
-        z-index: -1;
-    }
-
-    span {
-        position: relative;
-        z-index: 2;
-        transition: color 0.3s ease;
-    }
-
-    &.tag-hovered {
-        color: #000000;
-        
-        &::before {
-            left: 0;
-            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-    }
-
-    &.tag-leaving {
-        color: var(--text-primary);
-        
-        &::before {
-            left: 100%;
-            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        &::after {
-            opacity: 1;
-        }
-    }
-
-
-
-    /* Click */
-    &:active {
-        &::before {
-            background-color: var(--btn-primary);
-        }
-        color: var(--text-primary);
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.4) !important;
     }
 
     &:focus {
         outline: none;
-        border: 2px solid var(--btn-primary);
     }
 
-    &:disabled {
-        background-color: var(--btn-primary);
-        color: var(--text-primary);
-        cursor: not-allowed;
-        
-        &::before {
-            display: none;
-        }
+    .pi-hashtag {
+        color: rgba(255, 255, 255, 0.6);
+        font-weight: 900;
     }
+}
+
+.custom-tag:hover .pi-hashtag {
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .article-card-content-text {
@@ -371,5 +359,57 @@ const onTagLeave = (index: number) => {
     font-family: var(--font-sans);
     font-weight: 500;
     margin-top: 30px;
+    flex: 1;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 6; /* Ограничиваем количество строк */
+    line-height: 1.5;
+}
+
+
+.read-more-btn {
+    background-color: var(--btn-primary);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 140px;
+
+    &:hover {
+        background-color: var(--btn-primary-hover, #2563eb);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+}
+
+.article-card-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 </style>
