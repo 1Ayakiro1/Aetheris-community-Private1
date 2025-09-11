@@ -91,7 +91,15 @@
         <div class="article-actions">
             <div class="action-group">
                 <button class="action-btn like-btn" @click.stop="onLike" :class="{ 'active': isLiked }">
-                    <i class="pi pi-heart" :class="{ 'pi-heart-fill': isLiked }"></i>
+                    <svg class="heart-icon" :class="{ 'filled': isLiked }" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" 
+                              stroke="currentColor" 
+                              stroke-width="2" 
+                              stroke-linecap="round" 
+                              stroke-linejoin="round"
+                              :fill="isLiked ? 'currentColor' : 'none'"
+                        />
+                    </svg>
                     <span class="action-count">{{ likesCount }}</span>
                 </button>
                 
@@ -562,23 +570,23 @@ const onShare = () => {
 .action-group {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px; /* Увеличено с 8px (+25%) */
 }
 
 .action-btn {
     background: none;
     border: none;
     border-radius: 8px;
-    padding: 8px 12px;
+    padding: 12px 17px; /* Увеличено с 10px 14px (+20%) */
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 10px; /* Увеличено с 8px (+25%) */
     cursor: pointer;
     transition: all 0.2s ease;
     color: var(--text-secondary);
-    font-size: 14px;
+    font-size: 18px; /* Увеличено с 15px (+20%) */
     font-family: var(--font-sans);
-    min-height: 36px;
+    min-height: 48px; /* Увеличено с 40px (+20%) */
 
     &:hover {
         background-color: rgba(255, 255, 255, 0.1);
@@ -590,13 +598,13 @@ const onShare = () => {
     }
 
     i {
-        font-size: 16px;
+        font-size: 22px; /* Увеличено с 18px до 22px (+22%) */
         transition: all 0.2s ease;
     }
 
     .action-count {
         font-weight: 500;
-        font-size: 14px;
+        font-size: 18px; /* Увеличено с 15px (+20%) */
     }
 }
 
@@ -604,15 +612,43 @@ const onShare = () => {
     &:hover {
         background-color: rgba(239, 68, 68, 0.1);
         color: #ef4444;
+        
+        .heart-icon {
+            color: #ef4444;
+            transform: scale(1.1);
+        }
     }
 
     &.active {
         background-color: rgba(239, 68, 68, 0.15);
         color: #ef4444;
 
-        i {
+        .heart-icon {
             color: #ef4444;
+            animation: heartPulse 0.3s ease-out;
         }
+    }
+}
+
+.heart-icon {
+    transition: all 0.3s ease;
+    
+    &.filled {
+        color: #ef4444;
+        transform: scale(1.05);
+        filter: drop-shadow(0 0 4px rgba(239, 68, 68, 0.3));
+    }
+}
+
+@keyframes heartPulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.3);
+    }
+    100% {
+        transform: scale(1.05);
     }
 }
 
