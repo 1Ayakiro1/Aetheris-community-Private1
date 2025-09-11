@@ -5,11 +5,11 @@
       <!-- First Left Block - Search -->
       <div class="search-section">
         <div class="search-container">
-          <svg class="search-icon" width="42" height="38" viewBox="0 0 42 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg class="search-icon" width="32" height="28" viewBox="0 0 42 38" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M39.6119 2H2L17.0448 19.7375V32L24.5672 35.75V19.7375L39.6119 2Z" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           <div class="search-divider"></div>
-          <svg class="search-icon-2" width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg class="search-icon-2" width="28" height="28" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M35.8507 35.75L27.6701 27.5937M32.0895 17C32.0895 25.2843 25.3538 32 17.0448 32C8.73577 32 2 25.2843 2 17C2 8.71573 8.73577 2 17.0448 2C25.3538 2 32.0895 8.71573 32.0895 17Z" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           <!-- Search Bar -->
@@ -356,24 +356,25 @@ onUnmounted(() => {
 }
 
 .search-icon {
-  margin-left: 21px;
+  margin-left: 20px;
 }
 
 .search-divider {
-  width: 5px;
-  height: 45px;
-  margin-left: 30px;
+  width: 2px;
+  height: 38px;
+  margin-left: 20px;
   background-color: white;
   border-radius: 30px;
+  opacity: 0.3;
 }
 
 .search-icon-2 {
-  margin-left: 30px;
+  margin-left: 20px;
 }
 
 .search-input {
   margin-left: 16px;
-  width: 870px;
+  width: 912px;
   height: 50px;
   background-color: var(--bg-primary);
   border-radius: 25px 25px 30px 30px;
@@ -388,6 +389,7 @@ onUnmounted(() => {
 
 .search-input::placeholder {
   color: var(--text-third);
+  opacity: 0.3;
 }
 
 .loading-text {

@@ -302,11 +302,11 @@ const onShare = () => {
 }
 
 .logo {
-    width: 60px; /* Уменьшено с 85px на 30% */
+    width: 80px; /* Уменьшено с 85px на 30% */
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 60px; /* Уменьшено с 85px на 30% */
+    height: 80px; /* Уменьшено с 85px на 30% */
     background-color: #434956;
     border-radius: 100%;
     margin-left: 30px;
@@ -361,7 +361,6 @@ const onShare = () => {
 
 .nickname-container {
     display: flex;
-    margin-top: 20px;
     flex-direction: column;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
@@ -380,7 +379,7 @@ const onShare = () => {
 
 .article-card-content {
     display: flex;
-    margin-top: 30px;
+    margin-top: 20px;
     flex-direction: column;
     margin-left: 30px;
     margin-right: 30px;
