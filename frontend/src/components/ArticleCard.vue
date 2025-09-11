@@ -86,8 +86,35 @@
         </div>
     </div>
     
-    <!-- Footer block with read more button -->
+    <!-- Footer block with icons and read more button -->
     <div class="article-card-footer">
+        <div class="article-actions">
+            <div class="action-group">
+                <button class="action-btn like-btn" @click.stop="onLike" :class="{ 'active': isLiked }">
+                    <i class="pi pi-heart" :class="{ 'pi-heart-fill': isLiked }"></i>
+                    <span class="action-count">{{ likesCount }}</span>
+                </button>
+                
+                <button class="action-btn dislike-btn" @click.stop="onDislike" :class="{ 'active': isDisliked }">
+                    <i class="pi pi-thumbs-down"></i>
+                    <span class="action-count">{{ dislikesCount }}</span>
+                </button>
+                
+                <button class="action-btn comment-btn" @click.stop="onComment">
+                    <i class="pi pi-comment"></i>
+                    <span class="action-count">{{ commentsCount }}</span>
+                </button>
+                
+                <button class="action-btn bookmark-btn" @click.stop="onBookmark" :class="{ 'active': isBookmarked }">
+                    <i class="pi pi-bookmark" :class="{ 'pi-bookmark-fill': isBookmarked }"></i>
+                </button>
+                
+                <button class="action-btn share-btn" @click.stop="onShare">
+                    <i class="pi pi-share-alt"></i>
+                </button>
+            </div>
+        </div>
+        
         <button class="read-more-btn" @click.stop="onArticleClick">
             Читать далее
         </button>
@@ -105,6 +132,14 @@ const props = defineProps<ArticleCardProps>()
 
 // Эмиты для событий
 const emit = defineEmits<ArticleCardEmits>()
+
+// Реактивные состояния для взаимодействий
+const isLiked = ref(false)
+const isDisliked = ref(false)
+const isBookmarked = ref(false)
+const likesCount = ref(props.article.likes || 0)
+const dislikesCount = ref(props.article.dislikes || 0)
+const commentsCount = ref(props.article.comments || 0)
 
 // Date formatting
 const formatDate = (date: string | Date): string => {
@@ -142,6 +177,52 @@ const onAuthorClick = () => {
 
 const onArticleClick = () => {
   emit('articleClick', props.article.id)
+}
+
+// Обработчики взаимодействий
+const onLike = () => {
+  if (isDisliked.value) {
+    isDisliked.value = false
+    dislikesCount.value = Math.max(0, dislikesCount.value - 1)
+  }
+  
+  isLiked.value = !isLiked.value
+  likesCount.value += isLiked.value ? 1 : -1
+  likesCount.value = Math.max(0, likesCount.value)
+}
+
+const onDislike = () => {
+  if (isLiked.value) {
+    isLiked.value = false
+    likesCount.value = Math.max(0, likesCount.value - 1)
+  }
+  
+  isDisliked.value = !isDisliked.value
+  dislikesCount.value += isDisliked.value ? 1 : -1
+  dislikesCount.value = Math.max(0, dislikesCount.value)
+}
+
+const onComment = () => {
+  // Переход к комментариям или открытие модального окна
+  emit('articleClick', props.article.id)
+}
+
+const onBookmark = () => {
+  isBookmarked.value = !isBookmarked.value
+  // Здесь можно добавить логику сохранения в избранное
+}
+
+const onShare = () => {
+  // Логика для шаринга статьи
+  if (navigator.share) {
+    navigator.share({
+      title: props.article.title,
+      url: window.location.origin + `/articles/${props.article.id}`
+    })
+  } else {
+    // Fallback - копирование ссылки в буфер обмена
+    navigator.clipboard.writeText(window.location.origin + `/articles/${props.article.id}`)
+  }
 }
 
 
@@ -463,14 +544,117 @@ const onArticleClick = () => {
     left: 0;
     right: 0;
     height: 80px;
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: var(--bg-secondary);
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 40px;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-    padding-right: 20px;
-    background-color: var(--bg-secondary);
+    justify-content: space-between;
+    padding: 0 20px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.article-actions {
+    display: flex;
+    align-items: center;
+}
+
+.action-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-family: var(--font-sans);
+    min-height: 36px;
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: var(--text-primary);
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
+
+    i {
+        font-size: 16px;
+        transition: all 0.2s ease;
+    }
+
+    .action-count {
+        font-weight: 500;
+        font-size: 14px;
+    }
+}
+
+.action-btn.like-btn {
+    &:hover {
+        background-color: rgba(239, 68, 68, 0.1);
+        color: #ef4444;
+    }
+
+    &.active {
+        background-color: rgba(239, 68, 68, 0.15);
+        color: #ef4444;
+
+        i {
+            color: #ef4444;
+        }
+    }
+}
+
+.action-btn.dislike-btn {
+    &:hover {
+        background-color: rgba(156, 163, 175, 0.1);
+        color: #9ca3af;
+    }
+
+    &.active {
+        background-color: rgba(156, 163, 175, 0.15);
+        color: #9ca3af;
+    }
+}
+
+.action-btn.comment-btn {
+    &:hover {
+        background-color: rgba(59, 130, 246, 0.1);
+        color: #3b82f6;
+    }
+}
+
+.action-btn.bookmark-btn {
+    &:hover {
+        background-color: rgba(245, 158, 11, 0.1);
+        color: #f59e0b;
+    }
+
+    &.active {
+        background-color: rgba(245, 158, 11, 0.15);
+        color: #f59e0b;
+
+        i {
+            color: #f59e0b;
+        }
+    }
+}
+
+.action-btn.share-btn {
+    &:hover {
+        background-color: rgba(34, 197, 94, 0.1);
+        color: #22c55e;
+    }
 }
 </style>

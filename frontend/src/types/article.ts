@@ -25,6 +25,8 @@ export interface Article {
   status: 'draft' | 'published' | 'archived'
   views?: number
   likes?: number
+  dislikes?: number
+  comments?: number
   commentsCount?: number
   featured?: boolean
   category?: string
