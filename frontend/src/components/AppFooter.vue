@@ -1,6 +1,7 @@
 <template>
-    <div class="gradient-violet-pink"></div>
-    <div class="footer-container">
+    <div class="footer-wrapper">
+        <div class="gradient-violet-pink"></div>
+        <div class="footer-container">
         <!--Logo and links block-->
         <div class="footer-content">
             <img src="../assets/svgs/logo.svg" alt="Logo" class="ae-logo-footer">
@@ -65,6 +66,7 @@
             </router-link>
         </div>
     </div>
+</div>
 </template>
 
 <script setup lang="ts">
@@ -72,6 +74,10 @@
 </script>
 
 <style lang="scss" scoped>
+.footer-wrapper {
+    width: 100%;
+}
+
 .gradient-violet-pink {
     background: linear-gradient(180deg, var(--primary-violet) 0%, var(--primary-pink) 100%);
     height: 4px;

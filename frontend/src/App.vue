@@ -20,6 +20,7 @@ import AppFooter from './components/AppFooter.vue';
 .app-wrapper {
   background-color: var(--bg-primary);
   min-height: 100vh;
+  position: relative;
 }
 
 .app-main {

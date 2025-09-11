@@ -81,7 +81,7 @@
               </template>
             </Tag>
         </div>
-        <div class="article-card-content-text">
+        <div class="article-card-content-text" :data-text="article.excerpt || article.content">
             {{ article.excerpt || article.content }}
         </div>
     </div>
@@ -153,7 +153,7 @@ const onArticleClick = () => {
     width: 1055px;
     height: 600px;
     background-color: var(--bg-secondary);
-    border-radius: 30px 30px 8px 30px;
+    border-radius: 40px 40px 15px 40px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
     position: relative;
@@ -257,6 +257,7 @@ const onArticleClick = () => {
     margin-right: 30px;
     height: calc(100% - 188px); /* Высота карточки минус header (108px) и footer (80px) */
     overflow: hidden;
+    position: relative;
 }
 
 .article-card-content-title {
@@ -361,10 +362,67 @@ const onArticleClick = () => {
     margin-top: 30px;
     flex: 1;
     overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 6; /* Ограничиваем количество строк */
+    position: relative;
+    display: block;
     line-height: 1.5;
+    max-height: 240px; /* Добавили ещё ~30px для ещё одной строки */
+    
+    /* Настоящее размытие текста */
+    &::after {
+        content: attr(data-text);
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        color: var(--text-primary);
+        font-size: 20px;
+        font-family: var(--font-sans);
+        font-weight: 500;
+        line-height: 1.5;
+        pointer-events: none;
+        
+        /* Настоящее blur размытие с маской */
+        filter: blur(1.5px);
+        mask-image: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0) 0%,
+            rgba(0, 0, 0, 0) 45%,
+            rgba(0, 0, 0, 0.3) 60%,
+            rgba(0, 0, 0, 0.8) 80%,
+            rgba(0, 0, 0, 1) 100%
+        );
+        -webkit-mask-image: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0) 0%,
+            rgba(0, 0, 0, 0) 45%,
+            rgba(0, 0, 0, 0.3) 60%,
+            rgba(0, 0, 0, 0.8) 80%,
+            rgba(0, 0, 0, 1) 100%
+        );
+    }
+    
+    /* Оригинальный текст с fade-out маской для показа обрезанной строки */
+    mask-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 1) 0%,
+        rgba(0, 0, 0, 1) 70%,
+        rgba(0, 0, 0, 0.8) 75%,
+        rgba(0, 0, 0, 0.5) 80%,
+        rgba(0, 0, 0, 0.3) 85%,
+        rgba(0, 0, 0, 0.1) 92%,
+        rgba(0, 0, 0, 0) 100%
+    );
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 1) 0%,
+        rgba(0, 0, 0, 1) 70%,
+        rgba(0, 0, 0, 0.8) 75%,
+        rgba(0, 0, 0, 0.5) 80%,
+        rgba(0, 0, 0, 0.3) 85%,
+        rgba(0, 0, 0, 0.1) 92%,
+        rgba(0, 0, 0, 0) 100%
+    );
 }
 
 
@@ -380,6 +438,8 @@ const onArticleClick = () => {
     cursor: pointer;
     transition: all 0.3s ease;
     min-width: 140px;
+    position: relative;
+    z-index: 10; /* Поднимаем кнопку над тенями */
 
     &:hover {
         background-color: var(--btn-primary-hover, #2563eb);
@@ -404,12 +464,13 @@ const onArticleClick = () => {
     right: 0;
     height: 80px;
     background-color: rgba(0, 0, 0, 0.05);
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 40px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     padding-right: 20px;
+    background-color: var(--bg-secondary);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 </style>
