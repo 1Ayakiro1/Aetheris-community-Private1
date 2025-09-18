@@ -2,11 +2,11 @@
 ДОКУМЕНТАЦИЯ СИСТЕМЫ СТАТЕЙ И КОНТЕНТА
 =====================================
 
-Автор: Ayakiro
+Автор: pinicilin
 Версия: 1.0
 Дата создания: 18.09.2025
 
-Этот документ описывает систему управления статьями, контентом и 
+Этот документ описывает систему управления статьями, контентом и
 связанной функциональностью в проекте Aetheris Community.
 
 ОБЗОР СИСТЕМЫ СТАТЕЙ
@@ -220,10 +220,10 @@ filterByTag() - фильтрация по тегам:
 ```typescript
 const filterByTag = async (tag: string) => {
   const currentTags = filters.value.tags || []
-  const newTags = currentTags.includes(tag) 
+  const newTags = currentTags.includes(tag)
     ? currentTags.filter(t => t !== tag)
     : [...currentTags, tag]
-  
+
   await updateFilters({ tags: newTags })
 }
 ```
@@ -340,18 +340,18 @@ CreateArticle.vue - СОЗДАНИЕ И РЕДАКТИРОВАНИЕ
 <template>
   <div class="create-article">
     <h1>Создать статью</h1>
-    
+
     <!-- Поле заголовка -->
     <input v-model="title" placeholder="Заголовок статьи" />
-    
+
     <!-- Rich text editor -->
     <Editor v-model="content" />
-    
+
     <!-- Управление тегами -->
     <div class="tags-input">
       <!-- Логика добавления/удаления тегов -->
     </div>
-    
+
     <!-- Кнопки действий -->
     <div class="actions">
       <button @click="saveDraft">Сохранить черновик</button>
@@ -544,7 +544,7 @@ import { api } from '../services/api'  // HTTP клиент
 
 export function useArticles() {
   // Замена моковых данных на реальные API вызовы
-  
+
   const fetchArticles = async (newFilters?: Partial<ArticleFilters>, newPagination?: Partial<PaginationParams>) => {
     loading.value = true
     error.value = null
@@ -629,7 +629,7 @@ const filteredArticles = computed(() => {
   // Поиск по тексту
   if (filters.value.search) {
     const searchLower = filters.value.search.toLowerCase()
-    result = result.filter(article => 
+    result = result.filter(article =>
       article.title.toLowerCase().includes(searchLower) ||
       article.content.toLowerCase().includes(searchLower) ||
       article.tags.some(tag => tag.toLowerCase().includes(searchLower))

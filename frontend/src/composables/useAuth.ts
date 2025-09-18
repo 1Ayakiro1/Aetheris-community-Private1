@@ -1,8 +1,8 @@
 /**
  * USE AUTH COMPOSABLE
  * Композиционная функция для управления аутентификацией
- * 
- * Автор: Ayakiro
+ *
+ * Автор: pinicilin
  * Версия: 1.0
  * Дата создания: 18.09.2025
  */
@@ -10,10 +10,10 @@
 import { ref, computed, readonly } from 'vue'
 import { useRouter } from 'vue-router'
 import { authApi, errorUtils, type ApiError } from '../services/api'
-import type { 
-  User, 
-  LoginCredentials, 
-  RegisterData, 
+import type {
+  User,
+  LoginCredentials,
+  RegisterData,
   AuthResponse,
   ChangePasswordData,
   ForgotPasswordData,
@@ -41,7 +41,7 @@ export function useAuth() {
   const setTokens = (authToken: string, authRefreshToken?: string) => {
     token.value = authToken
     localStorage.setItem('auth_token', authToken)
-    
+
     if (authRefreshToken) {
       refreshToken.value = authRefreshToken
       localStorage.setItem('refresh_token', authRefreshToken)
@@ -62,12 +62,12 @@ export function useAuth() {
   // Обработка ошибок аутентификации
   const handleAuthError = (apiError: ApiError) => {
     const message = errorUtils.getErrorMessage(apiError)
-    
+
     // Если токен недействителен, очищаем сессию
     if (errorUtils.isAuthError(apiError)) {
       logout()
     }
-    
+
     error.value = message
     throw apiError
   }
@@ -88,13 +88,13 @@ export function useAuth() {
     try {
       loading.value = true
       error.value = null
-      
+
       const response = await authApi.me()
-      
+
       if (response.success && response.data) {
         user.value = response.data.user
         token.value = savedToken
-        
+
         // Если есть новый токен в ответе, обновляем
         if (response.data.token) {
           setTokens(response.data.token, response.data.refreshToken)
@@ -102,7 +102,7 @@ export function useAuth() {
       } else {
         clearTokens()
       }
-      
+
     } catch (apiError) {
       console.warn('Auth initialization failed:', apiError)
       clearTokens()
@@ -122,22 +122,22 @@ export function useAuth() {
       error.value = null
 
       const response = await authApi.login(credentials)
-      
+
       if (response.success && response.data) {
         const authData = response.data as AuthResponse
-        
+
         user.value = authData.user
         setTokens(authData.token, authData.refreshToken)
-        
+
         // Перенаправляем пользователя
         const redirectTo = sessionStorage.getItem('redirect_after_login') || '/'
         sessionStorage.removeItem('redirect_after_login')
         await router.push(redirectTo)
-        
+
       } else {
         throw new Error(response.message || 'Login failed')
       }
-      
+
     } catch (apiError) {
       handleAuthError(apiError as ApiError)
     } finally {
@@ -154,20 +154,20 @@ export function useAuth() {
       error.value = null
 
       const response = await authApi.register(userData)
-      
+
       if (response.success && response.data) {
         const authData = response.data as AuthResponse
-        
+
         user.value = authData.user
         setTokens(authData.token, authData.refreshToken)
-        
+
         // Перенаправляем на главную страницу
         await router.push('/')
-        
+
       } else {
         throw new Error(response.message || 'Registration failed')
       }
-      
+
     } catch (apiError) {
       handleAuthError(apiError as ApiError)
     } finally {
@@ -181,7 +181,7 @@ export function useAuth() {
   const logout = async (navigateToLogin: boolean = true): Promise<void> => {
     try {
       loading.value = true
-      
+
       // Пытаемся уведомить сервер о выходе
       if (token.value) {
         try {
@@ -190,14 +190,14 @@ export function useAuth() {
           // Игнорируем ошибки при выходе
         }
       }
-      
+
     } finally {
       // Очищаем локальное состояние в любом случае
       user.value = null
       clearTokens()
       error.value = null
       loading.value = false
-      
+
       if (navigateToLogin && router.currentRoute.value.meta.requiresAuth) {
         await router.push('/login')
       }
@@ -214,14 +214,14 @@ export function useAuth() {
 
     try {
       const response = await authApi.refreshToken()
-      
+
       if (response.success && response.data) {
         setTokens(response.data.token, response.data.refreshToken)
         return true
       }
-      
+
       return false
-      
+
     } catch (apiError) {
       console.warn('Token refresh failed:', apiError)
       clearTokens()
@@ -242,11 +242,11 @@ export function useAuth() {
         passwordData.currentPassword,
         passwordData.newPassword
       )
-      
+
       if (!response.success) {
         throw new Error(response.message || 'Password change failed')
       }
-      
+
     } catch (apiError) {
       handleAuthError(apiError as ApiError)
     } finally {
@@ -263,11 +263,11 @@ export function useAuth() {
       error.value = null
 
       const response = await authApi.forgotPassword(email)
-      
+
       if (!response.success) {
         throw new Error(response.message || 'Password reset request failed')
       }
-      
+
     } catch (apiError) {
       handleAuthError(apiError as ApiError)
     } finally {
@@ -284,19 +284,19 @@ export function useAuth() {
       error.value = null
 
       const response = await authApi.resetPassword(resetData.token, resetData.password)
-      
+
       if (response.success && response.data) {
         const authData = response.data as AuthResponse
-        
+
         user.value = authData.user
         setTokens(authData.token, authData.refreshToken)
-        
+
         await router.push('/')
-        
+
       } else {
         throw new Error(response.message || 'Password reset failed')
       }
-      
+
     } catch (apiError) {
       handleAuthError(apiError as ApiError)
     } finally {
@@ -326,17 +326,17 @@ export function useAuth() {
    */
   const hasPermission = (permission: string): boolean => {
     if (!user.value) return false
-    
+
     // Админы имеют все права
     if (user.value.role === 'admin' || user.value.role === 'super_admin') {
       return true
     }
-    
+
     // Проверяем права в ранге пользователя
     if (user.value.rank?.permissions) {
       return user.value.rank.permissions.includes(permission)
     }
-    
+
     return false
   }
 
@@ -345,12 +345,12 @@ export function useAuth() {
    */
   const canPerformAction = (action: string, resourceOwnerId?: number): boolean => {
     if (!user.value) return false
-    
+
     // Владелец ресурса может выполнять действия над своим контентом
     if (resourceOwnerId && user.value.id === resourceOwnerId) {
       return true
     }
-    
+
     // Проверяем права доступа
     return hasPermission(action)
   }

@@ -1,8 +1,8 @@
 /**
  * ТИПЫ ДЛЯ ПОЛЬЗОВАТЕЛЕЙ
  * TypeScript типы для работы с пользователями и аутентификацией
- * 
- * Автор: Ayakiro
+ *
+ * Автор: pinicilin
  * Версия: 1.0
  * Дата создания: 18.09.2025
  */
@@ -19,34 +19,34 @@ export interface User {
   website?: string
   location?: string
   birthDate?: string | Date
-  
+
   // Социальные связи
   followersCount?: number
   followingCount?: number
   isFollowing?: boolean
-  
+
   // Статистика
   articlesCount: number
   commentsCount: number
   likesReceived: number
   viewsReceived: number
-  
+
   // Даты
   createdAt: string | Date
   updatedAt?: string | Date
   lastLoginAt?: string | Date
   lastSeenAt?: string | Date
-  
+
   // Статус и роли
   status: 'active' | 'inactive' | 'banned' | 'pending'
   role: 'user' | 'moderator' | 'admin' | 'super_admin'
   isVerified: boolean
-  
+
   // Настройки приватности
   isProfilePublic: boolean
   showEmail: boolean
   showLastSeen: boolean
-  
+
   // Ранги и достижения
   rank?: UserRank
   badges?: UserBadge[]
@@ -101,10 +101,10 @@ export interface UserProfile extends User {
     discord?: string
     telegram?: string
   }
-  
+
   // Предпочтения
   preferences: UserPreferences
-  
+
   // Статистика активности
   activityStats: UserActivityStats
 }
@@ -114,13 +114,13 @@ export interface UserPreferences {
   theme: 'system' | 'light' | 'dark' | 'custom'
   language: string
   timezone: string
-  
+
   // Уведомления
   notifications: {
     email: boolean
     push: boolean
     inApp: boolean
-    
+
     // Типы уведомлений
     newFollower: boolean
     newComment: boolean
@@ -129,7 +129,7 @@ export interface UserPreferences {
     weeklyDigest: boolean
     securityAlerts: boolean
   }
-  
+
   // Приватность
   privacy: {
     showEmail: boolean
@@ -138,7 +138,7 @@ export interface UserPreferences {
     allowDirectMessages: boolean
     requireFollowToMessage: boolean
   }
-  
+
   // Контент
   content: {
     defaultArticleVisibility: 'public' | 'followers' | 'private'
@@ -159,7 +159,7 @@ export interface UserActivityStats {
     profileViews: number
     articlesViews: number
   }
-  
+
   // За все время
   totalStats: {
     articlesPublished: number
@@ -170,7 +170,7 @@ export interface UserActivityStats {
     articlesViews: number
     joinedDaysAgo: number
   }
-  
+
   // Активность по дням (последние 30 дней)
   dailyActivity: {
     date: string
@@ -319,7 +319,7 @@ export interface Notification {
   data?: any
   isRead: boolean
   createdAt: string | Date
-  
+
   // Связанные объекты
   fromUser?: PublicUser
   article?: {
@@ -361,13 +361,13 @@ export interface UserStats {
   newUsersThisMonth: number
   bannedUsers: number
   verifiedUsers: number
-  
+
   // Распределение по ролям
   roleDistribution: {
     role: string
     count: number
   }[]
-  
+
   // Активность по дням
   dailyRegistrations: {
     date: string

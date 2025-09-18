@@ -13,15 +13,15 @@
             <path d="M35.8507 35.75L27.6701 27.5937M32.0895 17C32.0895 25.2843 25.3538 32 17.0448 32C8.73577 32 2 25.2843 2 17C2 8.71573 8.73577 2 17.0448 2C25.3538 2 32.0895 8.71573 32.0895 17Z" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           <!-- Search Bar -->
-          <input 
-            type="text" 
-            class="search-input" 
+          <input
+            type="text"
+            class="search-input"
             placeholder="Find articles..."
             :value="searchQuery"
             @input="onSearchInput"
           >
         </div>
-        
+
         <!-- Articles Container -->
         <div class="articles-container">
           <!-- Loading State -->
@@ -29,7 +29,7 @@
             <div class="loading-spinner"></div>
             <p class="loading-text" >Loading articles...</p>
           </div>
-          
+
           <!-- Empty State -->
           <div v-else-if="isEmpty" class="empty-state">
             <h3>Статьи не найдены</h3>
@@ -38,11 +38,11 @@
               Сбросить фильтры
             </button>
           </div>
-          
+
           <!-- Articles List -->
           <template v-else>
-            <ArticleCard 
-              v-for="article in articles" 
+            <ArticleCard
+              v-for="article in articles"
               :key="article.id"
               :article="article"
               @tag-click="handleTagClick"
@@ -50,21 +50,21 @@
               @article-click="handleArticleClick"
             />
           </template>
-          
+
           <!-- Pagination -->
           <div v-if="!loading && !isEmpty" class="pagination-container">
-            <Paginator 
-              v-model:first="first" 
-              :rows="rows" 
+            <Paginator
+              v-model:first="first"
+              :rows="rows"
               :totalRecords="totalRecords"
               template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
               @page="onPageChange"
             />
           </div>
         </div>
-        
+
         <!-- Back to Top Button -->
-        <button 
+        <button
           class="back-to-top-btn"
           @click="scrollToTop"
           :class="{ visible: showBackToTop }"
@@ -85,27 +85,27 @@
             </svg>
             <h2 class="card-title">Article info</h2>
           </div>
-          
+
           <div class="info-item">
             <p class="info-label">Date:</p>
             <p class="info-value">unknown</p>
           </div>
-          
+
           <div class="info-item">
             <p class="info-label">Likes:</p>
             <p class="info-value">unknown</p>
           </div>
-          
+
           <div class="info-item">
             <p class="info-label">Views:</p>
             <p class="info-value">unknown</p>
           </div>
-          
+
           <div class="info-item">
             <p class="info-label">Comments:</p>
             <p class="info-value">unknown</p>
           </div>
-          
+
           <div class="info-item">
             <p class="info-label">Symbols:</p>
             <p class="info-value">unknown</p>
@@ -120,7 +120,7 @@
             </svg>
             <h2 class="card-title">Similar articles</h2>
           </div>
-          
+
           <div class="similar-item">same article</div>
           <div class="similar-item">same article</div>
           <div class="similar-item">same article</div>
@@ -131,7 +131,7 @@
     </div>
   </div>
 </template>
-
+www
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch } from 'vue'
 import ArticleCard from '@/components/ArticleCard.vue'
@@ -171,11 +171,11 @@ const onPageChange = async (event: any) => {
   first.value = event.first
   rows.value = event.rows
   console.log('Page changed:', event)
-  
+
   // Загружаем статьи для новой страницы
-  await fetchArticles({}, { 
-    page: Math.floor(event.first / event.rows) + 1, 
-    limit: event.rows 
+  await fetchArticles({}, {
+    page: Math.floor(event.first / event.rows) + 1,
+    limit: event.rows
   })
 }
 
@@ -209,7 +209,7 @@ const handleSearch = async () => {
 const onSearchInput = async (event: Event) => {
   const target = event.target as HTMLInputElement
   searchQuery.value = target.value
-  
+
   // Дебаунс для поиска
   if (searchTimeout.value) {
     clearTimeout(searchTimeout.value)
@@ -231,26 +231,26 @@ const scrollToTop = () => {
 const handleScroll = () => {
   const scrollY = window.scrollY
   const windowHeight = window.innerHeight
-  
+
   // Show button when scrolling down more than 300px
   showBackToTop.value = scrollY > 300
-  
+
   // Find the real footer by class .footer-container
   const footer = document.querySelector('.footer-container') as HTMLElement
   const backToTopBtn = document.querySelector('.back-to-top-btn') as HTMLElement
-  
+
   if (footer && backToTopBtn) {
     const footerRect = footer.getBoundingClientRect()
     const footerTop = footerRect.top
     const buttonHeight = 50 // button height
     const footerHeight = 430 // footer height from CSS
-    
+
     console.log('Footer top:', footerTop, 'Window height:', windowHeight)
-    
+
     // Smooth disappearance when approaching the footer (always calculate)
     const fadeDistance = 150 // distance to start disappearing
     const distanceToFooter = footerTop - windowHeight // distance from bottom of screen to footer
-    
+
     let opacity = 1
     if (distanceToFooter <= fadeDistance && distanceToFooter > 0) {
       // Calculate opacity from 1 to 0 with sharper curve
@@ -262,18 +262,18 @@ const handleScroll = () => {
       opacity = 0
       console.log('Footer visible, button fully transparent')
     }
-    
+
     // Apply opacity directly for smooth transition
     buttonOpacity.value = opacity
     backToTopBtn.style.opacity = opacity.toString()
-    
+
     // If footer appeared in visible area (top border of footer is visible)
     if (footerTop <= windowHeight) {
       console.log('Footer is visible, switching to absolute position')
-      
+
       // Calculate button position above footer
       const buttonPosition = footerTop - buttonHeight - 20 // 20px offset from footer
-      
+
       if (buttonPosition > 0) {
         // Button above footer
         backToTopBtn.classList.add('above-footer')

@@ -1,16 +1,16 @@
 <template>
   <div class="test-container">
     <h1>Тест ArticleCard</h1>
-    
+
     <div class="test-article">
-      <ArticleCard 
+      <ArticleCard
         :article="testArticle"
         @tag-click="handleTagClick"
         @author-click="handleAuthorClick"
         @article-click="handleArticleClick"
       />
     </div>
-    
+
     <div class="test-info">
       <h3>События:</h3>
       <ul>
@@ -37,7 +37,7 @@ const testArticle: Article = {
     id: 1,
     username: 'Аякиро',
     avatar: 'https://via.placeholder.com/85x85/434956/FFFFFF?text=A',
-    email: 'ayakiro@example.com',
+    email: 'pinicilin@example.com',
     createdAt: new Date('2024-01-01')
   },
   tags: ['Vue.js', 'TypeScript', 'Тест', 'Frontend'],
@@ -63,7 +63,7 @@ const addEvent = (type: string, data: string) => {
     type,
     data
   })
-  
+
   // Ограничиваем количество событий
   if (events.value.length > 10) {
     events.value = events.value.slice(0, 10)

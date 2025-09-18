@@ -1,9 +1,9 @@
 <template>
   <div class="example-container">
     <h1>Пример использования ArticleCard</h1>
-    
+
     <!-- Пример карточки статьи -->
-    <ArticleCard 
+    <ArticleCard
       :article="sampleArticle"
       @tag-click="handleTagClick"
       @author-click="handleAuthorClick"
@@ -26,7 +26,7 @@ const sampleArticle = ref({
     id: 1,
     username: 'Аякиро',
     avatar: 'https://via.placeholder.com/85x85/434956/FFFFFF?text=A',
-    email: 'ayakiro@example.com'
+    email: 'pinicilin@example.com'
   },
   tags: ['Vue.js', 'TypeScript', 'Frontend', 'Tutorial'],
   createdAt: new Date('2024-01-15T10:30:00Z'),

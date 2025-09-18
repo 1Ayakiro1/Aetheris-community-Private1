@@ -1,27 +1,27 @@
 <template>
   <div class="test-container">
     <h1>Тест иконок аватаров</h1>
-    
+
     <div class="test-section">
       <h2>С аватаром:</h2>
-      <ArticleCard 
+      <ArticleCard
         :article="articleWithAvatar"
         @tag-click="handleTagClick"
         @author-click="handleAuthorClick"
         @article-click="handleArticleClick"
       />
     </div>
-    
+
     <div class="test-section">
       <h2>Без аватара (иконка вопроса):</h2>
-      <ArticleCard 
+      <ArticleCard
         :article="articleWithoutAvatar"
         @tag-click="handleTagClick"
         @author-click="handleAuthorClick"
         @article-click="handleArticleClick"
       />
     </div>
-    
+
     <div class="test-section">
       <h2>Сравнение аватаров:</h2>
       <div class="avatars-comparison">
@@ -31,36 +31,36 @@
           </div>
           <p>С аватаром</p>
         </div>
-        
+
         <div class="avatar-example">
           <div class="avatar-with-question">
-            <svg 
-              class="question-icon" 
-              width="32" 
-              height="32" 
-              viewBox="0 0 24 24" 
-              fill="none" 
+            <svg
+              class="question-icon"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <path 
-                d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" 
-                stroke="currentColor" 
-                stroke-width="2" 
-                stroke-linecap="round" 
+              <path
+                d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
                 stroke-linejoin="round"
               />
-              <path 
-                d="M9.09 9C9.3251 8.33167 9.78915 7.76811 10.4 7.40913C11.0108 7.05016 11.7289 6.91894 12.4272 7.03871C13.1255 7.15849 13.7588 7.52152 14.2151 8.06353C14.6713 8.60553 14.9211 9.29152 14.92 10C14.92 12 11.92 13 11.92 13" 
-                stroke="currentColor" 
-                stroke-width="2" 
-                stroke-linecap="round" 
+              <path
+                d="M9.09 9C9.3251 8.33167 9.78915 7.76811 10.4 7.40913C11.0108 7.05016 11.7289 6.91894 12.4272 7.03871C13.1255 7.15849 13.7588 7.52152 14.2151 8.06353C14.6713 8.60553 14.9211 9.29152 14.92 10C14.92 12 11.92 13 11.92 13"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
                 stroke-linejoin="round"
               />
-              <path 
-                d="M12 17H12.01" 
-                stroke="currentColor" 
-                stroke-width="2" 
-                stroke-linecap="round" 
+              <path
+                d="M12 17H12.01"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
                 stroke-linejoin="round"
               />
             </svg>
@@ -87,7 +87,7 @@ const articleWithAvatar: Article = {
     id: 1,
     username: 'Аякиро',
     avatar: 'https://via.placeholder.com/85x85/434956/FFFFFF?text=A',
-    email: 'ayakiro@example.com',
+    email: 'pinicilin@example.com',
     createdAt: new Date('2024-01-01')
   },
   tags: ['Vue.js', 'TypeScript', 'Frontend'],

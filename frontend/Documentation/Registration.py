@@ -2,7 +2,7 @@
 ДОКУМЕНТАЦИЯ СИСТЕМЫ РЕГИСТРАЦИИ И АУТЕНТИФИКАЦИИ
 ===============================================
 
-Автор: Ayakiro
+Автор: pinicilin
 Версия: 1.0
 Дата создания: 18.09.2025
 
@@ -48,7 +48,7 @@
 ФУНКЦИОНАЛ:
 - Форма регистрации с тремя полями:
   * Nickname (никнейм пользователя)
-  * Email (электронная почта)  
+  * Email (электронная почта)
   * Password (пароль)
 - Валидация в реальном времени
 - Санитизация пользовательского ввода
@@ -91,17 +91,17 @@ const handleSignIn = () => {
   const nicknameValidation = validateNickname(nickname.value)
   const emailValidation = validateEmail(email.value)
   const passwordValidation = validatePassword(password.value)
-  
+
   // Обновление состояний ошибок
   nicknameError.value = nicknameValidation
   emailError.value = emailValidation
   passwordError.value = passwordValidation
-  
+
   // Проверка валидности формы
-  const isFormValid = nicknameValidation.isValid && 
-                     emailValidation.isValid && 
+  const isFormValid = nicknameValidation.isValid &&
+                     emailValidation.isValid &&
                      passwordValidation.isValid
-  
+
   if (isFormValid) {
     // Отправка данных на backend
     console.log('Sign up payload', {
@@ -173,10 +173,10 @@ const validatePassword = (value: string): boolean => {
 const handleLogin = () => {
   const nicknameValid = validateNickname(nickname.value)
   const passwordValid = validatePassword(password.value)
-  
+
   nicknameError.value = !nicknameValid
   passwordError.value = !passwordValid
-  
+
   if (nicknameValid && passwordValid) {
     // Отправка данных на backend
     console.log('Login payload', {
@@ -209,7 +209,7 @@ validateNickname(nickname: string): ValidationResult
 - Проверка, что не начинается с цифры
 - Фильтрация запрещенных слов
 
-validateEmail(email: string): ValidationResult  
+validateEmail(email: string): ValidationResult
 - Проверка формата через регулярное выражение
 - Проверка длины (до 254 символов)
 - Базовая проверка структуры email
@@ -319,7 +319,7 @@ Response (Success - 200):
   "success": true,
   "user": {
     "id": "number",
-    "nickname": "string", 
+    "nickname": "string",
     "email": "string",
     "avatar": "string|null",
     "createdAt": "datetime",
@@ -356,9 +356,9 @@ const loading = ref(false)
 
 export function useAuth() {
   const router = useRouter()
-  
+
   const isAuthenticated = computed(() => !!token.value)
-  
+
   const login = async (credentials: LoginCredentials) => {
     loading.value = true
     try {
@@ -373,7 +373,7 @@ export function useAuth() {
       loading.value = false
     }
   }
-  
+
   const register = async (userData: RegisterData) => {
     loading.value = true
     try {
@@ -388,7 +388,7 @@ export function useAuth() {
       loading.value = false
     }
   }
-  
+
   const logout = async () => {
     try {
       await api.post('/auth/logout')
@@ -399,7 +399,7 @@ export function useAuth() {
       router.push('/login')
     }
   }
-  
+
   return {
     user: readonly(user),
     token: readonly(token),
@@ -427,9 +427,9 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const { isAuthenticated } = useAuth()
-  
+
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
-  
+
   if (requiresAuth && !isAuthenticated.value) {
     next('/login')
   } else if ((to.path === '/login' || to.path === '/signin') && isAuthenticated.value) {

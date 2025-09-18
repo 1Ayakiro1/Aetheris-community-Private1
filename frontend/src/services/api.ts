@@ -1,8 +1,8 @@
 /**
  * API SERVICE
  * Центральный сервис для работы с backend API
- * 
- * Автор: Ayakiro
+ *
+ * Автор: pinicilin
  * Версия: 1.0
  * Дата создания: 18.09.2025
  */
@@ -59,7 +59,7 @@ class ApiClient {
    */
   private getHeaders(customHeaders: Record<string, string> = {}): Record<string, string> {
     const headers = { ...this.defaultHeaders, ...customHeaders }
-    
+
     const token = this.getAuthToken()
     if (token) {
       headers['Authorization'] = `Bearer ${token}`
@@ -120,7 +120,7 @@ class ApiClient {
 
     } catch (error) {
       clearTimeout(timeoutId)
-      
+
       if (error instanceof Error && error.name === 'AbortError') {
         throw {
           status: 408,
@@ -185,7 +185,7 @@ class ApiClient {
   async upload<T>(endpoint: string, formData: FormData, progressCallback?: (progress: number) => void): Promise<ApiResponse<T>> {
     const url = `${this.baseURL}${endpoint}`
     const headers = this.getHeaders()
-    
+
     // Удаляем Content-Type для FormData (браузер сам установит с boundary)
     delete headers['Content-Type']
 
@@ -264,25 +264,25 @@ export const api = new ApiClient()
 export const authApi = {
   login: (credentials: { login: string; password: string }) =>
     api.post('/auth/login', credentials),
-  
+
   register: (userData: { nickname: string; email: string; password: string }) =>
     api.post('/auth/register', userData),
-  
+
   logout: () =>
     api.post('/auth/logout'),
-  
+
   me: () =>
     api.get('/auth/me'),
-  
+
   refreshToken: () =>
     api.post('/auth/refresh'),
-  
+
   forgotPassword: (email: string) =>
     api.post('/auth/forgot-password', { email }),
-  
+
   resetPassword: (token: string, password: string) =>
     api.post('/auth/reset-password', { token, password }),
-  
+
   changePassword: (currentPassword: string, newPassword: string) =>
     api.post('/auth/change-password', { currentPassword, newPassword })
 }
@@ -293,40 +293,40 @@ export const articlesApi = {
     const queryString = params ? '?' + new URLSearchParams(params).toString() : ''
     return api.get(`/articles${queryString}`)
   },
-  
+
   getById: (id: number) =>
     api.get(`/articles/${id}`),
-  
+
   create: (articleData: any) =>
     api.post('/articles', articleData),
-  
+
   update: (id: number, articleData: any) =>
     api.put(`/articles/${id}`, articleData),
-  
+
   delete: (id: number) =>
     api.delete(`/articles/${id}`),
-  
+
   like: (id: number) =>
     api.post(`/articles/${id}/like`),
-  
+
   unlike: (id: number) =>
     api.delete(`/articles/${id}/like`),
-  
+
   bookmark: (id: number) =>
     api.post(`/articles/${id}/bookmark`),
-  
+
   unbookmark: (id: number) =>
     api.delete(`/articles/${id}/bookmark`),
-  
+
   getComments: (id: number) =>
     api.get(`/articles/${id}/comments`),
-  
+
   addComment: (id: number, comment: string) =>
     api.post(`/articles/${id}/comments`, { comment }),
-  
+
   getDrafts: () =>
     api.get('/articles/drafts'),
-  
+
   getBookmarked: () =>
     api.get('/articles/bookmarked')
 }
@@ -335,27 +335,27 @@ export const articlesApi = {
 export const usersApi = {
   getProfile: (id?: number) =>
     api.get(id ? `/users/${id}` : '/users/me'),
-  
+
   updateProfile: (profileData: any) =>
     api.put('/users/me', profileData),
-  
+
   uploadAvatar: (formData: FormData, progressCallback?: (progress: number) => void) =>
     api.upload('/users/me/avatar', formData, progressCallback),
-  
+
   getUserArticles: (id: number, params?: Record<string, any>) => {
     const queryString = params ? '?' + new URLSearchParams(params).toString() : ''
     return api.get(`/users/${id}/articles${queryString}`)
   },
-  
+
   followUser: (id: number) =>
     api.post(`/users/${id}/follow`),
-  
+
   unfollowUser: (id: number) =>
     api.delete(`/users/${id}/follow`),
-  
+
   getFollowers: (id: number) =>
     api.get(`/users/${id}/followers`),
-  
+
   getFollowing: (id: number) =>
     api.get(`/users/${id}/following`)
 }
@@ -364,16 +364,16 @@ export const usersApi = {
 export const commentsApi = {
   update: (id: number, comment: string) =>
     api.put(`/comments/${id}`, { comment }),
-  
+
   delete: (id: number) =>
     api.delete(`/comments/${id}`),
-  
+
   like: (id: number) =>
     api.post(`/comments/${id}/like`),
-  
+
   unlike: (id: number) =>
     api.delete(`/comments/${id}/like`),
-  
+
   reply: (id: number, reply: string) =>
     api.post(`/comments/${id}/replies`, { reply })
 }
@@ -382,10 +382,10 @@ export const commentsApi = {
 export const tagsApi = {
   getPopular: () =>
     api.get('/tags/popular'),
-  
+
   search: (query: string) =>
     api.get(`/tags/search?q=${encodeURIComponent(query)}`),
-  
+
   getAll: () =>
     api.get('/tags')
 }
@@ -396,16 +396,16 @@ export const notificationsApi = {
     const queryString = params ? '?' + new URLSearchParams(params).toString() : ''
     return api.get(`/notifications${queryString}`)
   },
-  
+
   markAsRead: (id: number) =>
     api.patch(`/notifications/${id}`, { read: true }),
-  
+
   markAllAsRead: () =>
     api.patch('/notifications/mark-all-read'),
-  
+
   delete: (id: number) =>
     api.delete(`/notifications/${id}`),
-  
+
   getUnreadCount: () =>
     api.get('/notifications/unread-count')
 }
@@ -417,13 +417,13 @@ export const searchApi = {
     const queryString = '?' + new URLSearchParams(searchParams).toString()
     return api.get(`/search/articles${queryString}`)
   },
-  
+
   users: (query: string, params?: Record<string, any>) => {
     const searchParams = { q: query, ...params }
     const queryString = '?' + new URLSearchParams(searchParams).toString()
     return api.get(`/search/users${queryString}`)
   },
-  
+
   global: (query: string, params?: Record<string, any>) => {
     const searchParams = { q: query, ...params }
     const queryString = '?' + new URLSearchParams(searchParams).toString()
@@ -435,16 +435,16 @@ export const searchApi = {
 export const analyticsApi = {
   getArticleStats: (id: number) =>
     api.get(`/analytics/articles/${id}`),
-  
+
   getUserStats: () =>
     api.get('/analytics/users/me'),
-  
+
   getDashboard: () =>
     api.get('/analytics/dashboard'),
-  
+
   getPopularArticles: (timeframe: string = '7d') =>
     api.get(`/analytics/popular-articles?timeframe=${timeframe}`),
-  
+
   getTrendingTags: () =>
     api.get('/analytics/trending-tags')
 }
@@ -453,16 +453,16 @@ export const analyticsApi = {
 export const settingsApi = {
   get: () =>
     api.get('/settings'),
-  
+
   update: (settings: any) =>
     api.put('/settings', settings),
-  
+
   updateTheme: (theme: string) =>
     api.patch('/settings/theme', { theme }),
-  
+
   updateLanguage: (language: string) =>
     api.patch('/settings/language', { language }),
-  
+
   updateNotifications: (notifications: any) =>
     api.patch('/settings/notifications', notifications)
 }
