@@ -9,8 +9,7 @@
 
 <style scoped>
 .development-text {
-  color: var(--text-secondary);
-  font-size: 1.875rem;
+  color: var(--text-secondary)  font-size: 1.875rem;
   font-family: var(--font-sans);
   margin-top: 21.875rem;
   margin-bottom: 40.625rem;

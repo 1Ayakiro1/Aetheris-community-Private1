@@ -18,7 +18,7 @@
           </div>
           <div class="notification-content">
             <h3 class="notification-title">New Article Published</h3>
-            <p class="notification-description">A new article "Getting Started with Vue.js" has been published in the Articles section.</p>
+            <p class="notification-description">Новая статья была опубликована в разделе Статьи.</p>
             <span class="notification-time">2 hours ago</span>
           </div>
         </div>
@@ -31,7 +31,7 @@
           </div>
           <div class="notification-content">
             <h3 class="notification-title">Comment on Your Article</h3>
-            <p class="notification-description">John Doe commented on your article "Advanced React Patterns".</p>
+            <p class="notification-description">Пользователь прокомментировал вашу статью.</p>
             <span class="notification-time">5 hours ago</span>
           </div>
         </div>
