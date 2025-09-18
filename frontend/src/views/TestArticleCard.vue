@@ -89,34 +89,34 @@ const handleArticleClick = (articleId: number) => {
 
 <style scoped>
 .test-container {
-  padding: 20px;
+  padding: 1.25rem;
   background-color: var(--bg-primary);
   min-height: 100vh;
 }
 
 h1 {
   color: var(--text-primary);
-  margin-bottom: 30px;
+  margin-bottom: 1.875rem;
   text-align: center;
 }
 
 .test-article {
-  margin-bottom: 40px;
+  margin-bottom: 2.5rem;
   display: flex;
   justify-content: center;
 }
 
 .test-info {
   background-color: var(--bg-secondary);
-  padding: 20px;
-  border-radius: 10px;
-  max-width: 600px;
+  padding: 1.25rem;
+  border-radius: 0.625rem;
+  max-width: 37.5rem;
   margin: 0 auto;
 }
 
 .test-info h3 {
   color: var(--text-primary);
-  margin-bottom: 15px;
+  margin-bottom: 0.9375rem;
 }
 
 .test-info ul {
@@ -127,7 +127,7 @@ h1 {
 
 .test-info li {
   color: var(--text-secondary);
-  padding: 8px 0;
+  padding: 0.5rem 0;
   border-bottom: 1px solid var(--bg-primary);
 }
 

@@ -22,7 +22,7 @@ import SettingsSidebar from '@/components/SettingsSidebar.vue'
 
 <style scoped lang="scss">
 .settings-another-container {
-  max-width: 1920px;
+  max-width: 120rem;
   margin: 0 auto;
   background-color: var(--bg-primary);
   min-height: 100vh;
@@ -30,7 +30,7 @@ import SettingsSidebar from '@/components/SettingsSidebar.vue'
 
 .main-body {
   display: flex;
-  margin-top: 48px; // mt-12
+  margin-top: 3rem; // mt-12
 }
 
 
@@ -48,12 +48,12 @@ import SettingsSidebar from '@/components/SettingsSidebar.vue'
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 400px;
+  height: 25rem;
 }
 
 .development-text {
   color: var(--text-secondary);
-  font-size: 30px;
+  font-size: 1.875rem;
   font-family: var(--font-sans);
   font-weight: bold;
 }

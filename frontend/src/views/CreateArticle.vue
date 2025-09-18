@@ -24,7 +24,7 @@
         <div class="article-editor-container">
           <Editor 
             v-model="articleContent" 
-            editorStyle="height: 500px"
+            editorStyle="height: 31.25rem"
             class="custom-editor"
           />
         </div>
@@ -359,26 +359,26 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .create-article-container {
-  max-width: 1920px;
+  max-width: 120rem;
   margin: 0 auto;
   background-color: var(--bg-primary);
-  padding-top: 100px;
-  padding-bottom: 200px;
+  padding-top: 6.25rem;
+  padding-bottom: 12.5rem;
 }
 
 .content-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 0.625rem;
 }
 
 // Path block
 .path-block {
   background-color: var(--bg-secondary);
-  width: 1400px;
+  width: 125rem;
   height: 101px;
-  border-radius: 25px;
+  border-radius: 1.5625rem;
   justify-content: center;
   justify-items: center;
   align-items: center;
@@ -386,11 +386,11 @@ onMounted(() => {
 
 .path-title {
   color: var(--text-primary);
-  font-size: 30px;
+  font-size: 1.875rem;
   font-family: var(--font-sans);
   font-weight: bold;
-  margin-top: 35px;
-  margin-left: 48px;
+  margin-top: 2.1875rem;
+  margin-left: 3rem;
   align-items: center;
 }
 
@@ -402,30 +402,30 @@ onMounted(() => {
 // Warning block
 .warning-block {
   background-color: var(--bg-secondary);
-  width: 1400px;
+  width: 125rem;
   height: 209px;
-  border-radius: 25px;
+  border-radius: 1.5625rem;
   display: flex;
   flex-direction: column;
 }
 
 .warning-title {
   color: var(--text-primary);
-  font-size: 25px;
+  font-size: 1.5625rem;
   font-family: var(--font-sans);
   font-weight: bold;
   margin-top: 24px;
-  margin-left: 48px;
+  margin-left: 3rem;
 }
 
 .warning-subtitle {
   color: var(--text-secondary);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-family: var(--font-sans);
   font-weight: bold;
-  margin-top: 4px;
-  margin-left: 48px;
-  width: 440px;
+  margin-top: 0.25rem;
+  margin-left: 3rem;
+  width: 42.5rem;
 }
 
 .read-rules-button {
@@ -433,13 +433,13 @@ onMounted(() => {
   height: 56px;
   background-color: var(--btn-primary);
   border: none;
-  border-radius: 20px;
+  border-radius: 1.25rem;
   color: var(--text-primary);
-  font-size: 25px;
+  font-size: 1.5625rem;
   font-family: var(--font-sans);
   font-weight: bold;
-  margin-left: 48px;
-  margin-top: 15px;
+  margin-left: 3rem;
+  margin-top: 0.9375rem;
   cursor: pointer;
   transition: all 0s ease-in-out;
   
@@ -448,29 +448,29 @@ onMounted(() => {
 // Edit block
 .edit-block {
   background-color: var(--bg-secondary);
-  width: 1400px;
+  width: 125rem;
   height: 2000px;
-  border-radius: 25px;
+  border-radius: 1.5625rem;
   display: flex;
   flex-direction: column;
 }
 
 .edit-title {
   color: var(--text-primary);
-  font-size: 30px;
+  font-size: 1.875rem;
   font-family: var(--font-sans);
   font-weight: bold;
   margin-top: 24px;
-  margin-left: 48px;
+  margin-left: 3rem;
 }
 
 .edit-subtitle {
   color: var(--text-secondary);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-family: var(--font-sans);
   font-weight: bold;
-  margin-left: 48px;
-  width: 400px;
+  margin-left: 3rem;
+  width: 25rem;
 }
 
 .title-input {
@@ -478,13 +478,13 @@ onMounted(() => {
   height: 68px;
   background-color: var(--btn-primary);
   border: none;
-  border-radius: 20px;
-  margin-top: 8px;
-  margin-left: 48px;
+  border-radius: 1.25rem;
+  margin-top: 0.5rem;
+  margin-left: 3rem;
   font-weight: bold;
-  padding-left: 16px;
-  padding-right: 16px;
-  font-size: 22px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-size: 1.375rem;
   color: var(--text-primary);
   transition: all 0s ease-in-out;
   
@@ -495,7 +495,7 @@ onMounted(() => {
   &:focus {
     outline: none;
     border: 2px solid white;
-    border-radius: 20px;
+    border-radius: 1.25rem;
   }
 }
 
@@ -503,10 +503,10 @@ onMounted(() => {
 .article-editor-container {
   width: 1300px;
   margin-top: 56px;
-  margin-left: 48px;
-  border-radius: 20px;
+  margin-left: 3rem;
+  border-radius: 1.25rem;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0.25rem 1.25rem rgba(0, 0, 0, 0.1);
 }
 
 // Custom PrimeVue Editor styling
@@ -514,20 +514,20 @@ onMounted(() => {
   :deep(.p-editor-toolbar) {
     background: var(--btn-primary);
     border: none;
-    border-radius: 20px 20px 0 0;
-    padding: 16px 20px;
+    border-radius: 1.25rem 1.25rem 0 0;
+    padding: 1rem 1.25rem;
     border-bottom: 2px solid var(--bg-primary);
     
     .ql-formats {
-      margin-right: 16px;
+      margin-right: 1rem;
     }
     
     button, select {
       background: transparent;
       border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 8px;
+      border-radius: 0.5rem;
       color: var(--text-primary) !important;
-      padding: 8px;
+      padding: 0.5rem;
       margin: 0 2px;
       transition: all 0.3s ease;
       
@@ -566,13 +566,13 @@ onMounted(() => {
   :deep(.p-editor-content) {
     background: var(--btn-primary);
     border: none;
-    border-radius: 0 0 20px 20px;
+    border-radius: 0 0 1.25rem 1.25rem;
     
     .ql-editor {
-      min-height: 500px;
+      min-height: 31.25rem;
       padding: 24px;
       font-family: var(--font-sans);
-      font-size: 16px;
+      font-size: 1rem;
       line-height: 1.6;
       color: var(--text-primary) !important;
       background: transparent;
@@ -591,7 +591,7 @@ onMounted(() => {
       // Стилизация содержимого редактора
       h1, h2, h3, h4, h5, h6 {
         color: var(--text-primary) !important;
-        margin: 20px 0 10px 0;
+        margin: 1.25rem 0 0.625rem 0;
         font-weight: 700;
       }
       
@@ -599,7 +599,7 @@ onMounted(() => {
         font-size: 2.2em; 
         color: var(--primary-violet) !important;
         border-bottom: 2px solid var(--primary-violet);
-        padding-bottom: 8px;
+        padding-bottom: 0.5rem;
       }
       
       h2 { 
@@ -625,17 +625,17 @@ onMounted(() => {
         background: var(--bg-secondary) !important;
         color: var(--primary-violet) !important;
         padding: 2px 6px;
-        border-radius: 4px;
+        border-radius: 0.25rem;
         font-family: 'Courier New', monospace;
         font-size: 0.9em;
       }
       
       blockquote {
-        border-left: 4px solid var(--primary-violet) !important;
+        border-left: 0.25rem solid var(--primary-violet) !important;
         background: var(--bg-secondary) !important;
-        padding: 16px 20px;
-        margin: 16px 0;
-        border-radius: 0 8px 8px 0;
+        padding: 1rem 1.25rem;
+        margin: 1rem 0;
+        border-radius: 0 0.5rem 0.5rem 0;
         
         p {
           margin: 0;
@@ -645,10 +645,10 @@ onMounted(() => {
       }
       
       ul, ol {
-        padding-left: 20px;
+        padding-left: 1.25rem;
         
         li {
-          margin: 8px 0;
+          margin: 0.5rem 0;
           color: var(--text-primary) !important;
         }
       }
@@ -668,9 +668,9 @@ onMounted(() => {
       img {
         max-width: 100%;
         height: auto;
-        border-radius: 8px;
-        margin: 16px 0;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        border-radius: 0.5rem;
+        margin: 1rem 0;
+        box-shadow: 0 0.25rem 12px rgba(0, 0, 0, 0.1);
       }
     }
   }
@@ -679,21 +679,21 @@ onMounted(() => {
 // Tags section
 .tags-title {
   color: var(--text-primary);
-  font-size: 30px;
+  font-size: 1.875rem;
   font-family: var(--font-sans);
   font-weight: bold;
   margin-top: 24px;
-  margin-left: 48px;
+  margin-left: 3rem;
 }
 
 .tags-subtitle {
   color: var(--text-secondary);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-family: var(--font-sans);
   font-weight: bold;
-  margin-left: 48px;
+  margin-left: 3rem;
   width: 460px;
-  margin-top: 10px;
+  margin-top: 0.625rem;
 }
 
 .tags-input {
@@ -701,13 +701,13 @@ onMounted(() => {
   height: 68px;
   background-color: var(--btn-primary);
   border: none;
-  border-radius: 20px;
-  margin-top: 16px;
-  margin-left: 48px;
+  border-radius: 1.25rem;
+  margin-top: 1rem;
+  margin-left: 3rem;
   font-weight: bold;
-  padding-left: 16px;
-  padding-right: 16px;
-  font-size: 22px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-size: 1.375rem;
   color: var(--text-primary);
   transition: all 0s ease-in-out;
   
@@ -718,7 +718,7 @@ onMounted(() => {
   &:focus {
     outline: none;
     border: 2px solid white;
-    border-radius: 20px;
+    border-radius: 1.25rem;
   }
 }
 
@@ -726,7 +726,7 @@ onMounted(() => {
 .action-buttons {
   width: 100%;
   display: flex;
-  gap: 4px;
+  gap: 0.25rem;
 }
 
 .create-button {
@@ -734,15 +734,15 @@ onMounted(() => {
   height: 56px;
   background: linear-gradient(to right, var(--primary-violet) 0%, var(--primary-pink) 100%);
   border: none;
-  border-radius: 20px;
-  font-size: 25px;
+  border-radius: 1.25rem;
+  font-size: 1.5625rem;
   display: flex;
-  margin-left: 48px;
-  margin-top: 16px;
+  margin-left: 3rem;
+  margin-top: 1rem;
   align-items: center;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
-  padding-left: 32px;
+  padding-left: 2rem;
   
   &:hover {
     opacity: 0.8;
@@ -750,19 +750,19 @@ onMounted(() => {
 }
 
 .preview-button {
-  width: 280px;
+  width: 25rem;
   height: 56px;
   background-color: var(--btn-primary);
   border: none;
-  border-radius: 20px;
-  font-size: 25px;
+  border-radius: 1.25rem;
+  font-size: 1.5625rem;
   display: flex;
-  margin-left: 16px;
-  margin-top: 16px;
+  margin-left: 1rem;
+  margin-top: 1rem;
   align-items: center;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
-  padding-left: 32px;
+  padding-left: 2rem;
   
   &:hover {
     opacity: 0.8;
@@ -774,15 +774,15 @@ onMounted(() => {
   height: 56px;
   background-color: var(--btn-primary);
   border: none;
-  border-radius: 20px;
-  font-size: 25px;
+  border-radius: 1.25rem;
+  font-size: 1.5625rem;
   display: flex;
-  margin-left: 16px;
-  margin-top: 16px;
+  margin-left: 1rem;
+  margin-top: 1rem;
   align-items: center;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
-  padding-left: 32px;
+  padding-left: 2rem;
   
   &:hover {
     opacity: 0.8;
@@ -804,16 +804,16 @@ onMounted(() => {
 
 .button-text {
   color: var(--text-primary);
-  font-size: 25px;
+  font-size: 1.5625rem;
   font-family: var(--font-sans);
   font-weight: bold;
-  margin-left: 20px;
+  margin-left: 1.25rem;
 }
 
 // Publication time section
 .publication-time-section {
   width: 100%;
-  margin-top: 48px;
+  margin-top: 3rem;
 }
 
 .publication-time-header {
@@ -833,21 +833,21 @@ onMounted(() => {
 
 // Custom checkbox styling
 .checkbox {
-  width: 40px;
-  height: 40px;
+  width: 2.5rem;
+  height: 2.5rem;
   border: 2px solid #6b7280;
   border-radius: 6px;
   background-color: transparent;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  margin-left: 48px;
+  margin-left: 3rem;
   position: relative;
   overflow: hidden;
   
   &:hover {
     border-color: #9CA3AF;
     transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3);
+    box-shadow: 0 0.25rem 12px rgba(107, 114, 128, 0.3);
   }
   
   &:active {
@@ -858,7 +858,7 @@ onMounted(() => {
     background-color: #8B5CF6;
     border: 2px solid white;
     transform: scale(1.1);
-    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+    box-shadow: 0 6px 1.25rem rgba(139, 92, 246, 0.4);
     
     &::before {
       content: '';
@@ -883,8 +883,8 @@ onMounted(() => {
     opacity: 1;
   }
   100% {
-    width: 60px;
-    height: 60px;
+    width: 3.75rem;
+    height: 3.75rem;
     opacity: 0;
   }
 }
@@ -905,7 +905,7 @@ onMounted(() => {
 }
 
 .checkmark-icon {
-  font-size: 20px;
+  font-size: 1.25rem;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -917,42 +917,42 @@ onMounted(() => {
 
 .checkbox-label {
   color: var(--text-primary);
-  font-size: 25px;
+  font-size: 1.5625rem;
   font-family: var(--font-sans);
   font-weight: bold;
-  margin-left: 8px;
+  margin-left: 0.5rem;
 }
 
 .publication-subtitle {
   color: var(--text-secondary);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-family: var(--font-sans);
   font-weight: bold;
-  margin-top: 10px;
-  margin-left: 48px;
+  margin-top: 0.625rem;
+  margin-left: 3rem;
   width: 460px;
 }
 
 .time-inputs {
   display: flex;
-  margin-top: 16px;
-  margin-left: 48px;
+  margin-top: 1rem;
+  margin-left: 3rem;
   gap: 24px;
 }
 
 .date-input {
-  width: 400px;
+  width: 25rem;
   height: 65px;
   background-color: var(--btn-primary);
   border: none;
-  border-radius: 20px;
+  border-radius: 1.25rem;
   font-weight: bold;
-  font-size: 25px;
+  font-size: 1.5625rem;
   text-align: center;
   color: var(--text-primary);
   cursor: text;
   transition: all 0s ease-in-out;
-  padding: 0 20px;
+  padding: 0 1.25rem;
   
   &::placeholder {
     color: var(--text-third);
@@ -961,24 +961,24 @@ onMounted(() => {
   &:focus {
     outline: none;
     border: 2px solid white;
-    border-radius: 20px;
+    border-radius: 1.25rem;
   }
   
 }
 
 .time-input {
-  width: 300px;
+  width: 18.75rem;
   height: 65px;
   background-color: var(--btn-primary);
   border: none;
-  border-radius: 20px;
+  border-radius: 1.25rem;
   font-weight: bold;
-  font-size: 25px;
+  font-size: 1.5625rem;
   text-align: center;
   color: var(--text-primary);
   cursor: text;
   transition: all 0s ease-in-out;
-  padding: 0 20px;
+  padding: 0 1.25rem;
   
   &::placeholder {
     color: var(--text-third);
@@ -987,55 +987,55 @@ onMounted(() => {
   &:focus {
     outline: none;
     border: 2px solid white;
-    border-radius: 20px;
+    border-radius: 1.25rem;
   }
   
 }
 
 .publication-label {
   color: var(--text-primary);
-  font-size: 25px;
+  font-size: 1.5625rem;
   font-family: var(--font-sans);
   font-weight: bold;
-  margin-top: 32px;
-  margin-left: 48px;
+  margin-top: 2rem;
+  margin-left: 3rem;
 }
 
 // Ranks section
 .ranks-section {
   display: flex;
   flex-direction: column;
-  margin-top: 8px;
+  margin-top: 0.5rem;
 }
 
 // Additional settings
 .additional-settings-title {
   color: var(--text-primary);
-  font-size: 25px;
+  font-size: 1.5625rem;
   font-family: var(--font-sans);
   font-weight: bold;
-  margin-top: 32px;
-  margin-left: 48px;
+  margin-top: 2rem;
+  margin-left: 3rem;
 }
 
 .additional-settings {
   display: flex;
   flex-direction: column;
-  margin-top: 8px;
+  margin-top: 0.5rem;
 }
 
 // API Error styles
 .api-error {
-  margin: 16px 48px;
+  margin: 1rem 3rem;
   padding: 12px;
   background-color: rgba(255, 59, 59, 0.1);
   border: 1px solid #FF3B3B;
-  border-radius: 8px;
+  border-radius: 0.5rem;
 }
 
 .api-error-message {
   color: #FF3B3B;
-  font-size: 16px;
+  font-size: 1rem;
   font-family: var(--font-sans);
   margin: 0;
   text-align: center;

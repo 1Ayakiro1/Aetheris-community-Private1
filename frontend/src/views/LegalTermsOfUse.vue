@@ -61,20 +61,20 @@
 
 <style lang="scss" scoped>
 .legal-terms-of-use-container {
-  max-width: 1920px;
+  max-width: 120rem;
   margin: 0 auto;
   background-color: var(--bg-primary);
-  padding-top: 100px;
-  padding-bottom: 200px;
+  padding-top: 6.25rem;
+  padding-bottom: 12.5rem;
 }
 
 .page-title {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 16px;
+  margin-top: 1rem;
   color: var(--text-primary);
-  font-size: 30px;
+  font-size: 1.875rem;
   font-family: var(--font-sans-serif);
   font-weight: bold;
 }
@@ -83,67 +83,67 @@
   display: flex;
   justify-content: center;
   gap: 12px;
-  margin-top: 16px;
+  margin-top: 1rem;
 }
 
 .sidebar {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 0.625rem;
 }
 
 .sidebar-block {
   background-color: var(--bg-secondary);
-  border-radius: 25px;
+  border-radius: 1.5625rem;
   display: flex;
   flex-direction: column;
   
   &.legal-block {
-    width: 370px;
-    height: 330px;
+    width: 23.125rem;
+    height: 31.875rem;
   }
   
   &.community-block {
-    width: 370px;
-    height: 84px;
+    width: 23.125rem;
+    height: 5.25rem;
     align-items: center;
   }
   
   &.security-block {
-    width: 370px;
-    height: 221px;
+    width: 23.125rem;
+    height: 13.8125rem;
   }
 }
 
 .block-title {
   color: var(--text-primary);
-  font-size: 25px;
+  font-size: 1.5625rem;
   font-family: var(--font-sans-serif);
   font-weight: bold;
-  margin-top: 16px;
-  margin-left: 48px;
+  margin-top: 1rem;
+  margin-left: 3rem;
 }
 
 .button-column {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0.5rem;
   width: 100%;
   align-items: center;
-  margin-top: 8px;
+  margin-top: 0.5rem;
   
   .security-block & {
-    gap: 10px;
-    margin-top: 16px;
+    gap: 0.625rem;
+    margin-top: 1rem;
   }
 }
 
 .sidebar-button {
-  width: 300px;
+  width: 18.75rem;
   height: 56px;
   background-color: rgba(67, 73, 86, 0);
   border: none;
-  border-radius: 15px;
+  border-radius: 0.9375rem;
   color: var(--text-primary);
   font-size: 23px;
   font-family: var(--font-sans-serif);
@@ -156,7 +156,7 @@
   }
   
   .community-block & {
-    margin-top: 16px;
+    margin-top: 1rem;
   }
 }
 
@@ -169,6 +169,6 @@
   width: 1000px;
   height: 791px;
   background-color: var(--bg-secondary);
-  border-radius: 20px;
+  border-radius: 1.25rem;
 }
 </style>

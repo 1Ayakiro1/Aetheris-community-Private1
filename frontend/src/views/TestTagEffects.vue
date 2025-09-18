@@ -89,31 +89,31 @@
 
 <style scoped>
 .test-container {
-  padding: 20px;
+  padding: 1.25rem;
   background-color: var(--bg-primary);
   min-height: 100vh;
 }
 
 h1 {
   color: var(--text-primary);
-  margin-bottom: 30px;
+  margin-bottom: 1.875rem;
   text-align: center;
 }
 
 h2 {
   color: var(--text-primary);
-  margin-bottom: 20px;
-  margin-top: 40px;
+  margin-bottom: 1.25rem;
+  margin-top: 2.5rem;
 }
 
 h3 {
   color: var(--text-primary);
-  margin-bottom: 15px;
-  font-size: 18px;
+  margin-bottom: 0.9375rem;
+  font-size: 1.125rem;
 }
 
 .test-section {
-  margin-bottom: 40px;
+  margin-bottom: 2.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -122,14 +122,14 @@ h3 {
 .tags-container {
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  gap: 0.625rem;
   flex-wrap: wrap;
   justify-content: center;
 }
 
 .comparison {
   display: flex;
-  gap: 40px;
+  gap: 2.5rem;
   justify-content: center;
   align-items: flex-start;
 }
@@ -138,7 +138,7 @@ h3 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px;
+  gap: 0.9375rem;
 }
 
 /* Новый стиль с эффектом заполнения */
@@ -146,10 +146,10 @@ h3 {
   position: relative;
   border: 2px solid #FFFFFF;
   background-color: transparent;
-  width: 160px;
-  height: 40px;
-  border-radius: 10px;
-  font-size: 20px;
+  width: 10rem;
+  height: 2.5rem;
+  border-radius: 0.625rem;
+  font-size: 1.25rem;
   font-family: var(--font-sans);
   font-weight: 700;
   color: var(--text-primary);
@@ -212,10 +212,10 @@ h3 {
 .tag-old {
   border: 2px solid #FFFFFF;
   background-color: transparent;
-  width: 160px;
-  height: 40px;
-  border-radius: 10px;
-  font-size: 20px;
+  width: 10rem;
+  height: 2.5rem;
+  border-radius: 0.625rem;
+  font-size: 1.25rem;
   font-family: var(--font-sans);
   font-weight: 700;
   color: var(--text-primary);
@@ -234,15 +234,15 @@ h3 {
 
 .instructions {
   background-color: var(--bg-secondary);
-  padding: 20px;
-  border-radius: 10px;
-  max-width: 600px;
+  padding: 1.25rem;
+  border-radius: 0.625rem;
+  max-width: 37.5rem;
   text-align: left;
 }
 
 .instructions p {
   color: var(--text-secondary);
-  margin: 10px 0;
-  font-size: 16px;
+  margin: 0.625rem 0;
+  font-size: 1rem;
 }
 </style>

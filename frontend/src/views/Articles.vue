@@ -232,7 +232,7 @@ const handleScroll = () => {
   const scrollY = window.scrollY
   const windowHeight = window.innerHeight
 
-  // Show button when scrolling down more than 300px
+  // Show button when scrolling down more than 18.75rem
   showBackToTop.value = scrollY > 300
 
   // Find the real footer by class .footer-container
@@ -272,22 +272,22 @@ const handleScroll = () => {
       console.log('Footer is visible, switching to absolute position')
 
       // Calculate button position above footer
-      const buttonPosition = footerTop - buttonHeight - 20 // 20px offset from footer
+      const buttonPosition = footerTop - buttonHeight - 20 // 1.25rem offset from footer
 
       if (buttonPosition > 0) {
         // Button above footer
         backToTopBtn.classList.add('above-footer')
         backToTopBtn.style.position = 'absolute'
         backToTopBtn.style.top = `${buttonPosition}px`
-        backToTopBtn.style.left = '30px'
+        backToTopBtn.style.left = '1.875rem'
         backToTopBtn.style.bottom = 'auto'
         console.log('Button positioned above footer at:', buttonPosition)
       } else {
         // Footer too high, button in normal position
         backToTopBtn.classList.remove('above-footer')
         backToTopBtn.style.position = 'fixed'
-        backToTopBtn.style.bottom = '30px'
-        backToTopBtn.style.left = '30px'
+        backToTopBtn.style.bottom = '1.875rem'
+        backToTopBtn.style.left = '1.875rem'
         backToTopBtn.style.top = 'auto'
         console.log('Footer too high, using fixed position')
       }
@@ -295,8 +295,8 @@ const handleScroll = () => {
       // Footer not visible, button in fixed position
       backToTopBtn.classList.remove('above-footer')
       backToTopBtn.style.position = 'fixed'
-      backToTopBtn.style.bottom = '30px'
-      backToTopBtn.style.left = '30px'
+      backToTopBtn.style.bottom = '1.875rem'
+      backToTopBtn.style.left = '1.875rem'
       backToTopBtn.style.top = 'auto'
       console.log('Footer not visible, using fixed position')
     }
@@ -324,7 +324,7 @@ onUnmounted(() => {
 
 <style scoped>
 .articles-container {
-  max-width: 1920px;
+  max-width: 120rem;
   margin: 0 auto;
   background-color: var(--bg-primary);
   min-height: 100vh;
@@ -333,56 +333,56 @@ onUnmounted(() => {
 /* Articles Body */
 .articles-body {
   display: flex;
-  margin-top: 40px;
+  margin-top: 2.5rem;
   justify-content: center;
   align-items: flex-start;
-  gap: 16px;
+  gap: 1rem;
 }
 
 /* First Left Block - Search Section */
 .search-section {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 1.25rem;
 }
 
 .search-container {
   width: 1060px;
-  height: 70px;
+  height: 4.375rem;
   background-color: var(--bg-secondary);
-  border-radius: 32px;
+  border-radius: 2rem;
   display: flex;
   align-items: center;
 }
 
 .search-icon {
-  margin-left: 20px;
+  margin-left: 1.25rem;
 }
 
 .search-divider {
   width: 2px;
   height: 38px;
-  margin-left: 20px;
+  margin-left: 1.25rem;
   background-color: white;
-  border-radius: 30px;
+  border-radius: 1.875rem;
   opacity: 0.3;
 }
 
 .search-icon-2 {
-  margin-left: 20px;
+  margin-left: 1.25rem;
 }
 
 .search-input {
-  margin-left: 16px;
+  margin-left: 1rem;
   width: 912px;
-  height: 50px;
+  height: 3.125rem;
   background-color: var(--bg-primary);
-  border-radius: 25px 25px 30px 30px;
+  border-radius: 1.5625rem 1.5625rem 1.875rem 1.875rem;
   color: var(--text-primary);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-family: var(--font-sans);
   font-weight: 500;
-  padding-left: 16px;
+  padding-left: 1rem;
   border: none;
   outline: none;
 }
@@ -394,7 +394,7 @@ onUnmounted(() => {
 
 .loading-text {
   color: var(--text-secondary);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-family: var(--font-sans);
   font-weight: 700;
 }
@@ -404,16 +404,16 @@ onUnmounted(() => {
   width: 1060px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 5px 0;
+  gap: 1.25rem;
+  padding: 0.3125rem 0;
 }
 
 /* Pagination Container */
 .pagination-container {
   display: flex;
   justify-content: center;
-  margin-top: 30px;
-  padding: 20px 0;
+  margin-top: 1.875rem;
+  padding: 1.25rem 0;
 }
 
 /* PrimeVue Paginator - Community Colors */
@@ -466,10 +466,10 @@ onUnmounted(() => {
 /* Back to Top Button */
 .back-to-top-btn {
   position: fixed;
-  bottom: 30px;
-  left: 30px;
-  width: 50px;
-  height: 50px;
+  bottom: 1.875rem;
+  left: 1.875rem;
+  width: 3.125rem;
+  height: 3.125rem;
   background-color: var(--primary-violet);
   border: none;
   border-radius: 50%;
@@ -481,9 +481,9 @@ onUnmounted(() => {
   transition: opacity 0.5s ease, visibility 0.3s ease, transform 0.3s ease;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(20px);
+  transform: translateY(1.25rem);
   z-index: 1000;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0.25rem 12px rgba(0, 0, 0, 0.3);
 }
 
 .back-to-top-btn.visible {
@@ -495,7 +495,7 @@ onUnmounted(() => {
 .back-to-top-btn:hover {
   background-color: #3b82f6;
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 6px 1rem rgba(0, 0, 0, 0.4);
 }
 
 .back-to-top-btn:active {
@@ -513,18 +513,18 @@ onUnmounted(() => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 60px 20px;
+  padding: 3.75rem 1.25rem;
   color: var(--text-secondary);
 }
 
 .loading-spinner {
-  width: 40px;
-  height: 40px;
-  border: 4px solid var(--bg-secondary);
-  border-top: 4px solid var(--btn-primary);
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 0.25rem solid var(--bg-secondary);
+  border-top: 0.25rem solid var(--btn-primary);
   border-radius: 50%;
   animation: spin 1s linear infinite;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 }
 
 @keyframes spin {
@@ -537,7 +537,7 @@ onUnmounted(() => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 60px 20px;
+  padding: 3.75rem 1.25rem;
   text-align: center;
   color: var(--text-secondary);
 }
@@ -545,12 +545,12 @@ onUnmounted(() => {
 .empty-state h3 {
   color: var(--text-primary);
   font-size: 24px;
-  margin-bottom: 10px;
+  margin-bottom: 0.625rem;
 }
 
 .empty-state p {
-  font-size: 18px;
-  margin-bottom: 20px;
+  font-size: 1.125rem;
+  margin-bottom: 1.25rem;
 }
 
 .reset-filters-btn {
@@ -558,8 +558,8 @@ onUnmounted(() => {
   color: var(--text-primary);
   border: none;
   padding: 12px 24px;
-  border-radius: 8px;
-  font-size: 16px;
+  border-radius: 0.5rem;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
@@ -578,10 +578,10 @@ onUnmounted(() => {
 
 /* Article Info Card */
 .article-info-card {
-  width: 300px;
-  height: 400px;
+  width: 18.75rem;
+  height: 25rem;
   background-color: var(--bg-secondary);
-  border-radius: 30px;
+  border-radius: 1.875rem;
   display: flex;
   flex-direction: column;
 }
@@ -593,15 +593,15 @@ onUnmounted(() => {
 
 .card-icon {
   margin-left: 24px;
-  margin-top: 4px;
+  margin-top: 0.25rem;
 }
 
 .card-title {
   color: var(--text-primary);
-  font-size: 25px;
+  font-size: 1.5625rem;
   font-family: var(--font-sans);
   font-weight: 500;
-  margin-left: 10px;
+  margin-left: 0.625rem;
   margin-top: 0;
   margin-bottom: 0;
   margin-right: 0;
@@ -615,7 +615,7 @@ onUnmounted(() => {
 
 .info-label {
   color: var(--text-secondary);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-family: var(--font-sans);
   font-weight: 500;
   margin: 0;
@@ -623,27 +623,27 @@ onUnmounted(() => {
 
 .info-value {
   color: var(--text-secondary);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-family: var(--font-sans);
   font-weight: 500;
-  margin-left: 8px;
+  margin-left: 0.5rem;
   margin: 0;
 }
 
 /* Similar Articles Card */
 .similar-articles-card {
-  width: 300px;
-  height: 400px;
+  width: 18.75rem;
+  height: 25rem;
   background-color: var(--bg-secondary);
-  margin-top: 16px;
-  border-radius: 30px;
+  margin-top: 1rem;
+  border-radius: 1.875rem;
   display: flex;
   flex-direction: column;
 }
 
 .similar-item {
   color: var(--text-secondary);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-family: var(--font-sans);
   font-weight: 500;
   margin-top: 24px;

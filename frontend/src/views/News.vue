@@ -71,24 +71,24 @@
 
 <style scoped>
 .news-container {
-  max-width: 1920px;
+  max-width: 120rem;
   margin: 0 auto;
   background-color: var(--bg-primary);
   min-height: 100vh;
-  padding: 40px 180px;
+  padding: 2.5rem 15rem;
 }
 
 /* News Header */
 .news-header {
-  margin-bottom: 40px;
+  margin-bottom: 2.5rem;
 }
 
 .news-title {
   font-family: var(--font-sans);
-  font-size: 48px;
+  font-size: 3rem;
   font-weight: 500;
   color: var(--text-primary);
-  margin: 0 0 16px 0;
+  margin: 0 0 1rem 0;
 }
 
 .news-subtitle {
@@ -107,14 +107,14 @@
 .news-list {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 2rem;
 }
 
 .news-item {
   display: flex;
   gap: 24px;
   background-color: var(--bg-secondary);
-  border-radius: 16px;
+  border-radius: 1rem;
   padding: 24px;
   border: 1px solid var(--text-secondary);
   transition: all 0.3s ease-in-out;
@@ -122,13 +122,13 @@
 }
 
 .news-item:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  transform: translateY(-0.25rem);
+  box-shadow: 0 0.5rem 24px rgba(0, 0, 0, 0.2);
 }
 
 .news-image {
-  width: 200px;
-  height: 120px;
+  width: 12.5rem;
+  height: 11.25rem;
   flex-shrink: 0;
 }
 
@@ -136,7 +136,7 @@
   width: 100%;
   height: 100%;
   background-color: var(--btn-primary);
-  border-radius: 8px;
+  border-radius: 0.5rem;
 }
 
 .news-content-text {
@@ -156,7 +156,7 @@
 
 .news-item-description {
   font-family: var(--font-sans);
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 500;
   color: var(--text-secondary);
   margin: 0;
@@ -167,21 +167,21 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 16px;
-  padding-top: 16px;
+  margin-top: 1rem;
+  padding-top: 1rem;
   border-top: 1px solid var(--text-secondary);
 }
 
 .news-author {
   font-family: var(--font-sans);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 500;
   color: var(--text-third);
 }
 
 .news-date {
   font-family: var(--font-sans);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 500;
   color: var(--text-third);
 }

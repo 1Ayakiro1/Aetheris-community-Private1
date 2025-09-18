@@ -367,7 +367,7 @@ const confirmReset = () => {
 
 <style scoped lang="scss">
 .settings-profile-container {
-  max-width: 1920px;
+  max-width: 120rem;
   margin: 0 auto;
   background-color: var(--bg-primary);
   min-height: 100vh;
@@ -375,7 +375,7 @@ const confirmReset = () => {
 
 .main-body {
   display: flex;
-  margin-top: 48px; // mt-12
+  margin-top: 3rem; // mt-12
 }
 
 
@@ -389,30 +389,30 @@ const confirmReset = () => {
 
 .profile-section {
   background-color: var(--bg-secondary);
-  width: 980px;
+  width: 95rem;
   height: 949px;
-  border-radius: 25px;
-  margin-bottom: 200px;
+  border-radius: 1.5625rem;
+  margin-bottom: 12.5rem;
   display: flex;
   flex-direction: column;
 }
 
 .section-title {
-  margin-top: 40px;
-  margin-left: 48px; 
+  margin-top: 2.5rem;
+  margin-left: 3rem; 
   color: var(--text-primary);
-  font-size: 25px;
+  font-size: 1.5625rem;
   font-family: var(--font-sans);
   font-weight: bold;
 }
 
 .section-subtitle {
   color: var(--text-secondary);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-family: var(--font-sans);
   font-weight: bold;
-  margin-top: 4px;
-  margin-left: 48px;
+  margin-top: 0.25rem;
+  margin-left: 3rem;
   width: 700px;
 }
 
@@ -420,29 +420,29 @@ const confirmReset = () => {
 .avatar-section {
   display: flex;
   flex-direction: row;
-  gap: 16px;
-  margin-left: 48px;
-  margin-top: 16px;
+  gap: 1rem;
+  margin-left: 3rem;
+  margin-top: 1rem;
 }
 
 .avatar-placeholder {
   background-color: var(--btn-primary);
   border-radius: 50%;
-  width: 150px;
-  height: 150px;
+  width: 13.125rem;
+  height: 13.125rem;
 }
 
 .avatar-buttons {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0.5rem;
 }
 
 .avatar-button {
-  width: 230px;
+  width: 21.875rem;
   height: 56px;
   background-color: rgba(67, 73, 86, 0);
-  border-radius: 15px;
+  border-radius: 0.9375rem;
   color: var(--text-primary);
   font-size: 23px;
   font-family: var(--font-sans);
@@ -459,15 +459,15 @@ const confirmReset = () => {
   }
 
   &:first-child {
-    margin-top: 16px; // mt-4
+    margin-top: 1rem; // mt-4
   }
 }
 
 .reset-button {
-  width: 200px;
+  width: 12.5rem;
   height: 56px;
   background-color: rgba(67, 73, 86, 0);
-  border-radius: 15px;
+  border-radius: 0.9375rem;
   color: var(--text-primary);
   font-size: 23px;
   font-family: var(--font-sans);
@@ -478,7 +478,7 @@ const confirmReset = () => {
   justify-content: center;
   border: none;
   cursor: pointer;
-  margin-top: 48px; // mt-12
+  margin-top: 3rem; // mt-12
 
   &:hover {
     background-color: rgba(67, 73, 86, 1);
@@ -492,10 +492,10 @@ const confirmReset = () => {
 
 .reset-text {
   color: var(--text-primary);
-  font-size: 25px;
+  font-size: 1.5625rem;
   font-family: var(--font-sans);
   font-weight: bold;
-  margin-left: 8px;
+  margin-left: 0.5rem;
 }
 
 // Input Fields
@@ -503,12 +503,12 @@ const confirmReset = () => {
   width: 360px;
   height: 65px;
   background-color: var(--btn-primary);
-  border-radius: 15px;
-  margin-left: 48px;
-  margin-top: 16px;
+  border-radius: 0.9375rem;
+  margin-left: 3rem;
+  margin-top: 1rem;
   font-weight: bold;
-  padding: 0 16px;
-  font-size: 22px;
+  padding: 0 1rem;
+  font-size: 1.375rem;
   color: var(--text-primary);
   border: none;
   font-family: var(--font-sans);
@@ -528,15 +528,15 @@ const confirmReset = () => {
 }
 
 .bio-input {
-  width: 520px;
+  width: 51.25rem;
   height: 167px;
   background-color: var(--btn-primary);
-  border-radius: 15px;
-  margin-left: 48px;
-  margin-top: 16px;
+  border-radius: 0.9375rem;
+  margin-left: 3rem;
+  margin-top: 1rem;
   font-weight: bold;
-  padding: 16px;
-  font-size: 22px;
+  padding: 1rem;
+  font-size: 1.375rem;
   color: var(--text-primary);
   border: none;
   font-family: var(--font-sans);
@@ -558,19 +558,19 @@ const confirmReset = () => {
 
 .error-message {
   color: #FF3B3B;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-family: var(--font-sans);
-  margin-top: 4px;
-  margin-left: 48px;
+  margin-top: 0.25rem;
+  margin-left: 3rem;
   margin-bottom: 0;
 }
 
 .character-count {
   color: var(--text-secondary);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-family: var(--font-sans);
-  margin-top: 4px;
-  margin-left: 48px;
+  margin-top: 0.25rem;
+  margin-left: 3rem;
   margin-bottom: 0;
 }
 
@@ -614,18 +614,18 @@ const confirmReset = () => {
 
 .modal-content {
   background-color: var(--bg-secondary);
-  border-radius: 30px;
-  width: 600px;
+  border-radius: 1.875rem;
+  width: 37.5rem;
   max-height: 80vh;
   overflow: hidden;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 1.5625rem 3.125rem rgba(0, 0, 0, 0.3);
   animation: modalContentAppear 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) 0.1s both;
 }
 
 @keyframes modalContentAppear {
   from {
     opacity: 0;
-    transform: scale(0.95) translateY(-10px);
+    transform: scale(0.95) translateY(-0.625rem);
   }
   to {
     opacity: 1;
@@ -637,7 +637,7 @@ const confirmReset = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 30px 40px 20px;
+  padding: 1.875rem 2.5rem 1.25rem;
   border-bottom: 2px solid var(--text-secondary);
 }
 
@@ -653,8 +653,8 @@ const confirmReset = () => {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 8px;
-  border-radius: 8px;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
   transition: background-color 0.3s ease;
   
   &:hover {
@@ -663,13 +663,13 @@ const confirmReset = () => {
 }
 
 .modal-body {
-  padding: 40px;
+  padding: 2.5rem;
 }
 
 .dropzone {
   border: 3px dashed var(--text-secondary);
-  border-radius: 20px;
-  padding: 60px 40px;
+  border-radius: 1.25rem;
+  padding: 3.75rem 2.5rem;
   text-align: center;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -692,7 +692,7 @@ const confirmReset = () => {
 @keyframes dropzoneAppear {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(1.875rem);
   }
   to {
     opacity: 1;
@@ -704,7 +704,7 @@ const confirmReset = () => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 1.25rem;
 }
 
 .upload-icon {
@@ -726,34 +726,34 @@ const confirmReset = () => {
 
 .dropzone-subtitle {
   color: var(--text-secondary);
-  font-size: 18px;
+  font-size: 1.125rem;
   font-family: var(--font-sans);
   margin: 0;
 }
 
 .dropzone-info {
   color: var(--text-secondary);
-  font-size: 16px;
+  font-size: 1rem;
   font-family: var(--font-sans);
   margin: 0;
   opacity: 0.8;
 }
 
 .preview-area {
-  margin-top: 30px;
-  padding: 20px;
+  margin-top: 1.875rem;
+  padding: 1.25rem;
   background-color: var(--btn-primary);
-  border-radius: 15px;
+  border-radius: 0.9375rem;
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 1.25rem;
   animation: previewAppear 0.5s cubic-bezier(0.25, 0.8, 0.25, 1) 0.4s both;
 }
 
 @keyframes previewAppear {
   from {
     opacity: 0;
-    transform: scale(0.95) translateY(10px);
+    transform: scale(0.95) translateY(0.625rem);
   }
   to {
     opacity: 1;
@@ -762,8 +762,8 @@ const confirmReset = () => {
 }
 
 .preview-image {
-  width: 80px;
-  height: 80px;
+  width: 5rem;
+  height: 5rem;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid var(--text-secondary);
@@ -775,15 +775,15 @@ const confirmReset = () => {
 
 .file-name {
   color: var(--text-primary);
-  font-size: 18px;
+  font-size: 1.125rem;
   font-family: var(--font-sans);
   font-weight: bold;
-  margin: 0 0 5px 0;
+  margin: 0 0 0.3125rem 0;
 }
 
 .file-size {
   color: var(--text-secondary);
-  font-size: 16px;
+  font-size: 1rem;
   font-family: var(--font-sans);
   margin: 0;
 }
@@ -792,15 +792,15 @@ const confirmReset = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 40px 30px;
-  gap: 20px;
+  padding: 1.25rem 2.5rem 1.875rem;
+  gap: 1.25rem;
   animation: footerAppear 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) 0.3s both;
 }
 
 @keyframes footerAppear {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(1.25rem);
   }
   to {
     opacity: 1;
@@ -811,10 +811,10 @@ const confirmReset = () => {
 .modal-button {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 16px 32px;
-  border-radius: 15px;
-  font-size: 18px;
+  gap: 0.625rem;
+  padding: 1rem 2rem;
+  border-radius: 0.9375rem;
+  font-size: 1.125rem;
   font-family: var(--font-sans);
   font-weight: bold;
   cursor: pointer;
@@ -854,14 +854,14 @@ const confirmReset = () => {
 
 // Delete Modal Styles
 .delete-modal {
-  width: 500px;
+  width: 31.25rem;
   text-align: center;
 }
 
 .warning-icon {
   display: flex;
   justify-content: center;
-  margin-bottom: 30px;
+  margin-bottom: 1.875rem;
 }
 
 .warning-title {
@@ -869,15 +869,15 @@ const confirmReset = () => {
   font-size: 24px;
   font-family: var(--font-sans);
   font-weight: bold;
-  margin: 0 0 20px 0;
+  margin: 0 0 1.25rem 0;
 }
 
 .warning-message {
   color: var(--text-secondary);
-  font-size: 18px;
+  font-size: 1.125rem;
   font-family: var(--font-sans);
   line-height: 1.5;
-  margin: 0 0 30px 0;
+  margin: 0 0 1.875rem 0;
 }
 
 .modal-button.danger {
@@ -935,31 +935,31 @@ const confirmReset = () => {
 
 .reset-panel-content {
   background-color: var(--bg-secondary);
-  border-radius: 15px;
-  padding: 30px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border-radius: 0.9375rem;
+  padding: 1.875rem;
+  box-shadow: 0 0.625rem 1.875rem rgba(0, 0, 0, 0.3);
   text-align: center;
-  min-width: 300px;
+  min-width: 18.75rem;
 }
 
 .reset-panel-text {
   color: var(--text-primary);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-family: var(--font-sans);
   font-weight: bold;
-  margin: 0 0 25px 0;
+  margin: 0 0 1.5625rem 0;
 }
 
 .reset-panel-buttons {
   display: flex;
-  gap: 15px;
+  gap: 0.9375rem;
   justify-content: center;
 }
 
 .reset-panel-button {
   padding: 12px 24px;
-  border-radius: 10px;
-  font-size: 16px;
+  border-radius: 0.625rem;
+  font-size: 1rem;
   font-family: var(--font-sans);
   font-weight: bold;
   cursor: pointer;

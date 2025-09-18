@@ -15,10 +15,11 @@ $font-sans-serif: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxyg
 html, body {
   margin: 0;
   padding: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   scroll-behavior: smooth;
   background-color: var(--bg-primary);
+  overflow-x: hidden;
 }
 
 //Aquamarine theme (default theme for our website)

@@ -748,7 +748,7 @@ const lockProfile = async () => {
 
 <style scoped lang="scss">
 .settings-privacy-container {
-  max-width: 1920px;
+  max-width: 120rem;
   margin: 0 auto;
   background-color: var(--bg-primary);
   min-height: 100vh;
@@ -756,7 +756,7 @@ const lockProfile = async () => {
 
 .main-body {
   display: flex;
-  margin-top: 48px; // mt-12
+  margin-top: 3rem; // mt-12
 }
 
 
@@ -770,40 +770,40 @@ const lockProfile = async () => {
 
 .security-section {
   background-color: var(--bg-secondary);
-  width: 980px;
-  height: 600px;
-  border-radius: 25px;
+  width: 95rem;
+  height: 37.5rem;
+  border-radius: 1.5625rem;
   display: flex;
   flex-direction: column;
 }
 
 .data-section {
   background-color: var(--bg-secondary);
-  width: 980px;
-  height: 430px;
-  border-radius: 25px;
+  width: 95rem;
+  height: 41.875rem;
+  border-radius: 1.5625rem;
   margin-top: 12px;
-  margin-bottom: 200px;
+  margin-bottom: 12.5rem;
   display: flex;
   flex-direction: column;
 }
 
 .section-title {
-  margin-top: 40px; // mt-10
-  margin-left: 48px; // ml-12
+  margin-top: 2.5rem; // mt-10
+  margin-left: 3rem; // ml-12
   color: var(--text-primary);
-  font-size: 25px;
+  font-size: 1.5625rem;
   font-family: var(--font-sans);
   font-weight: bold;
 }
 
 .section-subtitle {
   color: var(--text-secondary);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-family: var(--font-sans);
   font-weight: bold;
-  margin-top: 8px;
-  margin-left: 48px;
+  margin-top: 0.5rem;
+  margin-left: 3rem;
   width: 700px;
 }
 
@@ -811,9 +811,9 @@ const lockProfile = async () => {
 .security-options {
   display: flex;
   flex-direction: column;
-  margin-left: 48px;
-  margin-top: 32px;
-  gap: 16px;
+  margin-left: 3rem;
+  margin-top: 2rem;
+  gap: 1rem;
 }
 
 .security-option {
@@ -830,7 +830,7 @@ const lockProfile = async () => {
 
 .option-title {
   color: var(--text-primary);
-  font-size: 25px;
+  font-size: 1.5625rem;
   font-family: var(--font-sans);
   font-weight: bold;
   margin: 0;
@@ -842,20 +842,20 @@ const lockProfile = async () => {
 
 .option-subtitle {
   color: var(--text-secondary);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-family: var(--font-sans);
   font-weight: bold;
-  margin-top: 4px;
+  margin-top: 0.25rem;
   width: 660px;
 }
 
 .option-button {
-  width: 300px;
+  width: 18.75rem;
   height: 59px;
   background-color: rgba(67, 73, 86, 0);
-  border-radius: 15px;
+  border-radius: 0.9375rem;
   color: var(--text-primary);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-family: var(--font-sans);
   font-weight: bold;
   transition: all 0.3s ease-in-out;
@@ -864,7 +864,7 @@ const lockProfile = async () => {
   justify-content: center;
   border: none;
   cursor: pointer;
-  margin-right: 48px;
+  margin-right: 3rem;
   margin-top: 24px;
 
   &:hover {
@@ -886,9 +886,9 @@ const lockProfile = async () => {
 .data-options {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-left: 48px;
-  margin-top: 16px;
+  gap: 0.5rem;
+  margin-left: 3rem;
+  margin-top: 1rem;
 }
 
 .data-option {
@@ -913,8 +913,8 @@ const lockProfile = async () => {
 
 .modal-content {
   background-color: var(--bg-secondary);
-  border-radius: 30px;
-  width: 600px;
+  border-radius: 1.875rem;
+  width: 37.5rem;
   max-width: 90vw;
   max-height: 90vh;
   overflow-y: auto;
@@ -979,8 +979,8 @@ const lockProfile = async () => {
 }
 
 .modal-button {
-  padding: 14px 29px;
-  border-radius: 18px;
+  padding: 0.875rem 29px;
+  border-radius: 1.125rem;
   font-size: 19px;
   font-family: var(--font-sans);
   font-weight: bold;
@@ -1037,14 +1037,14 @@ const lockProfile = async () => {
   font-size: 19px;
   font-family: var(--font-sans);
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 0.625rem;
 }
 
 .form-input {
   width: 100%;
-  padding: 14px 19px;
+  padding: 0.875rem 19px;
   border: 2px solid var(--text-secondary);
-  border-radius: 18px;
+  border-radius: 1.125rem;
   background-color: var(--btn-primary);
   color: #ffffff;
   font-size: 19px;
@@ -1072,9 +1072,9 @@ const lockProfile = async () => {
 
 .form-select {
   width: 100%;
-  padding: 14px 19px;
+  padding: 0.875rem 19px;
   border: 2px solid var(--text-secondary);
-  border-radius: 18px;
+  border-radius: 1.125rem;
   background-color: var(--btn-primary);
   color: #ffffff;
   font-size: 19px;
@@ -1096,7 +1096,7 @@ const lockProfile = async () => {
   color: var(--text-red);
   font-size: 17px;
   font-family: var(--font-sans);
-  margin-top: 5px;
+  margin-top: 0.3125rem;
   margin-bottom: 0;
 }
 
@@ -1104,7 +1104,7 @@ const lockProfile = async () => {
 .warning-section {
   background-color: rgba(255, 59, 59, 0.1);
   border: 1px solid var(--text-red);
-  border-radius: 18px;
+  border-radius: 1.125rem;
   padding: 19px;
   margin-bottom: 29px;
 }
@@ -1114,7 +1114,7 @@ const lockProfile = async () => {
   font-size: 19px;
   font-family: var(--font-sans);
   font-weight: bold;
-  margin: 0 0 10px 0;
+  margin: 0 0 0.625rem 0;
 }
 
 .warning-description {
@@ -1143,11 +1143,11 @@ const lockProfile = async () => {
 }
 
 .qr-code {
-  width: 180px;
-  height: 180px;
+  width: 15rem;
+  height: 15rem;
   background-color: var(--btn-primary);
   border: 2px solid var(--text-secondary);
-  border-radius: 18px;
+  border-radius: 1.125rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1161,7 +1161,7 @@ const lockProfile = async () => {
   background-color: var(--btn-primary);
   border: 1px solid var(--text-secondary);
   border-radius: 12px;
-  padding: 14px;
+  padding: 0.875rem;
   color: var(--text-primary);
   font-size: 19px;
   font-family: 'Courier New', monospace;

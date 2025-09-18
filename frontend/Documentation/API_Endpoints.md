@@ -111,17 +111,26 @@
 ## СТАТЬИ
 
 ### GET /api/articles
-**Получение списка статей**
+**Получение списка статей для главной страницы Articles.vue**
+
+**Какая функция подгружает:** `loadArticles()` в composables/useArticles.ts
+**Когда вызывается:** При загрузке страницы, смене фильтров, пагинации
 
 **Query Parameters:**
-- `page`: number (номер страницы)
-- `limit`: number (количество на страницу)
-- `search`: string (поисковый запрос)
-- `tags`: string[] (фильтр по тегам)
-- `category`: string (фильтр по категории)
-- `authorId`: number (фильтр по автору)
-- `sortBy`: string (поле сортировки)
+- `page`: number (номер страницы, по умолчанию 1)
+- `limit`: number (10 для стандартного отображения, 20-25 для списка)
+- `search`: string (поиск по заголовку и контенту)
+- `tags`: string[] (массив тегов через запятую: "vue,javascript,typescript")
+- `category`: string (фильтр по категории: "frontend", "backend", "tutorial")
+- `authorId`: number (ID автора для фильтрации)
+- `sortBy`: string (поле: "createdAt", "views", "likes", "title")
 - `sortOrder`: 'asc'|'desc' (направление сортировки)
+- `featured`: boolean (только избранные статьи)
+
+**Пример запроса:**
+```
+GET /api/articles?page=1&limit=10&search=vue&tags=frontend,tutorial&sortBy=createdAt&sortOrder=desc
+```
 
 **Response (200):**
 ```json
@@ -161,7 +170,20 @@
 ```
 
 ### GET /api/articles/:id
-**Получение статьи по ID**
+**Получение полной статьи по ID для просмотра**
+
+**Какая функция подгружает:** `loadArticle(id)` в composables/useArticles.ts
+**Когда вызывается:** При клике на карточку статьи, переходе по прямой ссылке
+
+**URL Parameters:**
+- `id`: number (ID статьи)
+
+**Что загружает:**
+- Полный контент статьи
+- Информацию об авторе
+- Теги и категорию
+- Статистику (просмотры, лайки, комментарии)
+- Счетчик времени чтения
 
 **Response (200):**
 ```json
@@ -169,28 +191,55 @@
   "success": true,
   "data": {
     "article": {
-      // Полная информация о статье
+      "id": 1,
+      "title": "Изучаем Vue 3",
+      "content": "Полный HTML контент статьи...",
+      "excerpt": "Краткое описание",
+      "author": {
+        "id": 1,
+        "username": "johndoe",
+        "avatar": "https://example.com/avatar.jpg"
+      },
+      "tags": ["vue", "javascript", "frontend"],
+      "category": "tutorial",
+      "views": 1250,
+      "likes": 45,
+      "commentsCount": 12,
+      "readingTime": 8,
+      "createdAt": "2024-01-15T10:30:00Z",
+      "publishedAt": "2024-01-15T12:00:00Z"
     }
   }
 }
 ```
 
 ### POST /api/articles
-**Создание статьи**
+**Создание новой статьи в редакторе**
+
+**Какая функция подгружает:** `createArticle()` в composables/useArticles.ts
+**Когда вызывается:** При сохранении статьи в CreateArticle.vue
 
 **Headers:** `Authorization: Bearer <token>`
 
 **Request Body:**
 ```json
 {
-  "title": "string",
-  "content": "string",
-  "excerpt": "string",
-  "tags": ["string"],
-  "category": "string",
-  "status": "draft|published"
+  "title": "string (максимум 255 символов)",
+  "content": "string (HTML контент из Quill редактора)",
+  "excerpt": "string (краткое описание, максимум 500 символов)",
+  "tags": ["string"] (массив тегов, максимум 10 тегов),
+  "category": "string (одна из: tutorial, guide, news, review)",
+  "status": "draft|published" (черновик или опубликовано)
 }
 ```
+
+**Что загружается в функцию:**
+- `title` - заголовок из input поля
+- `content` - HTML контент из Quill Editor
+- `excerpt` - автоматически из первых 500 символов или ручной ввод
+- `tags` - массив выбранных тегов из Tag компонента
+- `category` - выбранная категория из dropdown
+- `status` - статус публикации (draft/published)
 
 **Response (201):**
 ```json
@@ -237,34 +286,115 @@
 ### POST /api/articles/:id/like
 **Лайк статьи**
 
+**Какая функция подгружает:** `toggleLike(articleId)` в ArticleCard.vue
+**Когда вызывается:** При клике на кнопку лайка в карточке статьи
+
 **Headers:** `Authorization: Bearer <token>`
+
+**URL Parameters:**
+- `id`: number (ID статьи)
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "liked": true,
+    "likesCount": 46
+  }
+}
+```
 
 ### POST /api/articles/:id/unlike
 **Убрать лайк**
 
+**Какая функция подгружает:** `toggleLike(articleId)` в ArticleCard.vue
+**Когда вызывается:** При повторном клике на кнопку лайка
+
 **Headers:** `Authorization: Bearer <token>`
 
 ### POST /api/articles/:id/bookmark
-**Добавить в закладки**
+**Добавить/убрать из закладок**
+
+**Какая функция подгружает:** `toggleBookmark(articleId)` в ArticleCard.vue
+**Когда вызывается:** При клике на кнопку закладки
 
 **Headers:** `Authorization: Bearer <token>`
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "bookmarked": true,
+    "message": "Article added to bookmarks"
+  }
+}
+```
 
 ## КОММЕНТАРИИ
 
 ### GET /api/articles/:id/comments
 **Получение комментариев к статье**
 
+**Какая функция подгружает:** `loadComments(articleId)` в composables/useComments.ts
+**Когда вызывается:** При открытии секции комментариев в статье
+
+**URL Parameters:**
+- `id`: number (ID статьи)
+
+**Query Parameters:**
+- `page`: number (страница комментариев)
+- `limit`: number (количество комментариев, по умолчанию 20)
+- `sortBy`: 'newest'|'oldest'|'popular' (сортировка)
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "comments": [
+      {
+        "id": 1,
+        "content": "Отличная статья!",
+        "author": {
+          "id": 1,
+          "username": "johndoe",
+          "avatar": "https://example.com/avatar.jpg"
+        },
+        "createdAt": "2024-01-15T14:30:00Z",
+        "likes": 5,
+        "parentId": null
+      }
+    ],
+    "pagination": {
+      "total": 12,
+      "page": 1,
+      "hasMore": false
+    }
+  }
+}
+```
+
 ### POST /api/articles/:id/comments
 **Создание комментария**
+
+**Какая функция подгружает:** `createComment(articleId, content)` в composables/useComments.ts
+**Когда вызывается:** При отправке формы комментария
 
 **Headers:** `Authorization: Bearer <token>`
 
 **Request Body:**
 ```json
 {
-  "content": "string"
+  "content": "string (максимум 1000 символов)",
+  "parentId": "number|null (ID родительского комментария для ответов)"
 }
 ```
+
+**Что загружается:**
+- `content` - текст комментария из textarea
+- `parentId` - ID комментария на который отвечают (если это ответ)
 
 ### PUT /api/comments/:id
 **Обновление комментария**

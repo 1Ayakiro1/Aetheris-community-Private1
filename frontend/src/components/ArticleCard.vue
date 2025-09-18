@@ -76,7 +76,7 @@
               @click="onTagClick(tag)"
             >
               <template #default>
-                <i class="pi pi-hashtag" style="font-size: 12px; margin-right: 6px; font-weight: 900;"></i>
+                <i class="pi pi-hashtag" style="font-size: 0.75rem; margin-right: 0.375rem; font-weight: 900;"></i>
                 <span>{{ tag }}</span>
               </template>
             </Tag>
@@ -279,40 +279,40 @@ const onShare = () => {
 
 <style scoped>
 .article-card {
-    width: 1055px;
-    height: 600px;
+    width: 65.9375rem;
+    height: 37.5rem;
     background-color: var(--bg-secondary);
-    border-radius: 40px 40px 15px 40px;
+    border-radius: 2.5rem 2.5rem 0.9375rem 2.5rem;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
     position: relative;
 
     &:hover {
         transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 0.5rem 1.5625rem rgba(0, 0, 0, 0.15);
     }
 }
 
 .article-card-header {
     display: flex;
-    height: 108px;
+    height: 6.75rem;
     width: 100%;
     flex-direction: row;
     align-items: center;
 }
 
 .logo {
-    width: 80px; /* Уменьшено с 85px на 30% */
+    width: 5rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 80px; /* Уменьшено с 85px на 30% */
+    height: 5rem;
     background-color: #434956;
     border-radius: 100%;
     margin-left: 30px;
-    margin-top: 55px;
-    margin-bottom: 24px;
-    margin-right: 24px;
+    margin-top: 3.4375rem;
+    margin-bottom: 1.5rem;
+    margin-right: 1.5rem;
     overflow: hidden;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
@@ -337,7 +337,7 @@ const onShare = () => {
     align-items: center;
     background-color: var(--btn-primary);
     color: var(--text-primary);
-    font-size: 22px; /* Уменьшено с 32px на 30% */
+    font-size: 1.375rem; /* Уменьшено с 32px на 30% */
     font-weight: 700;
     font-family: var(--font-sans);
 }
@@ -383,7 +383,7 @@ const onShare = () => {
     flex-direction: column;
     margin-left: 30px;
     margin-right: 30px;
-    height: calc(100% - 188px); /* Высота карточки минус header (108px) и footer (80px) */
+    height: calc(100% - 188px); /* Высота карточки минус header (108px) и footer (5rem) */
     overflow: hidden;
     position: relative;
 }
@@ -399,22 +399,22 @@ const onShare = () => {
     display: flex;
     flex-direction: row;
     gap: 10px;
-    margin-top: 15px;
+    margin-top: 0.9375rem;
     margin-bottom: 10px;
 }
 
 .metadata-item {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 0.5rem;
     white-space: nowrap;
 }
 
 .metadata-item.difficulty {
-    padding: 8px 16px;
+    padding: 0.5rem 10.375rem;
     border-radius: 40px;
     background-color: rgba(239, 68, 68, 0.2);
-    min-width: 60px;
+    min-width: 3.75rem;
     height: 32px;
     transition: all 0.3s ease;
 }
@@ -425,12 +425,12 @@ const onShare = () => {
 }
 
 .metadata-icon {
-    font-size: 16px;
+    font-size: 10.375rem;
     color: #6B7280;
 }
 
 .metadata-text {
-    font-size: 16px;
+    font-size: 10.375rem;
     font-family: var(--font-sans);
     font-weight: 500;
     color: #6B7280;
@@ -445,11 +445,11 @@ const onShare = () => {
 
 .custom-tag {
     background-color: rgba(255, 255, 255, 0.2) !important;
-    min-width: 60px;
+    min-width: 3.75rem;
     height: 28px !important;
-    padding: 0 12px !important;
+    padding: 0 0.75rem !important;
     border-radius: 7px !important;
-    font-size: 14px !important;
+    font-size: 0.875rem !important;
     font-family: var(--font-sans) !important;
     font-weight: 420 !important;
     color: rgba(255, 255, 255, 0.6) !important;
@@ -511,7 +511,7 @@ const onShare = () => {
         pointer-events: none;
         
         /* Настоящее blur размытие с маской */
-        filter: blur(1.5px);
+        filter: blur(1.0.3125rem);
         mask-image: linear-gradient(
             to bottom,
             rgba(0, 0, 0, 0) 0%,
@@ -558,9 +558,9 @@ const onShare = () => {
     background-color: var(--btn-primary);
     color: white;
     border: none;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 16px;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 10.375rem;
     font-family: var(--font-sans);
     font-weight: 600;
     cursor: pointer;
@@ -572,7 +572,7 @@ const onShare = () => {
     &:hover {
         background-color: var(--btn-primary-hover, #2563eb);
         transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        box-shadow: 0 0.25rem 0.75rem rgba(59, 130, 246, 0.3);
     }
 
     &:active {
@@ -590,9 +590,9 @@ const onShare = () => {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 80px;
+    height: 5rem;
     background-color: var(--bg-secondary);
-    border-bottom-left-radius: 15px;
+    border-bottom-left-radius: 0.9375rem;
     border-bottom-right-radius: 40px;
     display: flex;
     align-items: center;
@@ -609,21 +609,21 @@ const onShare = () => {
 .action-group {
     display: flex;
     align-items: center;
-    gap: 10px; /* Увеличено с 8px (+25%) */
+    gap: 10px; /* Увеличено с 0.5rem (+25%) */
 }
 
 .action-btn {
     background: none;
     border: none;
-    border-radius: 8px;
-    padding: 12px 17px; /* Увеличено с 10px 14px (+20%) */
+    border-radius: 0.5rem;
+    padding: 0.75rem 17px; /* Увеличено с 10px 0.875rem (+20%) */
     display: flex;
     align-items: center;
-    gap: 10px; /* Увеличено с 8px (+25%) */
+    gap: 10px; /* Увеличено с 0.5rem (+25%) */
     cursor: pointer;
     transition: all 0.2s ease;
     color: var(--text-secondary);
-    font-size: 18px; /* Увеличено с 15px (+20%) */
+    font-size: 1.125rem; /* Увеличено с 0.9375rem (+20%) */
     font-family: var(--font-sans);
     min-height: 48px; /* Увеличено с 40px (+20%) */
 
@@ -637,13 +637,13 @@ const onShare = () => {
     }
 
     i {
-        font-size: 22px; /* Увеличено с 18px до 22px (+22%) */
+        font-size: 1.375rem; /* Увеличено с 1.125rem до 1.375rem (+22%) */
         transition: all 0.2s ease;
     }
 
     .action-count {
         font-weight: 500;
-        font-size: 18px; /* Увеличено с 15px (+20%) */
+        font-size: 1.125rem; /* Увеличено с 0.9375rem (+20%) */
     }
 }
 
@@ -675,7 +675,7 @@ const onShare = () => {
     &.filled {
         color: #ef4444;
         transform: scale(1.05);
-        filter: drop-shadow(0 0 4px rgba(239, 68, 68, 0.3));
+        filter: drop-shadow(0 0 0.25rem rgba(239, 68, 68, 0.3));
     }
 }
 
@@ -719,7 +719,7 @@ const onShare = () => {
     &.filled {
         color: #9ca3af;
         transform: scale(1.05);
-        filter: drop-shadow(0 0 4px rgba(156, 163, 175, 0.3));
+        filter: drop-shadow(0 0 0.25rem rgba(156, 163, 175, 0.3));
     }
 }
 
@@ -763,7 +763,7 @@ const onShare = () => {
     &.filled {
         color: #3b82f6;
         transform: scale(1.05);
-        filter: drop-shadow(0 0 4px rgba(59, 130, 246, 0.3));
+        filter: drop-shadow(0 0 0.25rem rgba(59, 130, 246, 0.3));
     }
 }
 
@@ -807,7 +807,7 @@ const onShare = () => {
     &.filled {
         color: #f59e0b;
         transform: scale(1.05);
-        filter: drop-shadow(0 0 4px rgba(245, 158, 11, 0.3));
+        filter: drop-shadow(0 0 0.25rem rgba(245, 158, 11, 0.3));
     }
 }
 
@@ -851,7 +851,7 @@ const onShare = () => {
     &.filled {
         color: #22c55e;
         transform: scale(1.05);
-        filter: drop-shadow(0 0 4px rgba(34, 197, 94, 0.3));
+        filter: drop-shadow(0 0 0.25rem rgba(34, 197, 94, 0.3));
     }
 }
 

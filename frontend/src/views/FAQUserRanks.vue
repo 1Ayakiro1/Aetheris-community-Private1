@@ -39,19 +39,19 @@
 
 <style scoped lang="scss">
 .faq-user-ranks-container {
-  max-width: 1920px;
+  max-width: 120rem;
   margin: 0 auto;
   background-color: var(--bg-primary);
-  padding-top: 100px;
-  padding-bottom: 200px;
+  padding-top: 6.25rem;
+  padding-bottom: 12.5rem;
 }
 
 .page-title {
   color: var(--text-primary);
-  font-size: 30px;
+  font-size: 1.875rem;
   font-family: var(--font-sans-serif);
   font-weight: bold;
-  margin-top: 20px;
+  margin-top: 1.25rem;
   text-align: center;
 }
 
@@ -66,21 +66,21 @@
   align-items: center;
   justify-content: center;
   background-color: var(--bg-secondary);
-  border-radius: 20px;
+  border-radius: 1.25rem;
   width: 414px;
   height: 429px;
   margin-left: 176px;
   margin-top: 56px;
-  gap: 8px;
+  gap: 0.5rem;
 }
 
 .sidebar-button {
   width: 333px;
   height: 56px;
   background-color: rgba(67, 73, 86, 0);
-  border-radius: 15px;
+  border-radius: 0.9375rem;
   color: var(--text-primary);
-  font-size: 25px;
+  font-size: 1.5625rem;
   font-family: var(--font-sans-serif);
   font-weight: bold;
   transition: all 0.3s ease-in-out;
@@ -93,20 +93,20 @@
 }
 
 .content {
-  width: 950px;
-  height: 200px;
+  width: 93.125rem;
+  height: 12.5rem;
   background-color: var(--bg-secondary);
-  border-radius: 20px;
+  border-radius: 1.25rem;
   margin-left: 12px;
   margin-top: 56px;
 }
 
 .content-title {
   color: var(--text-primary);
-  font-size: 30px;
+  font-size: 1.875rem;
   font-family: var(--font-sans-serif);
   font-weight: bold;
-  margin-top: 20px;
+  margin-top: 1.25rem;
   text-align: center;
 }
 </style>

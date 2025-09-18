@@ -145,25 +145,25 @@ const handleArticleClick = (articleId: number) => {
 
 <style scoped>
 .test-container {
-  padding: 20px;
+  padding: 1.25rem;
   background-color: var(--bg-primary);
   min-height: 100vh;
 }
 
 h1 {
   color: var(--text-primary);
-  margin-bottom: 30px;
+  margin-bottom: 1.875rem;
   text-align: center;
 }
 
 h2 {
   color: var(--text-primary);
-  margin-bottom: 20px;
-  margin-top: 40px;
+  margin-bottom: 1.25rem;
+  margin-top: 2.5rem;
 }
 
 .test-section {
-  margin-bottom: 40px;
+  margin-bottom: 2.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -171,17 +171,17 @@ h2 {
 
 .avatars-comparison {
   display: flex;
-  gap: 40px;
+  gap: 2.5rem;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 1.25rem;
 }
 
 .avatar-example {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 0.625rem;
 }
 
 .avatar-with-image,
@@ -229,7 +229,7 @@ h2 {
 
 .avatar-example p {
   color: var(--text-secondary);
-  font-size: 14px;
+  font-size: 0.875rem;
   margin: 0;
   text-align: center;
 }

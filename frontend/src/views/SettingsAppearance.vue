@@ -333,7 +333,7 @@ const themeImages = {
 
 <style scoped lang="scss">
 .settings-appearance-container {
-  max-width: 1920px;
+  max-width: 120rem;
   margin: 0 auto;
   background-color: var(--bg-primary);
   min-height: 100vh;
@@ -341,7 +341,7 @@ const themeImages = {
 
 .main-body {
   display: flex;
-  margin-top: 48px; // mt-12
+  margin-top: 3rem; // mt-12
 }
 
 
@@ -351,44 +351,44 @@ const themeImages = {
     flex-direction: column;
     align-items: center;
     margin-left: 12px;
-    margin-bottom: 200px;
+    margin-bottom: 12.5rem;
   }
 
 
 .theme-section {
   background-color: var(--bg-secondary);
-  width: 980px;
+  width: 95rem;
   height: 346px;
-  border-radius: 25px;
+  border-radius: 1.5625rem;
   display: flex;
   flex-direction: column;
 }
 
 .section-title {
   margin-top: 24px; // mt-12
-  margin-left: 48px; // ml-12
+  margin-left: 3rem; // ml-12
   color: var(--text-primary);
-  font-size: 25px;
+  font-size: 1.5625rem;
   font-family: var(--font-sans);
   font-weight: bold;
 }
 
 .section-subtitle {
   color: var(--text-secondary);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-family: var(--font-sans);
   font-weight: bold;
-  margin-top: 4px;
-  margin-left: 48px;
+  margin-top: 0.25rem;
+  margin-left: 3rem;
   width: 700px;
 }
 
 .theme-buttons {
   display: flex;
   flex-direction: row;
-  gap: 16px;
-  margin-left: 48px;
-  margin-top: 16px;
+  gap: 1rem;
+  margin-left: 3rem;
+  margin-top: 1rem;
 }
 
 .theme-button {
@@ -422,15 +422,15 @@ const themeImages = {
   
   &.active .theme-indicator {
     border-color: #8b5cf6; // purple-500
-    width: 22px; // Увеличиваем размер вместо scale
-    height: 22px;
-    margin-left: 15px; // Корректируем отступ
+    width: 1.375rem; // Увеличиваем размер вместо scale
+    height: 1.375rem;
+    margin-left: 0.9375rem; // Корректируем отступ
   }
   
   &.active .theme-indicator-dot {
     background-color: #8b5cf6; // purple-500
-    width: 12.5px; // Увеличиваем размер вместо scale
-    height: 12.5px;
+    width: 12.0.3125rem; // Увеличиваем размер вместо scale
+    height: 12.0.3125rem;
   }
 }
 
@@ -438,7 +438,7 @@ const themeImages = {
   width: 208px;
   height: 145px;
   background-color: var(--btn-primary);
-  border-radius: 25px 25px 0 0;
+  border-radius: 1.5625rem 1.5625rem 0 0;
   position: relative;
   overflow: hidden;
   display: flex;
@@ -450,26 +450,26 @@ const themeImages = {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 25px 25px 0 0;
+  border-radius: 1.5625rem 1.5625rem 0 0;
 }
 
 .theme-label {
   width: 208px;
-  height: 40px;
+  height: 2.5rem;
   background-color: var(--btn-primary);
   display: flex;
   align-items: center;
-  border-radius: 0 0 25px 25px;
+  border-radius: 0 0 1.5625rem 1.5625rem;
   position: absolute;
-  margin-top: 130px;
+  margin-top: 11.875rem;
 }
 
 .theme-indicator {
-  width: 20px;
-  height: 20px;
+  width: 1.25rem;
+  height: 1.25rem;
   border: 2px solid #d1d5db; // gray-300 - цвет границы по умолчанию
   border-radius: 50%;
-  margin-left: 16px;
+  margin-left: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -477,8 +477,8 @@ const themeImages = {
 }
 
 .theme-indicator-dot {
-  width: 11.5px;
-  height: 11.5px;
+  width: 11.0.3125rem;
+  height: 11.0.3125rem;
   background-color: transparent; // Прозрачный по умолчанию
   border-radius: 50%;
   transition: all 0.3s ease-in-out;
@@ -486,18 +486,18 @@ const themeImages = {
 
 .theme-text {
   color: var(--text-primary);
-  font-size: 18px;
+  font-size: 1.125rem;
   font-family: var(--font-sans);
   font-weight: bold;
-  margin-left: 8px;
+  margin-left: 0.5rem;
 }
 
 // Language Section Styles
 .language-section {
   background-color: var(--bg-secondary);
-  width: 980px;
-  height: 200px;
-  border-radius: 25px;
+  width: 95rem;
+  height: 12.5rem;
+  border-radius: 1.5625rem;
   margin-top: 12px;
   display: flex;
   flex-direction: column;
@@ -505,17 +505,17 @@ const themeImages = {
 
 .language-dropdown {
   position: relative;
-  margin-left: 48px;
-  margin-top: 16px;
+  margin-left: 3rem;
+  margin-top: 1rem;
 }
 
 .language-select-button {
-  width: 300px;
+  width: 18.75rem;
   height: 56px;
   background-color: rgba(67, 73, 86, 0);
-  border-radius: 15px;
+  border-radius: 0.9375rem;
   color: var(--text-primary);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-family: var(--font-sans);
   font-weight: bold;
   transition: all 0.3s ease-in-out;
@@ -524,7 +524,7 @@ const themeImages = {
   justify-content: space-between;
   border: none;
   cursor: pointer;
-  padding: 0 16px;
+  padding: 0 1rem;
 
   &:hover {
     background-color: rgba(67, 73, 86, 1);
@@ -543,7 +543,7 @@ const themeImages = {
 
 .language-name {
   color: var(--text-primary);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-family: var(--font-sans);
   font-weight: bold;
 }
@@ -552,15 +552,15 @@ const themeImages = {
   position: absolute;
   top: 100%;
   left: 0;
-  width: 300px;
+  width: 18.75rem;
   background-color: var(--bg-secondary);
-  border-radius: 15px;
+  border-radius: 0.9375rem;
   border: 2px solid var(--text-secondary);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0.25rem 1.25rem rgba(0, 0, 0, 0.15);
   z-index: 1000;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(-10px);
+  transform: translateY(-0.625rem);
   transition: all 0.3s ease-in-out;
 
   &.open {
@@ -574,11 +574,11 @@ const themeImages = {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 16px;
+  padding: 1rem;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   border-radius: 13px;
-  margin: 4px;
+  margin: 0.25rem;
 
   &:hover {
     background-color: rgba(67, 73, 86, 1);
@@ -601,25 +601,25 @@ const themeImages = {
 // Font Section Styles
 .font-section {
   background-color: var(--bg-secondary);
-  width: 980px;
-  height: 440px;
-  border-radius: 25px;
+  width: 95rem;
+  height: 42.5rem;
+  border-radius: 1.5625rem;
   margin-top: 12px;
 }
 
 .font-dropdown {
   position: relative;
-  margin-left: 48px;
-  margin-top: 16px;
+  margin-left: 3rem;
+  margin-top: 1rem;
 }
 
 .font-select-button {
-  width: 200px;
+  width: 12.5rem;
   height: 47px;
   background-color: rgba(67, 73, 86, 0);
-  border-radius: 20px;
+  border-radius: 1.25rem;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 1.25rem;
   text-align: center;
   color: var(--text-third);
   display: flex;
@@ -628,7 +628,7 @@ const themeImages = {
   border: none;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-  padding: 0 16px;
+  padding: 0 1rem;
 
   &:hover {
     background-color: rgba(67, 73, 86, 1);
@@ -637,28 +637,28 @@ const themeImages = {
 
 .font-select-text {
   color: var(--text-primary);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-family: var(--font-sans);
   font-weight: bold;
 }
 
 .dropdown-icon {
-  margin-left: 16px; // ml-4
+  margin-left: 1rem; // ml-4
 }
 
 .font-dropdown-menu {
   position: absolute;
   top: 100%;
   left: 0;
-  width: 200px;
+  width: 12.5rem;
   background-color: var(--bg-secondary);
-  border-radius: 20px;
+  border-radius: 1.25rem;
   border: 2px solid var(--text-secondary);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0.25rem 1.25rem rgba(0, 0, 0, 0.15);
   z-index: 1000;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(-10px);
+  transform: translateY(-0.625rem);
   transition: all 0.3s ease-in-out;
 
   &.open {
@@ -672,11 +672,11 @@ const themeImages = {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 16px;
+  padding: 12px 1rem;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-  border-radius: 18px;
-  margin: 4px;
+  border-radius: 1.125rem;
+  margin: 0.25rem;
 
   &:hover {
     background-color: rgba(67, 73, 86, 1);
@@ -688,24 +688,24 @@ const themeImages = {
   }
 
   &:first-child {
-    border-radius: 18px 18px 0 0;
+    border-radius: 1.125rem 1.125rem 0 0;
   }
 
   &:last-child {
-    border-radius: 0 0 18px 18px;
+    border-radius: 0 0 1.125rem 1.125rem;
   }
 }
 
 .font-name {
   color: var(--text-primary);
-  font-size: 18px;
+  font-size: 1.125rem;
   font-family: var(--font-sans);
   font-weight: bold;
 }
 
 .font-sample {
   color: var(--text-primary);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: bold;
 }
 
@@ -713,16 +713,16 @@ const themeImages = {
   width: 900px;
   height: 170px;
   background-color: var(--btn-primary);
-  border-radius: 25px;
+  border-radius: 1.5625rem;
   margin-top: 24px; // mt-6
-  margin-left: 40px; // ml-10
+  margin-left: 2.5rem; // ml-10
   display: flex;
   justify-content: center;
 }
 
 .font-preview-text {
   color: var(--text-primary);
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 600;
   margin-top: 24px; // mt-6
   text-align: center;

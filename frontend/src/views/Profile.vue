@@ -54,7 +54,7 @@
 
 <style scoped>
 .profile-container {
-  max-width: 1920px;
+  max-width: 120rem;
   margin: 0 auto;
   background-color: var(--bg-primary);
   min-height: 100vh;
@@ -66,14 +66,14 @@
   flex-direction: row;
   align-items: flex-start;
   margin-left: 270px;
-  margin-top: 40px;
+  margin-top: 2.5rem;
   width: 1365px;
 }
 
 /* Avatar */
 .profile-avatar {
-  width: 120px;
-  height: 120px;
+  width: 11.25rem;
+  height: 11.25rem;
   border-radius: 50%;
   background-color: var(--btn-primary);
   flex-shrink: 0;
@@ -83,16 +83,16 @@
 .user-info {
   display: flex;
   flex-direction: column;
-  margin-left: 30px;
+  margin-left: 1.875rem;
   flex: 1;
 }
 
 .user-nickname {
   font-family: var(--font-sans);
-  font-size: 30px;
+  font-size: 1.875rem;
   font-weight: 500;
   color: var(--text-primary);
-  margin: 0 0 8px 0;
+  margin: 0 0 0.5rem 0;
 }
 
 .user-tag {
@@ -100,7 +100,7 @@
   font-size: 23px;
   font-weight: 500;
   color: var(--text-secondary);
-  margin: 0 0 20px 0;
+  margin: 0 0 1.25rem 0;
 }
 
 /* User Stats */
@@ -113,14 +113,14 @@
 
 .stat-item {
   font-family: var(--font-sans);
-  font-size: 25px;
+  font-size: 1.5625rem;
   font-weight: 500;
   color: var(--text-third);
 }
 
 .stat-divider {
   width: 3px;
-  height: 48px;
+  height: 3rem;
   background-color: var(--btn-primary);
 }
 
@@ -129,21 +129,21 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 16px;
-  margin-top: 48px;
+  gap: 1rem;
+  margin-top: 3rem;
 }
 
 .edit-button {
   display: flex;
   align-items: center;
-  width: 150px;
+  width: 13.125rem;
   height: 56px;
   background-color: var(--btn-primary);
-  border-radius: 20px;
+  border-radius: 1.25rem;
   border: none;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-  padding: 0 16px;
+  padding: 0 1rem;
 }
 
 .edit-button:hover {
@@ -151,17 +151,17 @@
 }
 
 .edit-icon {
-  width: 30px;
-  height: 30px;
+  width: 1.875rem;
+  height: 1.875rem;
   color: var(--text-primary);
 }
 
 .edit-text {
   font-family: var(--font-sans);
-  font-size: 25px;
+  font-size: 1.5625rem;
   font-weight: 500;
   color: var(--text-primary);
-  margin-left: 16px;
+  margin-left: 1rem;
 }
 
 .more-button {
@@ -183,7 +183,7 @@
 
 .more-icon {
   width: 6px;
-  height: 30px;
+  height: 1.875rem;
   color: var(--text-primary);
 }
 
@@ -193,7 +193,7 @@
   width: 1360px;
   background-color: var(--btn-primary);
   margin-left: 270px;
-  margin-top: 20px;
+  margin-top: 1.25rem;
 }
 
 /* Profile Content */
@@ -202,12 +202,12 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 200px 0 210px 0;
+  padding: 12.5rem 0 20.625rem 0;
 }
 
 .empty-message {
   font-family: var(--font-sans);
-  font-size: 25px;
+  font-size: 1.5625rem;
   font-weight: 500;
   color: var(--text-secondary);
   margin: 0;

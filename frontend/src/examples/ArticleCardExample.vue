@@ -56,14 +56,14 @@ const handleArticleClick = (articleId: number) => {
 
 <style scoped>
 .example-container {
-  padding: 20px;
+  padding: 1.25rem;
   background-color: var(--bg-primary);
   min-height: 100vh;
 }
 
 h1 {
   color: var(--text-primary);
-  margin-bottom: 30px;
+  margin-bottom: 1.875rem;
   text-align: center;
 }
 </style>

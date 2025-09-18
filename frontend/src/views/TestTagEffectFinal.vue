@@ -53,26 +53,26 @@ const onTagLeave = (index: number) => {
 
 <style scoped>
 .test-container {
-  padding: 20px;
+  padding: 1.25rem;
   background-color: var(--bg-primary);
   min-height: 100vh;
 }
 
 h1 {
   color: var(--text-primary);
-  margin-bottom: 30px;
+  margin-bottom: 1.875rem;
   text-align: center;
-  font-size: 32px;
+  font-size: 2rem;
 }
 
 h2 {
   color: var(--text-primary);
-  margin-bottom: 20px;
-  margin-top: 40px;
+  margin-bottom: 1.25rem;
+  margin-top: 2.5rem;
 }
 
 .test-section {
-  margin-bottom: 40px;
+  margin-bottom: 2.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -81,38 +81,38 @@ h2 {
 .tags-container {
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  gap: 0.625rem;
   flex-wrap: wrap;
   justify-content: center;
 }
 
 .instructions {
   background-color: var(--bg-secondary);
-  padding: 20px;
-  border-radius: 10px;
-  max-width: 600px;
+  padding: 1.25rem;
+  border-radius: 0.625rem;
+  max-width: 37.5rem;
   text-align: left;
 }
 
 .instructions p {
   color: var(--text-secondary);
-  margin: 10px 0;
-  font-size: 16px;
+  margin: 0.625rem 0;
+  font-size: 1rem;
   font-weight: bold;
 }
 
 .state-info {
   background-color: var(--bg-secondary);
-  padding: 20px;
-  border-radius: 10px;
-  max-width: 600px;
+  padding: 1.25rem;
+  border-radius: 0.625rem;
+  max-width: 37.5rem;
   text-align: center;
 }
 
 .state-info p {
   color: var(--text-primary);
   margin: 0;
-  font-size: 16px;
+  font-size: 1rem;
 }
 
 /* Копируем стили из ArticleCard */
@@ -120,10 +120,10 @@ h2 {
   position: relative;
   border: 2px solid #FFFFFF;
   background-color: transparent;
-  width: 160px;
-  height: 40px;
-  border-radius: 10px;
-  font-size: 20px;
+  width: 10rem;
+  height: 2.5rem;
+  border-radius: 0.625rem;
+  font-size: 1.25rem;
   font-family: var(--font-sans);
   font-weight: 700;
   color: var(--text-primary);
