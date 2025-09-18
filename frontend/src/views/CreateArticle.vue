@@ -18,49 +18,41 @@
       <div class="edit-block">
         <h2 class="edit-title">Article title</h2>
         <h2 class="edit-subtitle">Give a brief description of the article</h2>
-        <input type="text" placeholder="Enter title..." class="title-input">
+        <input type="text" placeholder="Enter title..." class="title-input" v-model="articleTitle">
         
         <!-- Article editor block -->
-        <div class="article-editor">
-          <!-- Tools panel -->
-          <div class="tools-panel">
-            <img class="tool-icon" src="@/assets/imgs/eraser.png" alt="Eraser" />
-            <img class="tool-icon" src="@/assets/imgs/italic.png" alt="Italic" />
-            <img class="tool-icon bold-icon" src="@/assets/imgs/bold.png" alt="Bold" />
-            <img class="tool-icon" src="@/assets/imgs/left_side.png" alt="Left Align" />
-            <img class="tool-icon" src="@/assets/imgs/center_side.png" alt="Center Align" />
-            <img class="tool-icon" src="@/assets/imgs/right_side.png" alt="Right Align" />
-            <img class="tool-icon" src="@/assets/imgs/link.png" alt="Link" />
-            <img class="tool-icon code-icon" src="@/assets/imgs/code.png" alt="Code" />
-            <img class="tool-icon" src="@/assets/imgs/img.png" alt="Image" />
-            <img class="tool-icon" src="@/assets/imgs/hide.png" alt="Hide" />
-            <img class="tool-icon file-icon" src="@/assets/imgs/file1.png" alt="File" />
-            <img class="tool-icon book-icon" src="@/assets/imgs/book.png" alt="Book" />
-            <img class="tool-icon zoom-icon" src="@/assets/imgs/zoom.png" alt="Zoom" />
-          </div>
-          <div class="editor-divider"></div>
-          <!-- Article content input -->
-          <textarea class="article-content-input" placeholder="Write your article here..."></textarea>
+        <div class="article-editor-container">
+          <Editor 
+            v-model="articleContent" 
+            editorStyle="height: 500px"
+            class="custom-editor"
+          />
         </div>
         
         <h2 class="tags-title">Tags</h2>
         <h2 class="tags-subtitle">Add a tag for better promotion of the article</h2>
-        <input type="text" placeholder="Enter tags..." class="tags-input">
+        <input type="text" placeholder="Enter tags (separated by commas)..." class="tags-input" v-model="articleTags">
         
         <!-- Action buttons -->
         <div class="action-buttons">
-          <button class="create-button">
-            <img class="button-icon" src="@/assets/imgs/edit.png" alt="Edit" />
-            <p class="button-text">Create</p>
+          <button class="create-button" @click="handleCreateArticle" :disabled="loading">
+            <i v-if="!loading" class="pi pi-send button-icon"></i>
+            <i v-else class="pi pi-spin pi-spinner button-icon"></i>
+            <p class="button-text">{{ isEditing ? 'Update' : 'Create' }}</p>
           </button>
-          <button class="preview-button">
-            <img class="button-icon" src="@/assets/imgs/eye.png" alt="Eye" />
+          <button class="preview-button" @click="previewArticle" :disabled="loading">
+            <i class="pi pi-eye button-icon"></i>
             <p class="button-text">Preview</p>
           </button>
-          <button class="draft-button">
-            <img class="button-icon" src="@/assets/imgs/archive.png" alt="Archive" />
+          <button class="draft-button" @click="saveDraft" :disabled="loading">
+            <i class="pi pi-save button-icon"></i>
             <p class="button-text">Save in draft</p>
           </button>
+        </div>
+        
+        <!-- Error Display -->
+        <div v-if="error" class="api-error">
+          <p class="api-error-message">{{ error }}</p>
         </div>
         
         <!-- Publication time -->
@@ -68,7 +60,7 @@
           <div class="publication-time-header">
             <div class="checkbox-item">
               <div class="checkbox" :class="{ checked: publicationTimeEnabled }" @click="publicationTimeEnabled = !publicationTimeEnabled">
-                <img v-if="publicationTimeEnabled" src="@/assets/imgs/checkmark.png" alt="check" class="checkmark-icon" />
+                <i v-if="publicationTimeEnabled" class="pi pi-check checkmark-icon"></i>
               </div>
               <p class="checkbox-label">Publication time</p>
             </div>
@@ -85,13 +77,13 @@
         <div class="ranks-section">
           <div class="checkbox-item">
             <div class="checkbox" :class="{ checked: rank1Enabled }" @click="rank1Enabled = !rank1Enabled">
-              <img v-if="rank1Enabled" src="@/assets/imgs/checkmark.png" alt="check" class="checkmark-icon" />
+              <i v-if="rank1Enabled" class="pi pi-check checkmark-icon"></i>
             </div>
             <p class="checkbox-label">rank</p>
           </div>
           <div class="checkbox-item">
             <div class="checkbox" :class="{ checked: rank2Enabled }" @click="rank2Enabled = !rank2Enabled">
-              <img v-if="rank2Enabled" src="@/assets/imgs/checkmark.png" alt="check" class="checkmark-icon" />
+              <i v-if="rank2Enabled" class="pi pi-check checkmark-icon"></i>
             </div>
             <p class="checkbox-label">rank</p>
           </div>
@@ -102,31 +94,31 @@
         <div class="additional-settings">
           <div class="checkbox-item">
             <div class="checkbox" :class="{ checked: disableCommenting }" @click="disableCommenting = !disableCommenting">
-              <img v-if="disableCommenting" src="@/assets/imgs/checkmark.png" alt="check" class="checkmark-icon" />
+              <i v-if="disableCommenting" class="pi pi-check checkmark-icon"></i>
             </div>
             <p class="checkbox-label">Disable commenting</p>
           </div>
           <div class="checkbox-item">
             <div class="checkbox" :class="{ checked: doNotNotify }" @click="doNotNotify = !doNotNotify">
-              <img v-if="doNotNotify" src="@/assets/imgs/checkmark.png" alt="check" class="checkmark-icon" />
+              <i v-if="doNotNotify" class="pi pi-check checkmark-icon"></i>
             </div>
             <p class="checkbox-label">Do not notify about article release</p>
           </div>
           <div class="checkbox-item">
             <div class="checkbox" :class="{ checked: hideContacts }" @click="hideContacts = !hideContacts">
-              <img v-if="hideContacts" src="@/assets/imgs/checkmark.png" alt="check" class="checkmark-icon" />
+              <i v-if="hideContacts" class="pi pi-check checkmark-icon"></i>
             </div>
             <p class="checkbox-label">Hide contacts</p>
           </div>
           <div class="checkbox-item">
             <div class="checkbox" :class="{ checked: hideCommentatorsInfo }" @click="hideCommentatorsInfo = !hideCommentatorsInfo">
-              <img v-if="hideCommentatorsInfo" src="@/assets/imgs/checkmark.png" alt="check" class="checkmark-icon" />
+              <i v-if="hideCommentatorsInfo" class="pi pi-check checkmark-icon"></i>
             </div>
             <p class="checkbox-label">Hide commentators info</p>
           </div>
           <div class="checkbox-item">
             <div class="checkbox" :class="{ checked: disableReplying }" @click="disableReplying = !disableReplying">
-              <img v-if="disableReplying" src="@/assets/imgs/checkmark.png" alt="check" class="checkmark-icon" />
+              <i v-if="disableReplying" class="pi pi-check checkmark-icon"></i>
             </div>
             <p class="checkbox-label">Disable replying to comments</p>
           </div>
@@ -137,7 +129,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { useArticles } from '../composables/useArticles'
+import type { CreateArticleRequest } from '../types/article'
+
+// Article data
+const articleTitle = ref('')
+const articleContent = ref('')
+const articleTags = ref('')
+const router = useRouter()
+
+// API integration
+const { createArticle, updateArticle, loading, error } = useArticles()
+const isEditing = ref(false)
+const editingArticleId = ref<number | null>(null)
 
 // Reactive variables for checkboxes
 const publicationTimeEnabled = ref(false)
@@ -148,6 +154,207 @@ const doNotNotify = ref(false)
 const hideContacts = ref(false)
 const hideCommentatorsInfo = ref(false)
 const disableReplying = ref(false)
+
+// Functions
+
+const exportToJSON = () => {
+  // Parse HTML content to extract formatted text
+  const parser = new DOMParser()
+  const doc = parser.parseFromString(articleContent.value, 'text/html')
+  
+  const extractFormattedContent = (element: Element): any[] => {
+    const result: any[] = []
+    
+    element.childNodes.forEach(node => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        if (node.textContent?.trim()) {
+          result.push({
+            type: 'text',
+            content: node.textContent
+          })
+        }
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        const el = node as Element
+        const tagName = el.tagName.toLowerCase()
+        const textContent = el.textContent || ''
+        
+        switch (tagName) {
+          case 'strong':
+          case 'b':
+            result.push({ type: 'bold', content: textContent })
+            break
+          case 'em':
+          case 'i':
+            result.push({ type: 'italic', content: textContent })
+            break
+          case 'u':
+            result.push({ type: 'underline', content: textContent })
+            break
+          case 'code':
+            result.push({ type: 'code', content: textContent })
+            break
+          case 'a':
+            result.push({ 
+              type: 'link', 
+              content: textContent,
+              href: el.getAttribute('href') || ''
+            })
+            break
+          case 'h1':
+          case 'h2':
+          case 'h3':
+          case 'h4':
+          case 'h5':
+          case 'h6':
+            result.push({ 
+              type: 'heading', 
+              content: textContent,
+              level: parseInt(tagName.charAt(1))
+            })
+            break
+          case 'blockquote':
+            result.push({ type: 'quote', content: textContent })
+            break
+          case 'ul':
+          case 'ol':
+            result.push({ 
+              type: 'list',
+              ordered: tagName === 'ol',
+              items: Array.from(el.querySelectorAll('li')).map(li => li.textContent || '')
+            })
+            break
+          default:
+            result.push(...extractFormattedContent(el))
+            break
+        }
+      }
+    })
+    
+    return result
+  }
+  
+  const formattedContent = extractFormattedContent(doc.body)
+  
+  const articleData = {
+    title: articleTitle.value,
+    content: {
+      html: articleContent.value,
+      formatted: formattedContent
+    },
+    tags: articleTags.value.split(',').map(tag => tag.trim()).filter(tag => tag),
+    settings: {
+      publicationTime: publicationTimeEnabled.value,
+      ranks: {
+        rank1: rank1Enabled.value,
+        rank2: rank2Enabled.value
+      },
+      disableCommenting: disableCommenting.value,
+      doNotNotify: doNotNotify.value,
+      hideContacts: hideContacts.value,
+      hideCommentatorsInfo: hideCommentatorsInfo.value,
+      disableReplying: disableReplying.value
+    },
+    createdAt: new Date().toISOString()
+  }
+  
+  return articleData
+}
+
+const handleCreateArticle = async () => {
+  if (!articleTitle.value.trim()) {
+    alert('Пожалуйста, введите заголовок статьи')
+    return
+  }
+  
+  if (!articleContent.value.trim()) {
+    alert('Пожалуйста, добавьте содержание статьи')
+    return
+  }
+
+  try {
+    const articleData: CreateArticleRequest = {
+      title: articleTitle.value.trim(),
+      content: articleContent.value,
+      excerpt: generateExcerpt(articleContent.value),
+      tags: articleTags.value.split(',').map(tag => tag.trim()).filter(tag => tag),
+      status: 'published',
+      category: 'General' // Можно добавить выбор категории
+    }
+
+    let result
+    if (isEditing.value && editingArticleId.value) {
+      result = await updateArticle(editingArticleId.value, articleData)
+    } else {
+      result = await createArticle(articleData)
+    }
+
+    if (result) {
+      // Очищаем форму
+      articleTitle.value = ''
+      articleContent.value = ''
+      articleTags.value = ''
+      
+      // Очищаем черновик
+      localStorage.removeItem('article_draft')
+      
+      // Перенаправляем на страницу статьи или список статей
+      await router.push('/articles')
+      
+      alert(isEditing.value ? 'Статья успешно обновлена!' : 'Статья успешно создана!')
+    }
+  } catch (err) {
+    console.error('Error creating/updating article:', err)
+    alert('Произошла ошибка при сохранении статьи. Попробуйте еще раз.')
+  }
+}
+
+// Генерация краткого описания из контента
+const generateExcerpt = (content: string): string => {
+  // Удаляем HTML теги
+  const textContent = content.replace(/<[^>]*>/g, '')
+  // Берем первые 200 символов
+  return textContent.length > 200 
+    ? textContent.substring(0, 200) + '...'
+    : textContent
+}
+
+const previewArticle = () => {
+  const articleData = exportToJSON()
+  console.log('Preview data:', JSON.stringify(articleData, null, 2))
+  alert('Предпросмотр статьи (данные в консоли)')
+}
+
+const saveDraft = () => {
+  const articleData = exportToJSON()
+  localStorage.setItem('article_draft', JSON.stringify(articleData))
+  alert('Черновик сохранен!')
+}
+
+onMounted(() => {
+  // Load draft if exists
+  const draft = localStorage.getItem('article_draft')
+  if (draft) {
+    try {
+      const draftData = JSON.parse(draft)
+      articleTitle.value = draftData.title || ''
+      articleTags.value = draftData.tags?.join(', ') || ''
+      articleContent.value = draftData.content?.html || ''
+      
+      if (draftData.settings) {
+        publicationTimeEnabled.value = draftData.settings.publicationTime || false
+        rank1Enabled.value = draftData.settings.ranks?.rank1 || false
+        rank2Enabled.value = draftData.settings.ranks?.rank2 || false
+        disableCommenting.value = draftData.settings.disableCommenting || false
+        doNotNotify.value = draftData.settings.doNotNotify || false
+        hideContacts.value = draftData.settings.hideContacts || false
+        hideCommentatorsInfo.value = draftData.settings.hideCommentatorsInfo || false
+        disableReplying.value = draftData.settings.disableReplying || false
+      }
+    } catch (error) {
+      console.warn('Не удалось загрузить черновик:', error)
+    }
+  }
+})
 </script>
 
 <style lang="scss" scoped>
@@ -292,94 +499,181 @@ const disableReplying = ref(false)
   }
 }
 
-// Article editor
-.article-editor {
-  background-color: var(--btn-primary);
+// Article editor container
+.article-editor-container {
   width: 1300px;
-  height: 734px;
   margin-top: 56px;
   margin-left: 48px;
   border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
-.tools-panel {
-  width: 100%;
-  height: 77px;
-  display: flex;
-  align-items: center;
-  gap: 32px;
-  padding-left: 66px; // 16px + 50px = 66px
-  padding-right: 16px;
-}
-
-.tool-icon {
-  width: 36px;
-  height: 36px;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-  border-radius: 8px;
-  padding: 4px;
-  
-  &:hover {
-    background-color: rgba(67, 73, 86, 0.6);
-    opacity: 0.6;
+// Custom PrimeVue Editor styling
+.custom-editor {
+  :deep(.p-editor-toolbar) {
+    background: var(--btn-primary);
+    border: none;
+    border-radius: 20px 20px 0 0;
+    padding: 16px 20px;
+    border-bottom: 2px solid var(--bg-primary);
+    
+    .ql-formats {
+      margin-right: 16px;
+    }
+    
+    button, select {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      color: var(--text-primary) !important;
+      padding: 8px;
+      margin: 0 2px;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.1) !important;
+        border-color: var(--primary-violet) !important;
+        transform: translateY(-1px);
+      }
+      
+      &.ql-active {
+        background: linear-gradient(135deg, var(--primary-violet), var(--primary-pink)) !important;
+        border-color: transparent !important;
+        color: white !important;
+      }
+    }
+    
+    select {
+      background: var(--bg-secondary) !important;
+      color: var(--text-primary) !important;
+      
+      option {
+        background: var(--bg-secondary) !important;
+        color: var(--text-primary) !important;
+      }
+    }
+    
+    .ql-stroke {
+      stroke: var(--text-primary) !important;
+    }
+    
+    .ql-fill {
+      fill: var(--text-primary) !important;
+    }
   }
   
-  &.bold-icon {
-    width: 30px;
-    height: 36px;
+  :deep(.p-editor-content) {
+    background: var(--btn-primary);
+    border: none;
+    border-radius: 0 0 20px 20px;
+    
+    .ql-editor {
+      min-height: 500px;
+      padding: 24px;
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text-primary) !important;
+      background: transparent;
+      
+      &::before {
+        color: var(--text-third) !important;
+        font-style: italic;
+        left: 24px;
+        right: 24px;
+      }
+      
+      &:focus {
+        outline: none;
+      }
+      
+      // Стилизация содержимого редактора
+      h1, h2, h3, h4, h5, h6 {
+        color: var(--text-primary) !important;
+        margin: 20px 0 10px 0;
+        font-weight: 700;
+      }
+      
+      h1 { 
+        font-size: 2.2em; 
+        color: var(--primary-violet) !important;
+        border-bottom: 2px solid var(--primary-violet);
+        padding-bottom: 8px;
+      }
+      
+      h2 { 
+        font-size: 1.8em; 
+        color: var(--primary-violet) !important;
+      }
+      
+      h3 { 
+        font-size: 1.5em;
+      }
+      
+      strong, b {
+        color: var(--text-primary) !important;
+        font-weight: 700;
+      }
+      
+      em, i {
+        color: var(--text-secondary) !important;
+        font-style: italic;
+      }
+      
+      code {
+        background: var(--bg-secondary) !important;
+        color: var(--primary-violet) !important;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: 'Courier New', monospace;
+        font-size: 0.9em;
+      }
+      
+      blockquote {
+        border-left: 4px solid var(--primary-violet) !important;
+        background: var(--bg-secondary) !important;
+        padding: 16px 20px;
+        margin: 16px 0;
+        border-radius: 0 8px 8px 0;
+        
+        p {
+          margin: 0;
+          color: var(--text-secondary) !important;
+          font-style: italic;
+        }
+      }
+      
+      ul, ol {
+        padding-left: 20px;
+        
+        li {
+          margin: 8px 0;
+          color: var(--text-primary) !important;
+        }
+      }
+      
+      a {
+        color: var(--primary-violet) !important;
+        text-decoration: none;
+        border-bottom: 1px solid var(--primary-violet);
+        transition: all 0.3s ease;
+        
+        &:hover {
+          color: var(--primary-pink) !important;
+          border-bottom-color: var(--primary-pink);
+        }
+      }
+      
+      img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        margin: 16px 0;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+    }
   }
-  
-  &.code-icon {
-    width: 50px;
-    height: 33px;
-  }
-  
-  &.file-icon {
-    width: 34px;
-    height: 40px;
-  }
-  
-  &.book-icon {
-    width: 40px;
-    height: 35px;
-    margin-left: auto;
-  }
-  
-  &.zoom-icon {
-    width: 35px;
-    height: 35px;
-    margin-right: 16px;
-  }
-}
-
-.editor-divider {
-  height: 2px;
-  width: 1200px;
-  background-color: var(--bg-primary);
-  margin-left: 48px;
-}
-
-.article-content-input {
-  width: 1200px;
-  height: 600px;
-  background-color: transparent;
-  border: none;
-  margin-left: 48px;
-  margin-top: 20px;
-  font-family: var(--font-sans);
-  font-size: 18px;
-  color: var(--text-primary);
-  resize: none;
-  outline: none;
-  transition: all 0s ease-in-out;
-  
-  &::placeholder {
-    color: var(--text-third);
-    margin-top: 20px;
-    margin-left: 20px;
-  }
-  
 }
 
 // Tags section
@@ -496,17 +790,15 @@ const disableReplying = ref(false)
 }
 
 .button-icon {
-  width: 30px;
-  height: 30px;
+  font-size: 24px;
+  margin-right: 12px;
   
   .preview-button & {
-    width: 35px;
-    height: 25px;
+    font-size: 26px;
   }
   
   .draft-button & {
-    width: 34px;
-    height: 30px;
+    font-size: 24px;
   }
 }
 
@@ -613,13 +905,14 @@ const disableReplying = ref(false)
 }
 
 .checkmark-icon {
-  width: 20px;
-  height: 20px;
+  font-size: 20px;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   animation: checkmark 0.4s ease-out 0.1s both;
+  color: white;
+  font-weight: bold;
 }
 
 .checkbox-label {
@@ -729,5 +1022,42 @@ const disableReplying = ref(false)
   display: flex;
   flex-direction: column;
   margin-top: 8px;
+}
+
+// API Error styles
+.api-error {
+  margin: 16px 48px;
+  padding: 12px;
+  background-color: rgba(255, 59, 59, 0.1);
+  border: 1px solid #FF3B3B;
+  border-radius: 8px;
+}
+
+.api-error-message {
+  color: #FF3B3B;
+  font-size: 16px;
+  font-family: var(--font-sans);
+  margin: 0;
+  text-align: center;
+}
+
+// Disabled button states
+.create-button:disabled,
+.preview-button:disabled,
+.draft-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.create-button:hover:not(:disabled) {
+  opacity: 0.8;
+}
+
+.preview-button:hover:not(:disabled) {
+  opacity: 0.8;
+}
+
+.draft-button:hover:not(:disabled) {
+  opacity: 0.8;
 }
 </style>

@@ -42,9 +42,18 @@
           >
           <p v-if="!passwordError.isValid" class="error-message">{{ passwordError.message }}</p>
           
+          <!-- API Error Display -->
+          <div v-if="error" class="api-error">
+            <p class="api-error-message">{{ error }}</p>
+          </div>
+          
           <p class="login-link">Or <router-link to="/login" class="link">log in</router-link></p>
           
-          <button @click="handleSignIn" class="signin-button">Sign in</button>
+          <button @click="handleSignIn" class="signin-button" :disabled="loading">
+            <span v-if="loading" class="loading-spinner"></span>
+            <span v-if="!loading">Sign in</span>
+            <span v-else>Signing in...</span>
+          </button>
         </div>
       </div>
     </div>
@@ -55,8 +64,11 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { useValidation, type ValidationResult } from '../composables/useValidation'
+import { useAuth } from '../composables/useAuth'
+import type { RegisterData } from '../types/user'
 
 const { sanitizeNickname, sanitizePassword, validateNickname, validatePassword, validateEmail } = useValidation()
+const { register, loading, error, clearError } = useAuth()
 
 // Реактивные данные формы
 const nickname = ref('')
@@ -89,7 +101,9 @@ watch(password, (newValue) => {
   passwordError.value = validatePassword(password.value)
 })
 
-const handleSignIn = () => {
+const handleSignIn = async () => {
+  clearError()
+  
   // Финальная валидация всех полей
   const nicknameValidation = validateNickname(nickname.value)
   const emailValidation = validateEmail(email.value)
@@ -105,13 +119,22 @@ const handleSignIn = () => {
                      passwordValidation.isValid
   
   if (isFormValid) {
-    // Sending data to backend
-    console.log('Sign up payload', {
-      nickname: nickname.value,
-      email: email.value,
-      password: '[REDACTED]'
-    })
-    alert('Sign in request sent (stub). Hook this to your API.')
+    try {
+      const userData: RegisterData = {
+        nickname: nickname.value,
+        email: email.value,
+        password: password.value,
+        confirmPassword: password.value, // В простой форме используем тот же пароль
+        agreeToTerms: true, // Предполагаем согласие
+        agreeToPrivacy: true
+      }
+      
+      await register(userData)
+      // При успехе пользователь будет перенаправлен автоматически
+    } catch (err) {
+      // Ошибка уже обработана в useAuth
+      console.error('Registration failed:', err)
+    }
   } else {
     console.log('Form validation failed')
   }
@@ -227,8 +250,45 @@ const handleSignIn = () => {
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   
-  &:hover {
+  &:hover:not(:disabled) {
     opacity: 0.8;
   }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.loading-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.api-error {
+  margin: 16px 0;
+  padding: 12px;
+  background-color: rgba(255, 59, 59, 0.1);
+  border: 1px solid #FF3B3B;
+  border-radius: 8px;
+}
+
+.api-error-message {
+  color: #FF3B3B;
+  font-size: 14px;
+  font-family: var(--font-sans);
+  margin: 0;
+  text-align: center;
 }
 </style>

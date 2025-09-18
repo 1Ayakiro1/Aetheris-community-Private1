@@ -28,10 +28,19 @@
           >
           <p v-if="passwordError" class="error-message">Password is invalid</p>
           
+          <!-- API Error Display -->
+          <div v-if="error" class="api-error">
+            <p class="api-error-message">{{ error }}</p>
+          </div>
+          
           <p class="forgot-password">Forgot password?</p>
           <p class="sign-in-link">Or <router-link to="/signin" class="link">sign in</router-link></p>
           
-          <button @click="handleLogin" class="login-button">Log in</button>
+          <button @click="handleLogin" class="login-button" :disabled="loading">
+            <span v-if="loading" class="loading-spinner"></span>
+            <span v-if="!loading">Log in</span>
+            <span v-else>Logging in...</span>
+          </button>
         </div>
       </div>
     </div>
@@ -41,21 +50,28 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useAuth } from '../composables/useAuth'
+import type { LoginCredentials } from '../types/user'
+
+const { login, loading, error, clearError } = useAuth()
 
 const nickname = ref('')
 const password = ref('')
+const rememberMe = ref(false)
 const nicknameError = ref(false)
 const passwordError = ref(false)
 
 const validateNickname = (value: string): boolean => {
-  return value.length >= 3 && value.length <= 20
+  return value.length >= 3 && value.length <= 50
 }
 
 const validatePassword = (value: string): boolean => {
   return value.length >= 6
 }
 
-const handleLogin = () => {
+const handleLogin = async () => {
+  clearError()
+  
   const nicknameValid = validateNickname(nickname.value)
   const passwordValid = validatePassword(password.value)
   
@@ -63,12 +79,19 @@ const handleLogin = () => {
   passwordError.value = !passwordValid
   
   if (nicknameValid && passwordValid) {
-    // Stub: send to backend
-    console.log('Login payload', {
-      nickname: nickname.value,
-      password: '[REDACTED]'
-    })
-    alert('Login request sent (stub). Hook this to your API.')
+    try {
+      const credentials: LoginCredentials = {
+        login: nickname.value,
+        password: password.value,
+        rememberMe: rememberMe.value
+      }
+      
+      await login(credentials)
+      // При успехе пользователь будет перенаправлен автоматически
+    } catch (err) {
+      // Ошибка уже обработана в useAuth
+      console.error('Login failed:', err)
+    }
   }
 }
 </script>
@@ -191,8 +214,45 @@ const handleLogin = () => {
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   
-  &:hover {
+  &:hover:not(:disabled) {
     opacity: 0.8;
   }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.loading-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.api-error {
+  margin: 16px 0;
+  padding: 12px;
+  background-color: rgba(255, 59, 59, 0.1);
+  border: 1px solid #FF3B3B;
+  border-radius: 8px;
+}
+
+.api-error-message {
+  color: #FF3B3B;
+  font-size: 14px;
+  font-family: var(--font-sans);
+  margin: 0;
+  text-align: center;
 }
 </style>

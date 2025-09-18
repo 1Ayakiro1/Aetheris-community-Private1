@@ -46,6 +46,7 @@ initializeAppTheme();
 import PrimeVue from 'primevue/config';
 import Aura from '@primeuix/themes/aura';
 import 'primeicons/primeicons.css';
+import Editor from 'primevue/editor';
 
 //vue
 import { createApp } from 'vue';
@@ -59,6 +60,7 @@ app.use(PrimeVue, {
     theme: { preset: Aura }
 });
 
+app.component('Editor', Editor);
 app.use(router);
 
 app.mount('#app');
