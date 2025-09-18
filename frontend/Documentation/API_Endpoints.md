@@ -18,14 +18,14 @@
 ```json
 {
   "success": true,
-  "message": "User registered successfully",
+  "message": "string",
   "user": {
     "id": "number",
     "nickname": "string",
     "email": "string",
     "createdAt": "datetime"
   },
-  "token": "jwt_token"
+  "token": "string"
 }
 ```
 
@@ -33,10 +33,9 @@
 ```json
 {
   "success": false,
-  "message": "Validation failed",
+  "message": "string",
   "errors": {
-    "nickname": "Nickname already exists",
-    "email": "Invalid email format"
+    "field_name": "error_message"
   }
 }
 ```
@@ -56,14 +55,14 @@
 ```json
 {
   "success": true,
-  "message": "Login successful",
+  "message": "string",
   "user": {
     "id": "number",
     "nickname": "string",
     "email": "string",
     "lastLoginAt": "datetime"
   },
-  "token": "jwt_token"
+  "token": "string"
 }
 ```
 
@@ -71,7 +70,7 @@
 ```json
 {
   "success": false,
-  "message": "Invalid credentials"
+  "message": "string"
 }
 ```
 
@@ -104,7 +103,7 @@
 ```json
 {
   "success": true,
-  "message": "Logout successful"
+  "message": "string"
 }
 ```
 
@@ -120,16 +119,16 @@
 - `page`: number (номер страницы, по умолчанию 1)
 - `limit`: number (10 для стандартного отображения, 20-25 для списка)
 - `search`: string (поиск по заголовку и контенту)
-- `tags`: string[] (массив тегов через запятую: "vue,javascript,typescript")
-- `category`: string (фильтр по категории: "frontend", "backend", "tutorial")
+- `tags`: string[] (массив тегов через запятую)
+- `category`: string (фильтр по категории)
 - `authorId`: number (ID автора для фильтрации)
-- `sortBy`: string (поле: "createdAt", "views", "likes", "title")
+- `sortBy`: string (поле сортировки)
 - `sortOrder`: 'asc'|'desc' (направление сортировки)
 - `featured`: boolean (только избранные статьи)
 
 **Пример запроса:**
 ```
-GET /api/articles?page=1&limit=10&search=vue&tags=frontend,tutorial&sortBy=createdAt&sortOrder=desc
+GET /api/articles?page=1&limit=10&search=query&tags=tag1,tag2&sortBy=createdAt&sortOrder=desc
 ```
 
 **Response (200):**
@@ -191,23 +190,23 @@ GET /api/articles?page=1&limit=10&search=vue&tags=frontend,tutorial&sortBy=creat
   "success": true,
   "data": {
     "article": {
-      "id": 1,
-      "title": "Изучаем Vue 3",
-      "content": "Полный HTML контент статьи...",
-      "excerpt": "Краткое описание",
+      "id": "number",
+      "title": "string",
+      "content": "string",
+      "excerpt": "string",
       "author": {
-        "id": 1,
-        "username": "johndoe",
-        "avatar": "https://example.com/avatar.jpg"
+        "id": "number",
+        "username": "string",
+        "avatar": "string|null"
       },
-      "tags": ["vue", "javascript", "frontend"],
-      "category": "tutorial",
-      "views": 1250,
-      "likes": 45,
-      "commentsCount": 12,
-      "readingTime": 8,
-      "createdAt": "2024-01-15T10:30:00Z",
-      "publishedAt": "2024-01-15T12:00:00Z"
+      "tags": ["string"],
+      "category": "string",
+      "views": "number",
+      "likes": "number",
+      "commentsCount": "number",
+      "readingTime": "number",
+      "createdAt": "datetime",
+      "publishedAt": "datetime"
     }
   }
 }
@@ -228,7 +227,7 @@ GET /api/articles?page=1&limit=10&search=vue&tags=frontend,tutorial&sortBy=creat
   "content": "string (HTML контент из Quill редактора)",
   "excerpt": "string (краткое описание, максимум 500 символов)",
   "tags": ["string"] (массив тегов, максимум 10 тегов),
-  "category": "string (одна из: tutorial, guide, news, review)",
+  "category": "string",
   "status": "draft|published" (черновик или опубликовано)
 }
 ```
@@ -245,10 +244,13 @@ GET /api/articles?page=1&limit=10&search=vue&tags=frontend,tutorial&sortBy=creat
 ```json
 {
   "success": true,
-  "message": "Article created successfully",
+  "message": "string",
   "data": {
     "article": {
-      // Созданная статья с ID
+      "id": "number",
+      "title": "string",
+      "content": "string",
+      "status": "string"
     }
   }
 }
@@ -279,7 +281,7 @@ GET /api/articles?page=1&limit=10&search=vue&tags=frontend,tutorial&sortBy=creat
 ```json
 {
   "success": true,
-  "message": "Article deleted successfully"
+  "message": "string"
 }
 ```
 
@@ -299,8 +301,8 @@ GET /api/articles?page=1&limit=10&search=vue&tags=frontend,tutorial&sortBy=creat
 {
   "success": true,
   "data": {
-    "liked": true,
-    "likesCount": 46
+    "liked": "boolean",
+    "likesCount": "number"
   }
 }
 ```
@@ -326,8 +328,8 @@ GET /api/articles?page=1&limit=10&search=vue&tags=frontend,tutorial&sortBy=creat
 {
   "success": true,
   "data": {
-    "bookmarked": true,
-    "message": "Article added to bookmarks"
+    "bookmarked": "boolean",
+    "message": "string"
   }
 }
 ```
@@ -355,22 +357,22 @@ GET /api/articles?page=1&limit=10&search=vue&tags=frontend,tutorial&sortBy=creat
   "data": {
     "comments": [
       {
-        "id": 1,
-        "content": "Отличная статья!",
+        "id": "number",
+        "content": "string",
         "author": {
-          "id": 1,
-          "username": "johndoe",
-          "avatar": "https://example.com/avatar.jpg"
+          "id": "number",
+          "username": "string",
+          "avatar": "string|null"
         },
-        "createdAt": "2024-01-15T14:30:00Z",
-        "likes": 5,
-        "parentId": null
+        "createdAt": "datetime",
+        "likes": "number",
+        "parentId": "number|null"
       }
     ],
     "pagination": {
-      "total": 12,
-      "page": 1,
-      "hasMore": false
+      "total": "number",
+      "page": "number",
+      "hasMore": "boolean"
     }
   }
 }

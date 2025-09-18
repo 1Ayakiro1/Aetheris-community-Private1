@@ -153,7 +153,7 @@ id: number  // ID статьи
   author: {
     id: number,
     username: string,
-    avatar: string
+    avatar: string|null
   },
   tags: string[],
   category: string,
@@ -170,7 +170,7 @@ id: number  // ID статьи
 {
   id: number,
   title: string,
-  content: string,    // HTML контент
+  content: string,
   excerpt: string,
   author: User,
   tags: string[],
@@ -182,8 +182,8 @@ id: number  // ID статьи
   dislikes: number,
   commentsCount: number,
   readingTime: number,
-  isLiked: boolean,   // Лайкнул ли текущий пользователь
-  isBookmarked: boolean // В закладках ли у текущего пользователя
+  isLiked: boolean,
+  isBookmarked: boolean
 }
 ```
 
@@ -226,4 +226,5 @@ id: number  // ID статьи
 ### Пользователь
 - **nickname:** 3-24 символа, уникальный
 - **email:** валидный email, уникальный
-- **password:** 8-48 символов, содержит заглавную букву, строчную, цифру, спецсимвол
+- **password:** 8-48 символов, требования безопасности
+
