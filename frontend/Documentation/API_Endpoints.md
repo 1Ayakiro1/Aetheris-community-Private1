@@ -8,9 +8,9 @@
 **Request Body:**
 ```json
 {
-  "nickname": "string (3-24 chars)",
-  "email": "string (valid email)",
-  "password": "string (8-48 chars)"
+    "nickname": "string (3-24 chars)",
+    "email": "string (valid email)",
+    "password": "string (8-48 chars)"
 }
 ```
 
@@ -18,14 +18,14 @@
 ```json
 {
   "success": true,
-  "message": "User registered successfully",
+  "message": "string",
   "user": {
     "id": "number",
     "nickname": "string",
     "email": "string",
     "createdAt": "datetime"
   },
-  "token": "jwt_token"
+  "token": "string"
 }
 ```
 
@@ -33,10 +33,9 @@
 ```json
 {
   "success": false,
-  "message": "Validation failed",
+  "message": "string",
   "errors": {
-    "nickname": "Nickname already exists",
-    "email": "Invalid email format"
+    "field_name": "error_message"
   }
 }
 ```
@@ -56,14 +55,14 @@
 ```json
 {
   "success": true,
-  "message": "Login successful",
+  "message": "string",
   "user": {
     "id": "number",
     "nickname": "string",
     "email": "string",
     "lastLoginAt": "datetime"
   },
-  "token": "jwt_token"
+  "token": "string"
 }
 ```
 
@@ -71,7 +70,7 @@
 ```json
 {
   "success": false,
-  "message": "Invalid credentials"
+  "message": "string"
 }
 ```
 
@@ -104,24 +103,33 @@
 ```json
 {
   "success": true,
-  "message": "Logout successful"
+  "message": "string"
 }
 ```
-
+---
 ## СТАТЬИ
 
 ### GET /api/articles
-**Получение списка статей**
+**Получение списка статей для главной страницы Articles.vue**
+
+**Какая функция подгружает:** `loadArticles()` в composables/useArticles.ts
+**Когда вызывается:** При загрузке страницы, смене фильтров, пагинации
 
 **Query Parameters:**
-- `page`: number (номер страницы)
-- `limit`: number (количество на страницу)
-- `search`: string (поисковый запрос)
-- `tags`: string[] (фильтр по тегам)
+- `page`: number (номер страницы, по умолчанию 1)
+- `limit`: number (10 для стандартного отображения, 20-25 для списка)
+- `search`: string (поиск по заголовку и контенту)
+- `tags`: string[] (массив тегов через запятую)
 - `category`: string (фильтр по категории)
-- `authorId`: number (фильтр по автору)
+- `authorId`: number (ID автора для фильтрации)
 - `sortBy`: string (поле сортировки)
 - `sortOrder`: 'asc'|'desc' (направление сортировки)
+- `featured`: boolean (только избранные статьи)
+
+**Пример запроса:**
+```
+GET /api/articles?page=1&limit=10&search=query&tags=tag1,tag2&sortBy=createdAt&sortOrder=desc
+```
 
 **Response (200):**
 ```json
@@ -161,7 +169,20 @@
 ```
 
 ### GET /api/articles/:id
-**Получение статьи по ID**
+**Получение полной статьи по ID для просмотра**
+
+**Какая функция подгружает:** `loadArticle(id)` в composables/useArticles.ts
+**Когда вызывается:** При клике на карточку статьи, переходе по прямой ссылке
+
+**URL Parameters:**
+- `id`: number (ID статьи)
+
+**Что загружает:**
+- Полный контент статьи
+- Информацию об авторе
+- Теги и категорию
+- Статистику (просмотры, лайки, комментарии)
+- Счетчик времени чтения
 
 **Response (200):**
 ```json
@@ -169,37 +190,67 @@
   "success": true,
   "data": {
     "article": {
-      // Полная информация о статье
+      "id": "number",
+      "title": "string",
+      "content": "string",
+      "excerpt": "string",
+      "author": {
+        "id": "number",
+        "username": "string",
+        "avatar": "string|null"
+      },
+      "tags": ["string"],
+      "category": "string",
+      "views": "number",
+      "likes": "number",
+      "commentsCount": "number",
+      "readingTime": "number",
+      "createdAt": "datetime",
+      "publishedAt": "datetime"
     }
   }
 }
 ```
 
 ### POST /api/articles
-**Создание статьи**
+**Создание новой статьи в редакторе**
+
+**Какая функция подгружает:** `createArticle()` в composables/useArticles.ts
+**Когда вызывается:** При сохранении статьи в CreateArticle.vue
 
 **Headers:** `Authorization: Bearer <token>`
 
 **Request Body:**
 ```json
 {
-  "title": "string",
-  "content": "string",
-  "excerpt": "string",
-  "tags": ["string"],
+  "title": "string (максимум 255 символов)",
+  "content": "string (HTML контент из Quill редактора)",
+  "excerpt": "string (краткое описание, максимум 500 символов)",
+  "tags": ["string"] (массив тегов, максимум 10 тегов),
   "category": "string",
-  "status": "draft|published"
+  "status": "draft|published" (черновик или опубликовано)
 }
 ```
+
+**Что загружается в функцию:**
+- `title` - заголовок из input поля
+- `content` - HTML контент из Quill Editor
+- `excerpt` - автоматически из первых 500 символов или ручной ввод
+- `tags` - массив выбранных тегов из Tag компонента
+- `category` - выбранная категория из dropdown
+- `status` - статус публикации (draft/published)
 
 **Response (201):**
 ```json
 {
   "success": true,
-  "message": "Article created successfully",
+  "message": "string",
   "data": {
     "article": {
-      // Созданная статья с ID
+      "id": "number",
+      "title": "string",
+      "content": "string",
+      "status": "string"
     }
   }
 }
@@ -230,41 +281,122 @@
 ```json
 {
   "success": true,
-  "message": "Article deleted successfully"
+  "message": "string"
 }
 ```
 
 ### POST /api/articles/:id/like
 **Лайк статьи**
 
+**Какая функция подгружает:** `toggleLike(articleId)` в ArticleCard.vue
+**Когда вызывается:** При клике на кнопку лайка в карточке статьи
+
 **Headers:** `Authorization: Bearer <token>`
+
+**URL Parameters:**
+- `id`: number (ID статьи)
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "liked": "boolean",
+    "likesCount": "number"
+  }
+}
+```
 
 ### POST /api/articles/:id/unlike
 **Убрать лайк**
 
+**Какая функция подгружает:** `toggleLike(articleId)` в ArticleCard.vue
+**Когда вызывается:** При повторном клике на кнопку лайка
+
 **Headers:** `Authorization: Bearer <token>`
 
 ### POST /api/articles/:id/bookmark
-**Добавить в закладки**
+**Добавить/убрать из закладок**
+
+**Какая функция подгружает:** `toggleBookmark(articleId)` в ArticleCard.vue
+**Когда вызывается:** При клике на кнопку закладки
 
 **Headers:** `Authorization: Bearer <token>`
 
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "bookmarked": "boolean",
+    "message": "string"
+  }
+}
+```
+---
 ## КОММЕНТАРИИ
 
 ### GET /api/articles/:id/comments
 **Получение комментариев к статье**
 
+**Какая функция подгружает:** `loadComments(articleId)` в composables/useComments.ts
+**Когда вызывается:** При открытии секции комментариев в статье
+
+**URL Parameters:**
+- `id`: number (ID статьи)
+
+**Query Parameters:**
+- `page`: number (страница комментариев)
+- `limit`: number (количество комментариев, по умолчанию 20)
+- `sortBy`: 'newest'|'oldest'|'popular' (сортировка)
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "comments": [
+      {
+        "id": "number",
+        "content": "string",
+        "author": {
+          "id": "number",
+          "username": "string",
+          "avatar": "string|null"
+        },
+        "createdAt": "datetime",
+        "likes": "number",
+        "parentId": "number|null"
+      }
+    ],
+    "pagination": {
+      "total": "number",
+      "page": "number",
+      "hasMore": "boolean"
+    }
+  }
+}
+```
+
 ### POST /api/articles/:id/comments
 **Создание комментария**
+
+**Какая функция подгружает:** `createComment(articleId, content)` в composables/useComments.ts
+**Когда вызывается:** При отправке формы комментария
 
 **Headers:** `Authorization: Bearer <token>`
 
 **Request Body:**
 ```json
 {
-  "content": "string"
+  "content": "string (максимум 1000 символов)",
+  "parentId": "number|null (ID родительского комментария для ответов)"
 }
 ```
+
+**Что загружается:**
+- `content` - текст комментария из textarea
+- `parentId` - ID комментария на который отвечают (если это ответ)
 
 ### PUT /api/comments/:id
 **Обновление комментария**
@@ -289,6 +421,7 @@
 ### GET /api/users/:id/articles
 **Статьи пользователя**
 
+---
 ## ВАЛИДАЦИЯ
 
 ### Никнейм
