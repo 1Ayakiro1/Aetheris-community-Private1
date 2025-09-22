@@ -41,7 +41,7 @@ const deleteAllSessions = () => {
 
 <style scoped lang="scss">
 .settings-sessions-container {
-  max-width: 120rem;
+  max-width: 1920px;
   margin: 0 auto;
   background-color: var(--bg-primary);
   min-height: 100vh;
@@ -49,7 +49,7 @@ const deleteAllSessions = () => {
 
 .main-body {
   display: flex;
-  margin-top: 3rem; // mt-12
+  margin-top: 48px; // mt-12
 }
 
 
@@ -63,40 +63,40 @@ const deleteAllSessions = () => {
 
 .sessions-section {
   background-color: var(--bg-secondary);
-  width: 95rem;
+  width: 980px;
   height: 900px;
-  border-radius: 1.5625rem;
-  margin-bottom: 12.5rem;
+  border-radius: 25px;
+  margin-bottom: 200px;
   display: flex;
   flex-direction: column;
 }
 
 .section-title {
-  margin-top: 2.5rem; // mt-10
-  margin-left: 3rem; // ml-12
+  margin-top: 40px; // mt-10
+  margin-left: 48px; // ml-12
   color: var(--text-primary);
-  font-size: 1.5625rem;
+  font-size: 25px;
   font-family: var(--font-sans);
   font-weight: bold;
 }
 
 .section-subtitle {
   color: var(--text-secondary);
-  font-size: 1.25rem;
+  font-size: 20px;
   font-family: var(--font-sans);
   font-weight: bold;
-  margin-top: 0.25rem;
-  margin-left: 3rem;
+  margin-top: 4px;
+  margin-left: 48px;
   width: 700px;
 }
 
 .section-warning {
   color: var(--text-secondary);
-  font-size: 1.25rem;
+  font-size: 20px;
   font-family: var(--font-sans);
   font-weight: bold;
-  margin-top: 1rem;
-  margin-left: 3rem;
+  margin-top: 16px;
+  margin-left: 48px;
   width: 900px;
 }
 
@@ -104,22 +104,22 @@ const deleteAllSessions = () => {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-top: 3.125rem;
+  margin-top: 50px;
 }
 
 .session-placeholder {
   background-color: var(--bg-primary);
   width: 890px;
   height: 139px;
-  border-radius: 1.5625rem;
-  margin-left: 3rem;
+  border-radius: 25px;
+  margin-left: 48px;
 }
 
 .delete-all-button {
   width: 890px;
   height: 59px;
   background-color: rgba(67, 73, 86, 0);
-  border-radius: 0.9375rem;
+  border-radius: 15px;
   color: var(--text-primary);
   font-size: 23px;
   font-family: var(--font-sans);
@@ -130,8 +130,8 @@ const deleteAllSessions = () => {
   justify-content: center;
   border: none;
   cursor: pointer;
-  margin-left: 3rem;
-  margin-top: 1rem;
+  margin-left: 48px;
+  margin-top: 16px;
 
   &:hover {
     background-color: var(--text-red);

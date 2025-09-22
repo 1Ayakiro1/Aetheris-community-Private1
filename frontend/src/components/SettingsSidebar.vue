@@ -82,7 +82,7 @@
   width: 395px;
   height: 685px;
   background-color: var(--bg-secondary);
-  margin-left: 16.875rem;
+  margin-left: 270px;
   border-radius: 25px;
   display: flex;
   flex-direction: column;
@@ -108,9 +108,9 @@
 .button-icon5,
 .button-icon6,
 .button-icon7 {
-  width: 20.375rem;
+  width: 26px;
   height: 19px;
-  margin-left: 10.375rem;
+  margin-left: 16px;
   border-radius: 2px;
 }
 
@@ -119,14 +119,14 @@
   flex-direction: column;
   margin-top: 3px;
   margin-left: 44px;
-  gap: 0.5rem;
+  gap: 8px;
 }
 
 .sidebar-button {
-  width: 18.75rem;
-  height: 50.375rem;
+  width: 300px;
+  height: 56px;
   background-color: rgba(67, 73, 86, 0);
-  border-radius: 0.9375rem;
+  border-radius: 15px;
   color: var(--text-primary);
   font-size: 23px;
   font-family: var(--font-sans);
@@ -151,15 +151,15 @@
 }
 
 .button-icon {
-  width: 20.375rem;
+  width: 26px;
   height: 19px;
-  margin-left: 10.375rem;
+  margin-left: 16px;
   background-color: var(--ico-color);
   border-radius: 2px;
 }
 
 .button-text {
-  margin-left: 10.375rem;
+  margin-left: 16px;
 }
 
 .svg1,
@@ -168,10 +168,10 @@
 .svg4,
 .svg5,
 .svg6 {
-  margin-left: 0.9375rem;
+  margin-left: 15px;
 }
 
 .svg6 {
-  margin-left: 0.9375rem;
+  margin-left: 15px;
 }
 </style>

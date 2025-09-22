@@ -39,19 +39,19 @@
 
 <style lang="scss" scoped>
 .faq-keywords-container {
-  max-width: 120rem;
+  max-width: 1920px;
   margin: 0 auto;
   background-color: var(--bg-primary);
-  padding-top: 6.25rem;
-  padding-bottom: 12.5rem;
+  padding-top: 100px;
+  padding-bottom: 200px;
 }
 
 .page-title {
   color: var(--text-primary);
-  font-size: 1.875rem;
+  font-size: 30px;
   font-family: var(--font-sans);
   font-weight: bold;
-  margin-top: 1.25rem;
+  margin-top: 20px;
   text-align: center;
 }
 
@@ -66,21 +66,21 @@
   align-items: center;
   justify-content: center;
   background-color: var(--bg-secondary);
-  border-radius: 1.25rem;
+  border-radius: 20px;
   width: 414px;
   height: 429px;
   margin-left: 176px; // ml-44
   margin-top: 56px; // mt-14
-  gap: 0.5rem; // gap-2
+  gap: 8px; // gap-2
 }
 
 .sidebar-button {
   width: 333px;
   height: 56px;
   background-color: rgba(67, 73, 86, 0);
-  border-radius: 0.9375rem;
+  border-radius: 15px;
   color: var(--text-primary);
-  font-size: 1.5625rem;
+  font-size: 25px;
   font-family: var(--font-sans);
   font-weight: bold;
   transition: background-color 0.3s ease-in-out;
@@ -93,20 +93,20 @@
 }
 
 .content {
-  width: 93.125rem;
-  height: 12.5rem;
+  width: 950px;
+  height: 200px;
   background-color: var(--bg-secondary);
-  border-radius: 1.25rem;
+  border-radius: 20px;
   margin-left: 12px;
   margin-top: 56px; // mt-14
 }
 
 .content-title {
   color: var(--text-primary);
-  font-size: 1.875rem;
+  font-size: 30px;
   font-family: var(--font-sans);
   font-weight: bold;
-  margin-top: 1.25rem;
+  margin-top: 20px;
   text-align: center;
 }
 

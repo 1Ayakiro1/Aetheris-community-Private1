@@ -80,7 +80,7 @@
 
 .gradient-violet-pink {
     background: linear-gradient(180deg, var(--primary-violet) 0%, var(--primary-pink) 100%);
-    height: 0.25rem;
+    height: 4px;
     width: 100%;
 }
 
@@ -89,7 +89,7 @@
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: 26.875rem;
+    height: 430px;
 }
 
 .footer-content {
@@ -99,26 +99,26 @@
 }
 
 .ae-logo-footer {
-    width: 10.5rem;
-    height: 11.5rem;
-    margin-left: 1.25rem;
+    width: 168px;
+    height: 184px;
+    margin-left: 20px;
     position: absolute;
 }
 
 .site-title {
     font-family: var(--font-primary);
-    font-size: 2.375rem;
+    font-size: 38px;
     font-weight: bold;
-    margin-left: 1.875rem;
-    margin-top: 8.75rem;
+    margin-left: 30px;
+    margin-top: 140px;
     color: var(--text-primary);
 }
 
 .site-subtitle {
     font-family: var(--font-comfortaa);
-    font-size: 1.875rem;
+    font-size: 30px;
     font-weight: bold;
-    margin-left: 1.875rem;
+    margin-left: 30px;
     color: var(--text-secondary);
 }
 
@@ -129,11 +129,11 @@
 }
 
 .social-button {
-    width: 4.75rem;
-    height: 4.75rem;
+    width: 76px;
+    height: 76px;
     border-radius: 50%;
     border: 2px solid white;
-    margin-top: 1.25rem;
+    margin-top: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -151,29 +151,29 @@
 }
 
 .social-icon {
-    width: 3.75rem;
-    height: 3.75rem;
+    width: 60px;
+    height: 60px;
     transition: filter 0.3s ease-in-out;
 }
 
 .telegram-icon {
-    height: 3.125rem;
-    width: 3.125rem;
-    margin-right: 0.0625rem;
+    height: 50px;
+    width: 50px;
+    margin-right: 1px;
 }
 
 .boosty-icon {
-    height: 3.125rem;
-    width: 2.8125rem;
-    margin-left: 0.0625rem;
+    height: 50px;
+    width: 45px;
+    margin-left: 1px;
 }
 
 .opensource-text {
     font-family: var(--font-comfortaa);
-    font-size: 1.5625rem;
+    font-size: 25px;
     font-weight: bold;
-    margin-top: 1.875rem;
-    margin-left: 1.875rem;
+    margin-top: 30px;
+    margin-left: 30px;
     color: var(--text-secondary);
 }
 
@@ -196,29 +196,29 @@
 }
 
 .about-block {
-    margin-top: 3.125rem;
+    margin-top: 50px;
 }
 
 .resources-block {
-    margin-top: 3.125rem;
+    margin-top: 50px;
 }
 
 .legal-block {
-    margin-top: 3.125rem;
-    margin-right: 6.25rem;
+    margin-top: 50px;
+    margin-right: 100px;
 }
 
 .block-title {
     font-family: var(--font-comfortaa);
-    font-size: 2.0625rem;
+    font-size: 33px;
     font-weight: bold;
-    margin-top: 3.125rem;
+    margin-top: 50px;
     color: var(--text-primary);
 }
 
 .block-link {
     font-family: var(--font-comfortaa);
-    font-size: 1.5625rem;
+    font-size: 25px;
     font-weight: normal;
     color: var(--text-primary);
     text-decoration: none;

@@ -84,7 +84,7 @@
 
 <style scoped>
 .articles-container {
-  max-width: 120rem;
+  max-width: 1920px;
   margin: 0 auto;
   background-color: var(--bg-primary);
   min-height: 100vh;
@@ -94,12 +94,12 @@
 .page-title-section {
   display: flex;
   justify-content: center;
-  margin-top: 2.5rem;
+  margin-top: 40px;
 }
 
 .page-title {
   color: var(--text-primary);
-  font-size: 3.125rem;
+  font-size: 50px;
   font-family: var(--font-sans);
   font-weight: bold;
   margin: 0;
@@ -108,10 +108,10 @@
 /* Articles Body */
 .articles-body {
   display: flex;
-  margin-top: 2.5rem;
+  margin-top: 40px;
   justify-content: center;
   align-items: flex-start;
-  gap: 1rem;
+  gap: 16px;
 }
 
 /* First Left Block - Search Section */
@@ -122,9 +122,9 @@
 
 .search-container {
   width: 1060px;
-  height: 4.375rem;
+  height: 70px;
   background-color: var(--bg-secondary);
-  border-radius: 2rem;
+  border-radius: 32px;
   display: flex;
   align-items: center;
 }
@@ -134,28 +134,28 @@
 }
 
 .search-divider {
-  width: 0.3125rem;
+  width: 5px;
   height: 45px;
-  margin-left: 1.875rem;
+  margin-left: 30px;
   background-color: white;
-  border-radius: 1.875rem;
+  border-radius: 30px;
 }
 
 .search-icon-2 {
-  margin-left: 1.875rem;
+  margin-left: 30px;
 }
 
 .search-input {
-  margin-left: 1rem;
+  margin-left: 16px;
   width: 870px;
-  height: 3.125rem;
+  height: 50px;
   background-color: var(--bg-primary);
-  border-radius: 1.5625rem 1.5625rem 1.875rem 1.875rem;
+  border-radius: 25px 25px 30px 30px;
   color: var(--text-primary);
-  font-size: 1.25rem;
+  font-size: 20px;
   font-family: var(--font-sans);
   font-weight: 500;
-  padding-left: 1rem;
+  padding-left: 16px;
   border: none;
   outline: none;
 }
@@ -172,10 +172,10 @@
 
 /* Article Info Card */
 .article-info-card {
-  width: 18.75rem;
-  height: 25rem;
+  width: 300px;
+  height: 400px;
   background-color: var(--bg-secondary);
-  border-radius: 1.875rem;
+  border-radius: 30px;
   display: flex;
   flex-direction: column;
 }
@@ -187,15 +187,15 @@
 
 .card-icon {
   margin-left: 24px;
-  margin-top: 0.25rem;
+  margin-top: 4px;
 }
 
 .card-title {
   color: var(--text-primary);
-  font-size: 1.5625rem;
+  font-size: 25px;
   font-family: var(--font-sans);
   font-weight: 500;
-  margin-left: 0.625rem;
+  margin-left: 10px;
   margin-top: 0;
   margin-bottom: 0;
   margin-right: 0;
@@ -209,7 +209,7 @@
 
 .info-label {
   color: var(--text-secondary);
-  font-size: 1.25rem;
+  font-size: 20px;
   font-family: var(--font-sans);
   font-weight: 500;
   margin: 0;
@@ -217,27 +217,27 @@
 
 .info-value {
   color: var(--text-secondary);
-  font-size: 1.25rem;
+  font-size: 20px;
   font-family: var(--font-sans);
   font-weight: 500;
-  margin-left: 0.5rem;
+  margin-left: 8px;
   margin: 0;
 }
 
 /* Similar Articles Card */
 .similar-articles-card {
-  width: 18.75rem;
-  height: 25rem;
+  width: 300px;
+  height: 400px;
   background-color: var(--bg-secondary);
-  margin-top: 1rem;
-  border-radius: 1.875rem;
+  margin-top: 16px;
+  border-radius: 30px;
   display: flex;
   flex-direction: column;
 }
 
 .similar-item {
   color: var(--text-secondary);
-  font-size: 1.25rem;
+  font-size: 20px;
   font-family: var(--font-sans);
   font-weight: 500;
   margin-top: 24px;

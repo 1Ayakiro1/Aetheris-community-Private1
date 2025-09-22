@@ -18,7 +18,7 @@
           </div>
           <div class="notification-content">
             <h3 class="notification-title">New Article Published</h3>
-            <p class="notification-description">Новая статья была опубликована в разделе Статьи.</p>
+            <p class="notification-description">A new article "Getting Started with Vue.js" has been published in the Articles section.</p>
             <span class="notification-time">2 hours ago</span>
           </div>
         </div>
@@ -31,7 +31,7 @@
           </div>
           <div class="notification-content">
             <h3 class="notification-title">Comment on Your Article</h3>
-            <p class="notification-description">Пользователь прокомментировал вашу статью.</p>
+            <p class="notification-description">John Doe commented on your article "Advanced React Patterns".</p>
             <span class="notification-time">5 hours ago</span>
           </div>
         </div>
@@ -58,24 +58,24 @@
 
 <style scoped>
 .notifications-container {
-  max-width: 120rem;
+  max-width: 1920px;
   margin: 0 auto;
   background-color: var(--bg-primary);
   min-height: 100vh;
-  padding: 2.5rem 15rem;
+  padding: 40px 180px;
 }
 
 /* Notifications Header */
 .notifications-header {
-  margin-bottom: 2.5rem;
+  margin-bottom: 40px;
 }
 
 .notifications-title {
   font-family: var(--font-sans);
-  font-size: 3rem;
+  font-size: 48px;
   font-weight: 500;
   color: var(--text-primary);
-  margin: 0 0 1rem 0;
+  margin: 0 0 16px 0;
 }
 
 .notifications-subtitle {
@@ -94,30 +94,30 @@
 .notifications-list {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 16px;
 }
 
 .notification-item {
   display: flex;
   align-items: flex-start;
-  gap: 1rem;
+  gap: 16px;
   background-color: var(--bg-secondary);
   border-radius: 12px;
-  padding: 1.25rem;
+  padding: 20px;
   border: 1px solid var(--text-secondary);
   transition: all 0.3s ease-in-out;
 }
 
 .notification-item:hover {
   transform: translateY(-2px);
-  box-shadow: 0 0.25rem 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .notification-icon {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 40px;
+  height: 40px;
   background-color: var(--primary-blue);
-  border-radius: 0.5rem;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -129,12 +129,12 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 8px;
 }
 
 .notification-title {
   font-family: var(--font-sans);
-  font-size: 1.125rem;
+  font-size: 18px;
   font-weight: 500;
   color: var(--text-primary);
   margin: 0;
@@ -142,7 +142,7 @@
 
 .notification-description {
   font-family: var(--font-sans);
-  font-size: 0.875rem;
+  font-size: 14px;
   font-weight: 500;
   color: var(--text-secondary);
   margin: 0;

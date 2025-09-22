@@ -360,335 +360,328 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-@media (min-width: 1920px) {
-  .header-brand-link {
-    text-decoration: none;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    display: flex;
-    align-items: center;
-    margin-left: 245px;
-    
-    &:hover {
-      opacity: 0.8;
-    }
+.header-brand-link {
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  display: flex;
+  align-items: center;
+  margin-left: 245px;
+  
+  &:hover {
+    opacity: 0.8;
   }
-  
-  .logo {
-    margin: 0;
+}
+
+.logo {
+  margin: 0;
+}
+
+.header-title {
+  font-family: var(--font-comfortaa);
+  font-size: 35px;
+  font-weight: bold;
+  color: var(--text-primary);
+  margin: 0;
+  margin-left: 10px;
+  white-space: nowrap;
+}
+
+.header-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  height: 80px;
+  background-color: var(--bg-primary);
+  position: relative;
+  margin-top: 20px;
+}
+
+// Navigation button
+.nav-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: rgba(67, 73, 86, 0);
+  border-radius: 15px;
+  width: 260px;
+  height: 52px;
+  margin-left: 40px;
+  transition: background-color 0.3s ease-in-out;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(67, 73, 86, 1);
   }
-  
-  .header-title {
-    font-family: var(--font-comfortaa);
-    font-size: 2.18rem;
-    font-weight: bold;
-    color: var(--text-primary);
-    margin: 0;
-    margin-left: 10px;
-    white-space: nowrap;
+}
+
+// FAQ button
+.faq-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: rgba(67, 73, 86, 0);
+  border-radius: 20px;
+  width: 180px;
+  height: 52px;
+  margin-left: 200px;
+  margin-right: 20px;
+  transition: background-color 0.3s ease-in-out;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(67, 73, 86, 1);
   }
-  
-  .header-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 100%;
-    height: 10.06rem;
-    background-color: var(--bg-primary);
-    position: relative;
-    margin-top: 20px;
+}
+
+// Additional button
+.additional-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: rgba(67, 73, 86, 0);
+  border-radius: 20px;
+  width: 105px;
+  margin-right: 20px;
+  height: 52px;
+  margin-left: auto;
+  padding-right: 20px;
+  transition: background-color 0.3s ease-in-out;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(67, 73, 86, 1);
   }
-  
-  // Navigation button
-  .nav-button {
-    position: relative;
-    display: flex;
-    align-items: center;
-    background-color: rgba(67, 73, 86, 0);
-    border-radius: 0.9375rem;
-    width: 260px;
-    height: 52px;
-    margin-left: 40px;
-    transition: background-color 0.3s ease-in-out;
-    border: none;
-    cursor: pointer;
-  
-    &:hover {
-      background-color: rgba(67, 73, 86, 1);
-    }
+}
+
+// Profile button
+.profile-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border-radius: 15px;
+  width: 100px;
+  height: 56px;
+  margin-right: 275px;
+  transition: background-color 0.2s ease-in-out;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(67, 73, 86, 1);
   }
-  
-  // FAQ button
-  .faq-button {
-    position: relative;
-    display: flex;
-    align-items: center;
-    background-color: rgba(67, 73, 86, 0);
-    border-radius: 20px;
-    width: 11.25rem;
-    height: 52px;
-    margin-left: 200px;
-    margin-right: 20px;
-    transition: background-color 0.3s ease-in-out;
-    border: none;
-    cursor: pointer;
-  
-    &:hover {
-      background-color: rgba(67, 73, 86, 1);
-    }
+}
+
+.profile-avatar {
+  background-color: var(--btn-primary);
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+  flex-shrink: 0;
+  margin-left: 12px;
+}
+
+// Dropdown icons rotation
+.dropdown-icon {
+  color: var(--text-primary);
+  transition: transform 0.3s ease-in-out;
+  margin-left: 16px;
+}
+
+// Navigation arrow special spacing
+.nav-arrow {
+  margin-right: 20px;
+}
+
+// FAQ arrow spacing
+.faq-arrow {
+  margin-left: 10px;
+  margin-right: 12px;
+}
+
+// Additional arrow spacing
+.additional-arrow {
+  margin-left: 10px;
+}
+
+// Profile arrow spacing
+.profile-arrow {
+  margin-left: 10px;
+  margin-right: 12px;
+}
+
+// Active state for dropdown icons (when panel is open)
+.nav-button.active .dropdown-icon,
+.faq-button.active .dropdown-icon,
+.additional-button.active .dropdown-icon,
+.profile-button.active .dropdown-icon {
+  transform: rotate(180deg);
+}
+
+// Button text
+.button-text {
+  font-family: var(--font-sans-serif);
+  font-size: 23px;
+  font-weight: bold;
+  color: var(--text-primary);
+  margin-left: 14px;
+}
+
+// Icon positioning
+.nav-icon {
+  margin-left: 17px;
+}
+
+.faq-icon {
+  margin-left: 16px;
+}
+
+.add-icon {
+  margin-left: 12px;
+}
+
+
+.panel-icon {
+  margin-left: 16px;
+  margin-right: 12px;
+}
+
+// Dropdown panels
+.dropdown-panel {
+  position: absolute;
+  background-color: var(--bg-secondary);
+  border-radius: 20px;
+  border: 2px solid var(--text-secondary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1000;
+  min-width: 200px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  transition: opacity 0.3s ease-in-out;
+}
+
+// Animation classes
+.hidden {
+  display: none !important;
+}
+
+.opacity-0 {
+  opacity: 0;
+}
+
+.opacity-100 {
+  opacity: 1;
+}
+
+.pointer-events-none {
+  pointer-events: none;
+}
+
+.navigation-panel {
+  width: 260px;
+  height: 280px;
+  left: 785px;
+  top: 100px;
+}
+
+.faq-panel {
+  width: 260px;
+  height: 280px;
+  left: 1200px;
+  top: 100px;
+}
+
+.additional-panel {
+  width: 260px;
+  height: 290px;
+  left: 1345px;
+  top: 100px;
+}
+
+.profile-panel {
+  width: 290px;
+  height: 777px;
+  left: 1460px;
+  top: 100px;
+}
+
+.panel-content {
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+  gap: 8px;
+}
+
+// Panel buttons
+.panel-button {
+  display: flex;
+  align-items: center;
+  background-color: rgba(67, 73, 86, 0);
+  border-radius: 15px;
+  width: 240px;
+  height: 59px;
+  color: var(--text-primary);
+  font-family: var(--font-sans-serif);
+  font-size: 23px;
+  font-weight: bold;
+  transition: background-color 0.3s ease-in-out;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(67, 73, 86, 1);
   }
-  
-  // Additional button
-  .additional-button {
-    position: relative;
-    display: flex;
-    align-items: center;
-    background-color: rgba(67, 73, 86, 0);
-    border-radius: 20px;
-    width: 105px;
-    margin-right: 20px;
-    height: 52px;
-    margin-left: auto;
-    padding-right: 20px;
-    transition: background-color 0.3s ease-in-out;
-    border: none;
-    cursor: pointer;
-  
-    &:hover {
-      background-color: rgba(67, 73, 86, 1);
-    }
-  }
-  
-  // Profile button
-  .profile-button {
-    position: relative;
-    display: flex;
-    align-items: center;
-    background-color: transparent;
-    border-radius: 0.9375rem;
-    width: 100px;
-    height: 50.375rem;
-    margin-right: 275px;
-    transition: background-color 0.2s ease-in-out;
-    border: none;
-    cursor: pointer;
-  
-    &:hover {
-      background-color: rgba(67, 73, 86, 1);
-    }
-  }
-  
-  .profile-avatar {
-    background-color: var(--btn-primary);
-    border-radius: 50%;
-    height: 40px;
-    width: 40px;
-    flex-shrink: 0;
-    margin-left: 0.75rem;
-  }
-  
-  // Dropdown icons rotation
-  .dropdown-icon {
-    color: var(--text-primary);
-    transition: transform 0.3s ease-in-out;
-    margin-left: 10.375rem;
-  }
-  
-  // Navigation arrow special spacing
-  .nav-arrow {
-    margin-right: 20px;
-  }
-  
-  // FAQ arrow spacing
-  .faq-arrow {
-    margin-left: 10px;
-    margin-right: 0.75rem;
-  }
-  
-  // Additional arrow spacing
-  .additional-arrow {
-    margin-left: 10px;
-  }
-  
-  // Profile arrow spacing
-  .profile-arrow {
-    margin-left: 10px;
-    margin-right: 0.75rem;
-  }
-  
-  // Active state for dropdown icons (when panel is open)
-  .nav-button.active .dropdown-icon,
-  .faq-button.active .dropdown-icon,
-  .additional-button.active .dropdown-icon,
-  .profile-button.active .dropdown-icon {
-    transform: rotate(180deg);
-  }
-  
-  // Button text
-  .button-text {
-    font-family: var(--font-sans-serif);
-    font-size: 1.44rem;
-    font-weight: bold;
-    color: var(--text-primary);
-    margin-left: 0.875rem;
-  }
-  
-  // Icon positioning
-  .nav-icon {
-    margin-left: 17px;
-  }
-  
-  .faq-icon {
-    margin-left: 10.375rem;
-  }
-  
-  .add-icon {
-    margin-left: 0.75rem;
-  }
-  
-  
-  .panel-icon {
-    margin-left: 10.375rem;
-    margin-right: 0.75rem;
-  }
-  
-  // Dropdown panels
-  .dropdown-panel {
-    position: absolute;
-    background-color: var(--bg-secondary);
-    border-radius: 20px;
-    border: 2px solid var(--text-secondary);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    z-index: 1000;
-    min-width: 200px;
-    box-shadow: 0 0.25rem 20px rgba(0, 0, 0, 0.15);
-    transition: opacity 0.3s ease-in-out;
-  }
-  
-  // Animation classes
-  .hidden {
-    display: none !important;
-  }
-  
-  .opacity-0 {
-    opacity: 0;
-  }
-  
-  .opacity-100 {
-    opacity: 1;
-  }
-  
-  .pointer-events-none {
-    pointer-events: none;
-  }
-  
-  .navigation-panel {
-    width: 260px;
-    height: 25rem;
-    left: 785px;
-    top: 100px;
-  }
-  
-  .faq-panel {
-    width: 260px;
-    height: 25rem;
-    left: 1200px;
-    top: 100px;
-  }
-  
-  .additional-panel {
-    width: 260px;
-    height: 290px;
-    left: 1345px;
-    top: 100px;
-  }
-  
-  .profile-panel {
-    width: 290px;
-    height: 777px;
-    left: 1460px;
-    top: 100px;
-  }
-  
-  .panel-content {
-    display: flex;
-    flex-direction: column;
-    margin-top: 0.5rem;
-    gap: 0.5rem;
-  }
-  
-  // Panel buttons
-  .panel-button {
-    display: flex;
-    align-items: center;
-    background-color: rgba(67, 73, 86, 0);
-    border-radius: 0.9375rem;
-    width: 240px;
-    height: 59px;
-    color: var(--text-primary);
-    font-family: var(--font-sans-serif);
-    font-size: 1.44rem;
-    font-weight: bold;
-    transition: background-color 0.3s ease-in-out;
-    border: none;
-    cursor: pointer;
-  
-    &:hover {
-      background-color: rgba(67, 73, 86, 1);
-    }
-  }
-  
-  .profile-panel .panel-button {
-    width: 16.875rem;
-  }
-  
+}
+
+.profile-panel .panel-button {
+  width: 270px;
+}
+
+.panel-text {
+  font-family: var(--font-sans-serif);
+  font-size: 23px;
+  font-weight: bold;
+  color: var(--text-primary);
+  margin-left: 6px;
+}
+
+// Panel divider
+.panel-divider {
+  width: 120px;
+  height: 1px;
+  background-color: var(--btn-primary);
+  margin-left: 48px;
+}
+
+.profile-panel .panel-divider {
+  width: 180px;
+  margin-left: 38px;
+}
+
+// Sign out button special styling
+.sign-out-button {
   .panel-text {
-    font-family: var(--font-sans-serif);
-    font-size: 1.44rem;
-    font-weight: bold;
-    color: var(--text-primary);
-    margin-left: 0.375rem;
-  }
-  
-  // Panel divider
-  .panel-divider {
-    width: 120px;
-    height: 1px;
-    background-color: var(--btn-primary);
-    margin-left: 48px;
-  }
-  
-  .profile-panel .panel-divider {
-    width: 11.25rem;
-    margin-left: 38px;
-  }
-  
-  // Sign out button special styling
-  .sign-out-button {
-    .panel-text {
-      color: #FF3B3B;
-    }
-  }
-  
-  .sign-out-text {
-    color: #FF3B3B !important;
-  }
-  
-  // Router link styling
-  a {
-    text-decoration: none;
-    color: inherit;
-  }
-  
-  a:hover {
-    text-decoration: none;
+    color: #FF3B3B;
   }
 }
 
-@media (min-width: 2560px) {
-  
+.sign-out-text {
+  color: #FF3B3B !important;
 }
 
+// Router link styling
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: none;
+}
 </style>

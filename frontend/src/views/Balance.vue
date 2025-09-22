@@ -10,10 +10,10 @@
 <style scoped>
 .development-text {
   color: var(--text-secondary);
-  font-size: 1.875rem;
+  font-size: 30px;
   font-family: var(--font-sans);
-  margin-top: 21.875rem;
-  margin-bottom: 40.625rem;
+  margin-top: 350px;
+  margin-bottom: 650px;
   text-align: center;
   font-weight: bold;
 }

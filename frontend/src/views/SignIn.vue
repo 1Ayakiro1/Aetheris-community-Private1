@@ -143,7 +143,7 @@ const handleSignIn = async () => {
 
 <style scoped lang="scss">
 .signin-container {
-  max-width: 120rem;
+  max-width: 1920px;
   margin: 0 auto;
   background-color: var(--bg-primary);
   min-height: 100vh;
@@ -153,8 +153,8 @@ const handleSignIn = async () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: calc(100vh - 12.5rem);
-  padding: 1.875rem 0;
+  min-height: calc(100vh - 200px);
+  padding: 30px 0;
 }
 
 .signin-content {
@@ -165,40 +165,40 @@ const handleSignIn = async () => {
 
 .signin-title {
   color: var(--text-primary);
-  font-size: 3.125rem;
+  font-size: 50px;
   font-family: var(--font-sans);
   font-weight: bold;
-  margin-bottom: 0.625rem;
+  margin-bottom: 10px;
 }
 
 .signin-form {
-  width: 37.5rem;
+  width: 600px;
   height: 583px;
   background-color: var(--bg-secondary);
-  border-radius: 1.25rem;
+  border-radius: 20px;
   display: flex;
   flex-direction: column;
-  padding: 2rem 3rem;
+  padding: 32px 48px;
 }
 
 .field-label {
   color: var(--text-primary);
-  font-size: 1.5625rem;
+  font-size: 25px;
   font-family: var(--font-sans);
   font-weight: bold;
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
+  margin-top: 16px;
+  margin-bottom: 8px;
 }
 
 .input-field {
-  width: 31.25rem;
+  width: 500px;
   height: 68px;
   background-color: var(--btn-primary);
-  border-radius: 0.9375rem;
+  border-radius: 15px;
   border: none;
   font-weight: bold;
-  padding: 0 1rem;
-  font-size: 1.375rem;
+  padding: 0 16px;
+  font-size: 22px;
   color: var(--text-primary);
   
   &::placeholder {
@@ -212,18 +212,18 @@ const handleSignIn = async () => {
 
 .error-message {
   color: #FF3B3B;
-  font-size: 0.875rem;
+  font-size: 14px;
   font-family: var(--font-sans);
-  margin-top: 0.25rem;
+  margin-top: 4px;
   margin-bottom: 0;
 }
 
 .login-link {
   color: var(--text-primary);
-  font-size: 1rem;
+  font-size: 16px;
   font-family: var(--font-sans);
   font-weight: bold;
-  margin-top: 1rem;
+  margin-top: 16px;
   text-align: center;
 }
 
@@ -240,13 +240,13 @@ const handleSignIn = async () => {
   width: 269px;
   height: 56px;
   background-color: var(--btn-primary);
-  border-radius: 0.9375rem;
+  border-radius: 15px;
   border: none;
   color: var(--text-primary);
-  font-size: 1.5625rem;
+  font-size: 25px;
   font-family: var(--font-sans);
   font-weight: bold;
-  margin: 1rem auto 0;
+  margin: 16px auto 0;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   
@@ -262,13 +262,13 @@ const handleSignIn = async () => {
 
 .loading-spinner {
   display: inline-block;
-  width: 1rem;
-  height: 1rem;
+  width: 16px;
+  height: 16px;
   border: 2px solid transparent;
   border-top: 2px solid currentColor;
   border-radius: 50%;
   animation: spin 1s linear infinite;
-  margin-right: 0.5rem;
+  margin-right: 8px;
 }
 
 @keyframes spin {
@@ -277,16 +277,16 @@ const handleSignIn = async () => {
 }
 
 .api-error {
-  margin: 1rem 0;
+  margin: 16px 0;
   padding: 12px;
   background-color: rgba(255, 59, 59, 0.1);
   border: 1px solid #FF3B3B;
-  border-radius: 0.5rem;
+  border-radius: 8px;
 }
 
 .api-error-message {
   color: #FF3B3B;
-  font-size: 0.875rem;
+  font-size: 14px;
   font-family: var(--font-sans);
   margin: 0;
   text-align: center;

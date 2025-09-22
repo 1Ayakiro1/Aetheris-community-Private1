@@ -101,7 +101,7 @@ import SettingsSidebar from '@/components/SettingsSidebar.vue'
 
 <style scoped lang="scss">
 .settings-support-container {
-  max-width: 120rem;
+  max-width: 1920px;
   margin: 0 auto;
   background-color: var(--bg-primary);
   min-height: 100vh;
@@ -109,7 +109,7 @@ import SettingsSidebar from '@/components/SettingsSidebar.vue'
 
 .main-body {
   display: flex;
-  margin-top: 3rem; // mt-12
+  margin-top: 48px; // mt-12
 }
 
 
@@ -123,41 +123,41 @@ import SettingsSidebar from '@/components/SettingsSidebar.vue'
 
 .support-section {
   background-color: var(--bg-secondary);
-  width: 95rem;
-  height: 25rem;
-  border-radius: 1.5625rem;
+  width: 980px;
+  height: 400px;
+  border-radius: 25px;
   display: flex;
   flex-direction: column;
 }
 
 .github-section {
   background-color: var(--bg-secondary);
-  width: 95rem;
-  height: 33.125rem;
-  border-radius: 1.5625rem;
-  margin-bottom: 12.5rem;
+  width: 980px;
+  height: 350px;
+  border-radius: 25px;
+  margin-bottom: 200px;
   margin-top: 12px;
   display: flex;
   flex-direction: column;
 }
 
 .section-title {
-  margin-top: 2.5rem; // mt-10
-  margin-left: 3rem; // ml-12
+  margin-top: 40px; // mt-10
+  margin-left: 48px; // ml-12
   color: var(--text-primary);
-  font-size: 1.875rem;
+  font-size: 30px;
   font-family: var(--font-sans);
   font-weight: bold;
 }
 
 .section-subtitle {
   color: var(--text-secondary);
-  font-size: 1.125rem;
+  font-size: 18px;
   font-family: var(--font-sans);
   font-weight: bold;
-  margin-top: 1rem;
-  margin-left: 3rem;
-  width: 83.125rem;
+  margin-top: 16px;
+  margin-left: 48px;
+  width: 850px;
 }
 
 // Support Icons
@@ -166,8 +166,8 @@ import SettingsSidebar from '@/components/SettingsSidebar.vue'
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-top: 3rem;
-  gap: 2.5rem;
+  margin-top: 48px;
+  gap: 40px;
 }
 
 .support-button {
@@ -187,7 +187,7 @@ import SettingsSidebar from '@/components/SettingsSidebar.vue'
 .support-icon {
   width: 41px;
   height: 45px;
-  margin: 0.9375rem auto;
+  margin: 15px auto;
   
   &.cofi {
     width: 42px;
@@ -218,24 +218,24 @@ import SettingsSidebar from '@/components/SettingsSidebar.vue'
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-top: 1rem;
+  margin-top: 16px;
   margin-left: 384px; // ml-96
 }
 
 .note-text {
   color: var(--text-secondary);
-  font-size: 1.25rem;
+  font-size: 20px;
   font-family: var(--font-sans);
   font-weight: bold;
-  margin-left: 0.5rem;
-  width: 83.125rem;
+  margin-left: 8px;
+  width: 850px;
 }
 
 // GitHub Section
 .github-link {
   text-decoration: none;
-  margin-left: 3rem;
-  margin-top: 3rem;
+  margin-left: 48px;
+  margin-top: 48px;
 }
 
 .github-card {
@@ -244,8 +244,8 @@ import SettingsSidebar from '@/components/SettingsSidebar.vue'
   align-items: center;
   background-color: var(--bg-primary);
   border: 2px solid #9BA4AE;
-  border-radius: 1.5625rem;
-  width: 85rem;
+  border-radius: 25px;
+  width: 880px;
   height: 139px;
   transition: all 0.3s ease-in-out;
 
@@ -265,7 +265,7 @@ import SettingsSidebar from '@/components/SettingsSidebar.vue'
 
 .github-title {
   color: var(--text-primary);
-  font-size: 1.875rem;
+  font-size: 30px;
   font-family: var(--font-sans);
   font-weight: bold;
   margin-left: 24px;
@@ -273,7 +273,7 @@ import SettingsSidebar from '@/components/SettingsSidebar.vue'
 
 .github-stats {
   color: var(--text-secondary);
-  font-size: 1.25rem;
+  font-size: 20px;
   font-family: var(--font-sans);
   font-weight: bold;
   margin-left: 24px;
