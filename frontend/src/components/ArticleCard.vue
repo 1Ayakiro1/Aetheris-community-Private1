@@ -3,40 +3,40 @@
     <!-- Header -->
     <div class="article-card-header">
         <div class="logo" @click.stop="onAuthorClick">
-          <img 
-            v-if="article.author.avatar" 
-            :src="article.author.avatar" 
+          <img
+            v-if="article.author.avatar"
+            :src="article.author.avatar"
             :alt="article.author.username"
             class="avatar-image"
           />
           <div v-else class="avatar-placeholder">
-            <svg 
-              class="question-icon" 
-              width="22" 
-              height="22" 
-              viewBox="0 0 24 24" 
-              fill="none" 
+            <svg
+              class="question-icon"
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <path 
-                d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" 
-                stroke="currentColor" 
-                stroke-width="2" 
-                stroke-linecap="round" 
+              <path
+                d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
                 stroke-linejoin="round"
               />
-              <path 
-                d="M9.09 9C9.3251 8.33167 9.78915 7.76811 10.4 7.40913C11.0108 7.05016 11.7289 6.91894 12.4272 7.03871C13.1255 7.15849 13.7588 7.52152 14.2151 8.06353C14.6713 8.60553 14.9211 9.29152 14.92 10C14.92 12 11.92 13 11.92 13" 
-                stroke="currentColor" 
-                stroke-width="2" 
-                stroke-linecap="round" 
+              <path
+                d="M9.09 9C9.3251 8.33167 9.78915 7.76811 10.4 7.40913C11.0108 7.05016 11.7289 6.91894 12.4272 7.03871C13.1255 7.15849 13.7588 7.52152 14.2151 8.06353C14.6713 8.60553 14.9211 9.29152 14.92 10C14.92 12 11.92 13 11.92 13"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
                 stroke-linejoin="round"
               />
-              <path 
-                d="M12 17H12.01" 
-                stroke="currentColor" 
-                stroke-width="2" 
-                stroke-linecap="round" 
+              <path
+                d="M12 17H12.01"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
                 stroke-linejoin="round"
               />
             </svg>
@@ -50,7 +50,7 @@
     <!-- Content -->
     <div class="article-card-content">
         <h2 class="article-card-content-title">{{ article.title }}</h2>
-        
+
         <!-- Metadata Panel -->
         <div class="metadata-panel">
             <div class="metadata-item difficulty">
@@ -66,10 +66,10 @@
                 <span class="metadata-text">3</span>
             </div>
         </div>
-        
+
         <div class="tags-container">
-            <Tag 
-              v-for="(tag, index) in article.tags" 
+            <Tag
+              v-for="(tag, index) in article.tags"
               :key="index"
               :value="tag"
               class="custom-tag"
@@ -85,62 +85,62 @@
             {{ article.excerpt || article.content }}
         </div>
     </div>
-    
+
     <!-- Footer block with icons and read more button -->
     <div class="article-card-footer">
         <div class="article-actions">
             <div class="action-group">
                 <button class="action-btn like-btn" @click.stop="onLike" :class="{ 'active': isLiked }">
                     <svg class="heart-icon" :class="{ 'filled': isLiked }" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" 
-                              stroke="currentColor" 
-                              stroke-width="2" 
-                              stroke-linecap="round" 
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
                               stroke-linejoin="round"
                               :fill="isLiked ? 'currentColor' : 'none'"
                         />
                     </svg>
                     <span class="action-count">{{ likesCount }}</span>
                 </button>
-                
+
                 <button class="action-btn dislike-btn" @click.stop="onDislike" :class="{ 'active': isDisliked }">
                     <svg class="dislike-icon" :class="{ 'filled': isDisliked }" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17" 
-                              stroke="currentColor" 
-                              stroke-width="2" 
-                              stroke-linecap="round" 
+                        <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
                               stroke-linejoin="round"
                               :fill="isDisliked ? 'currentColor' : 'none'"
                         />
                     </svg>
                     <span class="action-count">{{ dislikesCount }}</span>
                 </button>
-                
+
                 <button class="action-btn comment-btn" @click.stop="onComment" :class="{ 'active': isCommentsOpen }">
                     <svg class="comment-icon" :class="{ 'filled': isCommentsOpen }" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" 
-                              stroke="currentColor" 
-                              stroke-width="2" 
-                              stroke-linecap="round" 
+                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
                               stroke-linejoin="round"
                               :fill="isCommentsOpen ? 'currentColor' : 'none'"
                         />
                     </svg>
                     <span class="action-count">{{ commentsCount }}</span>
                 </button>
-                
+
                 <button class="action-btn bookmark-btn" @click.stop="onBookmark" :class="{ 'active': isBookmarked }">
                     <svg class="bookmark-icon" :class="{ 'filled': isBookmarked }" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" 
-                              stroke="currentColor" 
-                              stroke-width="2" 
-                              stroke-linecap="round" 
+                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
                               stroke-linejoin="round"
                               :fill="isBookmarked ? 'currentColor' : 'none'"
                         />
                     </svg>
                 </button>
-                
+
                 <button class="action-btn share-btn" @click.stop="onShare" :class="{ 'active': isShared }">
                     <svg class="share-icon" :class="{ 'filled': isShared }" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="18" cy="5" r="3" stroke="currentColor" stroke-width="2" :fill="isShared ? 'currentColor' : 'none'"/>
@@ -152,7 +152,7 @@
                 </button>
             </div>
         </div>
-        
+
         <button class="read-more-btn" @click.stop="onArticleClick">
             Читать далее
         </button>
@@ -162,7 +162,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import type { Article, ArticleCardProps, ArticleCardEmits } from '../types/article'
+import type { Article, ArticleCardProps, ArticleCardEmits } from '@/types/article'
 import Tag from 'primevue/tag'
 
 // Пропсы компонента
@@ -179,7 +179,7 @@ const isCommentsOpen = ref(false)
 const isShared = ref(false)
 const likesCount = ref(props.article.likes || 0)
 const dislikesCount = ref(props.article.dislikes || 0)
-const commentsCount = ref(props.article.comments || 0)
+const commentsCount = ref(props.article.commentsCount || 0)
 
 // Date formatting
 const formatDate = (date: string | Date): string => {
@@ -187,7 +187,7 @@ const formatDate = (date: string | Date): string => {
   const now = new Date()
   const diffInMs = now.getTime() - dateObj.getTime()
   const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24))
-  
+
   if (diffInDays === 0) {
     return 'Today'
   } else if (diffInDays === 1) {
@@ -225,7 +225,7 @@ const onLike = () => {
     isDisliked.value = false
     dislikesCount.value = Math.max(0, dislikesCount.value - 1)
   }
-  
+
   isLiked.value = !isLiked.value
   likesCount.value += isLiked.value ? 1 : -1
   likesCount.value = Math.max(0, likesCount.value)
@@ -236,7 +236,7 @@ const onDislike = () => {
     isLiked.value = false
     likesCount.value = Math.max(0, likesCount.value - 1)
   }
-  
+
   isDisliked.value = !isDisliked.value
   dislikesCount.value += isDisliked.value ? 1 : -1
   dislikesCount.value = Math.max(0, dislikesCount.value)
@@ -260,7 +260,7 @@ const onShare = () => {
   setTimeout(() => {
     isShared.value = false
   }, 1000) // Возвращаем обратно через 1 секунду
-  
+
   // Логика для шаринга статьи
   if (navigator.share) {
     navigator.share({
@@ -272,9 +272,6 @@ const onShare = () => {
     navigator.clipboard.writeText(window.location.origin + `/articles/${props.article.id}`)
   }
 }
-
-
-
 </script>
 
 <style scoped>
@@ -494,7 +491,7 @@ const onShare = () => {
     display: block;
     line-height: 1.5;
     max-height: 240px; /* Добавили ещё ~30px для ещё одной строки */
-    
+
     /* Настоящее размытие текста */
     &::after {
         content: attr(data-text);
@@ -509,7 +506,7 @@ const onShare = () => {
         font-weight: 500;
         line-height: 1.5;
         pointer-events: none;
-        
+
         /* Настоящее blur размытие с маской */
         filter: blur(1.5px);
         mask-image: linear-gradient(
@@ -529,7 +526,7 @@ const onShare = () => {
             rgba(0, 0, 0, 1) 100%
         );
     }
-    
+
     /* Оригинальный текст с fade-out маской для показа обрезанной строки */
     mask-image: linear-gradient(
         to bottom,
@@ -651,7 +648,7 @@ const onShare = () => {
     &:hover {
         background-color: rgba(239, 68, 68, 0.1);
         color: #ef4444;
-        
+
         .heart-icon {
             color: #ef4444;
             transform: scale(1.1);
@@ -671,7 +668,7 @@ const onShare = () => {
 
 .heart-icon {
     transition: all 0.3s ease;
-    
+
     &.filled {
         color: #ef4444;
         transform: scale(1.05);
@@ -695,7 +692,7 @@ const onShare = () => {
     &:hover {
         background-color: rgba(156, 163, 175, 0.1);
         color: #9ca3af;
-        
+
         .dislike-icon {
             color: #9ca3af;
             transform: scale(1.1);
@@ -715,7 +712,7 @@ const onShare = () => {
 
 .dislike-icon {
     transition: all 0.3s ease;
-    
+
     &.filled {
         color: #9ca3af;
         transform: scale(1.05);
@@ -739,7 +736,7 @@ const onShare = () => {
     &:hover {
         background-color: rgba(59, 130, 246, 0.1);
         color: #3b82f6;
-        
+
         .comment-icon {
             color: #3b82f6;
             transform: scale(1.1);
@@ -759,7 +756,7 @@ const onShare = () => {
 
 .comment-icon {
     transition: all 0.3s ease;
-    
+
     &.filled {
         color: #3b82f6;
         transform: scale(1.05);
@@ -783,7 +780,7 @@ const onShare = () => {
     &:hover {
         background-color: rgba(245, 158, 11, 0.1);
         color: #f59e0b;
-        
+
         .bookmark-icon {
             color: #f59e0b;
             transform: scale(1.1);
@@ -803,7 +800,7 @@ const onShare = () => {
 
 .bookmark-icon {
     transition: all 0.3s ease;
-    
+
     &.filled {
         color: #f59e0b;
         transform: scale(1.05);
@@ -827,7 +824,7 @@ const onShare = () => {
     &:hover {
         background-color: rgba(34, 197, 94, 0.1);
         color: #22c55e;
-        
+
         .share-icon {
             color: #22c55e;
             transform: scale(1.1);
@@ -847,7 +844,7 @@ const onShare = () => {
 
 .share-icon {
     transition: all 0.3s ease;
-    
+
     &.filled {
         color: #22c55e;
         transform: scale(1.05);
