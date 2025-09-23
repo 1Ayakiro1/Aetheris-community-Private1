@@ -84,12 +84,12 @@
 </script>
 
 <style scoped>
+/* Cache buster comment - 2025-09-22-v2 */
+
 .home-container {
   width: 100%;
-  max-width: 100vw;
   margin: 0 auto;
   background-color: var(--bg-primary);
-  padding: 0 clamp(1rem, 3vw, 3rem);
 }
 
 
@@ -196,82 +196,6 @@
   position: absolute;
 }
 
-.slide-img-1 {
-  width: 720px;
-  height: 470px;
-  margin-left: 80px; /* ml-20 */
-  margin-top: 256px; /* mt-64 */
-}
-
-.slide-img-2 {
-  width: 980px;
-  height: 500px;
-  margin-left: 660px;
-  margin-top: 96px; /* mt-24 */
-}
-
-.slide-img-3 {
-  width: 600px;
-  height: 400px;
-  margin-left: 200px;
-  margin-top: 1270px;
-}
-
-.slide-img-4 {
-  width: 500px;
-  height: 450px;
-  margin-left: 1050px;
-  margin-top: 2240px;
-}
-
-.slide-img-5 {
-  width: 500px;
-  height: 380px;
-  margin-left: 150px;
-  margin-top: 3370px;
-}
-
-.cubes-1 {
-  width: 500px;
-  height: 500px;
-  margin-left: 20px;
-  margin-top: 1310px;
-}
-
-.cubes-2 {
-  width: 400px;
-  height: 1000px;
-  margin-left: 1300px;
-  margin-top: 1060px;
-}
-
-.cubes-3 {
-  width: 800px;
-  height: 800px;
-  margin-left: 950px;
-  margin-top: 2460px;
-}
-
-.cubes-4 {
-  width: 400px;
-  height: 400px;
-  margin-left: 200px;
-  margin-top: 2460px;
-}
-
-.cubes-5 {
-  width: 400px;
-  height: 200px;
-  margin-left: 50px;
-  margin-top: 3760px;
-}
-
-.cubes-6 {
-  width: 400px;
-  height: 600px;
-  margin-left: 1300px;
-  margin-top: 3700px;
-}
 
 /* Slide2 Text Styles */
 .slide2-title {
@@ -391,6 +315,32 @@
   font-weight: bold;
 }
 
+/* Медиа-запросы для больших экранов */
+
+/* Для экранов Full HD (1920x1080) */
+@media (min-width: 1920px) and (max-width: 2559px) {
+  /* Стили для Full HD экранов */
+  
+}
+
+/* Для экранов 1440p (2560x1440) */
+@media (min-width: 2560px) and (max-width: 3439px) {
+  /* Стили для 2K экранов */
+  
+}
+
+/* Для экранов 4K (3840x2160) */
+@media (min-width: 3840px) and (max-width: 5119px) {
+  /* Стили для 4K экранов */
+  
+}
+
+/* Для экранов 5K+ (5120x2880 и выше) */
+@media (min-width: 5120px) {
+  /* Стили для 5K+ экранов */
+  
+}
+
 /* Адаптивность для элементов Home */
 @media (min-width: 1920px) {
   .slide1-logo {
@@ -436,96 +386,97 @@
     font-size: 36px;
   }
   
-  /* Увеличиваем размеры изображений */
+  /* Изображения для Full HD */
   .slide-img-1 {
-    width: 820px;
-    height: 530px;
-    margin-left: 90px;
-    margin-top: 290px;
+    width: 720px;
+    height: 470px;
+    margin-left: 120px; /* 80px - 300px */
+    margin-top: 275px; /* 256px - 400px */
   }
-  
+
   .slide-img-3 {
-    width: 680px;
-    height: 450px;
-    margin-left: 220px;
-    margin-top: 1420px;
+    width: 600px;
+    height: 400px;
+    margin-left: 200px; /* 200px - 300px */
+    margin-top: 1220px; /* 1270px - 400px */
   }
-  
+
   .slide-img-4 {
-    width: 570px;
-    height: 510px;
-    margin-left: 1200px;
-    margin-top: 2520px;
-  }
-  
-  .slide-img-5 {
-    width: 570px;
-    height: 430px;
-    margin-left: 170px;
-    margin-top: 3820px;
-  }
-  
-  /* Увеличиваем размеры кубов */
-  .cubes-1 {
-    width: 570px;
-    height: 570px;
-    margin-left: 30px;
-    margin-top: 1460px;
-  }
-  
-  .cubes-2 {
-    width: 450px;
-    height: 1120px;
-    margin-left: 1480px;
-    margin-top: 1200px;
-  }
-  
-  .cubes-3 {
-    width: 900px;
-    height: 900px;
-    margin-left: 1080px;
-    margin-top: 2760px;
-  }
-  
-  .cubes-4 {
-    width: 450px;
+    width: 500px;
     height: 450px;
-    margin-left: 230px;
-    margin-top: 2760px;
+    margin-left: 1100px; /* 1050px - 300px */
+    margin-top: 2220px; /* 2640px - 400px */
   }
-  
+
+  .slide-img-5 {
+    width: 500px;
+    height: 380px;
+    margin-left: 250px; /* 150px - 300px */
+    margin-top: 3350px; /* 3370px - 400px */
+  }
+
+  /* Кубы для Full HD */
+  .cubes-1 {
+    width: 500px;
+    height: 500px;
+    margin-left: 280px; /* 20px - 300px */
+    margin-top: 910px; /* 1310px - 400px */
+  }
+
+  .cubes-2 {
+    width: 400px;
+    height: 1000px;
+    margin-left: 1000px; /* 1300px - 300px */
+    margin-top: 660px; /* 1060px - 400px */
+  }
+
+  .cubes-3 {
+    width: 800px;
+    height: 800px;
+    margin-left: 750px; /* 950px - 300px */
+    margin-top: 2260px; /* 2460px - 400px */
+  }
+
+  .cubes-4 {
+    width: 400px;
+    height: 400px;
+    margin-left: 100px; /* 200px - 300px */
+    margin-top: 2060px; /* 2460px - 400px */
+  }
+
   .cubes-5 {
-    width: 450px;
-    height: 230px;
-    margin-left: 60px;
-    margin-top: 4260px;
+    width: 400px;
+    height: 200px;
+    margin-left: 250px; /* 50px - 300px */
+    margin-top: 3360px; /* 3760px - 400px */
   }
-  
+
   .cubes-6 {
-    width: 450px;
-    height: 680px;
-    margin-left: 1480px;
-    margin-top: 4200px;
+    width: 400px;
+    height: 600px;
+    margin-left: 1000px; /* 1300px - 300px */
+    margin-top: 3300px; /* 3700px - 400px */
   }
 }
 
 @media (min-width: 2560px) {
   .slide1-logo {
-    width: 1050px;
-    height: 1070px;
+    width: 1100px;
+    height: 1270px;
+    margin-left: 150px
   }
   
   .slide1-title {
-    font-size: 100px;
-    margin-right: 700px;
-    margin-top: 300px;
+    font-size: 110px;
+    margin-right: 750px;
+    margin-top: 450px;
   }
   
   .slide1-subtitle {
-    font-size: 65px;
+    font-size: 70px;
     margin-right: 16rem;
     margin-top: 30px;
-    width: 1200px;
+    width: 1400px;
   }
   
   .slide2-title {
@@ -553,36 +504,94 @@
     font-size: 42px;
   }
   
-  /* Еще больше увеличиваем размеры изображений */
+  
+  /* Позиционирование текста для 2K */
+  .slide2-title-1 {
+    margin-left: auto;
+    margin-right: 200px;
+    margin-top: 430px;
+    width: 750px;
+  }
+
+  .slide2-title-2 {
+    margin-left: auto;
+    margin-right: 340px;
+    margin-top: 750px;
+    width: 750px;
+  }
+
+  .slide2-title-3 {
+    margin-left: 200px;
+    margin-right: 200px;
+    margin-top: 800px;
+    width: 750px;
+  }
+
+  .slide2-title-4 {
+    margin-left: auto;
+    margin-right: 300px;
+    margin-top: 900px;
+    width: 750px;
+  }
+
+  .slide2-subtitle-1 {
+    margin-left: auto;
+    margin-right: 13rem;
+    margin-top: 25px;
+    width: 700px;
+  }
+
+  .slide2-subtitle-2 {
+    margin-left: auto;
+    margin-right: 23rem;
+    margin-top: 25px;
+    width: 700px;
+  }
+
+  .slide2-subtitle-3 {
+    margin-left: 230px;
+    margin-right: 13rem;
+    margin-top: 25px;
+    width: 700px;
+  }
+
+  .slide2-subtitle-4 {
+    margin-left: auto;
+    margin-right: 20rem;
+    margin-top: 25px;
+    width: 700px;
+  }
+  
+  /* Изображения для 2K */
   .slide-img-1 {
     width: 950px;
     height: 620px;
-    margin-left: 100px;
-    margin-top: 340px;
+    margin-left: 200px;
+    margin-top: 270px;
   }
   
   .slide-img-3 {
     width: 780px;
     height: 520px;
     margin-left: 250px;
-    margin-top: 1650px;
+    margin-top: 1470px;
   }
   
   .slide-img-4 {
     width: 650px;
     height: 580px;
-    margin-left: 1380px;
-    margin-top: 2900px;
+    margin-left: 1450px;
+    margin-top: 2500px;
   }
   
   .slide-img-5 {
     width: 650px;
     height: 490px;
     margin-left: 200px;
-    margin-top: 4400px;
+    margin-top: 3870px;
   }
   
-  /* Еще больше увеличиваем размеры кубов */
+  /* Кубы для 2K */
   .cubes-1 {
     width: 650px;
     height: 650px;
@@ -594,55 +603,55 @@
     width: 520px;
     height: 1280px;
     margin-left: 1700px;
-    margin-top: 1380px;
+    margin-top: 280px;
   }
   
   .cubes-3 {
     width: 1050px;
     height: 1050px;
     margin-left: 1250px;
-    margin-top: 3200px;
+    margin-top: 2100px;
   }
   
   .cubes-4 {
     width: 520px;
     height: 520px;
     margin-left: 260px;
-    margin-top: 3200px;
+    margin-top: 2900px;
   }
   
   .cubes-5 {
     width: 520px;
     height: 260px;
     margin-left: 70px;
-    margin-top: 4900px;
+    margin-top: 3700px; 
   }
   
   .cubes-6 {
     width: 520px;
     height: 780px;
     margin-left: 1700px;
-    margin-top: 4850px;
+    margin-top: 3750px;
   }
 }
 
 @media (min-width: 3440px) {
   .slide1-logo {
-    width: 1200px;
-    height: 1220px;
+    width: 1450px;
+    height: 1470px;
   }
   
   .slide1-title {
-    font-size: 120px;
-    margin-right: 800px;
-    margin-top: 350px;
+    font-size: 140px;
+    margin-right: 940px;
+    margin-top: 500px;
   }
   
   .slide1-subtitle {
-    font-size: 80px;
-    margin-right: 18rem;
+    font-size: 100px;
+    margin-right: 22rem;
     margin-top: 35px;
-    width: 1400px;
+    width: 1700px;
   }
   
   .slide2-title {
@@ -670,74 +679,140 @@
     font-size: 52px;
   }
   
-  /* Максимально увеличиваем размеры изображений */
+  
+  /* Позиционирование текста для 4K */
+  .slide2-title-1 {
+    margin-left: auto;
+    margin-right: 250px;
+    margin-top: 500px;
+    width: 1200px;
+    font-size: 100px;
+  }
+
+  .slide2-title-2 {
+    margin-left: auto;
+    margin-right: 250px;
+    margin-top: 900px;
+    width: 1200px;
+    font-size: 100px;
+  }
+
+  .slide2-title-3 {
+    margin-left: 250px;
+    margin-right: 250px;
+    margin-top: 950px;
+    width: 1200px;
+    font-size: 100px;
+  }
+
+  .slide2-title-4 {
+    margin-left: auto;
+    margin-right: 250px;
+    margin-top: 1100px;
+    width: 1200px;
+    font-size: 100px;
+  }
+
+  .slide2-subtitle-1 {
+    margin-left: auto;
+    margin-right: 15rem;
+    margin-top: 30px;
+    width: 1200px;
+    font-size: 70px;
+  }
+
+  .slide2-subtitle-2 {
+    margin-left: auto;
+    margin-right: 15rem;
+    margin-top: 30px;
+    width: 1200px;
+    font-size: 70px;
+  }
+
+  .slide2-subtitle-3 {
+    margin-left: 280px;
+    margin-right: 15rem;
+    margin-top: 30px;
+    width: 1200px;
+    font-size: 70px;
+  }
+
+  .slide2-subtitle-4 {
+    margin-left: auto;
+    margin-right: 15rem;
+    margin-top: 30px;
+    width: 1200px;
+    font-size: 70px;
+  }
+  
+  /* Изображения для 4K */
   .slide-img-1 {
-    width: 1100px;
-    height: 720px;
-    margin-left: 110px;
+    width: 1150px;
+    height: 770px;
+    margin-left: 310px;
     margin-top: 400px;
   }
   
   .slide-img-3 {
-    width: 900px;
-    height: 600px;
+    width: 950px;
+    height: 650px;
     margin-left: 280px;
-    margin-top: 1950px;
+    margin-top: 1800px;
   }
   
   .slide-img-4 {
-    width: 750px;
-    height: 670px;
-    margin-left: 1580px;
-    margin-top: 3350px;
+    width: 850px;
+    height: 770px;
+    margin-left: 2180px;
+    margin-top: 3150px;
   }
   
   .slide-img-5 {
-    width: 750px;
-    height: 570px;
-    margin-left: 230px;
-    margin-top: 5100px;
+    width: 850px;
+    height: 670px;
+    margin-left: 270px;
+    margin-top: 4700px;
   }
   
-  /* Максимально увеличиваем размеры кубов */
+  /* Кубы для 4K */
   .cubes-1 {
-    width: 750px;
+    width: 800px;
     height: 750px;
     margin-left: 50px;
     margin-top: 2000px;
   }
   
   .cubes-2 {
-    width: 600px;
+    width: 650px;
     height: 1480px;
     margin-left: 1950px;
     margin-top: 1600px;
   }
   
   .cubes-3 {
-    width: 1200px;
-    height: 1200px;
+    width: 1250px;
+    height: 1250px;
     margin-left: 1450px;
     margin-top: 3700px;
   }
   
   .cubes-4 {
-    width: 600px;
-    height: 600px;
+    width: 650px;
+    height: 650px;
     margin-left: 300px;
     margin-top: 3700px;
   }
   
   .cubes-5 {
-    width: 600px;
-    height: 300px;
+    width: 650px;
+    height: 350px;
     margin-left: 80px;
     margin-top: 5700px;
   }
   
   .cubes-6 {
-    width: 600px;
-    height: 900px;
+    width: 650px;
+    height: 950px;
     margin-left: 1950px;
     margin-top: 5650px;
   }
