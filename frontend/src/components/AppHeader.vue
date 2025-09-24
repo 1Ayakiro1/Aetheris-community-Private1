@@ -468,7 +468,7 @@ onMounted(() => {
   width: 100px;
   height: 56px;
   margin-right: 225px !important; /* Сдвинул левее для всех экранов */
-  transition: background-color 0.2s ease-in-out;
+  transition: background-color 0.3s ease-in-out;
   border: none;
   cursor: pointer;
 
@@ -500,7 +500,7 @@ onMounted(() => {
 
 // FAQ arrow spacing
 .faq-arrow {
-  margin-left: 10px;
+  margin-left: 20px;
   margin-right: 12px;
 }
 
@@ -586,28 +586,28 @@ onMounted(() => {
 .navigation-panel {
   width: 260px !important;
   height: 280px !important;
-  left: 735px !important; /* Сдвинул левее на 50px */
+  left: 755px !important; /* Сдвинул левее на 50px */
   top: 100px !important;
 }
 
 .faq-panel {
   width: 260px !important;
   height: 280px !important;
-  left: 1150px !important; /* Сдвинул левее на 50px */
+  left: 1110px !important;
   top: 100px !important;
 }
 
 .additional-panel {
   width: 260px !important;
   height: 290px !important;
-  left: 1295px !important; /* Сдвинул левее на 50px */
+  left: 1430px !important;
   top: 100px !important;
 }
 
 .profile-panel {
   width: 290px !important;
   height: 777px !important;
-  left: 1410px !important; /* Сдвинул левее на 50px */
+  left: 1540px !important;
   top: 100px !important;
 }
 
@@ -687,7 +687,6 @@ a:hover {
 
 /* ============ SKELETON ANIMATIONS ============ */
 
-/* Skeleton загрузочная анимация */
 @keyframes skeleton-pulse {
   0% {
     background-color: rgba(67, 73, 86, 0.3);
@@ -706,7 +705,6 @@ a:hover {
   background-color: rgba(67, 73, 86, 0.3);
 }
 
-/* Скелетоны для конкретных элементов заголовка */
 .skeleton-logo {
   width: 60px;
   height: 60px;
@@ -747,13 +745,13 @@ a:hover {
 
 /* ============ RESPONSIVE DESIGN ============ */
 
-/* Для экранов Full HD (1920x1080) и выше */
+/* Для экранов Full HD (1920x1080) */
 @media (min-width: 1919px) {
   
   .header-brand-link,
   .router-link-active.header-brand-link,
   .router-link-exact-active.header-brand-link {
-    margin-left: 100px !important; /* Сдвинул левее на 50px */
+    margin-left: 100px !important;
   }
   
   .header-title {
@@ -761,15 +759,15 @@ a:hover {
   }
   
   .nav-button {
-    width: 260px !important;
+    width: 240px !important;
     height: 52px !important;
-    margin-left: 20px !important; /* Сдвинул левее на 20px */
+    margin-left: 20px !important;
   }
   
   .faq-button {
-    width: 180px !important;
+    width: 170px !important;
     height: 52px !important;
-    margin-left: 150px !important; /* Сдвинул левее на 50px */
+    margin-left: 150px !important;
   }
   
   .additional-button {
@@ -780,16 +778,15 @@ a:hover {
   .profile-button {
     width: 100px !important;
     height: 56px !important;
-    margin-right: 225px !important; /* Сдвинул левее на 50px */
+    margin-right: 225px !important;
   }
   
-  /* Позиции панелей теперь в базовых стилях */
 }
 
 /* Для экранов 1440p (2560x1440) */
 @media (min-width: 2560px) and (max-width: 3839px) {
   .header-container {
-    height: 80px !important;
+    height: 100px !important;
     margin-top: 24px !important;
   }
   
@@ -805,31 +802,35 @@ a:hover {
   }
   
   .logo {
-    width: 100px !important;
-    height: 100px !important;
+    width: 120px !important;
+    height: 120px !important;
   }
   
   .nav-button {
-    width: 320px !important;
+    width: 325px !important;
     height: 85px !important;
     margin-left: 55px !important;
+    border-radius: 25px !important;
   }
   
   .faq-button {
     width: 240px !important;
     height: 85px !important;
     margin-left: 180px !important;
+    border-radius: 25px !important;
   }
   
   .additional-button {
     width: 140px !important;
     height: 85px !important;
+    border-radius: 25px !important;
   }
   
   .profile-button {
     width: 130px !important;
     height: 90px !important;
     margin-right: 250px !important;
+    border-radius: 25px !important;
   }
   
   .profile-avatar {
@@ -839,11 +840,10 @@ a:hover {
   }
   
   .button-text {
-    font-size: 42px !important;
+    font-size: 32px !important;
     margin-left: 15px !important;
   }
   
-  /* Hover эффекты для кнопок 2K */
   .nav-button:hover {
     background-color: rgba(67, 73, 86, 1) !important;
   }
@@ -860,21 +860,20 @@ a:hover {
     background-color: rgba(67, 73, 86, 1) !important;
   }
   
-  /* Размеры иконок для 2K */
   .nav-icon {
-    transform: scale(1.8) !important;
+    transform: scale(1.6) !important;
     margin-left: 28px !important;
     margin-right: 15px !important;
   }
   
   .faq-icon {
-    transform: scale(1.8) !important;
+    transform: scale(1.6) !important;
     margin-left: 25px !important;
     margin-right: 15px !important;
   }
   
   .add-icon {
-    transform: scale(1.8) !important;
+    transform: scale(1.6) !important;
     margin-left: 22px !important;
     margin-right: 15px !important;
   }
@@ -905,28 +904,28 @@ a:hover {
   }
   
   .navigation-panel {
-    left: 1030px !important; /* Сдвинул левее на 70px */
+    left: 1093px !important;
     width: 370px !important;
     height: 460px !important;
     top: 130px !important;
   }
   
   .faq-panel {
-    left: 1510px !important; /* Сдвинул левее на 70px */
+    left: 1563px !important;
     width: 370px !important;
     height: 460px !important;
     top: 130px !important;
   }
   
   .additional-panel {
-    left: 1900px !important; /* Сдвинул левее на 70px */
+    left: 1969px !important;
     width: 370px !important;
     height: 480px !important;
     top: 130px !important;
   }
   
   .profile-panel {
-    left: 2030px !important; /* Сдвинул левее на 70px */
+    left: 2089px !important;
     width: 440px !important;
     height: 1200px !important;
     top: 130px !important;
@@ -934,7 +933,12 @@ a:hover {
   
   .profile-panel .panel-button {
     width: 420px !important;
+    height: 85px !important;
     margin: 0 auto !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    padding-left: 18px !important;
   }
   
   .profile-panel .panel-content {
@@ -942,15 +946,18 @@ a:hover {
   }
   
   .profile-panel .panel-divider {
-    width: 280px !important;
+    width: 360px !important;
     margin: 12px auto !important;
   }
   
-  /* Центрирование содержимого панелей для 2K */
+  .dropdown-panel {
+    border-radius: 26px !important;
+  }
+  
   .panel-content {
     display: flex !important;
     flex-direction: column !important;
-    align-items: center !important;
+    align-items: flex-start !important;
     justify-content: flex-start !important;
     padding: 15px !important;
     gap: 12px !important;
@@ -962,15 +969,18 @@ a:hover {
     justify-content: flex-start !important;
     padding-left: 18px !important;
     margin: 0 auto !important;
+    width: 340px !important;
+    height: 85px !important;
   }
   
   .panel-divider {
     align-self: center !important;
     margin: 8px auto !important;
+    width: 280px !important;
   }
 }
 
-/* Для экранов 4K (3840x2160) и выше */
+/* Для экранов 4K (3840x2160) */
 @media (min-width: 3840px) {
   .header-container {
     height: 100px !important;
@@ -981,7 +991,7 @@ a:hover {
   .header-brand-link,
   .router-link-active.header-brand-link,
   .router-link-exact-active.header-brand-link {
-    margin-left: 350px !important; /* Сдвинул левее на 200px */
+    margin-left: 350px !important;
   }
   
   .header-title {
@@ -989,6 +999,8 @@ a:hover {
     margin-left: 15px !important;
   }
   
+
+
   .logo {
     width: 150px !important;
     height: 150px !important;
@@ -997,24 +1009,28 @@ a:hover {
   .nav-button {
     width: 380px !important;
     height: 70px !important;
-    margin-left: 30px !important; /* Сдвинул левее на 40px */
+    margin-left: 30px !important;
+    transition: background-color 0.3s ease-in-out !important;
   }
   
   .faq-button {
     width: 280px !important;
     height: 70px !important;
-    margin-left: 150px !important; /* Сдвинул левее на 200px */
+    margin-left: 150px !important;
+    transition: background-color 0.3s ease-in-out !important;
   }
   
   .additional-button {
     width: 155px !important;
     height: 70px !important;
+    transition: background-color 0.3s ease-in-out !important;
   }
   
   .profile-button {
     width: 140px !important;
     height: 80px !important;
-    margin-right: 300px !important; /* Сдвинул левее на 200px */
+    margin-right: 300px !important;
+    transition: background-color 0.3s ease-in-out !important;
   }
   
   .profile-avatar {
@@ -1024,11 +1040,10 @@ a:hover {
   }
   
   .button-text {
-    font-size: 60px;
+    font-size: 50px;
     margin-left: 18px;
   }
   
-  /* Hover эффекты для кнопок */
   .nav-button:hover {
     background-color: rgba(67, 73, 86, 1) !important;
   }
@@ -1045,9 +1060,8 @@ a:hover {
     background-color: rgba(67, 73, 86, 1) !important;
   }
   
-  /* Размеры иконок для 4K */
   .nav-icon {
-    transform: scale(2.5) !important;
+    transform: scale(10) !important;
     margin-left: 40px !important;
     margin-right: 20px !important;
   }
@@ -1064,9 +1078,27 @@ a:hover {
     margin-right: 20px !important;
   }
   
-  .dropdown-icon {
+  .nav-arrow {
+    transform: scale(10) !important;
+    margin-left: 35px !important;
+    margin-right: 15px !important;
+  }
+  
+  .faq-arrow {
     transform: scale(2) !important;
     margin-left: 35px !important;
+    margin-right: 15px !important;
+  }
+  
+  .additional-arrow {
+    transform: scale(2.5) !important;
+    margin-left: 25px !important;
+    margin-right: 15px !important;
+  }
+  
+  .profile-arrow {
+    transform: scale(2.5) !important;
+    margin-left: 25px !important;
     margin-right: 15px !important;
   }
   
@@ -1077,12 +1109,12 @@ a:hover {
   }
   
   .panel-text {
-    font-size: 48px !important; /* Увеличил с 32px */
+    font-size: 48px !important;
   }
   
   .panel-button {
-    height: 120px !important; /* Увеличил с 80px */
-    width: 480px !important; /* Уменьшил с 500px чтобы поместились */
+    height: 120px !important;
+    width: 480px !important;
   }
   
   .panel-button:hover {
@@ -1090,35 +1122,35 @@ a:hover {
   }
   
   .navigation-panel {
-    left: 900px !important; /* Сдвинул еще левее под новые кнопки */
-    width: 520px !important; /* Уменьшил с 550px */
-    height: 650px !important; /* Увеличил с 600px */
-    top: 170px !important; /* Увеличил с 130px */
+    left: 900px !important;
+    width: 520px !important;
+    height: 650px !important;
+    top: 170px !important;
   }
   
   .faq-panel {
-    left: 1400px !important; /* Сдвинул еще левее под новые кнопки */
-    width: 520px !important; /* Уменьшил с 550px */
-    height: 650px !important; /* Увеличил с 600px */
-    top: 170px !important; /* Увеличил с 130px */
+    left: 1400px !important;
+    width: 520px !important;
+    height: 650px !important;
+    top: 170px !important;
   }
   
   .additional-panel {
-    left: 1900px !important; /* Сдвинул еще левее под новые кнопки */
-    width: 520px !important; /* Уменьшил с 550px */
-    height: 680px !important; /* Увеличил с 630px */
-    top: 170px !important; /* Увеличил с 130px */
+    left: 1900px !important;
+    width: 520px !important;
+    height: 680px !important;
+    top: 170px !important;
   }
   
   .profile-panel {
-    left: 2200px !important; /* Сдвинул еще левее под новые кнопки */
-    width: 620px !important; /* Увеличил с 600px */
-    height: 1700px !important; /* Увеличил с 1600px */
-    top: 170px !important; /* Увеличил с 130px */
+    left: 2200px !important;
+    width: 620px !important;
+    height: 1700px !important;
+    top: 170px !important;
   }
   
   .profile-panel .panel-button {
-    width: 600px !important; /* Подогнал под новую ширину панели */
+    width: 600px !important;
     margin: 0 auto !important;
   }
   
@@ -1131,11 +1163,14 @@ a:hover {
     margin: 15px auto !important;
   }
   
-  /* Центрирование содержимого панелей для 4K */
+  .dropdown-panel {
+    border-radius: 36px !important;
+  }
+  
   .panel-content {
     display: flex !important;
     flex-direction: column !important;
-    align-items: center !important;
+    align-items: flex-start !important;
     justify-content: flex-start !important;
     padding: 20px !important;
     gap: 15px !important;
@@ -1154,10 +1189,9 @@ a:hover {
     margin: 10px auto !important;
   }
   
-  /* Обновляем скелетоны для 4K */
   .skeleton-logo {
-    width: 80px;
-    height: 80px;
+    width: 150px;
+    height: 150px;
   }
   
   .skeleton-title {

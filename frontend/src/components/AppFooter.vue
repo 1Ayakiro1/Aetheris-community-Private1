@@ -295,94 +295,93 @@ a:hover {
   /* Базовые стили остаются без изменений */
 }
 
-/* Для экранов 1440p (2560x1440) - увеличиваем на 30% */
+/* Для экранов 1440p (2560x1440) */
 @media (min-width: 2560px) and (max-width: 3839px) {
   .footer-container {
-    height: 560px !important; /* 430 * 1.3 */
+    height: 560px !important;
   }
 
   .ae-logo-footer {
-    width: 218px !important; /* 168 * 1.3 */
-    height: 239px !important; /* 184 * 1.3 */
-    margin-left: 26px !important; /* 20 * 1.3 */
+    width: 218px !important;
+    height: 239px !important;
+    margin-left: 26px !important;
   }
 
   .site-title {
-    font-size: 49px !important; /* 38 * 1.3 */
-    margin-left: 39px !important; /* 30 * 1.3 */
-    margin-top: 182px !important; /* 140 * 1.3 */
+    font-size: 49px !important;
+    margin-left: 39px !important;
+    margin-top: 182px !important;
   }
 
   .site-subtitle {
-    font-size: 39px !important; /* 30 * 1.3 */
-    margin-left: 39px !important; /* 30 * 1.3 */
+    font-size: 39px !important;
+    margin-left: 39px !important;
   }
 
   .social-buttons {
-    gap: 26px !important; /* 20 * 1.3 */
+    gap: 26px !important;
   }
 
   .social-button {
-    width: 99px !important; /* 76 * 1.3 */
-    height: 99px !important; /* 76 * 1.3 */
-    margin-top: 26px !important; /* 20 * 1.3 */
+    width: 99px !important;
+    height: 99px !important;
+    margin-top: 26px !important;
   }
 
   .social-icon {
-    width: 78px !important; /* 60 * 1.3 */
-    height: 78px !important; /* 60 * 1.3 */
+    width: 78px !important;
+    height: 78px !important;
   }
 
   .telegram-icon {
-    height: 65px !important; /* 50 * 1.3 */
-    width: 65px !important; /* 50 * 1.3 */
+    height: 65px !important;
+    width: 65px !important;
   }
 
   .boosty-icon {
-    height: 65px !important; /* 50 * 1.3 */
-    width: 59px !important; /* 45 * 1.3 */
+    height: 65px !important;
+    width: 59px !important;
   }
 
   .opensource-text {
-    font-size: 33px !important; /* 25 * 1.3 */
-    margin-top: 39px !important; /* 30 * 1.3 */
-    margin-left: 39px !important; /* 30 * 1.3 */
+    font-size: 33px !important;
+    margin-top: 39px !important;
+    margin-left: 39px !important;
   }
 
   .about-block,
   .resources-block,
   .legal-block {
-    margin-top: 65px !important; /* 50 * 1.3 */
-    gap: 26px !important; /* 20 * 1.3 */
+    margin-top: 65px !important;
+    gap: 26px !important;
   }
 
   .legal-block {
-    margin-right: 130px !important; /* 100 * 1.3 */
+    margin-right: 130px !important;
   }
 
   .block-title {
-    font-size: 43px !important; /* 33 * 1.3 */
-    margin-top: 65px !important; /* 50 * 1.3 */
+    font-size: 43px !important;
+    margin-top: 65px !important;
   }
 
   .block-link {
-    font-size: 33px !important; /* 25 * 1.3 */
+    font-size: 33px !important;
   }
 
-  /* Скелетоны для 2K */
   .skeleton-logo {
     width: 218px !important;
     height: 239px !important;
   }
 
   .skeleton-title {
-    width: 390px !important; /* 300 * 1.3 */
-    height: 52px !important; /* 40 * 1.3 */
+    width: 390px !important;
+    height: 52px !important;
   }
 
   .skeleton-subtitle {
-    width: 325px !important; /* 250 * 1.3 */
-    height: 39px !important; /* 30 * 1.3 */
+    width: 325px !important;
+    height: 39px !important;
   }
 
   .skeleton-social-button {
@@ -391,91 +390,90 @@ a:hover {
   }
 
   .skeleton-block-title {
-    width: 156px !important; /* 120 * 1.3 */
-    height: 46px !important; /* 35 * 1.3 */
+    width: 156px !important;
+    height: 46px !important;
   }
 
   .skeleton-block-link {
-    width: 195px !important; /* 150 * 1.3 */
-    height: 33px !important; /* 25 * 1.3 */
+    width: 195px !important;
+    height: 33px !important;
   }
 }
 
-/* Для экранов 4K (3840x2160) - увеличиваем на 40% от 2K */
+/* Для экранов 4K (3840x2160) */
 @media (min-width: 3840px) {
   .footer-container {
-    height: 784px !important; /* 560 * 1.4 */
+    height: 784px !important;
   }
 
   .ae-logo-footer {
-    width: 305px !important; /* 218 * 1.4 */
-    height: 335px !important; /* 239 * 1.4 */
-    margin-left: 36px !important; /* 26 * 1.4 */
+    width: 305px !important;
+    height: 335px !important;
+    margin-left: 36px !important;
   }
 
   .site-title {
-    font-size: 69px !important; /* 49 * 1.4 */
-    margin-left: 55px !important; /* 39 * 1.4 */
-    margin-top: 255px !important; /* 182 * 1.4 */
+    font-size: 69px !important;
+    margin-left: 55px !important;
+    margin-top: 255px !important;
   }
 
   .site-subtitle {
-    font-size: 55px !important; /* 39 * 1.4 */
-    margin-left: 55px !important; /* 39 * 1.4 */
+    font-size: 55px !important;
+    margin-left: 55px !important;
   }
 
   .social-buttons {
-    gap: 36px !important; /* 26 * 1.4 */
+    gap: 36px !important;
   }
 
   .social-button {
-    width: 139px !important; /* 99 * 1.4 */
-    height: 139px !important; /* 99 * 1.4 */
-    margin-top: 36px !important; /* 26 * 1.4 */
+    width: 139px !important;
+    height: 139px !important;
+    margin-top: 36px !important;
   }
 
   .social-icon {
-    width: 109px !important; /* 78 * 1.4 */
-    height: 109px !important; /* 78 * 1.4 */
+    width: 109px !important;
+    height: 109px !important;
   }
 
   .telegram-icon {
-    height: 91px !important; /* 65 * 1.4 */
-    width: 91px !important; /* 65 * 1.4 */
+    height: 91px !important;
+    width: 91px !important;
   }
 
   .boosty-icon {
-    height: 91px !important; /* 65 * 1.4 */
-    width: 83px !important; /* 59 * 1.4 */
+    height: 91px !important;
+    width: 83px !important;
   }
 
   .opensource-text {
-    font-size: 46px !important; /* 33 * 1.4 */
-    margin-top: 55px !important; /* 39 * 1.4 */
-    margin-left: 55px !important; /* 39 * 1.4 */
+    font-size: 46px !important;
+    margin-top: 55px !important;
+    margin-left: 55px !important;
   }
 
   .about-block,
   .resources-block,
   .legal-block {
-    margin-top: 91px !important; /* 65 * 1.4 */
-    gap: 36px !important; /* 26 * 1.4 */
+    margin-top: 91px !important;
+    gap: 36px !important;
   }
 
   .legal-block {
-    margin-right: 182px !important; /* 130 * 1.4 */
+    margin-right: 182px !important;
   }
 
   .block-title {
-    font-size: 60px !important; /* 43 * 1.4 */
-    margin-top: 91px !important; /* 65 * 1.4 */
+    font-size: 60px !important;
+    margin-top: 91px !important;
   }
 
   .block-link {
-    font-size: 46px !important; /* 33 * 1.4 */
+    font-size: 46px !important;
   }
 
-  /* Hover эффекты для 4K */
   .social-button:hover {
     filter: brightness(50%) !important;
   }
@@ -488,20 +486,19 @@ a:hover {
     text-decoration: underline !important;
   }
 
-  /* Скелетоны для 4K */
   .skeleton-logo {
     width: 305px !important;
     height: 335px !important;
   }
 
   .skeleton-title {
-    width: 546px !important; /* 390 * 1.4 */
-    height: 73px !important; /* 52 * 1.4 */
+    width: 546px !important;
+    height: 73px !important;
   }
 
   .skeleton-subtitle {
-    width: 455px !important; /* 325 * 1.4 */
-    height: 55px !important; /* 39 * 1.4 */
+    width: 455px !important;
+    height: 55px !important;
   }
 
   .skeleton-social-button {
@@ -510,13 +507,13 @@ a:hover {
   }
 
   .skeleton-block-title {
-    width: 218px !important; /* 156 * 1.4 */
-    height: 64px !important; /* 46 * 1.4 */
+    width: 218px !important;
+    height: 64px !important;
   }
 
   .skeleton-block-link {
-    width: 273px !important; /* 195 * 1.4 */
-    height: 46px !important; /* 33 * 1.4 */
+    width: 273px !important;
+    height: 46px !important;
   }
 }
 </style>
