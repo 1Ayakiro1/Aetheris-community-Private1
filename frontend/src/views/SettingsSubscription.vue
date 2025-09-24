@@ -22,8 +22,10 @@ import SettingsSidebar from '@/components/SettingsSidebar.vue'
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/main.scss';
+
 .settings-subscription-container {
-  max-width: 1920px;
+  @include scale-property(max-width, 1920px);
   margin: 0 auto;
   background-color: var(--bg-primary);
   min-height: 100vh;
@@ -31,7 +33,7 @@ import SettingsSidebar from '@/components/SettingsSidebar.vue'
 
 .main-body {
   display: flex;
-  margin-top: 48px; // mt-12
+  @include scale-property(margin-top, 48px); // mt-12
 }
 
 
@@ -40,7 +42,7 @@ import SettingsSidebar from '@/components/SettingsSidebar.vue'
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-left: 12px;
+  @include scale-property(margin-left, 12px);
   justify-content: center;
   flex: 1;
 }
@@ -49,12 +51,12 @@ import SettingsSidebar from '@/components/SettingsSidebar.vue'
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 400px;
+  @include scale-property(height, 400px);
 }
 
 .development-text {
   color: var(--text-secondary);
-  font-size: 30px;
+  @include scale-property(font-size, 30px);
   font-family: var(--font-sans);
   font-weight: bold;
 }

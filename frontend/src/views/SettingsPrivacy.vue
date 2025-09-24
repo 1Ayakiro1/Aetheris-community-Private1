@@ -747,8 +747,10 @@ const lockProfile = async () => {
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/main.scss';
+
 .settings-privacy-container {
-  max-width: 1920px;
+  @include scale-property(max-width, 1920px);
   margin: 0 auto;
   background-color: var(--bg-primary);
   min-height: 100vh;
@@ -756,7 +758,7 @@ const lockProfile = async () => {
 
 .main-body {
   display: flex;
-  margin-top: 48px; // mt-12
+  @include scale-property(margin-top, 48px); // mt-12
 }
 
 
@@ -765,55 +767,55 @@ const lockProfile = async () => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-left: 12px;
+  @include scale-property(margin-left, 12px);
 }
 
 .security-section {
   background-color: var(--bg-secondary);
-  width: 980px;
-  height: 600px;
-  border-radius: 25px;
+  @include scale-property(width, 980px);
+  @include scale-property(height, 600px);
+  @include scale-property(border-radius, 25px);
   display: flex;
   flex-direction: column;
 }
 
 .data-section {
   background-color: var(--bg-secondary);
-  width: 980px;
-  height: 430px;
-  border-radius: 25px;
-  margin-top: 12px;
-  margin-bottom: 200px;
+  @include scale-property(width, 980px);
+  @include scale-property(height, 430px);
+  @include scale-property(border-radius, 25px);
+  @include scale-property(margin-top, 12px);
+  @include scale-property(margin-bottom, 200px);
   display: flex;
   flex-direction: column;
 }
 
 .section-title {
-  margin-top: 40px; // mt-10
-  margin-left: 48px; // ml-12
+  @include scale-property(margin-top, 40px); // mt-10
+  @include scale-property(margin-left, 48px); // ml-12
   color: var(--text-primary);
-  font-size: 25px;
+  @include scale-property(font-size, 25px);
   font-family: var(--font-sans);
   font-weight: bold;
 }
 
 .section-subtitle {
   color: var(--text-secondary);
-  font-size: 20px;
+  @include scale-property(font-size, 20px);
   font-family: var(--font-sans);
   font-weight: bold;
-  margin-top: 8px;
-  margin-left: 48px;
-  width: 700px;
+  @include scale-property(margin-top, 8px);
+  @include scale-property(margin-left, 48px);
+  @include scale-property(width, 700px);
 }
 
 // Security Options
 .security-options {
   display: flex;
   flex-direction: column;
-  margin-left: 48px;
-  margin-top: 32px;
-  gap: 16px;
+  @include scale-property(margin-left, 48px);
+  @include scale-property(margin-top, 32px);
+  @include scale-property(gap, 16px);
 }
 
 .security-option {
@@ -830,7 +832,7 @@ const lockProfile = async () => {
 
 .option-title {
   color: var(--text-primary);
-  font-size: 25px;
+  @include scale-property(font-size, 25px);
   font-family: var(--font-sans);
   font-weight: bold;
   margin: 0;
@@ -842,20 +844,20 @@ const lockProfile = async () => {
 
 .option-subtitle {
   color: var(--text-secondary);
-  font-size: 20px;
+  @include scale-property(font-size, 20px);
   font-family: var(--font-sans);
   font-weight: bold;
-  margin-top: 4px;
-  width: 660px;
+  @include scale-property(margin-top, 4px);
+  @include scale-property(width, 660px);
 }
 
 .option-button {
-  width: 300px;
-  height: 59px;
+  @include scale-property(width, 300px);
+  @include scale-property(height, 59px);
   background-color: rgba(67, 73, 86, 0);
-  border-radius: 15px;
+  @include scale-property(border-radius, 15px);
   color: var(--text-primary);
-  font-size: 20px;
+  @include scale-property(font-size, 20px);
   font-family: var(--font-sans);
   font-weight: bold;
   transition: all 0.3s ease-in-out;
@@ -864,8 +866,8 @@ const lockProfile = async () => {
   justify-content: center;
   border: none;
   cursor: pointer;
-  margin-right: 48px;
-  margin-top: 24px;
+  @include scale-property(margin-right, 48px);
+  @include scale-property(margin-top, 24px);
 
   &:hover {
     background-color: rgba(67, 73, 86, 1);
@@ -886,9 +888,9 @@ const lockProfile = async () => {
 .data-options {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-left: 48px;
-  margin-top: 16px;
+  @include scale-property(gap, 8px);
+  @include scale-property(margin-left, 48px);
+  @include scale-property(margin-top, 16px);
 }
 
 .data-option {
@@ -913,12 +915,12 @@ const lockProfile = async () => {
 
 .modal-content {
   background-color: var(--bg-secondary);
-  border-radius: 30px;
-  width: 600px;
+  @include scale-property(border-radius, 30px);
+  @include scale-property(width, 600px);
   max-width: 90vw;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 24px 72px rgba(0, 0, 0, 0.3);
+  @include scale-property(box-shadow, 0 24px 72px rgba(0, 0, 0, 0.3));
   
   &.danger-modal {
     border: 2px solid var(--text-red);
@@ -930,12 +932,20 @@ const lockProfile = async () => {
   justify-content: space-between;
   align-items: center;
   padding: 29px 38px;
+  
+  @include responsive-2k {
+    padding: 40.6px 53.2px;
+  }
+  
+  @include responsive-4k {
+    padding: 52.2px 68.4px;
+  }
   border-bottom: 1px solid var(--text-secondary);
 }
 
 .modal-title {
   color: var(--text-primary);
-  font-size: 29px;
+  @include scale-property(font-size, 29px);
   font-family: var(--font-sans);
   font-weight: bold;
   margin: 0;

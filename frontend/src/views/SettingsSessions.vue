@@ -40,8 +40,10 @@ const deleteAllSessions = () => {
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/main.scss';
+
 .settings-sessions-container {
-  max-width: 1920px;
+  @include scale-property(max-width, 1920px);
   margin: 0 auto;
   background-color: var(--bg-primary);
   min-height: 100vh;
@@ -49,7 +51,7 @@ const deleteAllSessions = () => {
 
 .main-body {
   display: flex;
-  margin-top: 48px; // mt-12
+  @include scale-property(margin-top, 48px); // mt-12
 }
 
 
@@ -58,24 +60,24 @@ const deleteAllSessions = () => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-left: 12px;
+  @include scale-property(margin-left, 12px);
 }
 
 .sessions-section {
   background-color: var(--bg-secondary);
-  width: 980px;
-  height: 900px;
-  border-radius: 25px;
-  margin-bottom: 200px;
+  @include scale-property(width, 980px);
+  @include scale-property(height, 900px);
+  @include scale-property(border-radius, 25px);
+  @include scale-property(margin-bottom, 200px);
   display: flex;
   flex-direction: column;
 }
 
 .section-title {
-  margin-top: 40px; // mt-10
-  margin-left: 48px; // ml-12
+  @include scale-property(margin-top, 40px); // mt-10
+  @include scale-property(margin-left, 48px); // ml-12
   color: var(--text-primary);
-  font-size: 25px;
+  @include scale-property(font-size, 25px);
   font-family: var(--font-sans);
   font-weight: bold;
 }

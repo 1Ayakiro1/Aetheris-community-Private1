@@ -366,8 +366,10 @@ const confirmReset = () => {
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/main.scss';
+
 .settings-profile-container {
-  max-width: 1920px;
+  @include scale-property(max-width, 1920px);
   margin: 0 auto;
   background-color: var(--bg-primary);
   min-height: 100vh;
@@ -375,7 +377,7 @@ const confirmReset = () => {
 
 .main-body {
   display: flex;
-  margin-top: 48px; // mt-12
+  @include scale-property(margin-top, 48px); // mt-12
 }
 
 
@@ -384,67 +386,67 @@ const confirmReset = () => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-left: 12px;
+  @include scale-property(margin-left, 12px);
 }
 
 .profile-section {
   background-color: var(--bg-secondary);
-  width: 980px;
-  height: 949px;
-  border-radius: 25px;
-  margin-bottom: 200px;
+  @include scale-property(width, 980px);
+  @include scale-property(height, 949px);
+  @include scale-property(border-radius, 25px);
+  @include scale-property(margin-bottom, 200px);
   display: flex;
   flex-direction: column;
 }
 
 .section-title {
-  margin-top: 40px;
-  margin-left: 48px; 
+  @include scale-property(margin-top, 40px);
+  @include scale-property(margin-left, 48px); 
   color: var(--text-primary);
-  font-size: 25px;
+  @include scale-property(font-size, 25px);
   font-family: var(--font-sans);
   font-weight: bold;
 }
 
 .section-subtitle {
   color: var(--text-secondary);
-  font-size: 20px;
+  @include scale-property(font-size, 20px);
   font-family: var(--font-sans);
   font-weight: bold;
-  margin-top: 4px;
-  margin-left: 48px;
-  width: 700px;
+  @include scale-property(margin-top, 4px);
+  @include scale-property(margin-left, 48px);
+  @include scale-property(width, 700px);
 }
 
 // Avatar Section
 .avatar-section {
   display: flex;
   flex-direction: row;
-  gap: 16px;
-  margin-left: 48px;
-  margin-top: 16px;
+  @include scale-property(gap, 16px);
+  @include scale-property(margin-left, 48px);
+  @include scale-property(margin-top, 16px);
 }
 
 .avatar-placeholder {
   background-color: var(--btn-primary);
   border-radius: 50%;
-  width: 150px;
-  height: 150px;
+  @include scale-property(width, 150px);
+  @include scale-property(height, 150px);
 }
 
 .avatar-buttons {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  @include scale-property(gap, 8px);
 }
 
 .avatar-button {
-  width: 230px;
-  height: 56px;
+  @include scale-property(width, 230px);
+  @include scale-property(height, 56px);
   background-color: rgba(67, 73, 86, 0);
-  border-radius: 15px;
+  @include scale-property(border-radius, 15px);
   color: var(--text-primary);
-  font-size: 23px;
+  @include scale-property(font-size, 23px);
   font-family: var(--font-sans);
   font-weight: bold;
   transition: all 0.3s ease-in-out;
@@ -459,17 +461,17 @@ const confirmReset = () => {
   }
 
   &:first-child {
-    margin-top: 16px; // mt-4
+    @include scale-property(margin-top, 16px); // mt-4
   }
 }
 
 .reset-button {
-  width: 200px;
-  height: 56px;
+  @include scale-property(width, 200px);
+  @include scale-property(height, 56px);
   background-color: rgba(67, 73, 86, 0);
-  border-radius: 15px;
+  @include scale-property(border-radius, 15px);
   color: var(--text-primary);
-  font-size: 23px;
+  @include scale-property(font-size, 23px);
   font-family: var(--font-sans);
   font-weight: bold;
   transition: all 0.3s ease-in-out;
@@ -478,7 +480,7 @@ const confirmReset = () => {
   justify-content: center;
   border: none;
   cursor: pointer;
-  margin-top: 48px; // mt-12
+  @include scale-property(margin-top, 48px); // mt-12
 
   &:hover {
     background-color: rgba(67, 73, 86, 1);
@@ -486,29 +488,37 @@ const confirmReset = () => {
 }
 
 .reset-icon {
-  width: 27px;
-  height: 26px;
+  @include scale-property(width, 27px);
+  @include scale-property(height, 26px);
 }
 
 .reset-text {
   color: var(--text-primary);
-  font-size: 25px;
+  @include scale-property(font-size, 25px);
   font-family: var(--font-sans);
   font-weight: bold;
-  margin-left: 8px;
+  @include scale-property(margin-left, 8px);
 }
 
 // Input Fields
 .nickname-input {
-  width: 360px;
-  height: 65px;
+  @include scale-property(width, 360px);
+  @include scale-property(height, 65px);
   background-color: var(--btn-primary);
-  border-radius: 15px;
-  margin-left: 48px;
-  margin-top: 16px;
+  @include scale-property(border-radius, 15px);
+  @include scale-property(margin-left, 48px);
+  @include scale-property(margin-top, 16px);
   font-weight: bold;
   padding: 0 16px;
-  font-size: 22px;
+  
+  @include responsive-2k {
+    padding: 0 22.4px;
+  }
+  
+  @include responsive-4k {
+    padding: 0 28.8px;
+  }
+  @include scale-property(font-size, 22px);
   color: var(--text-primary);
   border: none;
   font-family: var(--font-sans);
@@ -528,15 +538,15 @@ const confirmReset = () => {
 }
 
 .bio-input {
-  width: 520px;
-  height: 167px;
+  @include scale-property(width, 520px);
+  @include scale-property(height, 167px);
   background-color: var(--btn-primary);
-  border-radius: 15px;
-  margin-left: 48px;
-  margin-top: 16px;
+  @include scale-property(border-radius, 15px);
+  @include scale-property(margin-left, 48px);
+  @include scale-property(margin-top, 16px);
   font-weight: bold;
-  padding: 16px;
-  font-size: 22px;
+  @include scale-property(padding, 16px);
+  @include scale-property(font-size, 22px);
   color: var(--text-primary);
   border: none;
   font-family: var(--font-sans);
@@ -558,19 +568,19 @@ const confirmReset = () => {
 
 .error-message {
   color: #FF3B3B;
-  font-size: 14px;
+  @include scale-property(font-size, 14px);
   font-family: var(--font-sans);
-  margin-top: 4px;
-  margin-left: 48px;
+  @include scale-property(margin-top, 4px);
+  @include scale-property(margin-left, 48px);
   margin-bottom: 0;
 }
 
 .character-count {
   color: var(--text-secondary);
-  font-size: 14px;
+  @include scale-property(font-size, 14px);
   font-family: var(--font-sans);
-  margin-top: 4px;
-  margin-left: 48px;
+  @include scale-property(margin-top, 4px);
+  @include scale-property(margin-left, 48px);
   margin-bottom: 0;
 }
 
@@ -614,11 +624,11 @@ const confirmReset = () => {
 
 .modal-content {
   background-color: var(--bg-secondary);
-  border-radius: 30px;
-  width: 600px;
+  @include scale-property(border-radius, 30px);
+  @include scale-property(width, 600px);
   max-height: 80vh;
   overflow: hidden;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+  @include scale-property(box-shadow, 0 25px 50px rgba(0, 0, 0, 0.3));
   animation: modalContentAppear 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) 0.1s both;
 }
 

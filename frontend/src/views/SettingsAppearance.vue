@@ -332,8 +332,10 @@ const themeImages = {
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/main.scss';
+
 .settings-appearance-container {
-  max-width: 1920px;
+  @include scale-property(max-width, 1920px);
   margin: 0 auto;
   background-color: var(--bg-primary);
   min-height: 100vh;
@@ -341,7 +343,7 @@ const themeImages = {
 
 .main-body {
   display: flex;
-  margin-top: 48px; // mt-12
+  @include scale-property(margin-top, 48px); // mt-12
 }
 
 
@@ -350,45 +352,45 @@ const themeImages = {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-left: 12px;
-    margin-bottom: 200px;
+    @include scale-property(margin-left, 12px);
+    @include scale-property(margin-bottom, 200px);
   }
 
 
 .theme-section {
   background-color: var(--bg-secondary);
-  width: 980px;
-  height: 346px;
-  border-radius: 25px;
+  @include scale-property(width, 980px);
+  @include scale-property(height, 346px);
+  @include scale-property(border-radius, 25px);
   display: flex;
   flex-direction: column;
 }
 
 .section-title {
-  margin-top: 24px; // mt-12
-  margin-left: 48px; // ml-12
+  @include scale-property(margin-top, 24px); // mt-12
+  @include scale-property(margin-left, 48px); // ml-12
   color: var(--text-primary);
-  font-size: 25px;
+  @include scale-property(font-size, 25px);
   font-family: var(--font-sans);
   font-weight: bold;
 }
 
 .section-subtitle {
   color: var(--text-secondary);
-  font-size: 20px;
+  @include scale-property(font-size, 20px);
   font-family: var(--font-sans);
   font-weight: bold;
-  margin-top: 4px;
-  margin-left: 48px;
-  width: 700px;
+  @include scale-property(margin-top, 4px);
+  @include scale-property(margin-left, 48px);
+  @include scale-property(width, 700px);
 }
 
 .theme-buttons {
   display: flex;
   flex-direction: row;
-  gap: 16px;
-  margin-left: 48px;
-  margin-top: 16px;
+  @include scale-property(gap, 16px);
+  @include scale-property(margin-left, 48px);
+  @include scale-property(margin-top, 16px);
 }
 
 .theme-button {
@@ -435,10 +437,18 @@ const themeImages = {
 }
 
 .theme-preview {
-  width: 208px;
-  height: 145px;
+  @include scale-property(width, 208px);
+  @include scale-property(height, 145px);
   background-color: var(--btn-primary);
   border-radius: 25px 25px 0 0;
+  
+  @include responsive-2k {
+    border-radius: 35px 35px 0 0;
+  }
+  
+  @include responsive-4k {
+    border-radius: 45px 45px 0 0;
+  }
   position: relative;
   overflow: hidden;
   display: flex;
@@ -451,25 +461,41 @@ const themeImages = {
   height: 100%;
   object-fit: cover;
   border-radius: 25px 25px 0 0;
+  
+  @include responsive-2k {
+    border-radius: 35px 35px 0 0;
+  }
+  
+  @include responsive-4k {
+    border-radius: 45px 45px 0 0;
+  }
 }
 
 .theme-label {
-  width: 208px;
-  height: 40px;
+  @include scale-property(width, 208px);
+  @include scale-property(height, 40px);
   background-color: var(--btn-primary);
   display: flex;
   align-items: center;
   border-radius: 0 0 25px 25px;
+  
+  @include responsive-2k {
+    border-radius: 0 0 35px 35px;
+  }
+  
+  @include responsive-4k {
+    border-radius: 0 0 45px 45px;
+  }
   position: absolute;
-  margin-top: 130px;
+  @include scale-property(margin-top, 130px);
 }
 
 .theme-indicator {
-  width: 20px;
-  height: 20px;
+  @include scale-property(width, 20px);
+  @include scale-property(height, 20px);
   border: 2px solid #d1d5db; // gray-300 - цвет границы по умолчанию
   border-radius: 50%;
-  margin-left: 16px;
+  @include scale-property(margin-left, 16px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -477,8 +503,8 @@ const themeImages = {
 }
 
 .theme-indicator-dot {
-  width: 11.5px;
-  height: 11.5px;
+  @include scale-property(width, 11.5px);
+  @include scale-property(height, 11.5px);
   background-color: transparent; // Прозрачный по умолчанию
   border-radius: 50%;
   transition: all 0.3s ease-in-out;
@@ -486,36 +512,36 @@ const themeImages = {
 
 .theme-text {
   color: var(--text-primary);
-  font-size: 18px;
+  @include scale-property(font-size, 18px);
   font-family: var(--font-sans);
   font-weight: bold;
-  margin-left: 8px;
+  @include scale-property(margin-left, 8px);
 }
 
 // Language Section Styles
 .language-section {
   background-color: var(--bg-secondary);
-  width: 980px;
-  height: 200px;
-  border-radius: 25px;
-  margin-top: 12px;
+  @include scale-property(width, 980px);
+  @include scale-property(height, 200px);
+  @include scale-property(border-radius, 25px);
+  @include scale-property(margin-top, 12px);
   display: flex;
   flex-direction: column;
 }
 
 .language-dropdown {
   position: relative;
-  margin-left: 48px;
-  margin-top: 16px;
+  @include scale-property(margin-left, 48px);
+  @include scale-property(margin-top, 16px);
 }
 
 .language-select-button {
-  width: 300px;
-  height: 56px;
+  @include scale-property(width, 300px);
+  @include scale-property(height, 56px);
   background-color: rgba(67, 73, 86, 0);
-  border-radius: 15px;
+  @include scale-property(border-radius, 15px);
   color: var(--text-primary);
-  font-size: 20px;
+  @include scale-property(font-size, 20px);
   font-family: var(--font-sans);
   font-weight: bold;
   transition: all 0.3s ease-in-out;
@@ -525,6 +551,14 @@ const themeImages = {
   border: none;
   cursor: pointer;
   padding: 0 16px;
+  
+  @include responsive-2k {
+    padding: 0 22.4px;
+  }
+  
+  @include responsive-4k {
+    padding: 0 28.8px;
+  }
 
   &:hover {
     background-color: rgba(67, 73, 86, 1);
@@ -534,16 +568,16 @@ const themeImages = {
 .selected-language {
   display: flex;
   align-items: center;
-  gap: 12px;
+  @include scale-property(gap, 12px);
 }
 
 .language-flag {
-  font-size: 24px;
+  @include scale-property(font-size, 24px);
 }
 
 .language-name {
   color: var(--text-primary);
-  font-size: 20px;
+  @include scale-property(font-size, 20px);
   font-family: var(--font-sans);
   font-weight: bold;
 }
@@ -552,15 +586,15 @@ const themeImages = {
   position: absolute;
   top: 100%;
   left: 0;
-  width: 300px;
+  @include scale-property(width, 300px);
   background-color: var(--bg-secondary);
-  border-radius: 15px;
+  @include scale-property(border-radius, 15px);
   border: 2px solid var(--text-secondary);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   z-index: 1000;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(-10px);
+  @include scale-property(transform, translateY(-10px));
   transition: all 0.3s ease-in-out;
 
   &.open {
@@ -573,12 +607,12 @@ const themeImages = {
 .language-option {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 16px;
+  @include scale-property(gap, 12px);
+  @include scale-property(padding, 16px);
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-  border-radius: 13px;
-  margin: 4px;
+  @include scale-property(border-radius, 13px);
+  @include scale-property(margin, 4px);
 
   &:hover {
     background-color: rgba(67, 73, 86, 1);
@@ -601,25 +635,25 @@ const themeImages = {
 // Font Section Styles
 .font-section {
   background-color: var(--bg-secondary);
-  width: 980px;
-  height: 440px;
-  border-radius: 25px;
-  margin-top: 12px;
+  @include scale-property(width, 980px);
+  @include scale-property(height, 440px);
+  @include scale-property(border-radius, 25px);
+  @include scale-property(margin-top, 12px);
 }
 
 .font-dropdown {
   position: relative;
-  margin-left: 48px;
-  margin-top: 16px;
+  @include scale-property(margin-left, 48px);
+  @include scale-property(margin-top, 16px);
 }
 
 .font-select-button {
-  width: 200px;
-  height: 47px;
+  @include scale-property(width, 200px);
+  @include scale-property(height, 47px);
   background-color: rgba(67, 73, 86, 0);
-  border-radius: 20px;
+  @include scale-property(border-radius, 20px);
   font-weight: bold;
-  font-size: 20px;
+  @include scale-property(font-size, 20px);
   text-align: center;
   color: var(--text-third);
   display: flex;
@@ -629,6 +663,14 @@ const themeImages = {
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   padding: 0 16px;
+  
+  @include responsive-2k {
+    padding: 0 22.4px;
+  }
+  
+  @include responsive-4k {
+    padding: 0 28.8px;
+  }
 
   &:hover {
     background-color: rgba(67, 73, 86, 1);
@@ -637,28 +679,28 @@ const themeImages = {
 
 .font-select-text {
   color: var(--text-primary);
-  font-size: 20px;
+  @include scale-property(font-size, 20px);
   font-family: var(--font-sans);
   font-weight: bold;
 }
 
 .dropdown-icon {
-  margin-left: 16px; // ml-4
+  @include scale-property(margin-left, 16px); // ml-4
 }
 
 .font-dropdown-menu {
   position: absolute;
   top: 100%;
   left: 0;
-  width: 200px;
+  @include scale-property(width, 200px);
   background-color: var(--bg-secondary);
-  border-radius: 20px;
+  @include scale-property(border-radius, 20px);
   border: 2px solid var(--text-secondary);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   z-index: 1000;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(-10px);
+  @include scale-property(transform, translateY(-10px));
   transition: all 0.3s ease-in-out;
 
   &.open {
@@ -673,10 +715,18 @@ const themeImages = {
   align-items: center;
   justify-content: space-between;
   padding: 12px 16px;
+  
+  @include responsive-2k {
+    padding: 16.8px 22.4px;
+  }
+  
+  @include responsive-4k {
+    padding: 21.6px 28.8px;
+  }
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-  border-radius: 18px;
-  margin: 4px;
+  @include scale-property(border-radius, 18px);
+  @include scale-property(margin, 4px);
 
   &:hover {
     background-color: rgba(67, 73, 86, 1);
@@ -692,40 +742,40 @@ const themeImages = {
   }
 
   &:last-child {
-    border-radius: 0 0 18px 18px;
+    @include scale-property(border-radius, 0 0 18px 18px);
   }
 }
 
 .font-name {
   color: var(--text-primary);
-  font-size: 18px;
+  @include scale-property(font-size, 18px);
   font-family: var(--font-sans);
   font-weight: bold;
 }
 
 .font-sample {
   color: var(--text-primary);
-  font-size: 20px;
+  @include scale-property(font-size, 20px);
   font-weight: bold;
 }
 
 .font-preview {
-  width: 900px;
-  height: 170px;
+  @include scale-property(width, 900px);
+  @include scale-property(height, 170px);
   background-color: var(--btn-primary);
-  border-radius: 25px;
-  margin-top: 24px; // mt-6
-  margin-left: 40px; // ml-10
+  @include scale-property(border-radius, 25px);
+  @include scale-property(margin-top, 24px); // mt-6
+  @include scale-property(margin-left, 40px); // ml-10
   display: flex;
   justify-content: center;
 }
 
 .font-preview-text {
   color: var(--text-primary);
-  font-size: 18px;
+  @include scale-property(font-size, 18px);
   font-weight: 600;
-  margin-top: 24px; // mt-6
+  @include scale-property(margin-top, 24px); // mt-6
   text-align: center;
-  width: 700px;
+  @include scale-property(width, 700px);
 }
 </style>

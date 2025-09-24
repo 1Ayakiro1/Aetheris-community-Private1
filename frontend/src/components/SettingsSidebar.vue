@@ -77,13 +77,15 @@
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/main.scss';
+
 // Sidebar Styles
 .sidebar {
-  width: 395px;
-  height: 685px;
+  @include scale-property(width, 395px);
+  @include scale-property(height, 685px);
   background-color: var(--bg-secondary);
-  margin-left: 270px;
-  border-radius: 25px;
+  @include scale-property(margin-left, 270px);
+  @include scale-property(border-radius, 25px);
   display: flex;
   flex-direction: column;
 
@@ -94,11 +96,11 @@
 
 .sidebar-section-title {
   color: var(--text-primary);
-  font-size: 25px;
+  @include scale-property(font-size, 25px);
   font-family: var(--font-sans);
   font-weight: bold;
-  margin-top: 33px;
-  margin-left: 44px;
+  @include scale-property(margin-top, 33px);
+  @include scale-property(margin-left, 44px);
 }
 
 .button-icon1,
@@ -108,33 +110,33 @@
 .button-icon5,
 .button-icon6,
 .button-icon7 {
-  width: 26px;
-  height: 19px;
-  margin-left: 16px;
-  border-radius: 2px;
+  @include scale-property(width, 26px);
+  @include scale-property(height, 19px);
+  @include scale-property(margin-left, 16px);
+  @include scale-property(border-radius, 2px);
 }
 
 .sidebar-buttons-group {
   display: flex;
   flex-direction: column;
-  margin-top: 3px;
-  margin-left: 44px;
-  gap: 8px;
+  @include scale-property(margin-top, 3px);
+  @include scale-property(margin-left, 44px);
+  @include scale-property(gap, 8px);
 }
 
 .sidebar-button {
-  width: 300px;
-  height: 56px;
+  @include scale-property(width, 300px);
+  @include scale-property(height, 56px);
   background-color: rgba(67, 73, 86, 0);
-  border-radius: 15px;
+  @include scale-property(border-radius, 15px);
   color: var(--text-primary);
-  font-size: 23px;
+  @include scale-property(font-size, 23px);
   font-family: var(--font-sans);
   font-weight: bold;
   transition: all 0.3s ease-in-out;
   display: flex;
   align-items: center;
-  margin-top: 3px;
+  @include scale-property(margin-top, 3px);
   border: none;
   cursor: pointer;
   text-decoration: none;
@@ -151,15 +153,15 @@
 }
 
 .button-icon {
-  width: 26px;
-  height: 19px;
-  margin-left: 16px;
+  @include scale-property(width, 26px);
+  @include scale-property(height, 19px);
+  @include scale-property(margin-left, 16px);
   background-color: var(--ico-color);
-  border-radius: 2px;
+  @include scale-property(border-radius, 2px);
 }
 
 .button-text {
-  margin-left: 16px;
+  @include scale-property(margin-left, 16px);
 }
 
 .svg1,
@@ -168,10 +170,10 @@
 .svg4,
 .svg5,
 .svg6 {
-  margin-left: 15px;
+  @include scale-property(margin-left, 15px);
 }
 
 .svg6 {
-  margin-left: 15px;
+  @include scale-property(margin-left, 15px);
 }
 </style>

@@ -375,6 +375,8 @@ onMounted(() => {
 
 .logo {
   margin: 0;
+  width: 100px;
+  height: 100px;
 }
 
 .header-title {
@@ -467,7 +469,7 @@ onMounted(() => {
   border-radius: 15px;
   width: 100px;
   height: 56px;
-  margin-right: 225px !important; /* Сдвинул левее для всех экранов */
+  margin-right: 235px !important; /* Сдвинул левее для всех экранов */
   transition: background-color 0.3s ease-in-out;
   border: none;
   cursor: pointer;
@@ -778,7 +780,7 @@ a:hover {
   .profile-button {
     width: 100px !important;
     height: 56px !important;
-    margin-right: 225px !important;
+    margin-right: 260px !important;
   }
   
 }
@@ -797,13 +799,13 @@ a:hover {
   }
   
   .header-title {
-    font-size: 55px !important;
+    font-size: 50px !important;
     margin-left: 12px !important;
   }
   
   .logo {
-    width: 120px !important;
-    height: 120px !important;
+    width: 140px !important;
+    height: 140px !important;
   }
   
   .nav-button {
@@ -829,7 +831,7 @@ a:hover {
   .profile-button {
     width: 130px !important;
     height: 90px !important;
-    margin-right: 250px !important;
+    margin-right: 270px !important;
     border-radius: 25px !important;
   }
   
@@ -995,15 +997,15 @@ a:hover {
   }
   
   .header-title {
-    font-size: 70px !important;
+    font-size: 65px !important;
     margin-left: 15px !important;
   }
   
 
 
   .logo {
-    width: 150px !important;
-    height: 150px !important;
+    width: 180px !important;
+    height: 180px !important;
   }
   
   .nav-button {
@@ -1029,7 +1031,7 @@ a:hover {
   .profile-button {
     width: 140px !important;
     height: 80px !important;
-    margin-right: 300px !important;
+    margin-right: 670px !important;
     transition: background-color 0.3s ease-in-out !important;
   }
   
@@ -1122,28 +1124,28 @@ a:hover {
   }
   
   .navigation-panel {
-    left: 900px !important;
+    left: 1500px !important;
     width: 520px !important;
     height: 650px !important;
     top: 170px !important;
   }
   
   .faq-panel {
-    left: 1400px !important;
+    left: 1980px !important;
     width: 520px !important;
     height: 650px !important;
     top: 170px !important;
   }
   
   .additional-panel {
-    left: 1900px !important;
+    left: 2700px !important;
     width: 520px !important;
     height: 680px !important;
     top: 170px !important;
   }
   
   .profile-panel {
-    left: 2200px !important;
+    left: 2800px !important;
     width: 620px !important;
     height: 1700px !important;
     top: 170px !important;

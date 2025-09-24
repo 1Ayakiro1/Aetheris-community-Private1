@@ -139,6 +139,38 @@ html, body {
 .text-primary-blue { color: var(--primary-blue); }
 .footer-bg { background-color: #121212; }
 
+// Responsive Design Mixins for 2K and 4K
+// 2K resolution scaling (2560x1440 and above) - +30%
+@mixin responsive-2k {
+  @media screen and (min-width: 2560px) {
+    @content;
+  }
+}
+
+// 4K resolution scaling (3840x2160 and above) - +30% more (total +60% from base)
+@mixin responsive-4k {
+  @media screen and (min-width: 3840px) {
+    @content;
+  }
+}
+
+// Utility mixin for scaling numeric values only
+@mixin scale-property($property, $base-value) {
+  #{$property}: $base-value;
+  
+  @include responsive-2k {
+    @if type-of($base-value) == number {
+      #{$property}: $base-value * 1.4;
+    }
+  }
+  
+  @include responsive-4k {
+    @if type-of($base-value) == number {
+      #{$property}: $base-value * 1.8;
+    }
+  }
+}
+
 .body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
