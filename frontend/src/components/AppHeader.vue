@@ -1,32 +1,17 @@
 <template>
   <div class="header-container">
-    <!-- Mobile hamburger menu -->
-    <div class="mobile-menu-container">
-      <button id="mobile-menu-btn" class="mobile-menu-button">
-        <div class="hamburger-line"></div>
-        <div class="hamburger-line"></div>
-        <div class="hamburger-line"></div>
-      </button>
-    </div>
-
     <!-- Logo and title -->
     <router-link to="/" class="header-brand-link">
-      <div v-if="isLoading" class="skeleton logo-skeleton"></div>
-      <Logo v-else class="logo" />
-      <div v-if="isLoading" class="skeleton title-skeleton"></div>
-      <p v-else class="header-title">Aetheris Community</p>
+      <Logo class="logo" />
+      <p class="header-title">Aetheris Community</p>
     </router-link>
     
     <!-- Navigation button -->
-    <div class="desktop-nav">
-      <button type="button" id="nav-btn" class="nav-button">
-        <div v-if="isLoading" class="skeleton nav-skeleton"></div>
-        <template v-else>
+            <button type="button" id="nav-btn" class="nav-button">
           <NavigationIcon class="nav-icon" />
           <p class="button-text">Navigation</p>
           <DropdownIcon class="dropdown-icon nav-arrow" />
-        </template>
-      </button>
+        </button>
 
     <!-- Navigation panel -->
     <div id="navigation_panel" class="dropdown-panel navigation-panel hidden opacity-0 pointer-events-none">
@@ -61,15 +46,12 @@
       </div>
     </div>
 
-      <!-- FAQ button -->
-      <button type="button" id="faq-btn" class="faq-button">
-        <div v-if="isLoading" class="skeleton faq-skeleton"></div>
-        <template v-else>
-          <FAQIcon class="faq-icon" />
-          <p class="button-text">FAQ</p>
-          <DropdownIcon class="dropdown-icon faq-arrow" />
-        </template>
-      </button>
+    <!-- FAQ button -->
+    <button type="button" id="faq-btn" class="faq-button">
+      <FAQIcon class="faq-icon" />
+      <p class="button-text">FAQ</p>
+      <DropdownIcon class="dropdown-icon faq-arrow" />
+    </button>
 
     <!-- FAQ navigation panel -->
     <div id="faq_navigation_panel" class="dropdown-panel faq-panel hidden opacity-0 pointer-events-none">
@@ -104,15 +86,11 @@
       </div>
     </div>
 
-      <!-- Additional button -->
-      <button id="add-btn" class="additional-button">
-        <div v-if="isLoading" class="skeleton add-skeleton"></div>
-        <template v-else>
-          <AddIcon class="add-icon" />
-          <DropdownIcon class="dropdown-icon additional-arrow" />
-        </template>
-      </button>
-    </div>
+    <!-- Additional button -->
+    <button id="add-btn" class="additional-button">
+      <AddIcon class="add-icon" />
+      <DropdownIcon class="dropdown-icon additional-arrow" />
+    </button>
 
     <!-- Additional panel -->
     <div id="additional_panel" class="dropdown-panel additional-panel hidden opacity-0 pointer-events-none">
@@ -145,11 +123,8 @@
 
     <!-- Profile button -->
     <button id="logo-btn" class="profile-button">
-      <div v-if="isLoading" class="skeleton profile-skeleton"></div>
-      <template v-else>
-        <div class="profile-avatar"></div>
-        <DropdownIcon class="dropdown-icon profile-arrow" />
-      </template>
+      <div class="profile-avatar"></div>
+      <DropdownIcon class="dropdown-icon profile-arrow" />
     </button>
 
     <!-- Profile panel -->
@@ -384,14 +359,14 @@ onMounted(() => {
 })
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .header-brand-link {
   text-decoration: none;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   display: flex;
   align-items: center;
-  margin-left: 245px;
+  margin-left: 195px !important; /* Сдвинул левее для всех экранов */
   
   &:hover {
     opacity: 0.8;
@@ -432,7 +407,7 @@ onMounted(() => {
   border-radius: 15px;
   width: 260px;
   height: 52px;
-  margin-left: 40px;
+  margin-left: 20px !important; /* Сдвинул левее для всех экранов */
   transition: background-color 0.3s ease-in-out;
   border: none;
   cursor: pointer;
@@ -451,7 +426,7 @@ onMounted(() => {
   border-radius: 20px;
   width: 180px;
   height: 52px;
-  margin-left: 200px;
+  margin-left: 150px !important; /* Сдвинул левее для всех экранов */
   margin-right: 20px;
   transition: background-color 0.3s ease-in-out;
   border: none;
@@ -492,7 +467,7 @@ onMounted(() => {
   border-radius: 15px;
   width: 100px;
   height: 56px;
-  margin-right: 275px;
+  margin-right: 225px !important; /* Сдвинул левее для всех экранов */
   transition: background-color 0.2s ease-in-out;
   border: none;
   cursor: pointer;
@@ -609,31 +584,31 @@ onMounted(() => {
 }
 
 .navigation-panel {
-  width: 260px;
-  height: 280px;
-  left: 785px;
-  top: 100px;
+  width: 260px !important;
+  height: 280px !important;
+  left: 735px !important; /* Сдвинул левее на 50px */
+  top: 100px !important;
 }
 
 .faq-panel {
-  width: 260px;
-  height: 280px;
-  left: 1200px;
-  top: 100px;
+  width: 260px !important;
+  height: 280px !important;
+  left: 1150px !important; /* Сдвинул левее на 50px */
+  top: 100px !important;
 }
 
 .additional-panel {
-  width: 260px;
-  height: 290px;
-  left: 1345px;
-  top: 100px;
+  width: 260px !important;
+  height: 290px !important;
+  left: 1295px !important; /* Сдвинул левее на 50px */
+  top: 100px !important;
 }
 
 .profile-panel {
-  width: 290px;
-  height: 777px;
-  left: 1460px;
-  top: 100px;
+  width: 290px !important;
+  height: 777px !important;
+  left: 1410px !important; /* Сдвинул левее на 50px */
+  top: 100px !important;
 }
 
 .panel-content {
@@ -709,4 +684,512 @@ a {
 a:hover {
   text-decoration: none;
 }
+
+/* ============ SKELETON ANIMATIONS ============ */
+
+/* Skeleton загрузочная анимация */
+@keyframes skeleton-pulse {
+  0% {
+    background-color: rgba(67, 73, 86, 0.3);
+  }
+  50% {
+    background-color: rgba(67, 73, 86, 0.6);
+  }
+  100% {
+    background-color: rgba(67, 73, 86, 0.3);
+  }
+}
+
+.skeleton {
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+  border-radius: 8px;
+  background-color: rgba(67, 73, 86, 0.3);
+}
+
+/* Скелетоны для конкретных элементов заголовка */
+.skeleton-logo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin: 0;
+}
+
+.skeleton-title {
+  width: 200px;
+  height: 24px;
+  margin-left: 10px;
+}
+
+.skeleton-nav-button {
+  width: 220px;
+  height: 32px;
+  margin-left: 14px;
+}
+
+.skeleton-faq-button {
+  width: 140px;
+  height: 32px;
+  margin-left: 16px;
+}
+
+.skeleton-add-button {
+  width: 65px;
+  height: 32px;
+  margin-left: 12px;
+}
+
+.skeleton-profile {
+  width: 60px;
+  height: 40px;
+  border-radius: 20px;
+  margin-left: 12px;
+}
+
+/* ============ RESPONSIVE DESIGN ============ */
+
+/* Для экранов Full HD (1920x1080) и выше */
+@media (min-width: 1919px) {
+  
+  .header-brand-link,
+  .router-link-active.header-brand-link,
+  .router-link-exact-active.header-brand-link {
+    margin-left: 100px !important; /* Сдвинул левее на 50px */
+  }
+  
+  .header-title {
+    font-size: 35px !important;
+  }
+  
+  .nav-button {
+    width: 260px !important;
+    height: 52px !important;
+    margin-left: 20px !important; /* Сдвинул левее на 20px */
+  }
+  
+  .faq-button {
+    width: 180px !important;
+    height: 52px !important;
+    margin-left: 150px !important; /* Сдвинул левее на 50px */
+  }
+  
+  .additional-button {
+    width: 105px !important;
+    height: 52px !important;
+  }
+  
+  .profile-button {
+    width: 100px !important;
+    height: 56px !important;
+    margin-right: 225px !important; /* Сдвинул левее на 50px */
+  }
+  
+  /* Позиции панелей теперь в базовых стилях */
+}
+
+/* Для экранов 1440p (2560x1440) */
+@media (min-width: 2560px) and (max-width: 3839px) {
+  .header-container {
+    height: 80px !important;
+    margin-top: 24px !important;
+  }
+  
+  .header-brand-link,
+  .router-link-active.header-brand-link,
+  .router-link-exact-active.header-brand-link {
+    margin-left: 200px !important;
+  }
+  
+  .header-title {
+    font-size: 55px !important;
+    margin-left: 12px !important;
+  }
+  
+  .logo {
+    width: 100px !important;
+    height: 100px !important;
+  }
+  
+  .nav-button {
+    width: 320px !important;
+    height: 85px !important;
+    margin-left: 55px !important;
+  }
+  
+  .faq-button {
+    width: 240px !important;
+    height: 85px !important;
+    margin-left: 180px !important;
+  }
+  
+  .additional-button {
+    width: 140px !important;
+    height: 85px !important;
+  }
+  
+  .profile-button {
+    width: 130px !important;
+    height: 90px !important;
+    margin-right: 250px !important;
+  }
+  
+  .profile-avatar {
+    width: 50px !important;
+    height: 50px !important;
+    margin-left: 12px !important;
+  }
+  
+  .button-text {
+    font-size: 42px !important;
+    margin-left: 15px !important;
+  }
+  
+  /* Hover эффекты для кнопок 2K */
+  .nav-button:hover {
+    background-color: rgba(67, 73, 86, 1) !important;
+  }
+  
+  .faq-button:hover {
+    background-color: rgba(67, 73, 86, 1) !important;
+  }
+  
+  .additional-button:hover {
+    background-color: rgba(67, 73, 86, 1) !important;
+  }
+  
+  .profile-button:hover {
+    background-color: rgba(67, 73, 86, 1) !important;
+  }
+  
+  /* Размеры иконок для 2K */
+  .nav-icon {
+    transform: scale(1.8) !important;
+    margin-left: 28px !important;
+    margin-right: 15px !important;
+  }
+  
+  .faq-icon {
+    transform: scale(1.8) !important;
+    margin-left: 25px !important;
+    margin-right: 15px !important;
+  }
+  
+  .add-icon {
+    transform: scale(1.8) !important;
+    margin-left: 22px !important;
+    margin-right: 15px !important;
+  }
+  
+  .dropdown-icon {
+    transform: scale(1.5) !important;
+    margin-left: 25px !important;
+    margin-right: 12px !important;
+  }
+  
+  .panel-icon {
+    transform: scale(2) !important;
+    margin-left: 25px !important;
+    margin-right: 18px !important;
+  }
+  
+  .panel-text {
+    font-size: 34px !important;
+  }
+  
+  .panel-button {
+    height: 85px !important;
+    width: 340px !important;
+  }
+  
+  .panel-button:hover {
+    background-color: rgba(67, 73, 86, 1) !important;
+  }
+  
+  .navigation-panel {
+    left: 1030px !important; /* Сдвинул левее на 70px */
+    width: 370px !important;
+    height: 460px !important;
+    top: 130px !important;
+  }
+  
+  .faq-panel {
+    left: 1510px !important; /* Сдвинул левее на 70px */
+    width: 370px !important;
+    height: 460px !important;
+    top: 130px !important;
+  }
+  
+  .additional-panel {
+    left: 1900px !important; /* Сдвинул левее на 70px */
+    width: 370px !important;
+    height: 480px !important;
+    top: 130px !important;
+  }
+  
+  .profile-panel {
+    left: 2030px !important; /* Сдвинул левее на 70px */
+    width: 440px !important;
+    height: 1200px !important;
+    top: 130px !important;
+  }
+  
+  .profile-panel .panel-button {
+    width: 420px !important;
+    margin: 0 auto !important;
+  }
+  
+  .profile-panel .panel-content {
+    padding: 18px !important;
+  }
+  
+  .profile-panel .panel-divider {
+    width: 280px !important;
+    margin: 12px auto !important;
+  }
+  
+  /* Центрирование содержимого панелей для 2K */
+  .panel-content {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    padding: 15px !important;
+    gap: 12px !important;
+  }
+  
+  .panel-button {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    padding-left: 18px !important;
+    margin: 0 auto !important;
+  }
+  
+  .panel-divider {
+    align-self: center !important;
+    margin: 8px auto !important;
+  }
+}
+
+/* Для экранов 4K (3840x2160) и выше */
+@media (min-width: 3840px) {
+  .header-container {
+    height: 100px !important;
+    margin-top: 30px !important;
+  }
+  
+  
+  .header-brand-link,
+  .router-link-active.header-brand-link,
+  .router-link-exact-active.header-brand-link {
+    margin-left: 100px !important; /* Сдвинул левее на 200px */
+  }
+  
+  .header-title {
+    font-size: 70px !important;
+    margin-left: 15px !important;
+  }
+  
+  .logo {
+    width: 150px !important;
+    height: 150px !important;
+  }
+  
+  .nav-button {
+    width: 380px !important;
+    height: 70px !important;
+    margin-left: 30px !important; /* Сдвинул левее на 40px */
+  }
+  
+  .faq-button {
+    width: 280px !important;
+    height: 70px !important;
+    margin-left: 150px !important; /* Сдвинул левее на 200px */
+  }
+  
+  .additional-button {
+    width: 155px !important;
+    height: 70px !important;
+  }
+  
+  .profile-button {
+    width: 140px !important;
+    height: 80px !important;
+    margin-right: 300px !important; /* Сдвинул левее на 200px */
+  }
+  
+  .profile-avatar {
+    width: 60px;
+    height: 60px;
+    margin-left: 15px;
+  }
+  
+  .button-text {
+    font-size: 60px;
+    margin-left: 18px;
+  }
+  
+  /* Hover эффекты для кнопок */
+  .nav-button:hover {
+    background-color: rgba(67, 73, 86, 1) !important;
+  }
+  
+  .faq-button:hover {
+    background-color: rgba(67, 73, 86, 1) !important;
+  }
+  
+  .additional-button:hover {
+    background-color: rgba(67, 73, 86, 1) !important;
+  }
+  
+  .profile-button:hover {
+    background-color: rgba(67, 73, 86, 1) !important;
+  }
+  
+  /* Размеры иконок для 4K */
+  .nav-icon {
+    transform: scale(2.5) !important;
+    margin-left: 40px !important;
+    margin-right: 20px !important;
+  }
+  
+  .faq-icon {
+    transform: scale(2.5) !important;
+    margin-left: 35px !important;
+    margin-right: 20px !important;
+  }
+  
+  .add-icon {
+    transform: scale(2.5) !important;
+    margin-left: 30px !important;
+    margin-right: 20px !important;
+  }
+  
+  .dropdown-icon {
+    transform: scale(2) !important;
+    margin-left: 35px !important;
+    margin-right: 15px !important;
+  }
+  
+  .panel-icon {
+    transform: scale(2.8) !important;
+    margin-left: 35px !important;
+    margin-right: 25px !important;
+  }
+  
+  .panel-text {
+    font-size: 48px !important; /* Увеличил с 32px */
+  }
+  
+  .panel-button {
+    height: 120px !important; /* Увеличил с 80px */
+    width: 480px !important; /* Уменьшил с 500px чтобы поместились */
+  }
+  
+  .panel-button:hover {
+    background-color: rgba(67, 73, 86, 1) !important;
+  }
+  
+  .navigation-panel {
+    left: 900px !important; /* Сдвинул еще левее под новые кнопки */
+    width: 520px !important; /* Уменьшил с 550px */
+    height: 650px !important; /* Увеличил с 600px */
+    top: 170px !important; /* Увеличил с 130px */
+  }
+  
+  .faq-panel {
+    left: 1400px !important; /* Сдвинул еще левее под новые кнопки */
+    width: 520px !important; /* Уменьшил с 550px */
+    height: 650px !important; /* Увеличил с 600px */
+    top: 170px !important; /* Увеличил с 130px */
+  }
+  
+  .additional-panel {
+    left: 1900px !important; /* Сдвинул еще левее под новые кнопки */
+    width: 520px !important; /* Уменьшил с 550px */
+    height: 680px !important; /* Увеличил с 630px */
+    top: 170px !important; /* Увеличил с 130px */
+  }
+  
+  .profile-panel {
+    left: 2200px !important; /* Сдвинул еще левее под новые кнопки */
+    width: 620px !important; /* Увеличил с 600px */
+    height: 1700px !important; /* Увеличил с 1600px */
+    top: 170px !important; /* Увеличил с 130px */
+  }
+  
+  .profile-panel .panel-button {
+    width: 600px !important; /* Подогнал под новую ширину панели */
+    margin: 0 auto !important;
+  }
+  
+  .profile-panel .panel-content {
+    padding: 25px !important;
+  }
+  
+  .profile-panel .panel-divider {
+    width: 400px !important;
+    margin: 15px auto !important;
+  }
+  
+  /* Центрирование содержимого панелей для 4K */
+  .panel-content {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    padding: 20px !important;
+    gap: 15px !important;
+  }
+  
+  .panel-button {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    padding-left: 25px !important;
+    margin: 0 auto !important;
+  }
+  
+  .panel-divider {
+    align-self: center !important;
+    margin: 10px auto !important;
+  }
+  
+  /* Обновляем скелетоны для 4K */
+  .skeleton-logo {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .skeleton-title {
+    width: 300px;
+    height: 36px;
+    margin-left: 15px;
+  }
+  
+  .skeleton-nav-button {
+    width: 340px;
+    height: 45px;
+    margin-left: 18px;
+  }
+  
+  .skeleton-faq-button {
+    width: 240px;
+    height: 45px;
+    margin-left: 20px;
+  }
+  
+  .skeleton-add-button {
+    width: 115px;
+    height: 45px;
+    margin-left: 15px;
+  }
+  
+  .skeleton-profile {
+    width: 100px;
+    height: 60px;
+    border-radius: 30px;
+    margin-left: 15px;
+  }
+}
+
 </style>
