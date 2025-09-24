@@ -79,7 +79,7 @@
 }
 
 .gradient-violet-pink {
-    background: linear-gradient(180deg, var(--primary-violet) 0%, var(--primary-pink) 100%);
+    background: linear-gradient(90deg, var(--primary-violet) 0%, var(--primary-pink) 100%);
     height: 4px;
     width: 100%;
 }
