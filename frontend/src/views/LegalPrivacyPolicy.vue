@@ -90,6 +90,8 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  width: 370px;
+  height: 655px; // 330px + 84px + 221px + gaps = 655px
 }
 
 .sidebar-block {
@@ -97,21 +99,20 @@
   border-radius: 25px;
   display: flex;
   flex-direction: column;
-  
+  width: 370px;
+    
   &.legal-block {
-    width: 370px;
-    height: 330px;
+    height: 330px; // Уменьшаем высоту legal блока
   }
   
   &.community-block {
-    width: 370px;
-    height: 84px;
     align-items: center;
+    height: 84px; // Фиксированная высота для community блока
   }
   
   &.security-block {
-    width: 370px;
-    height: 221px;
+    padding: 16px; // Добавляем padding чтобы кнопки не втыкались в края
+    height: 221px; // Фиксированная высота для security блока
   }
 }
 
@@ -167,7 +168,7 @@
 
 .content-block {
   width: 1000px;
-  height: 791px;
+  height: 655px;
   background-color: var(--bg-secondary);
   border-radius: 20px;
 }

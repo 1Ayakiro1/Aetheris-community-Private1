@@ -15,4 +15,11 @@ export default defineConfig({
     server: {
         port: 5173,
     },
+    css: {
+        preprocessorOptions: {
+            scss: {
+                silenceDeprecations: ['import', 'global-builtin', 'mixed-decls']
+            }
+        }
+    }
 });

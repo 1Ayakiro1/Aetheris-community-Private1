@@ -203,7 +203,7 @@
     margin-top: 50px;
 }
 
-.legal-block {
+.footer-container .legal-block {
     margin-top: 50px;
     margin-right: 100px;
 }
@@ -351,12 +351,9 @@ a:hover {
 
   .about-block,
   .resources-block,
-  .legal-block {
+  .footer-container .legal-block {
     margin-top: 65px !important;
     gap: 26px !important;
-  }
-
-  .legal-block {
     margin-right: 130px !important;
   }
 
@@ -456,12 +453,9 @@ a:hover {
 
   .about-block,
   .resources-block,
-  .legal-block {
+  .footer-container .legal-block {
     margin-top: 91px !important;
     gap: 36px !important;
-  }
-
-  .legal-block {
     margin-right: 182px !important;
   }
 
