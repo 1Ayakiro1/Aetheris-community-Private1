@@ -41,6 +41,7 @@
 
           <!-- Articles List -->
           <template v-else>
+              <!--              <ArticleCard :article="testArticle" />-->
             <ArticleCard
               v-for="article in articles"
               :key="article.id"
@@ -74,7 +75,6 @@
           </svg>
         </button>
       </div>
-
       <!-- Second Right Block - Sidebar -->
       <div class="sidebar-section">
         <!-- Article Info -->
@@ -167,17 +167,17 @@ watch(total, (newTotal) => {
   totalRecords.value = newTotal
 })
 
-const onPageChange = async (event: any) => {
-  first.value = event.first
-  rows.value = event.rows
-  console.log('Page changed:', event)
-
-  // Загружаем статьи для новой страницы
-  await fetchArticles({}, {
-    page: Math.floor(event.first / event.rows) + 1,
-    limit: event.rows
-  })
-}
+// const onPageChange = async (event: any) => {
+//   first.value = event.first
+//   rows.value = event.rows
+//   console.log('Page changed:', event)
+//
+//   // Загружаем статьи для новой страницы
+//   await fetchArticles({}, {
+//     page: Math.floor(event.first / event.rows) + 1,
+//     limit: event.rows
+//   })
+// }
 
 // Обработчики событий ArticleCard
 const handleTagClick = async (tag: string) => {
@@ -313,8 +313,8 @@ const handleScroll = () => {
 
 onMounted(async () => {
   window.addEventListener('scroll', handleScroll)
-  // Загружаем статьи при монтировании компонента
   await fetchArticles()
+    console.log('Статьи загружены следующие:', articles.value)
 })
 
 onUnmounted(() => {

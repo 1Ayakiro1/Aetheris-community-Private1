@@ -1,32 +1,44 @@
 from fastapi import FastAPI, Depends
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
-from typing import List
+from . import models, schemas, crud, database
 
-import models, schemas
-from database import SessionLocal, engine
-
-models.Base.metadata.create_all(bind=engine)
+models.Base.metadata.create_all(bind=database.engine)
 
 app = FastAPI()
 
 def get_db():
-    db = SessionLocal()
+    db = database.SessionLocal()
     try:
         yield db
     finally:
         db.close()
 
+origins = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], #временно потом запихать origins но с ними не работает пока что на локалхосте
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 # <--------------------> СТАТЬИ <--------------------> #
-@app.post("/articles/", response_model=schemas.ArticleOut)
-def create_article(article: schemas.ArticleCreate, db: Session = Depends(get_db)):
-    db_article = models.Article(title=article.title, content=article.content)
-    db.add(db_article)
-    db.commit()
-    db.refresh(db_article)
+@app.get("/articles/", response_model=list[schemas.Article])
+def read_articles(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    return crud.get_articles(db, skip=skip, limit=limit)
+
+@app.get("/articles/{article_id}", response_model=schemas.Article)
+def read_article(article_id: int, db: Session = Depends(get_db)):
+    db_article = crud.get_article(db, article_id)
+    if db_article is None:
+        return {"error": "Not found"}
     return db_article
 
-@app.get("/articles/", response_model=List[schemas.ArticleOut])
-def get_articles(db: Session = Depends(get_db)):
-    return db.query(models.Article).all()
-
-# <--------------------> РЕГИСТРАЦИЯ <--------------------> #
+@app.post("/articles/", response_model=schemas.Article)
+def create_article(article: schemas.ArticleCreate, db: Session = Depends(get_db)):
+    return crud.create_article(db=db, article=article)
