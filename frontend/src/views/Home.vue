@@ -778,15 +778,15 @@
   .cubes-1 {
     width: 800px;
     height: 750px;
-    margin-left: 50px;
-    margin-top: 2000px;
+    margin-left: 350px;
+    margin-top: 2200px;
   }
   
   .cubes-2 {
     width: 650px;
     height: 1480px;
     margin-left: 1950px;
-    margin-top: 1600px;
+    margin-top: 1300px;
   }
   
   .cubes-3 {
@@ -814,7 +814,7 @@
     width: 650px;
     height: 950px;
     margin-left: 1950px;
-    margin-top: 5650px;
+    margin-top: 5400px;
   }
 }
 </style>

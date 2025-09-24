@@ -1,17 +1,32 @@
 <template>
   <div class="header-container">
+    <!-- Mobile hamburger menu -->
+    <div class="mobile-menu-container">
+      <button id="mobile-menu-btn" class="mobile-menu-button">
+        <div class="hamburger-line"></div>
+        <div class="hamburger-line"></div>
+        <div class="hamburger-line"></div>
+      </button>
+    </div>
+
     <!-- Logo and title -->
     <router-link to="/" class="header-brand-link">
-      <Logo class="logo" />
-      <p class="header-title">Aetheris Community</p>
+      <div v-if="isLoading" class="skeleton logo-skeleton"></div>
+      <Logo v-else class="logo" />
+      <div v-if="isLoading" class="skeleton title-skeleton"></div>
+      <p v-else class="header-title">Aetheris Community</p>
     </router-link>
     
     <!-- Navigation button -->
-            <button type="button" id="nav-btn" class="nav-button">
+    <div class="desktop-nav">
+      <button type="button" id="nav-btn" class="nav-button">
+        <div v-if="isLoading" class="skeleton nav-skeleton"></div>
+        <template v-else>
           <NavigationIcon class="nav-icon" />
           <p class="button-text">Navigation</p>
           <DropdownIcon class="dropdown-icon nav-arrow" />
-        </button>
+        </template>
+      </button>
 
     <!-- Navigation panel -->
     <div id="navigation_panel" class="dropdown-panel navigation-panel hidden opacity-0 pointer-events-none">
@@ -46,12 +61,15 @@
       </div>
     </div>
 
-    <!-- FAQ button -->
-    <button type="button" id="faq-btn" class="faq-button">
-      <FAQIcon class="faq-icon" />
-      <p class="button-text">FAQ</p>
-      <DropdownIcon class="dropdown-icon faq-arrow" />
-    </button>
+      <!-- FAQ button -->
+      <button type="button" id="faq-btn" class="faq-button">
+        <div v-if="isLoading" class="skeleton faq-skeleton"></div>
+        <template v-else>
+          <FAQIcon class="faq-icon" />
+          <p class="button-text">FAQ</p>
+          <DropdownIcon class="dropdown-icon faq-arrow" />
+        </template>
+      </button>
 
     <!-- FAQ navigation panel -->
     <div id="faq_navigation_panel" class="dropdown-panel faq-panel hidden opacity-0 pointer-events-none">
@@ -86,11 +104,15 @@
       </div>
     </div>
 
-    <!-- Additional button -->
-    <button id="add-btn" class="additional-button">
-      <AddIcon class="add-icon" />
-      <DropdownIcon class="dropdown-icon additional-arrow" />
-    </button>
+      <!-- Additional button -->
+      <button id="add-btn" class="additional-button">
+        <div v-if="isLoading" class="skeleton add-skeleton"></div>
+        <template v-else>
+          <AddIcon class="add-icon" />
+          <DropdownIcon class="dropdown-icon additional-arrow" />
+        </template>
+      </button>
+    </div>
 
     <!-- Additional panel -->
     <div id="additional_panel" class="dropdown-panel additional-panel hidden opacity-0 pointer-events-none">
@@ -123,8 +145,11 @@
 
     <!-- Profile button -->
     <button id="logo-btn" class="profile-button">
-      <div class="profile-avatar"></div>
-      <DropdownIcon class="dropdown-icon profile-arrow" />
+      <div v-if="isLoading" class="skeleton profile-skeleton"></div>
+      <template v-else>
+        <div class="profile-avatar"></div>
+        <DropdownIcon class="dropdown-icon profile-arrow" />
+      </template>
     </button>
 
     <!-- Profile panel -->
