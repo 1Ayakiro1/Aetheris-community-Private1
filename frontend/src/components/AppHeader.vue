@@ -981,7 +981,7 @@ a:hover {
   .header-brand-link,
   .router-link-active.header-brand-link,
   .router-link-exact-active.header-brand-link {
-    margin-left: 100px !important; /* Сдвинул левее на 200px */
+    margin-left: 350px !important; /* Сдвинул левее на 200px */
   }
   
   .header-title {

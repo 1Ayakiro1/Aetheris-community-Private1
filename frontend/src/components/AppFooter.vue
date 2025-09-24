@@ -73,7 +73,7 @@
 
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .footer-wrapper {
     width: 100%;
 }
@@ -237,5 +237,286 @@ a {
 
 a:hover {
     text-decoration: none;
+}
+
+/* ============ SKELETON ANIMATIONS ============ */
+@keyframes skeleton-pulse {
+  0% { background-color: rgba(67, 73, 86, 0.3); }
+  50% { background-color: rgba(67, 73, 86, 0.6); }
+  100% { background-color: rgba(67, 73, 86, 0.3); }
+}
+
+.skeleton {
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+  border-radius: 8px;
+  background-color: rgba(67, 73, 86, 0.3);
+}
+
+.skeleton-logo {
+  width: 168px;
+  height: 184px;
+  border-radius: 12px;
+}
+
+.skeleton-title {
+  width: 300px;
+  height: 40px;
+  margin-bottom: 10px;
+}
+
+.skeleton-subtitle {
+  width: 250px;
+  height: 30px;
+  margin-bottom: 20px;
+}
+
+.skeleton-social-button {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+}
+
+.skeleton-block-title {
+  width: 120px;
+  height: 35px;
+  margin-bottom: 15px;
+}
+
+.skeleton-block-link {
+  width: 150px;
+  height: 25px;
+  margin-bottom: 10px;
+}
+
+/* ============ RESPONSIVE DESIGN ============ */
+
+/* Для экранов Full HD (1920x1080) и выше */
+@media (min-width: 1919px) {
+  /* Базовые стили остаются без изменений */
+}
+
+/* Для экранов 1440p (2560x1440) - увеличиваем на 30% */
+@media (min-width: 2560px) and (max-width: 3839px) {
+  .footer-container {
+    height: 560px !important; /* 430 * 1.3 */
+  }
+
+  .ae-logo-footer {
+    width: 218px !important; /* 168 * 1.3 */
+    height: 239px !important; /* 184 * 1.3 */
+    margin-left: 26px !important; /* 20 * 1.3 */
+  }
+
+  .site-title {
+    font-size: 49px !important; /* 38 * 1.3 */
+    margin-left: 39px !important; /* 30 * 1.3 */
+    margin-top: 182px !important; /* 140 * 1.3 */
+  }
+
+  .site-subtitle {
+    font-size: 39px !important; /* 30 * 1.3 */
+    margin-left: 39px !important; /* 30 * 1.3 */
+  }
+
+  .social-buttons {
+    gap: 26px !important; /* 20 * 1.3 */
+  }
+
+  .social-button {
+    width: 99px !important; /* 76 * 1.3 */
+    height: 99px !important; /* 76 * 1.3 */
+    margin-top: 26px !important; /* 20 * 1.3 */
+  }
+
+  .social-icon {
+    width: 78px !important; /* 60 * 1.3 */
+    height: 78px !important; /* 60 * 1.3 */
+  }
+
+  .telegram-icon {
+    height: 65px !important; /* 50 * 1.3 */
+    width: 65px !important; /* 50 * 1.3 */
+  }
+
+  .boosty-icon {
+    height: 65px !important; /* 50 * 1.3 */
+    width: 59px !important; /* 45 * 1.3 */
+  }
+
+  .opensource-text {
+    font-size: 33px !important; /* 25 * 1.3 */
+    margin-top: 39px !important; /* 30 * 1.3 */
+    margin-left: 39px !important; /* 30 * 1.3 */
+  }
+
+  .about-block,
+  .resources-block,
+  .legal-block {
+    margin-top: 65px !important; /* 50 * 1.3 */
+    gap: 26px !important; /* 20 * 1.3 */
+  }
+
+  .legal-block {
+    margin-right: 130px !important; /* 100 * 1.3 */
+  }
+
+  .block-title {
+    font-size: 43px !important; /* 33 * 1.3 */
+    margin-top: 65px !important; /* 50 * 1.3 */
+  }
+
+  .block-link {
+    font-size: 33px !important; /* 25 * 1.3 */
+  }
+
+  /* Скелетоны для 2K */
+  .skeleton-logo {
+    width: 218px !important;
+    height: 239px !important;
+  }
+
+  .skeleton-title {
+    width: 390px !important; /* 300 * 1.3 */
+    height: 52px !important; /* 40 * 1.3 */
+  }
+
+  .skeleton-subtitle {
+    width: 325px !important; /* 250 * 1.3 */
+    height: 39px !important; /* 30 * 1.3 */
+  }
+
+  .skeleton-social-button {
+    width: 99px !important;
+    height: 99px !important;
+  }
+
+  .skeleton-block-title {
+    width: 156px !important; /* 120 * 1.3 */
+    height: 46px !important; /* 35 * 1.3 */
+  }
+
+  .skeleton-block-link {
+    width: 195px !important; /* 150 * 1.3 */
+    height: 33px !important; /* 25 * 1.3 */
+  }
+}
+
+/* Для экранов 4K (3840x2160) - увеличиваем на 40% от 2K */
+@media (min-width: 3840px) {
+  .footer-container {
+    height: 784px !important; /* 560 * 1.4 */
+  }
+
+  .ae-logo-footer {
+    width: 305px !important; /* 218 * 1.4 */
+    height: 335px !important; /* 239 * 1.4 */
+    margin-left: 36px !important; /* 26 * 1.4 */
+  }
+
+  .site-title {
+    font-size: 69px !important; /* 49 * 1.4 */
+    margin-left: 55px !important; /* 39 * 1.4 */
+    margin-top: 255px !important; /* 182 * 1.4 */
+  }
+
+  .site-subtitle {
+    font-size: 55px !important; /* 39 * 1.4 */
+    margin-left: 55px !important; /* 39 * 1.4 */
+  }
+
+  .social-buttons {
+    gap: 36px !important; /* 26 * 1.4 */
+  }
+
+  .social-button {
+    width: 139px !important; /* 99 * 1.4 */
+    height: 139px !important; /* 99 * 1.4 */
+    margin-top: 36px !important; /* 26 * 1.4 */
+  }
+
+  .social-icon {
+    width: 109px !important; /* 78 * 1.4 */
+    height: 109px !important; /* 78 * 1.4 */
+  }
+
+  .telegram-icon {
+    height: 91px !important; /* 65 * 1.4 */
+    width: 91px !important; /* 65 * 1.4 */
+  }
+
+  .boosty-icon {
+    height: 91px !important; /* 65 * 1.4 */
+    width: 83px !important; /* 59 * 1.4 */
+  }
+
+  .opensource-text {
+    font-size: 46px !important; /* 33 * 1.4 */
+    margin-top: 55px !important; /* 39 * 1.4 */
+    margin-left: 55px !important; /* 39 * 1.4 */
+  }
+
+  .about-block,
+  .resources-block,
+  .legal-block {
+    margin-top: 91px !important; /* 65 * 1.4 */
+    gap: 36px !important; /* 26 * 1.4 */
+  }
+
+  .legal-block {
+    margin-right: 182px !important; /* 130 * 1.4 */
+  }
+
+  .block-title {
+    font-size: 60px !important; /* 43 * 1.4 */
+    margin-top: 91px !important; /* 65 * 1.4 */
+  }
+
+  .block-link {
+    font-size: 46px !important; /* 33 * 1.4 */
+  }
+
+  /* Hover эффекты для 4K */
+  .social-button:hover {
+    filter: brightness(50%) !important;
+  }
+
+  .block-link:hover {
+    color: #8a9495 !important;
+  }
+
+  .github-link:hover {
+    text-decoration: underline !important;
+  }
+
+  /* Скелетоны для 4K */
+  .skeleton-logo {
+    width: 305px !important;
+    height: 335px !important;
+  }
+
+  .skeleton-title {
+    width: 546px !important; /* 390 * 1.4 */
+    height: 73px !important; /* 52 * 1.4 */
+  }
+
+  .skeleton-subtitle {
+    width: 455px !important; /* 325 * 1.4 */
+    height: 55px !important; /* 39 * 1.4 */
+  }
+
+  .skeleton-social-button {
+    width: 139px !important;
+    height: 139px !important;
+  }
+
+  .skeleton-block-title {
+    width: 218px !important; /* 156 * 1.4 */
+    height: 64px !important; /* 46 * 1.4 */
+  }
+
+  .skeleton-block-link {
+    width: 273px !important; /* 195 * 1.4 */
+    height: 46px !important; /* 33 * 1.4 */
+  }
 }
 </style>
