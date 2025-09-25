@@ -1,14 +1,22 @@
-import axios from "axios";
+import apiClient from './axios'
+import type { Article } from "@/types/article"
 
-//потом перенести в env
-const API_URL = "http://localhost:8000";
-
-export async function fetchArticles() {
-    const res = await axios.get(`${API_URL}/articles/`);
-    return res.data;
+export async function getAllArticles(): Promise<Article[]> {
+    const res = await apiClient.get<Article[]>("/articles/")
+    return res.data
 }
 
-export async function createArticle(title: string, content: string) {
-    const res = await axios.post(`${API_URL}/articles/`, { title, content });
-    return res.data;
+export async function createArticle(
+    data: Omit<Article, "id" | "createdAt">
+): Promise<Article> {
+    const res = await apiClient.post<Article>("/articles/", data)
+    return res.data
+}
+
+export const likeArticle = async (articleId: number) => {
+    return apiClient.post(`/articles/${articleId}/like`)
+}
+
+export const dislikeArticle = async (articleId: number) => {
+    return apiClient.post(`/articles/${articleId}/dislike`)
 }

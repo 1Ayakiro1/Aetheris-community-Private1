@@ -2,10 +2,13 @@ from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from . import models, schemas, crud, database
+from .routers import articles
 
 models.Base.metadata.create_all(bind=database.engine)
 
 app = FastAPI()
+
+app.include_router(articles.router)
 
 def get_db():
     db = database.SessionLocal()
@@ -42,3 +45,4 @@ def read_article(article_id: int, db: Session = Depends(get_db)):
 @app.post("/articles/", response_model=schemas.Article)
 def create_article(article: schemas.ArticleCreate, db: Session = Depends(get_db)):
     return crud.create_article(db=db, article=article)
+
