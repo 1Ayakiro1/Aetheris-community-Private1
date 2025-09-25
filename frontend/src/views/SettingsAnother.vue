@@ -57,6 +57,8 @@ import SettingsSidebar from '@/components/SettingsSidebar.vue'
   color: var(--text-secondary);
   @include scale-property(font-size, 30px);
   font-family: var(--font-sans);
+  padding-left: 320px;
+  margin-right: 250px;
   font-weight: bold;
 }
 </style>

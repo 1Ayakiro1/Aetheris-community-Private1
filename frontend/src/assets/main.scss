@@ -171,6 +171,45 @@ html, body {
   }
 }
 
+// Миксин для адаптивного контента (новая система масштабирования)
+@mixin responsive-content {
+  /* Базовое разрешение ≤1920px */
+  @media (max-width: 1920px) {
+    @content;
+  }
+}
+
+@mixin responsive-content-2k {
+  /* 2K разрешение (2561-3839px) - масштаб 1.3 */
+  @media (min-width: 2561px) and (max-width: 3839px) {
+    @content;
+  }
+}
+
+@mixin responsive-content-4k {
+  /* 4K разрешение (≥3840px) - масштаб 1.6 */
+  @media (min-width: 3840px) {
+    @content;
+  }
+}
+
+// Миксин для автоматического масштабирования свойств
+@mixin scale-property-new($property, $base-value) {
+  #{$property}: $base-value;
+  
+  @include responsive-content-2k {
+    @if type-of($base-value) == number {
+      #{$property}: $base-value * 1.3;
+    }
+  }
+  
+  @include responsive-content-4k {
+    @if type-of($base-value) == number {
+      #{$property}: $base-value * 1.6;
+    }
+  }
+}
+
 .body {
   background-color: var(--bg-primary);
   color: var(--text-primary);

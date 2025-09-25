@@ -84,7 +84,6 @@
   @include scale-property(width, 395px);
   @include scale-property(height, 685px);
   background-color: var(--bg-secondary);
-  @include scale-property(margin-left, 270px);
   @include scale-property(border-radius, 25px);
   display: flex;
   flex-direction: column;

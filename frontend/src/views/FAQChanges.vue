@@ -98,7 +98,6 @@
   border-radius: 20px;
   width: 414px;
   height: 429px;
-  margin-left: 251px;
   margin-top: 56px;
   gap: 8px;
 

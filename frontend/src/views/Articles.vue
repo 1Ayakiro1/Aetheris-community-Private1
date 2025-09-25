@@ -1,7 +1,8 @@
 <template>
-  <div class="articles-container">
-    <!-- Articles Body -->
-    <div class="articles-body">
+  <div class="articles-page">
+    <div class="articles-container">
+      <!-- Articles Body -->
+      <div class="articles-body">
       <!-- First Left Block - Search -->
       <div class="search-section">
         <div class="search-container">
@@ -23,7 +24,7 @@
         </div>
 
         <!-- Articles Container -->
-        <div class="articles-container">
+        <div class="articles-list-container">
           <!-- Loading State -->
           <div v-if="loading" class="loading-container">
             <div class="loading-spinner"></div>
@@ -130,8 +131,8 @@
       </div>
     </div>
   </div>
+</div>
 </template>
-www
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch } from 'vue'
 import ArticleCard from '@/components/ArticleCard.vue'
@@ -323,11 +324,19 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.articles-container {
-  max-width: 1920px;
-  margin: 0 auto;
+@import '@/assets/main.scss';
+
+.articles-page {
   background-color: var(--bg-primary);
   min-height: 100vh;
+  width: 100%;
+}
+
+.articles-page .articles-container {
+  max-width: 1920px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Articles Body */
@@ -377,7 +386,7 @@ onUnmounted(() => {
   width: 912px;
   height: 50px;
   background-color: var(--bg-primary);
-  border-radius: 25px 25px 30px 30px;
+  border-radius: 25px;
   color: var(--text-primary);
   font-size: 20px;
   font-family: var(--font-sans);
@@ -399,13 +408,13 @@ onUnmounted(() => {
   font-weight: 700;
 }
 
-/* Articles Container */
-.articles-container {
+/* Articles List Container */
+.articles-list-container {
   width: 1060px;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  padding: 5px 0;
+
 }
 
 /* Pagination Container */
@@ -513,7 +522,10 @@ onUnmounted(() => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 60px 20px;
+  padding-top: 60px;
+  padding-bottom: 60px;
+  padding-left: 20px;
+  padding-right: 20px;
   color: var(--text-secondary);
 }
 
@@ -537,7 +549,10 @@ onUnmounted(() => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 60px 20px;
+  padding-top: 60px;
+  padding-bottom: 60px;
+  padding-left: 20px;
+  padding-right: 20px;
   text-align: center;
   color: var(--text-secondary);
 }
@@ -557,7 +572,10 @@ onUnmounted(() => {
   background-color: var(--btn-primary);
   color: var(--text-primary);
   border: none;
-  padding: 12px 24px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 24px;
+  padding-right: 24px;
   border-radius: 8px;
   font-size: 16px;
   font-weight: 600;

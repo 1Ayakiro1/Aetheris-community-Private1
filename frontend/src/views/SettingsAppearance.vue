@@ -343,6 +343,8 @@ const themeImages = {
 
 .main-body {
   display: flex;
+  justify-content: center;
+  align-items: flex-start;
   @include scale-property(margin-top, 48px); // mt-12
 }
 
