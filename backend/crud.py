@@ -27,3 +27,18 @@ def get_articles(db: Session, skip: int = 0, limit: int = 100):
         a.tags = a.tags.split(",") if a.tags else []
     return articles
 
+def like_article(db: Session, article_id: int):
+    article = db.query(models.Article).filter(models.Article.id == article_id).first()
+    if article:
+        article.likes += 1
+        db.commit()
+        db.refresh(article)
+    return article
+
+def dislike_article(db: Session, article_id: int):
+    article = db.query(models.Article).filter(models.Article.id == article_id).first()
+    if article:
+        article.dislikes += 1
+        db.commit()
+        db.refresh(article)
+    return article
