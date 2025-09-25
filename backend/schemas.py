@@ -13,12 +13,17 @@ class ArticleBase(BaseModel):
 class ArticleCreate(ArticleBase):
     pass
 
+class ReactionRequest(BaseModel):
+    user_id: int
+    reaction: str
+
 class Article(ArticleBase):
     id: int
     created_at: datetime
     likes: int = 0
     dislikes: int = 0
     comments_count: int = 0
+    user_reaction: Optional[str] = None
 
     class Config:
         from_attributes = True

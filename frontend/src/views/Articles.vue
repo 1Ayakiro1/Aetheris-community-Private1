@@ -245,7 +245,7 @@ const handleScroll = () => {
     const buttonHeight = 50 // button height
     const footerHeight = 430 // footer height from CSS
 
-    console.log('Footer top:', footerTop, 'Window height:', windowHeight)
+    // console.log('Footer top:', footerTop, 'Window height:', windowHeight)
 
     // Smooth disappearance when approaching the footer (always calculate)
     const fadeDistance = 150 // distance to start disappearing
