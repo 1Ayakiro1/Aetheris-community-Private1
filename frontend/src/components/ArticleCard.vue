@@ -162,6 +162,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { likeArticle, dislikeArticle } from '@/api/articles'
 import type { Article, ArticleCardProps, ArticleCardEmits } from '@/types/article'
 import Tag from 'primevue/tag'
 
@@ -220,26 +221,46 @@ const onArticleClick = () => {
 }
 
 // Обработчики взаимодействий
-const onLike = () => {
-  if (isDisliked.value) {
-    isDisliked.value = false
-    dislikesCount.value = Math.max(0, dislikesCount.value - 1)
-  }
+const onLike = async () => {
+    try {
+        if (isLiked.value) {
+            // если уже лайкнуто - снимаем лайк
+            isLiked.value = false
+            likesCount.value = Math.max(0, likesCount.value - 1)
+        } else {
+            // ставим лайк
+            await likeArticle(props.article.id)
+            isLiked.value = true
+            likesCount.value += 1
 
-  isLiked.value = !isLiked.value
-  likesCount.value += isLiked.value ? 1 : -1
-  likesCount.value = Math.max(0, likesCount.value)
+            if (isDisliked.value) {
+                isDisliked.value = false
+                dislikesCount.value = Math.max(0, dislikesCount.value - 1)
+            }
+        }
+    } catch (e) {
+        console.error('Ошибка лайка:', e)
+    }
 }
 
-const onDislike = () => {
-  if (isLiked.value) {
-    isLiked.value = false
-    likesCount.value = Math.max(0, likesCount.value - 1)
-  }
+const onDislike = async () => {
+    try {
+        if (isDisliked.value) {
+            isDisliked.value = false
+            dislikesCount.value = Math.max(0, dislikesCount.value - 1)
+        } else {
+            await dislikeArticle(props.article.id)
+            isDisliked.value = true
+            dislikesCount.value += 1
 
-  isDisliked.value = !isDisliked.value
-  dislikesCount.value += isDisliked.value ? 1 : -1
-  dislikesCount.value = Math.max(0, dislikesCount.value)
+            if (isLiked.value) {
+                isLiked.value = false
+                likesCount.value = Math.max(0, likesCount.value - 1)
+            }
+        }
+    } catch (e) {
+        console.error('Ошибка дизлайка:', e)
+    }
 }
 
 const onComment = () => {

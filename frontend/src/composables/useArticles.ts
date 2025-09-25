@@ -1,7 +1,6 @@
-// useArticles.ts
 import { ref } from 'vue'
-import api from '@/api/axios'
 import type { Article } from '@/types/article'
+import { getAllArticles, likeArticle, dislikeArticle } from '@/api/articles'
 
 export function useArticles() {
     const articles = ref<Article[]>([])
@@ -10,25 +9,23 @@ export function useArticles() {
     const fetchArticles = async () => {
         loading.value = true
         try {
-            const response = await api.get('/articles')
-            const rawArticles = response.data
-
+            const rawArticles = await getAllArticles()
             articles.value = rawArticles.map((a: any) => ({
                 id: a.id,
                 title: a.title,
                 content: a.content,
                 excerpt: a.excerpt,
                 author: {
-                    id: Number(a.author), //в объект
-                    username: `User ${a.author}`,//пока временно просто так
-                    avatar: null
+                    id: Number(a.author),
+                    username: `User ${a.author}`,
+                    avatar: null,
                 },
                 tags: a.tags,
                 createdAt: a.created_at,
                 status: a.status,
                 likes: a.likes,
                 dislikes: a.dislikes,
-                commentsCount: a.comments_count
+                commentsCount: a.comments_count,
             }))
         } catch (err) {
             console.error('Ошибка при загрузке статей', err)
@@ -37,5 +34,30 @@ export function useArticles() {
         }
     }
 
-    return { articles, loading, fetchArticles }
+    const like = async (id: number) => {
+        try {
+            const updated = await likeArticle(id)
+            //Пока обновление локально надо будет пинью подрубмить
+            const idx = articles.value.findIndex(a => a.id === id)
+            if (idx !== -1) {
+                articles.value[idx] = { ...articles.value[idx], ...updated }
+            }
+        } catch (err) {
+            console.error('Ошибка при лайке', err)
+        }
+    }
+
+    const dislike = async (id: number) => {
+        try {
+            const updated = await dislikeArticle(id)
+            const idx = articles.value.findIndex(a => a.id === id)
+            if (idx !== -1) {
+                articles.value[idx] = { ...articles.value[idx], ...updated }
+            }
+        } catch (err) {
+            console.error('Ошибка при дизлайке', err)
+        }
+    }
+
+    return { articles, loading, fetchArticles, like, dislike }
 }

@@ -7,4 +7,4 @@
     "status": "published"
 }
 
-status может быть published, draft и 
+status может быть published, draft и archieved
