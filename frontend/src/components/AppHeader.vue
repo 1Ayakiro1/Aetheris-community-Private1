@@ -1,216 +1,220 @@
 <template>
   <div class="header-container">
-    <!-- Logo and title -->
-    <router-link to="/" class="header-brand-link">
-      <Logo class="logo" />
-      <p class="header-title">Aetheris Community</p>
-    </router-link>
-    
-    <!-- Navigation button -->
-            <button type="button" id="nav-btn" class="nav-button">
-          <NavigationIcon class="nav-icon" />
-          <p class="button-text">Navigation</p>
-          <DropdownIcon class="dropdown-icon nav-arrow" />
-        </button>
-
-    <!-- Navigation panel -->
-    <div id="navigation_panel" class="dropdown-panel navigation-panel hidden opacity-0 pointer-events-none">
-      <div class="panel-content">
-        <router-link to="/">
-          <button class="panel-button">
-            <HomeIcon class="panel-icon" />
-            <p class="panel-text">Start page</p>
-          </button>
-        </router-link>
-
-        <router-link to="/articles">
-          <button class="panel-button">
-            <ArticlesIcon class="panel-icon" />
-            <p class="panel-text">Articles</p>
-          </button>
-        </router-link>
-
-        <router-link to="/articles/interactive">
-          <button class="panel-button">
-            <InteractiveIcon class="panel-icon" />
-            <p class="panel-text">Interactive</p>
-          </button>
-        </router-link>
-
-        <router-link to="/articles/companies">
-          <button class="panel-button">
-            <CompaniesIcon class="panel-icon" />
-            <p class="panel-text">Companies</p>
-          </button>
-        </router-link>
-      </div>
+    <!-- Левая группа: Logo и Navigation -->
+    <div class="header-left">
+      <router-link to="/" class="header-brand-link">
+        <Logo class="logo" />
+        <p class="header-title">Aetheris Community</p>
+      </router-link>
+      
+      <button type="button" id="nav-btn" class="nav-button">
+        <NavigationIcon class="nav-icon" />
+        <p class="button-text">Navigation</p>
+        <DropdownIcon class="dropdown-icon nav-arrow" />
+      </button>
     </div>
 
-    <!-- FAQ button -->
-    <button type="button" id="faq-btn" class="faq-button">
-      <FAQIcon class="faq-icon" />
-      <p class="button-text">FAQ</p>
-      <DropdownIcon class="dropdown-icon faq-arrow" />
-    </button>
-
-    <!-- FAQ navigation panel -->
-    <div id="faq_navigation_panel" class="dropdown-panel faq-panel hidden opacity-0 pointer-events-none">
-      <div class="panel-content">
-        <router-link to="/faq">
-          <button class="panel-button">
-            <FAQIcon class="panel-icon" />
-            <p class="panel-text">FAQ page</p>
-          </button>
-        </router-link>
-
-        <router-link to="/faq/help">
-          <button class="panel-button">
-            <HelpIcon class="panel-icon" />
-            <p class="panel-text">Help</p>
-          </button>
-        </router-link>
-
-        <router-link to="/faq/changes">
-          <button class="panel-button">
-            <ChangesIcon class="panel-icon" />
-            <p class="panel-text">Site changes</p>
-          </button>
-        </router-link>
-
-        <router-link to="/legal/community-rules">
-          <button class="panel-button">
-            <RulesIcon class="panel-icon" />
-            <p class="panel-text">Forum rules</p>
-          </button>
-        </router-link>
-      </div>
+    <!-- Центральная группа: FAQ -->
+    <div class="header-center">
+      <button type="button" id="faq-btn" class="faq-button">
+        <FAQIcon class="faq-icon" />
+        <p class="button-text">FAQ</p>
+        <DropdownIcon class="dropdown-icon faq-arrow" />
+      </button>
     </div>
 
-    <!-- Additional button -->
-    <button id="add-btn" class="additional-button">
-      <AddIcon class="add-icon" />
-      <DropdownIcon class="dropdown-icon additional-arrow" />
-    </button>
+    <!-- Правая группа: Additional и Profile -->
+    <div class="header-right">
+      <button id="add-btn" class="additional-button">
+        <AddIcon class="add-icon" />
+        <DropdownIcon class="dropdown-icon additional-arrow" />
+      </button>
 
-    <!-- Additional panel -->
-    <div id="additional_panel" class="dropdown-panel additional-panel hidden opacity-0 pointer-events-none">
-      <div class="panel-content">
-        <router-link to="/create-article">
-          <button class="panel-button">
-            <div class="icon-placeholder panel-icon"></div>
-            <p class="panel-text">New article</p>
-          </button>
-        </router-link>
-        
-        <div class="panel-divider"></div>
-
-        <button class="panel-button">
-          <div class="icon-placeholder panel-icon"></div>
-          <p class="panel-text">List</p>
-        </button>
-
-        <button class="panel-button">
-          <div class="icon-placeholder panel-icon"></div>
-          <p class="panel-text">Grid</p>
-        </button>
-
-        <button class="panel-button">
-          <div class="icon-placeholder panel-icon"></div>
-          <p class="panel-text">Default</p>
-        </button>
-      </div>
+      <button id="logo-btn" class="profile-button">
+        <div class="profile-avatar"></div>
+        <DropdownIcon class="dropdown-icon profile-arrow" />
+      </button>
     </div>
+  </div>
 
-    <!-- Profile button -->
-    <button id="logo-btn" class="profile-button">
-      <div class="profile-avatar"></div>
-      <DropdownIcon class="dropdown-icon profile-arrow" />
-    </button>
-
-    <!-- Profile panel -->
-    <div id="profile_panel" class="dropdown-panel profile-panel hidden opacity-0 pointer-events-none">
-      <div class="panel-content">
-        <router-link to="/profile">
-          <button class="panel-button">
-            <ProfileIcon class="panel-icon" />
-            <p class="panel-text">Profile</p>
-          </button>
-        </router-link>
-
-        <router-link to="/notifications">
-          <button class="panel-button">
-            <NotificationsIcon class="panel-icon" />
-            <p class="panel-text">Notifications</p>
-          </button>
-        </router-link>
-
-        <router-link to="/stared-articles">
-          <button class="panel-button">
-            <StarIcon class="panel-icon" />
-            <p class="panel-text">Stared articles</p>
-          </button>
-        </router-link>
-
-        <router-link to="/settings/appearance">
-          <button class="panel-button">
-            <SettingsIcon class="panel-icon" />
-            <p class="panel-text">Settings</p>
-          </button>
-        </router-link>
-        
-        <div class="panel-divider"></div>
-
-        <router-link to="/your-articles">
-          <button class="panel-button">
-            <EditIcon class="panel-icon" />
-            <p class="panel-text">Your articles</p>
-          </button>
-        </router-link>
-
-        <router-link to="/draft">
-          <button class="panel-button">
-            <DraftIcon class="panel-icon" />
-            <p class="panel-text">Draft</p>
-          </button>
-        </router-link>
-
-        <router-link to="/analytics">
-          <button class="panel-button">
-            <AnalyticsIcon class="panel-icon" />
-            <p class="panel-text">Analytics</p>
-          </button>
-        </router-link>
-
-        <router-link to="/balance">
-          <button class="panel-button">
-            <BalanceIcon class="panel-icon" />
-            <p class="panel-text">Balance</p>
-          </button>
-        </router-link>
-        
-        <div class="panel-divider"></div>
-
-        <router-link to="/settings/subscription">
-          <button class="panel-button">
-            <CheckmarkIcon class="panel-icon" />
-            <p class="panel-text">Subscription</p>
-          </button>
-        </router-link>
-
-        <router-link to="/shop">
-          <button class="panel-button">
-            <ShopIcon class="panel-icon" />
-            <p class="panel-text">Shop</p>
-          </button>
-        </router-link>
-        
-        <div class="panel-divider"></div>
-
-        <button class="panel-button sign-out-button">
-          <SignOutIcon class="panel-icon" />
-          <p class="panel-text sign-out-text">Sign out</p>
+  <!-- Navigation panel -->
+  <div id="navigation_panel" class="dropdown-panel navigation-panel hidden opacity-0 pointer-events-none">
+    <div class="panel-content">
+      <router-link to="/">
+        <button class="panel-button">
+          <HomeIcon class="panel-icon" />
+          <p class="panel-text">Start page</p>
         </button>
-      </div>
+      </router-link>
+
+      <router-link to="/articles">
+        <button class="panel-button">
+          <ArticlesIcon class="panel-icon" />
+          <p class="panel-text">Articles</p>
+        </button>
+      </router-link>
+
+      <router-link to="/articles/interactive">
+        <button class="panel-button">
+          <InteractiveIcon class="panel-icon" />
+          <p class="panel-text">Interactive</p>
+        </button>
+      </router-link>
+
+      <router-link to="/articles/companies">
+        <button class="panel-button">
+          <CompaniesIcon class="panel-icon" />
+          <p class="panel-text">Companies</p>
+        </button>
+      </router-link>
+    </div>
+  </div>
+
+  <!-- FAQ navigation panel -->
+  <div id="faq_navigation_panel" class="dropdown-panel faq-panel hidden opacity-0 pointer-events-none">
+    <div class="panel-content">
+      <router-link to="/faq">
+        <button class="panel-button">
+          <FAQIcon class="panel-icon" />
+          <p class="panel-text">FAQ page</p>
+        </button>
+      </router-link>
+
+      <router-link to="/faq/help">
+        <button class="panel-button">
+          <HelpIcon class="panel-icon" />
+          <p class="panel-text">Help</p>
+        </button>
+      </router-link>
+
+      <router-link to="/faq/changes">
+        <button class="panel-button">
+          <ChangesIcon class="panel-icon" />
+          <p class="panel-text">Site changes</p>
+        </button>
+      </router-link>
+
+      <router-link to="/legal/community-rules">
+        <button class="panel-button">
+          <RulesIcon class="panel-icon" />
+          <p class="panel-text">Forum rules</p>
+        </button>
+      </router-link>
+    </div>
+  </div>
+
+  <!-- Additional panel -->
+  <div id="additional_panel" class="dropdown-panel additional-panel hidden opacity-0 pointer-events-none">
+    <div class="panel-content">
+      <router-link to="/create-article">
+        <button class="panel-button">
+          <div class="icon-placeholder panel-icon"></div>
+          <p class="panel-text">New article</p>
+        </button>
+      </router-link>
+      
+      <div class="panel-divider"></div>
+
+      <button class="panel-button">
+        <div class="icon-placeholder panel-icon"></div>
+        <p class="panel-text">List</p>
+      </button>
+
+      <button class="panel-button">
+        <div class="icon-placeholder panel-icon"></div>
+        <p class="panel-text">Grid</p>
+      </button>
+
+      <button class="panel-button">
+        <div class="icon-placeholder panel-icon"></div>
+        <p class="panel-text">Default</p>
+      </button>
+    </div>
+  </div>
+
+  <!-- Profile panel -->
+  <div id="profile_panel" class="dropdown-panel profile-panel hidden opacity-0 pointer-events-none">
+    <div class="panel-content">
+      <router-link to="/profile">
+        <button class="panel-button">
+          <ProfileIcon class="panel-icon" />
+          <p class="panel-text">Profile</p>
+        </button>
+      </router-link>
+
+      <router-link to="/notifications">
+        <button class="panel-button">
+          <NotificationsIcon class="panel-icon" />
+          <p class="panel-text">Notifications</p>
+        </button>
+      </router-link>
+
+      <router-link to="/stared-articles">
+        <button class="panel-button">
+          <StarIcon class="panel-icon" />
+          <p class="panel-text">Stared articles</p>
+        </button>
+      </router-link>
+
+      <router-link to="/settings/appearance">
+        <button class="panel-button">
+          <SettingsIcon class="panel-icon" />
+          <p class="panel-text">Settings</p>
+        </button>
+      </router-link>
+      
+      <div class="panel-divider"></div>
+
+      <router-link to="/your-articles">
+        <button class="panel-button">
+          <EditIcon class="panel-icon" />
+          <p class="panel-text">Your articles</p>
+        </button>
+      </router-link>
+
+      <router-link to="/draft">
+        <button class="panel-button">
+          <DraftIcon class="panel-icon" />
+          <p class="panel-text">Draft</p>
+        </button>
+      </router-link>
+
+      <router-link to="/analytics">
+        <button class="panel-button">
+          <AnalyticsIcon class="panel-icon" />
+          <p class="panel-text">Analytics</p>
+        </button>
+      </router-link>
+
+      <router-link to="/balance">
+        <button class="panel-button">
+          <BalanceIcon class="panel-icon" />
+          <p class="panel-text">Balance</p>
+        </button>
+      </router-link>
+      
+      <div class="panel-divider"></div>
+
+      <router-link to="/settings/subscription">
+        <button class="panel-button">
+          <CheckmarkIcon class="panel-icon" />
+          <p class="panel-text">Subscription</p>
+        </button>
+      </router-link>
+
+      <router-link to="/shop">
+        <button class="panel-button">
+          <ShopIcon class="panel-icon" />
+          <p class="panel-text">Shop</p>
+        </button>
+      </router-link>
+      
+      <div class="panel-divider"></div>
+
+      <button class="panel-button sign-out-button">
+        <SignOutIcon class="panel-icon" />
+        <p class="panel-text sign-out-text">Sign out</p>
+      </button>
     </div>
   </div>
 </template>
@@ -360,13 +364,32 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
+/* Группы хедера */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header-center {
+  display: flex;
+  align-items: center;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
 .header-brand-link {
   text-decoration: none;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   display: flex;
   align-items: center;
-  margin-left: 195px !important; /* Сдвинул левее для всех экранов */
+  margin: 0;
+  padding: 0;
   
   &:hover {
     opacity: 0.8;
@@ -387,17 +410,21 @@ onMounted(() => {
   margin: 0;
   margin-left: 10px;
   white-space: nowrap;
+  padding: 0;
 }
 
 .header-container {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between; /* Растягиваем элементы по всей ширине */
   width: 100%;
   height: 80px;
   background-color: var(--bg-primary);
   position: relative;
   margin-top: 20px;
+  box-sizing: border-box;
+  padding: 0 20px; /* Базовые отступы */
 }
 
 // Navigation button
@@ -405,14 +432,15 @@ onMounted(() => {
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: flex-start; /* Прижимаем содержимое к левому краю */
   background-color: rgba(67, 73, 86, 0);
   border-radius: 15px;
   width: 260px;
   height: 52px;
-  margin-left: 20px !important; /* Сдвинул левее для всех экранов */
   transition: background-color 0.3s ease-in-out;
   border: none;
   cursor: pointer;
+  padding: 0; /* Убираем внутренние отступы */
 
   &:hover {
     background-color: rgba(67, 73, 86, 1);
@@ -428,8 +456,6 @@ onMounted(() => {
   border-radius: 20px;
   width: 180px;
   height: 52px;
-  margin-left: 150px !important; /* Сдвинул левее для всех экранов */
-  margin-right: 20px;
   transition: background-color 0.3s ease-in-out;
   border: none;
   cursor: pointer;
@@ -444,13 +470,11 @@ onMounted(() => {
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: center; /* Центрируем содержимое */
   background-color: rgba(67, 73, 86, 0);
   border-radius: 20px;
   width: 105px;
-  margin-right: 20px;
   height: 52px;
-  margin-left: auto;
-  padding-right: 20px;
   transition: background-color 0.3s ease-in-out;
   border: none;
   cursor: pointer;
@@ -469,7 +493,6 @@ onMounted(() => {
   border-radius: 15px;
   width: 100px;
   height: 56px;
-  margin-right: 235px !important; /* Сдвинул левее для всех экранов */
   transition: background-color 0.3s ease-in-out;
   border: none;
   cursor: pointer;
@@ -536,7 +559,7 @@ onMounted(() => {
 
 // Icon positioning
 .nav-icon {
-  margin-left: 17px;
+  margin-left: 0; /* Убираем отступ для прижимания к краю */
 }
 
 .faq-icon {
@@ -544,7 +567,7 @@ onMounted(() => {
 }
 
 .add-icon {
-  margin-left: 12px;
+  margin-left: 0; /* Убираем отступ для прижимания к краю */
 }
 
 
@@ -747,55 +770,66 @@ a:hover {
 
 /* ============ RESPONSIVE DESIGN ============ */
 
-/* Для экранов Full HD (1920x1080) */
-@media (min-width: 1919px) {
+/* Базовое разрешение 1920x1080 и ниже */
+@media (max-width: 1920px) {
+  .header-container {
+    height: 80px !important;
+    padding: 0 20px !important;
+    margin-top: 20px !important;
+  }
   
-  .header-brand-link,
-  .router-link-active.header-brand-link,
-  .router-link-exact-active.header-brand-link {
-    margin-left: 100px !important;
+  .logo {
+    width: 100px !important;
+    height: 100px !important;
   }
   
   .header-title {
     font-size: 35px !important;
+    margin-left: 10px !important;
   }
   
   .nav-button {
-    width: 240px !important;
+    width: 260px !important;
     height: 52px !important;
-    margin-left: 20px !important;
+    border-radius: 15px !important;
   }
   
   .faq-button {
-    width: 170px !important;
+    width: 180px !important;
     height: 52px !important;
-    margin-left: 150px !important;
+    border-radius: 20px !important;
   }
   
   .additional-button {
     width: 105px !important;
     height: 52px !important;
+    border-radius: 20px !important;
   }
   
   .profile-button {
     width: 100px !important;
     height: 56px !important;
-    margin-right: 260px !important;
+    border-radius: 15px !important;
   }
   
+  .button-text {
+    font-size: 23px !important;
+    margin-left: 14px !important;
+  }
 }
 
-/* Для экранов 1440p (2560x1440) */
-@media (min-width: 2560px) and (max-width: 3839px) {
+/* Для экранов 1440p (2560x1440) - 2K */
+@media (min-width: 2561px) and (max-width: 3839px) {
   .header-container {
-    height: 100px !important;
-    margin-top: 24px !important;
+    height: 104px !important; /* 80px * 1.3 */
+    padding: 0 26px !important; /* 20px * 1.3 */
+    margin-top: 26px !important; /* 20px * 1.3 */
   }
   
   .header-brand-link,
   .router-link-active.header-brand-link,
   .router-link-exact-active.header-brand-link {
-    margin-left: 200px !important;
+    margin-left: 0 !important;
   }
   
   .header-title {
@@ -804,35 +838,42 @@ a:hover {
   }
   
   .logo {
-    width: 140px !important;
-    height: 140px !important;
+    width: 130px !important; /* 100px * 1.3 */
+    height: 130px !important; /* 100px * 1.3 */
+  }
+  
+  .header-title {
+    font-size: 46px !important; /* 35px * 1.3 */
+    margin-left: 13px !important; /* 10px * 1.3 */
   }
   
   .nav-button {
-    width: 325px !important;
-    height: 85px !important;
-    margin-left: 55px !important;
-    border-radius: 25px !important;
+    width: 338px !important; /* 260px * 1.3 */
+    height: 68px !important; /* 52px * 1.3 */
+    border-radius: 20px !important; /* 15px * 1.3 */
   }
   
   .faq-button {
-    width: 240px !important;
-    height: 85px !important;
-    margin-left: 180px !important;
-    border-radius: 25px !important;
+    width: 234px !important; /* 180px * 1.3 */
+    height: 68px !important; /* 52px * 1.3 */
+    border-radius: 26px !important; /* 20px * 1.3 */
   }
   
   .additional-button {
-    width: 140px !important;
-    height: 85px !important;
-    border-radius: 25px !important;
+    width: 137px !important; /* 105px * 1.3 */
+    height: 68px !important; /* 52px * 1.3 */
+    border-radius: 26px !important; /* 20px * 1.3 */
   }
   
   .profile-button {
-    width: 130px !important;
-    height: 90px !important;
-    margin-right: 270px !important;
-    border-radius: 25px !important;
+    width: 130px !important; /* 100px * 1.3 */
+    height: 73px !important; /* 56px * 1.3 */
+    border-radius: 20px !important; /* 15px * 1.3 */
+  }
+  
+  .button-text {
+    font-size: 30px !important; /* 23px * 1.3 */
+    margin-left: 18px !important; /* 14px * 1.3 */
   }
   
   .profile-avatar {
@@ -864,7 +905,7 @@ a:hover {
   
   .nav-icon {
     transform: scale(1.6) !important;
-    margin-left: 28px !important;
+    margin-left: 0 !important;
     margin-right: 15px !important;
   }
   
@@ -876,7 +917,7 @@ a:hover {
   
   .add-icon {
     transform: scale(1.6) !important;
-    margin-left: 22px !important;
+    margin-left: 0 !important;
     margin-right: 15px !important;
   }
   
@@ -985,54 +1026,58 @@ a:hover {
 /* Для экранов 4K (3840x2160) */
 @media (min-width: 3840px) {
   .header-container {
-    height: 100px !important;
-    margin-top: 30px !important;
+    height: 128px !important; /* 80px * 1.6 */
+    padding: 0 32px !important; /* 20px * 1.6 */
+    margin-top: 32px !important; /* 20px * 1.6 */
   }
-  
   
   .header-brand-link,
   .router-link-active.header-brand-link,
   .router-link-exact-active.header-brand-link {
-    margin-left: 350px !important;
+    margin-left: 0 !important;
+  }
+  
+  .logo {
+    width: 160px !important; /* 100px * 1.6 */
+    height: 160px !important; /* 100px * 1.6 */
   }
   
   .header-title {
-    font-size: 65px !important;
-    margin-left: 15px !important;
-  }
-  
-
-
-  .logo {
-    width: 180px !important;
-    height: 180px !important;
+    font-size: 56px !important; /* 35px * 1.6 */
+    margin-left: 16px !important; /* 10px * 1.6 */
   }
   
   .nav-button {
-    width: 380px !important;
-    height: 70px !important;
-    margin-left: 30px !important;
+    width: 416px !important; /* 260px * 1.6 */
+    height: 83px !important; /* 52px * 1.6 */
+    border-radius: 24px !important; /* 15px * 1.6 */
     transition: background-color 0.3s ease-in-out !important;
   }
   
   .faq-button {
-    width: 280px !important;
-    height: 70px !important;
-    margin-left: 150px !important;
+    width: 288px !important; /* 180px * 1.6 */
+    height: 83px !important; /* 52px * 1.6 */
+    border-radius: 32px !important; /* 20px * 1.6 */
     transition: background-color 0.3s ease-in-out !important;
   }
   
   .additional-button {
-    width: 155px !important;
-    height: 70px !important;
+    width: 168px !important; /* 105px * 1.6 */
+    height: 83px !important; /* 52px * 1.6 */
+    border-radius: 32px !important; /* 20px * 1.6 */
     transition: background-color 0.3s ease-in-out !important;
   }
   
   .profile-button {
-    width: 140px !important;
-    height: 80px !important;
-    margin-right: 670px !important;
+    width: 160px !important; /* 100px * 1.6 */
+    height: 90px !important; /* 56px * 1.6 */
+    border-radius: 24px !important; /* 15px * 1.6 */
     transition: background-color 0.3s ease-in-out !important;
+  }
+  
+  .button-text {
+    font-size: 37px !important; /* 23px * 1.6 */
+    margin-left: 22px !important; /* 14px * 1.6 */
   }
   
   .profile-avatar {
@@ -1064,7 +1109,7 @@ a:hover {
   
   .nav-icon {
     transform: scale(10) !important;
-    margin-left: 40px !important;
+    margin-left: 0 !important;
     margin-right: 20px !important;
   }
   
@@ -1076,7 +1121,7 @@ a:hover {
   
   .add-icon {
     transform: scale(2.5) !important;
-    margin-left: 30px !important;
+    margin-left: 0 !important;
     margin-right: 20px !important;
   }
   

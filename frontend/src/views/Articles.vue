@@ -1,7 +1,8 @@
 <template>
-  <div class="articles-container">
-    <!-- Articles Body -->
-    <div class="articles-body">
+  <div class="articles-page">
+    <div class="articles-container">
+      <!-- Articles Body -->
+      <div class="articles-body">
       <!-- First Left Block - Search -->
       <div class="search-section">
         <div class="search-container">
@@ -23,7 +24,7 @@
         </div>
 
         <!-- Articles Container -->
-        <div class="articles-container">
+        <div class="articles-list-container">
           <!-- Loading State -->
           <div v-if="loading" class="loading-container">
             <div class="loading-spinner"></div>
@@ -130,8 +131,8 @@
       </div>
     </div>
   </div>
+</div>
 </template>
-www
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch } from 'vue'
 import ArticleCard from '@/components/ArticleCard.vue'
@@ -323,66 +324,74 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.articles-container {
-  max-width: 1920px;
-  margin: 0 auto;
+@import '@/assets/main.scss';
+
+.articles-page {
   background-color: var(--bg-primary);
   min-height: 100vh;
+  width: 100%;
+}
+
+.articles-page .articles-container {
+  @include scale-property-new(max-width, 1920px);
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Articles Body */
 .articles-body {
   display: flex;
-  margin-top: 40px;
+  @include scale-property-new(margin-top, 40px);
   justify-content: center;
   align-items: flex-start;
-  gap: 16px;
+  @include scale-property-new(gap, 16px);
 }
 
 /* First Left Block - Search Section */
 .search-section {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  @include scale-property-new(gap, 20px);
 }
 
 .search-container {
-  width: 1060px;
-  height: 70px;
+  @include scale-property-new(width, 1060px);
+  @include scale-property-new(height, 70px);
   background-color: var(--bg-secondary);
-  border-radius: 32px;
+  @include scale-property-new(border-radius, 32px);
   display: flex;
   align-items: center;
 }
 
 .search-icon {
-  margin-left: 20px;
+  @include scale-property-new(margin-left, 20px);
 }
 
 .search-divider {
-  width: 2px;
-  height: 38px;
-  margin-left: 20px;
+  @include scale-property-new(width, 2px);
+  @include scale-property-new(height, 38px);
+  @include scale-property-new(margin-left, 20px);
   background-color: white;
-  border-radius: 30px;
+  @include scale-property-new(border-radius, 30px);
   opacity: 0.3;
 }
 
 .search-icon-2 {
-  margin-left: 20px;
+  @include scale-property-new(margin-left, 20px);
 }
 
 .search-input {
-  margin-left: 16px;
-  width: 912px;
-  height: 50px;
+  @include scale-property-new(margin-left, 16px);
+  @include scale-property-new(width, 912px);
+  @include scale-property-new(height, 50px);
   background-color: var(--bg-primary);
-  border-radius: 25px 25px 30px 30px;
+  @include scale-property-new(border-radius, 25px);
   color: var(--text-primary);
-  font-size: 20px;
+  @include scale-property-new(font-size, 20px);
   font-family: var(--font-sans);
   font-weight: 500;
-  padding-left: 16px;
+  @include scale-property-new(padding-left, 16px);
   border: none;
   outline: none;
 }
@@ -394,26 +403,26 @@ onUnmounted(() => {
 
 .loading-text {
   color: var(--text-secondary);
-  font-size: 20px;
+  @include scale-property-new(font-size, 20px);
   font-family: var(--font-sans);
   font-weight: 700;
 }
 
-/* Articles Container */
-.articles-container {
-  width: 1060px;
+/* Articles List Container */
+.articles-list-container {
+  @include scale-property-new(width, 1060px);
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 5px 0;
+  @include scale-property-new(gap, 20px);
+
 }
 
 /* Pagination Container */
 .pagination-container {
   display: flex;
   justify-content: center;
-  margin-top: 30px;
-  padding: 20px 0;
+  @include scale-property-new(margin-top, 30px);
+  @include scale-property-new(padding, 20px) 0;
 }
 
 /* PrimeVue Paginator - Community Colors */
@@ -466,10 +475,10 @@ onUnmounted(() => {
 /* Back to Top Button */
 .back-to-top-btn {
   position: fixed;
-  bottom: 30px;
-  left: 30px;
-  width: 50px;
-  height: 50px;
+  @include scale-property-new(bottom, 30px);
+  @include scale-property-new(left, 30px);
+  @include scale-property-new(width, 50px);
+  @include scale-property-new(height, 50px);
   background-color: var(--primary-violet);
   border: none;
   border-radius: 50%;
@@ -481,9 +490,9 @@ onUnmounted(() => {
   transition: opacity 0.5s ease, visibility 0.3s ease, transform 0.3s ease;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(20px);
+  @include scale-property-new(transform, translateY(20px));
   z-index: 1000;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  @include scale-property-new(box-shadow, 0 4px 12px rgba(0, 0, 0, 0.3));
 }
 
 .back-to-top-btn.visible {
@@ -513,18 +522,21 @@ onUnmounted(() => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 60px 20px;
+  @include scale-property-new(padding-top, 60px);
+  @include scale-property-new(padding-bottom, 60px);
+  @include scale-property-new(padding-left, 20px);
+  @include scale-property-new(padding-right, 20px);
   color: var(--text-secondary);
 }
 
 .loading-spinner {
-  width: 40px;
-  height: 40px;
+  @include scale-property-new(width, 40px);
+  @include scale-property-new(height, 40px);
   border: 4px solid var(--bg-secondary);
   border-top: 4px solid var(--btn-primary);
   border-radius: 50%;
   animation: spin 1s linear infinite;
-  margin-bottom: 20px;
+  @include scale-property-new(margin-bottom, 20px);
 }
 
 @keyframes spin {
@@ -537,29 +549,35 @@ onUnmounted(() => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 60px 20px;
+  @include scale-property-new(padding-top, 60px);
+  @include scale-property-new(padding-bottom, 60px);
+  @include scale-property-new(padding-left, 20px);
+  @include scale-property-new(padding-right, 20px);
   text-align: center;
   color: var(--text-secondary);
 }
 
 .empty-state h3 {
   color: var(--text-primary);
-  font-size: 24px;
-  margin-bottom: 10px;
+  @include scale-property-new(font-size, 24px);
+  @include scale-property-new(margin-bottom, 10px);
 }
 
 .empty-state p {
-  font-size: 18px;
-  margin-bottom: 20px;
+  @include scale-property-new(font-size, 18px);
+  @include scale-property-new(margin-bottom, 20px);
 }
 
 .reset-filters-btn {
   background-color: var(--btn-primary);
   color: var(--text-primary);
   border: none;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-size: 16px;
+  @include scale-property-new(padding-top, 12px);
+  @include scale-property-new(padding-bottom, 12px);
+  @include scale-property-new(padding-left, 24px);
+  @include scale-property-new(padding-right, 24px);
+  @include scale-property-new(border-radius, 8px);
+  @include scale-property-new(font-size, 16px);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
@@ -578,30 +596,30 @@ onUnmounted(() => {
 
 /* Article Info Card */
 .article-info-card {
-  width: 300px;
-  height: 400px;
+  @include scale-property-new(width, 300px);
+  @include scale-property-new(height, 400px);
   background-color: var(--bg-secondary);
-  border-radius: 30px;
+  @include scale-property-new(border-radius, 30px);
   display: flex;
   flex-direction: column;
 }
 
 .card-header {
   display: flex;
-  margin-top: 24px;
+  @include scale-property-new(margin-top, 24px);
 }
 
 .card-icon {
-  margin-left: 24px;
-  margin-top: 4px;
+  @include scale-property-new(margin-left, 24px);
+  @include scale-property-new(margin-top, 4px);
 }
 
 .card-title {
   color: var(--text-primary);
-  font-size: 25px;
+  @include scale-property-new(font-size, 25px);
   font-family: var(--font-sans);
   font-weight: 500;
-  margin-left: 10px;
+  @include scale-property-new(margin-left, 10px);
   margin-top: 0;
   margin-bottom: 0;
   margin-right: 0;
@@ -609,13 +627,13 @@ onUnmounted(() => {
 
 .info-item {
   display: flex;
-  margin-top: 24px;
-  margin-left: 24px;
+  @include scale-property-new(margin-top, 24px);
+  @include scale-property-new(margin-left, 24px);
 }
 
 .info-label {
   color: var(--text-secondary);
-  font-size: 20px;
+  @include scale-property-new(font-size, 20px);
   font-family: var(--font-sans);
   font-weight: 500;
   margin: 0;
@@ -623,31 +641,31 @@ onUnmounted(() => {
 
 .info-value {
   color: var(--text-secondary);
-  font-size: 20px;
+  @include scale-property-new(font-size, 20px);
   font-family: var(--font-sans);
   font-weight: 500;
-  margin-left: 8px;
+  @include scale-property-new(margin-left, 8px);
   margin: 0;
 }
 
 /* Similar Articles Card */
 .similar-articles-card {
-  width: 300px;
-  height: 400px;
+  @include scale-property-new(width, 300px);
+  @include scale-property-new(height, 400px);
   background-color: var(--bg-secondary);
-  margin-top: 16px;
-  border-radius: 30px;
+  @include scale-property-new(margin-top, 16px);
+  @include scale-property-new(border-radius, 30px);
   display: flex;
   flex-direction: column;
 }
 
 .similar-item {
   color: var(--text-secondary);
-  font-size: 20px;
+  @include scale-property-new(font-size, 20px);
   font-family: var(--font-sans);
   font-weight: 500;
-  margin-top: 24px;
-  margin-left: 24px;
+  @include scale-property-new(margin-top, 24px);
+  @include scale-property-new(margin-left, 24px);
   margin-bottom: 0;
   margin-right: 0;
 }

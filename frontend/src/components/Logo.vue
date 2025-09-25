@@ -14,14 +14,14 @@
 .logo-container {
   display: flex;
   align-items: center;
-  margin-left: 150px;
+  margin-left: 0; /* Убираем отступ для прижимания к краю */
   
   @include responsive-2k {
-    margin-left: 120px;
+    margin-left: 0;
   }
   
   @include responsive-4k {
-    margin-left: 300px;
+    margin-left: 0;
   }
 }
 
