@@ -98,7 +98,6 @@
   border-radius: 20px;
   width: 414px;
   height: 429px;
-  margin-left: 251px; // ml-44 + 75px
   margin-top: 56px; // mt-14
   gap: 8px; // gap-2
 

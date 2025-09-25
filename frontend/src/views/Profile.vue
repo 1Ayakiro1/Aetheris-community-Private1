@@ -65,7 +65,6 @@
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  margin-left: 270px;
   margin-top: 40px;
   width: 1365px;
 }
@@ -192,7 +191,6 @@
   height: 2px;
   width: 1360px;
   background-color: var(--btn-primary);
-  margin-left: 270px;
   margin-top: 20px;
 }
 
