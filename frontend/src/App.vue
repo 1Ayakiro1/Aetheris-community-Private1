@@ -38,26 +38,41 @@ onMounted(() => {
   background-color: var(--bg-primary);
   min-height: 100vh;
   position: relative;
-  width: 72%; /* Базовая ширина */
-  margin: 0 auto; /* Центрируем блок */
+  margin: 0 auto;
   box-sizing: border-box;
+  padding: 0 20px;
   
-  /* Базовое разрешение ≤1920px */
-  @media (max-width: 1920px) {
-    width: 72%;
+  /* Мобильные устройства */
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 0 16px;
+  }
+  
+  /* Планшеты */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    width: 90%;
     padding: 0 20px;
   }
   
-  /* 2K разрешение (2561-3839px) */
-  @media (min-width: 2561px) and (max-width: 3839px) {
-    width: 72%;
-    padding: 0 26px; /* 20px * 1.3 */
+  /* Десктоп небольшой */
+  @media (min-width: 1025px) and (max-width: 1440px) {
+    width: 85%;
+    max-width: 1200px;
+    padding: 0 24px;
   }
   
-  /* 4K разрешение (≥3840px) */
-  @media (min-width: 3840px) {
-    width: 72%;
-    padding: 0 32px; /* 20px * 1.6 */
+  /* Десктоп средний */
+  @media (min-width: 1441px) and (max-width: 1920px) {
+    width: 80%;
+    max-width: 1400px;
+    padding: 0 28px;
+  }
+  
+  /* Большие экраны */
+  @media (min-width: 1921px) {
+    width: 75%;
+    max-width: 1600px;
+    padding: 0 32px;
   }
 }
 
@@ -66,22 +81,10 @@ onMounted(() => {
   background-color: var(--bg-primary);
   display: flex;
   flex-direction: column;
-  align-items: center; /* Центрируем контент по горизонтали */
+  align-items: center;
   width: 100%;
-  
-  /* Базовое разрешение ≤1920px */
-  @media (max-width: 1920px) {
-    max-width: 1920px;
-  }
-  
-  /* 2K разрешение (2561-3839px) */
-  @media (min-width: 2561px) and (max-width: 3839px) {
-    max-width: 2496px; /* 1920px * 1.3 */
-  }
-  
-  /* 4K разрешение (≥3840px) */
-  @media (min-width: 3840px) {
-    max-width: 3072px; /* 1920px * 1.6 */
-  }
 }
+
+/* ============ ADAPTIVE DESIGN LIKE HABR ============ */
+/* Нормальная адаптивная верстка без transform scale */
 </style>

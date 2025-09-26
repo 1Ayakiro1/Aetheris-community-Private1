@@ -143,10 +143,28 @@ const handleSignIn = async () => {
 
 <style scoped lang="scss">
 .signin-container {
-  max-width: 1920px;
   margin: 0 auto;
   background-color: var(--bg-primary);
   min-height: 100vh;
+  padding: 0 16px;
+  box-sizing: border-box;
+  
+  /* Мобильные устройства */
+  @media (max-width: 768px) {
+    padding: 0 12px;
+  }
+  
+  /* Планшеты */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    padding: 0 20px;
+    max-width: 800px;
+  }
+  
+  /* Десктоп */
+  @media (min-width: 1025px) {
+    padding: 0 24px;
+    max-width: 1200px;
+  }
 }
 
 .main-body {

@@ -103,7 +103,7 @@ import SettingsSidebar from '@/components/SettingsSidebar.vue'
 @import '@/assets/main.scss';
 
 .settings-support-container {
-  @include scale-property(max-width, 1920px);
+  margin: 0 auto; padding: 0 16px; box-sizing: border-box;
   margin: 0 auto;
   background-color: var(--bg-primary);
   min-height: 100vh;
@@ -111,7 +111,7 @@ import SettingsSidebar from '@/components/SettingsSidebar.vue'
 
 .main-body {
   display: flex;
-  @include scale-property(margin-top, 48px); // mt-12
+  margin-top: 48px; // mt-12
 }
 
 
@@ -120,46 +120,46 @@ import SettingsSidebar from '@/components/SettingsSidebar.vue'
   display: flex;
   flex-direction: column;
   align-items: center;
-  @include scale-property(margin-left, 12px);
+  margin-left: 12px;
 }
 
 .support-section {
   background-color: var(--bg-secondary);
-  @include scale-property(width, 980px);
-  @include scale-property(height, 400px);
-  @include scale-property(border-radius, 25px);
+  width: 980px;
+  height: 400px;
+  border-radius: 25px;
   display: flex;
   flex-direction: column;
 }
 
 .github-section {
   background-color: var(--bg-secondary);
-  @include scale-property(width, 980px);
-  @include scale-property(height, 350px);
-  @include scale-property(border-radius, 25px);
-  @include scale-property(margin-bottom, 200px);
-  @include scale-property(margin-top, 12px);
+  width: 980px;
+  height: 350px;
+  border-radius: 25px;
+  margin-bottom: 200px;
+  margin-top: 12px;
   display: flex;
   flex-direction: column;
 }
 
 .section-title {
-  @include scale-property(margin-top, 40px); // mt-10
-  @include scale-property(margin-left, 48px); // ml-12
+  margin-top: 40px; // mt-10
+  margin-left: 48px; // ml-12
   color: var(--text-primary);
-  @include scale-property(font-size, 30px);
+  font-size: 30px;
   font-family: var(--font-sans);
   font-weight: bold;
 }
 
 .section-subtitle {
   color: var(--text-secondary);
-  @include scale-property(font-size, 18px);
+  font-size: 18px;
   font-family: var(--font-sans);
   font-weight: bold;
-  @include scale-property(margin-top, 16px);
-  @include scale-property(margin-left, 48px);
-  @include scale-property(width, 850px);
+  margin-top: 16px;
+  margin-left: 48px;
+  width: 850px;
 }
 
 // Support Icons

@@ -333,19 +333,54 @@ onUnmounted(() => {
 }
 
 .articles-page .articles-container {
-  max-width: 1920px;
   margin: 0 auto;
   width: 100%;
   box-sizing: border-box;
+  padding: 0 16px;
+  
+  /* Мобильные устройства */
+  @media (max-width: 768px) {
+    padding: 0 12px;
+  }
+  
+  /* Планшеты */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    padding: 0 20px;
+    max-width: 1000px;
+  }
+  
+  /* Десктоп */
+  @media (min-width: 1025px) {
+    padding: 0 24px;
+    max-width: 1400px;
+  }
 }
 
 /* Articles Body */
 .articles-body {
   display: flex;
-  margin-top: 40px;
   justify-content: center;
   align-items: flex-start;
   gap: 16px;
+  
+  /* Мобильные устройства */
+  @media (max-width: 768px) {
+    flex-direction: column;
+    margin-top: 20px;
+    gap: 12px;
+  }
+  
+  /* Планшеты */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    margin-top: 30px;
+    gap: 14px;
+  }
+  
+  /* Десктоп */
+  @media (min-width: 1025px) {
+    margin-top: 40px;
+    gap: 16px;
+  }
 }
 
 /* First Left Block - Search Section */
@@ -356,12 +391,32 @@ onUnmounted(() => {
 }
 
 .search-container {
-  width: 1060px;
-  height: 70px;
   background-color: var(--bg-secondary);
   border-radius: 32px;
   display: flex;
   align-items: center;
+  
+  /* Мобильные устройства */
+  @media (max-width: 768px) {
+    width: 100%;
+    height: 50px;
+    border-radius: 25px;
+  }
+  
+  /* Планшеты */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    width: 100%;
+    max-width: 700px;
+    height: 60px;
+    border-radius: 30px;
+  }
+  
+  /* Десктоп */
+  @media (min-width: 1025px) {
+    width: 1060px;
+    height: 70px;
+    border-radius: 32px;
+  }
 }
 
 .search-icon {
@@ -410,11 +465,28 @@ onUnmounted(() => {
 
 /* Articles List Container */
 .articles-list-container {
-  width: 1060px;
   display: flex;
   flex-direction: column;
   gap: 20px;
-
+  
+  /* Мобильные устройства */
+  @media (max-width: 768px) {
+    width: 100%;
+    gap: 16px;
+  }
+  
+  /* Планшеты */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    width: 100%;
+    max-width: 700px;
+    gap: 18px;
+  }
+  
+  /* Десктоп */
+  @media (min-width: 1025px) {
+    width: 1060px;
+    gap: 20px;
+  }
 }
 
 /* Pagination Container */
@@ -592,16 +664,51 @@ onUnmounted(() => {
 .sidebar-section {
   display: flex;
   flex-direction: column;
+  
+  /* Мобильные устройства */
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  /* Планшеты */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    width: 280px;
+    flex-shrink: 0;
+  }
+  
+  /* Десктоп */
+  @media (min-width: 1025px) {
+    width: 300px;
+    flex-shrink: 0;
+  }
 }
 
 /* Article Info Card */
 .article-info-card {
-  width: 300px;
-  height: 400px;
   background-color: var(--bg-secondary);
   border-radius: 30px;
   display: flex;
   flex-direction: column;
+  
+  /* Мобильные устройства */
+  @media (max-width: 768px) {
+    width: 100%;
+    height: 350px;
+    border-radius: 25px;
+  }
+  
+  /* Планшеты */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    width: 280px;
+    height: 380px;
+  }
+  
+  /* Десктоп */
+  @media (min-width: 1025px) {
+    width: 300px;
+    height: 400px;
+  }
 }
 
 .card-header {
@@ -650,13 +757,33 @@ onUnmounted(() => {
 
 /* Similar Articles Card */
 .similar-articles-card {
-  width: 300px;
-  height: 400px;
   background-color: var(--bg-secondary);
-  margin-top: 16px;
   border-radius: 30px;
   display: flex;
   flex-direction: column;
+  margin-top: 16px;
+  
+  /* Мобильные устройства */
+  @media (max-width: 768px) {
+    width: 100%;
+    height: 350px;
+    border-radius: 25px;
+    margin-top: 12px;
+  }
+  
+  /* Планшеты */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    width: 280px;
+    height: 380px;
+    margin-top: 14px;
+  }
+  
+  /* Десктоп */
+  @media (min-width: 1025px) {
+    width: 300px;
+    height: 400px;
+    margin-top: 16px;
+  }
 }
 
 .similar-item {
@@ -669,4 +796,6 @@ onUnmounted(() => {
   margin-bottom: 0;
   margin-right: 0;
 }
+
+/* Адаптивность реализована через медиазапросы для мобильных, планшетов и десктопа */
 </style>

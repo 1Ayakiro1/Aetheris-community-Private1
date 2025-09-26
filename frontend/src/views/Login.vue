@@ -98,10 +98,28 @@ const handleLogin = async () => {
 
 <style scoped lang="scss">
 .login-container {
-  max-width: 1920px;
   margin: 0 auto;
   background-color: var(--bg-primary);
   min-height: 100vh;
+  padding: 0 16px;
+  box-sizing: border-box;
+  
+  /* Мобильные устройства */
+  @media (max-width: 768px) {
+    padding: 0 12px;
+  }
+  
+  /* Планшеты */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    padding: 0 20px;
+    max-width: 800px;
+  }
+  
+  /* Десктоп */
+  @media (min-width: 1025px) {
+    padding: 0 24px;
+    max-width: 1200px;
+  }
 }
 
 .main-body {
@@ -120,10 +138,27 @@ const handleLogin = async () => {
 
 .login-title {
   color: var(--text-primary);
-  font-size: 50px;
   font-family: var(--font-sans);
   font-weight: bold;
-  margin-bottom: 10px;
+  text-align: center;
+  
+  /* Мобильные устройства */
+  @media (max-width: 768px) {
+    font-size: 36px;
+    margin-bottom: 8px;
+  }
+  
+  /* Планшеты */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    font-size: 44px;
+    margin-bottom: 9px;
+  }
+  
+  /* Десктоп */
+  @media (min-width: 1025px) {
+    font-size: 50px;
+    margin-bottom: 10px;
+  }
 }
 
 .login-form {

@@ -369,15 +369,33 @@ const confirmReset = () => {
 @import '@/assets/main.scss';
 
 .settings-profile-container {
-  @include scale-property(max-width, 1920px);
   margin: 0 auto;
   background-color: var(--bg-primary);
   min-height: 100vh;
+  padding: 0 16px;
+  box-sizing: border-box;
+  
+  /* Мобильные устройства */
+  @media (max-width: 768px) {
+    padding: 0 12px;
+  }
+  
+  /* Планшеты */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    padding: 0 20px;
+    max-width: 1000px;
+  }
+  
+  /* Десктоп */
+  @media (min-width: 1025px) {
+    padding: 0 24px;
+    max-width: 1400px;
+  }
 }
 
 .main-body {
   display: flex;
-  @include scale-property(margin-top, 48px); // mt-12
+margin-top: 48px; // mt-12
 }
 
 
@@ -386,67 +404,67 @@ const confirmReset = () => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  @include scale-property(margin-left, 12px);
+margin-left: 12px;
 }
 
 .profile-section {
   background-color: var(--bg-secondary);
-  @include scale-property(width, 980px);
-  @include scale-property(height, 949px);
-  @include scale-property(border-radius, 25px);
-  @include scale-property(margin-bottom, 200px);
+width: 980px;
+height: 949px;
+border-radius: 25px;
+margin-bottom: 200px;
   display: flex;
   flex-direction: column;
 }
 
 .section-title {
-  @include scale-property(margin-top, 40px);
-  @include scale-property(margin-left, 48px); 
+margin-top: 40px;
+margin-left: 48px; 
   color: var(--text-primary);
-  @include scale-property(font-size, 25px);
+font-size: 25px;
   font-family: var(--font-sans);
   font-weight: bold;
 }
 
 .section-subtitle {
   color: var(--text-secondary);
-  @include scale-property(font-size, 20px);
+font-size: 20px;
   font-family: var(--font-sans);
   font-weight: bold;
-  @include scale-property(margin-top, 4px);
-  @include scale-property(margin-left, 48px);
-  @include scale-property(width, 700px);
+margin-top: 4px;
+margin-left: 48px;
+width: 700px;
 }
 
 // Avatar Section
 .avatar-section {
   display: flex;
   flex-direction: row;
-  @include scale-property(gap, 16px);
-  @include scale-property(margin-left, 48px);
-  @include scale-property(margin-top, 16px);
+gap: 16px;
+margin-left: 48px;
+margin-top: 16px;
 }
 
 .avatar-placeholder {
   background-color: var(--btn-primary);
   border-radius: 50%;
-  @include scale-property(width, 150px);
-  @include scale-property(height, 150px);
+width: 150px;
+height: 150px;
 }
 
 .avatar-buttons {
   display: flex;
   flex-direction: column;
-  @include scale-property(gap, 8px);
+gap: 8px;
 }
 
 .avatar-button {
-  @include scale-property(width, 230px);
-  @include scale-property(height, 56px);
+width: 230px;
+height: 56px;
   background-color: rgba(67, 73, 86, 0);
-  @include scale-property(border-radius, 15px);
+border-radius: 15px;
   color: var(--text-primary);
-  @include scale-property(font-size, 23px);
+font-size: 23px;
   font-family: var(--font-sans);
   font-weight: bold;
   transition: all 0.3s ease-in-out;
@@ -461,17 +479,17 @@ const confirmReset = () => {
   }
 
   &:first-child {
-    @include scale-property(margin-top, 16px); // mt-4
+margin-top: 16px; // mt-4
   }
 }
 
 .reset-button {
-  @include scale-property(width, 200px);
-  @include scale-property(height, 56px);
+width: 200px;
+height: 56px;
   background-color: rgba(67, 73, 86, 0);
-  @include scale-property(border-radius, 15px);
+border-radius: 15px;
   color: var(--text-primary);
-  @include scale-property(font-size, 23px);
+font-size: 23px;
   font-family: var(--font-sans);
   font-weight: bold;
   transition: all 0.3s ease-in-out;
@@ -480,7 +498,7 @@ const confirmReset = () => {
   justify-content: center;
   border: none;
   cursor: pointer;
-  @include scale-property(margin-top, 48px); // mt-12
+margin-top: 48px; // mt-12
 
   &:hover {
     background-color: rgba(67, 73, 86, 1);
@@ -488,26 +506,26 @@ const confirmReset = () => {
 }
 
 .reset-icon {
-  @include scale-property(width, 27px);
-  @include scale-property(height, 26px);
+width: 27px;
+height: 26px;
 }
 
 .reset-text {
   color: var(--text-primary);
-  @include scale-property(font-size, 25px);
+font-size: 25px;
   font-family: var(--font-sans);
   font-weight: bold;
-  @include scale-property(margin-left, 8px);
+margin-left: 8px;
 }
 
 // Input Fields
 .nickname-input {
-  @include scale-property(width, 360px);
-  @include scale-property(height, 65px);
+width: 360px;
+height: 65px;
   background-color: var(--btn-primary);
-  @include scale-property(border-radius, 15px);
-  @include scale-property(margin-left, 48px);
-  @include scale-property(margin-top, 16px);
+border-radius: 15px;
+margin-left: 48px;
+margin-top: 16px;
   font-weight: bold;
   padding: 0 16px;
   
@@ -518,7 +536,7 @@ const confirmReset = () => {
   @include responsive-4k {
     padding: 0 28.8px;
   }
-  @include scale-property(font-size, 22px);
+font-size: 22px;
   color: var(--text-primary);
   border: none;
   font-family: var(--font-sans);
@@ -538,15 +556,15 @@ const confirmReset = () => {
 }
 
 .bio-input {
-  @include scale-property(width, 520px);
-  @include scale-property(height, 167px);
+width: 520px;
+height: 167px;
   background-color: var(--btn-primary);
-  @include scale-property(border-radius, 15px);
-  @include scale-property(margin-left, 48px);
-  @include scale-property(margin-top, 16px);
+border-radius: 15px;
+margin-left: 48px;
+margin-top: 16px;
   font-weight: bold;
-  @include scale-property(padding, 16px);
-  @include scale-property(font-size, 22px);
+padding: 16px;
+font-size: 22px;
   color: var(--text-primary);
   border: none;
   font-family: var(--font-sans);
@@ -568,19 +586,19 @@ const confirmReset = () => {
 
 .error-message {
   color: #FF3B3B;
-  @include scale-property(font-size, 14px);
+font-size: 14px;
   font-family: var(--font-sans);
-  @include scale-property(margin-top, 4px);
-  @include scale-property(margin-left, 48px);
+margin-top: 4px;
+margin-left: 48px;
   margin-bottom: 0;
 }
 
 .character-count {
   color: var(--text-secondary);
-  @include scale-property(font-size, 14px);
+font-size: 14px;
   font-family: var(--font-sans);
-  @include scale-property(margin-top, 4px);
-  @include scale-property(margin-left, 48px);
+margin-top: 4px;
+margin-left: 48px;
   margin-bottom: 0;
 }
 
@@ -624,11 +642,11 @@ const confirmReset = () => {
 
 .modal-content {
   background-color: var(--bg-secondary);
-  @include scale-property(border-radius, 30px);
-  @include scale-property(width, 600px);
+border-radius: 30px;
+width: 600px;
   max-height: 80vh;
   overflow: hidden;
-  @include scale-property(box-shadow, 0 25px 50px rgba(0, 0, 0, 0.3));
+box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
   animation: modalContentAppear 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) 0.1s both;
 }
 

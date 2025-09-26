@@ -88,9 +88,32 @@
     background-color: var(--bg-primary);
     display: flex;
     flex-direction: row;
-    width: 72%; /* Соответствует app-wrapper */
-    height: 344px; /* Уменьшено на 20% с 430px */
-    margin: 0 auto; /* Центрируем как app-wrapper */
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+    
+    /* Мобильные устройства */
+    @media (max-width: 768px) {
+        width: 100%;
+        height: 300px;
+        flex-direction: column;
+        padding: 16px;
+    }
+    
+    /* Планшеты */
+    @media (min-width: 769px) and (max-width: 1024px) {
+        width: 90%;
+        height: 350px;
+        padding: 18px;
+    }
+    
+    /* Десктоп */
+    @media (min-width: 1025px) {
+        width: 100%;
+        max-width: 1400px;
+        height: 430px;
+        padding: 20px;
+    }
 }
 
 .footer-content {
@@ -296,223 +319,6 @@ a:hover {
   /* Базовые стили остаются без изменений */
 }
 
-/* Для экранов 1440p (2560x1440) */
-@media (min-width: 2560px) and (max-width: 3839px) {
-  .footer-container {
-    height: 448px !important; /* Уменьшено на 20% с 560px */
-    width: 72% !important; /* Соответствует app-wrapper */
-    margin: 0 auto !important; /* Центрируем как app-wrapper */
-  }
-
-  .ae-logo-footer {
-    width: 218px !important;
-    height: 239px !important;
-    margin-left: 26px !important;
-  }
-
-  .site-title {
-    font-size: 49px !important;
-    margin-left: 39px !important;
-    margin-top: 182px !important;
-  }
-
-  .site-subtitle {
-    font-size: 39px !important;
-    margin-left: 39px !important;
-  }
-
-  .social-buttons {
-    gap: 26px !important;
-  }
-
-  .social-button {
-    width: 99px !important;
-    height: 99px !important;
-    margin-top: 26px !important;
-  }
-
-  .social-icon {
-    width: 78px !important;
-    height: 78px !important;
-  }
-
-  .telegram-icon {
-    height: 65px !important;
-    width: 65px !important;
-  }
-
-  .boosty-icon {
-    height: 65px !important;
-    width: 59px !important;
-  }
-
-  .opensource-text {
-    font-size: 33px !important;
-    margin-top: 39px !important;
-    margin-left: 39px !important;
-  }
-
-  .about-block,
-  .resources-block,
-  .footer-container .legal-block {
-    margin-top: 65px !important;
-    gap: 26px !important;
-    margin-right: 130px !important;
-  }
-
-  .block-title {
-    font-size: 43px !important;
-    margin-top: 65px !important;
-  }
-
-  .block-link {
-    font-size: 33px !important;
-  }
-
-  .skeleton-logo {
-    width: 218px !important;
-    height: 239px !important;
-  }
-
-  .skeleton-title {
-    width: 390px !important;
-    height: 52px !important;
-  }
-
-  .skeleton-subtitle {
-    width: 325px !important;
-    height: 39px !important;
-  }
-
-  .skeleton-social-button {
-    width: 99px !important;
-    height: 99px !important;
-  }
-
-  .skeleton-block-title {
-    width: 156px !important;
-    height: 46px !important;
-  }
-
-  .skeleton-block-link {
-    width: 195px !important;
-    height: 33px !important;
-  }
-}
-
-/* Для экранов 4K (3840x2160) */
-@media (min-width: 3840px) {
-  .footer-container {
-    height: 627px !important; /* Уменьшено на 20% с 784px */
-    width: 72% !important; /* Соответствует app-wrapper */
-    margin: 0 auto !important; /* Центрируем как app-wrapper */
-  }
-
-  .ae-logo-footer {
-    width: 305px !important;
-    height: 335px !important;
-    margin-left: 36px !important;
-  }
-
-  .site-title {
-    font-size: 69px !important;
-    margin-left: 55px !important;
-    margin-top: 255px !important;
-  }
-
-  .site-subtitle {
-    font-size: 55px !important;
-    margin-left: 55px !important;
-  }
-
-  .social-buttons {
-    gap: 36px !important;
-  }
-
-  .social-button {
-    width: 139px !important;
-    height: 139px !important;
-    margin-top: 36px !important;
-  }
-
-  .social-icon {
-    width: 109px !important;
-    height: 109px !important;
-  }
-
-  .telegram-icon {
-    height: 91px !important;
-    width: 91px !important;
-  }
-
-  .boosty-icon {
-    height: 91px !important;
-    width: 83px !important;
-  }
-
-  .opensource-text {
-    font-size: 46px !important;
-    margin-top: 55px !important;
-    margin-left: 55px !important;
-  }
-
-  .about-block,
-  .resources-block,
-  .footer-container .legal-block {
-    margin-top: 91px !important;
-    gap: 36px !important;
-    margin-right: 182px !important;
-  }
-
-  .block-title {
-    font-size: 60px !important;
-    margin-top: 91px !important;
-  }
-
-  .block-link {
-    font-size: 46px !important;
-  }
-
-  .social-button:hover {
-    filter: brightness(50%) !important;
-  }
-
-  .block-link:hover {
-    color: #8a9495 !important;
-  }
-
-  .github-link:hover {
-    text-decoration: underline !important;
-  }
-
-  .skeleton-logo {
-    width: 305px !important;
-    height: 335px !important;
-  }
-
-  .skeleton-title {
-    width: 546px !important;
-    height: 73px !important;
-  }
-
-  .skeleton-subtitle {
-    width: 455px !important;
-    height: 55px !important;
-  }
-
-  .skeleton-social-button {
-    width: 139px !important;
-    height: 139px !important;
-  }
-
-  .skeleton-block-title {
-    width: 218px !important;
-    height: 64px !important;
-  }
-
-  .skeleton-block-link {
-    width: 273px !important;
-    height: 46px !important;
-  }
-}
+/* Только монолитное масштабирование через transform scale в App.vue */
+/* Все размеры фиксированные - интерфейс выглядит абсолютно одинаково на всех разрешениях */
 </style>

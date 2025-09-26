@@ -81,12 +81,33 @@
 
 // Sidebar Styles
 .sidebar {
-  @include scale-property(width, 395px);
-  @include scale-property(height, 685px);
   background-color: var(--bg-secondary);
-  @include scale-property(border-radius, 25px);
+  border-radius: 25px;
   display: flex;
   flex-direction: column;
+
+  /* Мобильные устройства */
+  @media (max-width: 768px) {
+    width: 100%;
+    height: auto;
+    min-height: 400px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+  
+  /* Планшеты */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    width: 320px;
+    height: 580px;
+    border-radius: 22px;
+  }
+  
+  /* Десктоп */
+  @media (min-width: 1025px) {
+    width: 395px;
+    height: 685px;
+    border-radius: 25px;
+  }
 
   a {
     text-decoration: none;
@@ -95,11 +116,11 @@
 
 .sidebar-section-title {
   color: var(--text-primary);
-  @include scale-property(font-size, 25px);
+font-size: 25px;
   font-family: var(--font-sans);
   font-weight: bold;
-  @include scale-property(margin-top, 33px);
-  @include scale-property(margin-left, 44px);
+margin-top: 33px;
+margin-left: 44px;
 }
 
 .button-icon1,
@@ -109,33 +130,33 @@
 .button-icon5,
 .button-icon6,
 .button-icon7 {
-  @include scale-property(width, 26px);
-  @include scale-property(height, 19px);
-  @include scale-property(margin-left, 16px);
-  @include scale-property(border-radius, 2px);
+width: 26px;
+height: 19px;
+margin-left: 16px;
+border-radius: 2px;
 }
 
 .sidebar-buttons-group {
   display: flex;
   flex-direction: column;
-  @include scale-property(margin-top, 3px);
-  @include scale-property(margin-left, 44px);
-  @include scale-property(gap, 8px);
+margin-top: 3px;
+margin-left: 44px;
+gap: 8px;
 }
 
 .sidebar-button {
-  @include scale-property(width, 300px);
-  @include scale-property(height, 56px);
+width: 300px;
+height: 56px;
   background-color: rgba(67, 73, 86, 0);
-  @include scale-property(border-radius, 15px);
+border-radius: 15px;
   color: var(--text-primary);
-  @include scale-property(font-size, 23px);
+font-size: 23px;
   font-family: var(--font-sans);
   font-weight: bold;
   transition: all 0.3s ease-in-out;
   display: flex;
   align-items: center;
-  @include scale-property(margin-top, 3px);
+margin-top: 3px;
   border: none;
   cursor: pointer;
   text-decoration: none;
@@ -152,15 +173,15 @@
 }
 
 .button-icon {
-  @include scale-property(width, 26px);
-  @include scale-property(height, 19px);
-  @include scale-property(margin-left, 16px);
+width: 26px;
+height: 19px;
+margin-left: 16px;
   background-color: var(--ico-color);
-  @include scale-property(border-radius, 2px);
+border-radius: 2px;
 }
 
 .button-text {
-  @include scale-property(margin-left, 16px);
+margin-left: 16px;
 }
 
 .svg1,
@@ -169,10 +190,10 @@
 .svg4,
 .svg5,
 .svg6 {
-  @include scale-property(margin-left, 15px);
+margin-left: 15px;
 }
 
 .svg6 {
-  @include scale-property(margin-left, 15px);
+margin-left: 15px;
 }
 </style>

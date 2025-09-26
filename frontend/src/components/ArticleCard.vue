@@ -261,13 +261,32 @@ const onBookmark = () => {}
 
 <style scoped>
 .article-card {
-    width: 1055px;
-    height: 600px;
     background-color: var(--bg-secondary);
     border-radius: 40px 40px 15px 40px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
     position: relative;
+
+    /* Мобильные устройства */
+    @media (max-width: 768px) {
+        width: 100%;
+        height: 400px;
+        border-radius: 25px 25px 10px 25px;
+    }
+    
+    /* Планшеты */
+    @media (min-width: 769px) and (max-width: 1024px) {
+        width: 100%;
+        height: 500px;
+        border-radius: 35px 35px 12px 35px;
+    }
+    
+    /* Десктоп */
+    @media (min-width: 1025px) {
+        width: 1055px;
+        height: 600px;
+        border-radius: 40px 40px 15px 40px;
+    }
 
     &:hover {
         transform: translateY(-2px);

@@ -424,33 +424,11 @@ onMounted(() => {
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  height: 80px;
   background-color: var(--bg-primary);
   position: relative;
   margin-top: 20px;
   box-sizing: border-box;
-  padding: 0 16px;
-  
-  /* Мобильные устройства */
-  @media (max-width: 768px) {
-    height: 60px;
-    margin-top: 12px;
-    padding: 0 12px;
-    flex-wrap: wrap;
-  }
-  
-  /* Планшеты */
-  @media (min-width: 769px) and (max-width: 1024px) {
-    height: 70px;
-    margin-top: 16px;
-    padding: 0 16px;
-  }
-  
-  /* Десктоп */
-  @media (min-width: 1025px) {
-    height: 80px;
-    margin-top: 20px;
-    padding: 0 20px;
-  }
 }
 
 /* Стили для главной страницы */
@@ -467,32 +445,12 @@ onMounted(() => {
   justify-content: center;
   background-color: rgba(67, 73, 86, 0);
   border-radius: 15px;
+  width: 230px;
+  height: 52px;
   transition: background-color 0.3s ease-in-out;
   border: none;
   cursor: pointer;
-  padding: 8px 16px;
-
-  /* Мобильные устройства */
-  @media (max-width: 768px) {
-    width: 200px;
-    height: 40px;
-    border-radius: 12px;
-    padding: 6px 12px;
-  }
-  
-  /* Планшеты */
-  @media (min-width: 769px) and (max-width: 1024px) {
-    width: 220px;
-    height: 46px;
-    padding: 7px 14px;
-  }
-  
-  /* Десктоп */
-  @media (min-width: 1025px) {
-    width: 260px;
-    height: 52px;
-    padding: 8px 16px;
-  }
+  padding: 0px;
 
   &:hover {
     background-color: rgba(67, 73, 86, 1);
@@ -654,34 +612,32 @@ onMounted(() => {
   pointer-events: none;
 }
 
-/* Фиксированные позиции панелей - будут скейлиться через app-wrapper */
-
 .dropdown-panel.navigation-panel {
-  width: 260px;
-  height: 280px;
-  left: 260px;
-  top: 80px;
+  width: 260px !important;
+  height: 280px !important;
+  left: 34.8% !important;
+  top: 100px !important;
 }
 
 .dropdown-panel.faq-panel {
-  width: 260px;
-  height: 280px;
-  left: 520px;
-  top: 80px;
+  width: 260px !important;
+  height: 280px !important;
+  left: 56.2% !important;
+  top: 100px !important;
 }
 
 .dropdown-panel.additional-panel {
-  width: 260px;
-  height: 290px;
-  left: 720px;
-  top: 80px;
+  width: 260px !important;
+  height: 290px !important;
+  left: 74.5% !important;
+  top: 100px !important;
 }
 
 .dropdown-panel.profile-panel {
-  width: 290px;
-  height: 777px;
-  left: 830px;
-  top: 80px;
+  width: 290px !important;
+  height: 777px !important;
+  left: 80% !important;
+  top: 100px !important;
 }
 
 .panel-content {
@@ -758,7 +714,6 @@ a:hover {
   text-decoration: none;
 }
 
-/* Только монолитное масштабирование через transform scale в App.vue */
-/* Все размеры фиксированные - интерфейс выглядит абсолютно одинаково на всех разрешениях */
+/* Медиазапросы для 2K и 4K удалены - используется единый transform scale в App.vue */
 
 </style>
