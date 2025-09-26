@@ -1,29 +1,18 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from .. import crud, schemas, models
+from .. import crud, schemas
 from ..database import get_db
+from pydantic import BaseModel
 
 router = APIRouter()
 
-@router.post("/articles/{article_id}/like")
-def like_article(article_id: int, db: Session = Depends(get_db)):
-    article = crud.get_article(db, article_id)
+class ReactionPayload(BaseModel):
+    user_id: int
+    reaction: str
+
+@router.post("/articles/{article_id}/react", response_model=schemas.Article)
+def react_article_route(article_id: int, payload: ReactionPayload, db: Session = Depends(get_db)):
+    article = crud.react_article(db, article_id, payload.user_id, payload.reaction)
     if not article:
         raise HTTPException(status_code=404, detail="Article not found")
-
-    article.likes += 1
-    db.commit()
-    db.refresh(article)
-    return {"likes": article.likes}
-
-
-@router.post("/articles/{article_id}/dislike")
-def dislike_article(article_id: int, db: Session = Depends(get_db)):
-    article = crud.get_article(db, article_id)
-    if not article:
-        raise HTTPException(status_code=404, detail="Article not found")
-
-    article.dislikes += 1
-    db.commit()
-    db.refresh(article)
-    return {"dislikes": article.dislikes}
+    return article

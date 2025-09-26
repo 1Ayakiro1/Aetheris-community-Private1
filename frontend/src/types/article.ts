@@ -8,7 +8,6 @@ export interface Article {
     title: string
     content: string
     excerpt?: string
-    // author: Author
     author: {
         id: number
         username: string
@@ -19,6 +18,7 @@ export interface Article {
     likes?: number
     dislikes?: number
     commentsCount?: number
+    userReaction?: 'like' | 'dislike' | null
 }
 
 export interface ArticleCardProps {

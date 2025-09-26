@@ -1,63 +1,71 @@
 import { ref } from 'vue'
 import type { Article } from '@/types/article'
-import { getAllArticles, likeArticle, dislikeArticle } from '@/api/articles'
+import { getAllArticles, reactArticle as apiReact } from '@/api/articles'
+
+const articles = ref<Article[]>([])
+const loading = ref(false)
+const error = ref<string | null>(null)
+
+function getOrCreateUserId(): number {
+    const key = 'anon_user_id'
+    let id = localStorage.getItem(key)
+    if (!id) {
+        id = String(Date.now() + Math.floor(Math.random() * 10000))
+        localStorage.setItem(key, id)
+    }
+    return Number(id)
+}
+
+function mapServerArticle(a: any): Article {
+    return {
+        id: a.id,
+        title: a.title,
+        content: a.content,
+        excerpt: a.excerpt,
+        author: {
+            id: Number(a.author) || 0,
+            username: typeof a.author === 'string' ? a.author : `User ${a.author}`
+        },
+        tags: a.tags || (Array.isArray(a.tags) ? a.tags : []),
+        createdAt: a.created_at || a.createdAt,
+        status: a.status || 'published',
+        likes: a.likes,
+        dislikes: a.dislikes,
+        commentsCount: a.comments_count ?? a.commentsCount,
+        userReaction: a.user_reaction ?? null
+    } as unknown as Article
+}
 
 export function useArticles() {
-    const articles = ref<Article[]>([])
-    const loading = ref(false)
-
-    const fetchArticles = async () => {
+    async function fetchArticles() {
         loading.value = true
+        error.value = null
         try {
-            const rawArticles = await getAllArticles()
-            articles.value = rawArticles.map((a: any) => ({
-                id: a.id,
-                title: a.title,
-                content: a.content,
-                excerpt: a.excerpt,
-                author: {
-                    id: Number(a.author),
-                    username: `User ${a.author}`,
-                    avatar: null,
-                },
-                tags: a.tags,
-                createdAt: a.created_at,
-                status: a.status,
-                likes: a.likes,
-                dislikes: a.dislikes,
-                commentsCount: a.comments_count,
-            }))
-        } catch (err) {
-            console.error('Ошибка при загрузке статей', err)
+            const userId = getOrCreateUserId()
+            const raw = await getAllArticles(userId)
+            articles.value = raw.map(mapServerArticle)
+        } catch (e: any) {
+            error.value = e.message || 'Ошибка загрузки'
         } finally {
             loading.value = false
         }
     }
 
-    const like = async (id: number) => {
+    async function react(articleId: number, reaction: 'like' | 'dislike') {
         try {
-            const updated = await likeArticle(id)
-            //Пока обновление локально надо будет пинью подрубмить
-            const idx = articles.value.findIndex(a => a.id === id)
+            const userId = getOrCreateUserId()
+            const updated = await apiReact(articleId, userId, reaction)
+            const mapped = mapServerArticle(updated)
+            const idx = articles.value.findIndex(a => a.id === articleId)
             if (idx !== -1) {
-                articles.value[idx] = { ...articles.value[idx], ...updated }
+                articles.value[idx] = mapped
             }
-        } catch (err) {
-            console.error('Ошибка при лайке', err)
+            return mapped
+        } catch (e: any) {
+            console.error('Ошибка при реакции', e)
+            throw e
         }
     }
 
-    const dislike = async (id: number) => {
-        try {
-            const updated = await dislikeArticle(id)
-            const idx = articles.value.findIndex(a => a.id === id)
-            if (idx !== -1) {
-                articles.value[idx] = { ...articles.value[idx], ...updated }
-            }
-        } catch (err) {
-            console.error('Ошибка при дизлайке', err)
-        }
-    }
-
-    return { articles, loading, fetchArticles, like, dislike }
+    return { articles, loading, error, fetchArticles, react }
 }

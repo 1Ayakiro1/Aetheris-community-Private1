@@ -161,28 +161,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { likeArticle, dislikeArticle } from '@/api/articles'
+import { ref, watch } from 'vue'
+import { reactArticle } from '@/api/articles'
 import type { Article, ArticleCardProps, ArticleCardEmits } from '@/types/article'
 import Tag from 'primevue/tag'
 
-// Пропсы компонента
-const props = defineProps<ArticleCardProps>()
 
-// Эмиты для событий
-const emit = defineEmits<ArticleCardEmits>()
 
-// Реактивные состояния для взаимодействий
-const isLiked = ref(false)
-const isDisliked = ref(false)
-const isBookmarked = ref(false)
-const isCommentsOpen = ref(false)
-const isShared = ref(false)
-const likesCount = ref(props.article.likes || 0)
-const dislikesCount = ref(props.article.dislikes || 0)
-const commentsCount = ref(props.article.commentsCount || 0)
-
-// Date formatting
 const formatDate = (date: string | Date): string => {
   const dateObj = typeof date === 'string' ? new Date(date) : date
   const now = new Date()
@@ -207,37 +192,46 @@ const formatDate = (date: string | Date): string => {
   }
 }
 
-// Обработчики событий
-const onTagClick = (tag: string) => {
-  emit('tagClick', tag)
+const props = defineProps<ArticleCardProps>()
+const emit = defineEmits<ArticleCardEmits>()
+
+const getOrCreateUserId = () => {
+    const key = '3' //Это айди пользователя импровизиованый для тестов
+    let id = localStorage.getItem(key)
+    if (!id) {
+        id = String(Date.now() + Math.floor(Math.random() * 10000))
+        localStorage.setItem(key, id)
+    }
+    return Number(id)
 }
 
-const onAuthorClick = () => {
-  emit('authorClick', props.article.author.id)
-}
+const isLiked = ref(props.article.userReaction === 'like')
+const isDisliked = ref(props.article.userReaction === 'dislike')
+const likesCount = ref(props.article.likes || 0)
+const dislikesCount = ref(props.article.dislikes || 0)
 
-const onArticleClick = () => {
-  emit('articleClick', props.article.id)
-}
+//пока заглушки
+const isBookmarked = ref(false)
+const isCommentsOpen = ref(false)
+const isShared = ref(false)
+const commentsCount = ref(props.article.commentsCount || 0)
 
-// Обработчики взаимодействий
+watch(() => props.article.userReaction, (v) => {
+    isLiked.value = v === 'like'
+    isDisliked.value = v === 'dislike'
+})
+watch(() => props.article.likes, (v) => { likesCount.value = v ?? likesCount.value })
+watch(() => props.article.dislikes, (v) => { dislikesCount.value = v ?? dislikesCount.value })
+
 const onLike = async () => {
     try {
-        if (isLiked.value) {
-            // если уже лайкнуто - снимаем лайк
-            isLiked.value = false
-            likesCount.value = Math.max(0, likesCount.value - 1)
-        } else {
-            // ставим лайк
-            await likeArticle(props.article.id)
-            isLiked.value = true
-            likesCount.value += 1
-
-            if (isDisliked.value) {
-                isDisliked.value = false
-                dislikesCount.value = Math.max(0, dislikesCount.value - 1)
-            }
-        }
+        const userId = getOrCreateUserId()
+        const updated = await reactArticle(props.article.id, userId, 'like')
+        likesCount.value = updated.likes
+        dislikesCount.value = updated.dislikes
+        const ur = updated.user_reaction ?? updated.userReaction ?? null
+        isLiked.value = ur === 'like'
+        isDisliked.value = ur === 'dislike'
     } catch (e) {
         console.error('Ошибка лайка:', e)
     }
@@ -245,54 +239,24 @@ const onLike = async () => {
 
 const onDislike = async () => {
     try {
-        if (isDisliked.value) {
-            isDisliked.value = false
-            dislikesCount.value = Math.max(0, dislikesCount.value - 1)
-        } else {
-            await dislikeArticle(props.article.id)
-            isDisliked.value = true
-            dislikesCount.value += 1
-
-            if (isLiked.value) {
-                isLiked.value = false
-                likesCount.value = Math.max(0, likesCount.value - 1)
-            }
-        }
+        const userId = getOrCreateUserId()
+        const updated = await reactArticle(props.article.id, userId, 'dislike')
+        likesCount.value = updated.likes
+        dislikesCount.value = updated.dislikes
+        const ur = updated.user_reaction ?? updated.userReaction ?? null
+        isLiked.value = ur === 'like'
+        isDisliked.value = ur === 'dislike'
     } catch (e) {
         console.error('Ошибка дизлайка:', e)
     }
 }
 
-const onComment = () => {
-  // Переключаем состояние комментариев
-  isCommentsOpen.value = !isCommentsOpen.value
-  // Переход к комментариям или открытие модального окна
-  emit('articleClick', props.article.id)
-}
-
-const onBookmark = () => {
-  isBookmarked.value = !isBookmarked.value
-  // Здесь можно добавить логику сохранения в избранное
-}
-
-const onShare = () => {
-  // Активируем состояние "поделился" на короткое время
-  isShared.value = true
-  setTimeout(() => {
-    isShared.value = false
-  }, 1000) // Возвращаем обратно через 1 секунду
-
-  // Логика для шаринга статьи
-  if (navigator.share) {
-    navigator.share({
-      title: props.article.title,
-      url: window.location.origin + `/articles/${props.article.id}`
-    })
-  } else {
-    // Fallback - копирование ссылки в буфер обмена
-    navigator.clipboard.writeText(window.location.origin + `/articles/${props.article.id}`)
-  }
-}
+const onShare =  () => {}
+const onTagClick = (tag) => {}
+const onComment =  () => {}
+const onArticleClick = () => {}
+const onAuthorClick = () => {}
+const onBookmark = () => {}
 </script>
 
 <style scoped>
