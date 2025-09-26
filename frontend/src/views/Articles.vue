@@ -495,29 +495,39 @@ onUnmounted(() => {
   justify-content: center;
   margin-top: 30px;
   padding: 20px 0;
+  background-color: transparent;
 }
 
 /* PrimeVue Paginator - Community Colors */
+:deep(.p-paginator) {
+  background-color: transparent !important;
+}
+
 :deep(.p-paginator .p-paginator-pages .p-paginator-page) {
   color: var(--text-primary);
   font-family: var(--font-sans);
 }
 
 :deep(.p-paginator .p-paginator-pages .p-paginator-page:hover) {
-  background-color: #3b82f6 !important;
-  color: white !important;
+  background-color: transparent !important;
+  color: #3b82f6 !important; /* Подсвечиваем саму цифру */
+  transform: scale(1.1); /* Немного увеличиваем для эффекта */
+  transition: all 0.2s ease;
 }
 
 :deep(.p-paginator .p-paginator-pages .p-paginator-page.p-highlight),
 :deep(.p-paginator .p-paginator-pages .p-paginator-page[aria-current="page"]),
 :deep(.p-paginator .p-paginator-pages .p-paginator-page.p-paginator-page-current) {
-  background-color: #8b5cf6 !important;
-  color: white !important;
+  background-color: transparent !important;
+  color: #8b5cf6 !important; /* Активная страница - фиолетовый цвет цифры */
+  font-weight: bold; /* Делаем жирной для выделения */
+  transform: scale(1.2); /* Увеличиваем активную страницу */
 }
 
 /* Override any green colors */
 :deep(.p-paginator .p-paginator-pages .p-paginator-page) {
   background-color: transparent !important;
+  transition: all 0.2s ease; /* Плавная анимация для всех страниц */
 }
 
 :deep(.p-paginator .p-paginator-first),
@@ -526,14 +536,17 @@ onUnmounted(() => {
 :deep(.p-paginator .p-paginator-last) {
   color: var(--text-primary);
   font-family: var(--font-sans);
+  transition: all 0.2s ease; /* Плавная анимация для навигационных кнопок */
 }
 
 :deep(.p-paginator .p-paginator-first:hover),
 :deep(.p-paginator .p-paginator-prev:hover),
 :deep(.p-paginator .p-paginator-next:hover),
 :deep(.p-paginator .p-paginator-last:hover) {
-  background-color: #3b82f6 !important;
-  color: white !important;
+  background-color: transparent !important;
+  color: #3b82f6 !important; /* Подсвечиваем сами иконки */
+  transform: scale(1.1); /* Немного увеличиваем для эффекта */
+  transition: all 0.2s ease;
 }
 
 :deep(.p-paginator .p-paginator-first:disabled),

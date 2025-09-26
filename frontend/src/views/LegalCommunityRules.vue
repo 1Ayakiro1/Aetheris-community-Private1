@@ -61,7 +61,7 @@
 
 <style lang="scss" scoped>
 .legal-community-rules-container {
-  max-width: 1920px;
+  width: 100%; max-width: 1400px;
   margin: 0 auto;
   background-color: var(--bg-primary);
   padding-top: 100px;

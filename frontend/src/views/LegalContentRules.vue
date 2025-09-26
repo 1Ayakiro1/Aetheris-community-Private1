@@ -61,11 +61,28 @@
 
 <style lang="scss" scoped>
 .legal-content-rules-container {
-  max-width: 1920px;
+  width: 100%;
+  max-width: 1400px;
   margin: 0 auto;
   background-color: var(--bg-primary);
-  padding-top: 100px;
-  padding-bottom: 200px;
+  padding: 0 16px;
+  box-sizing: border-box;
+  
+  /* Мобильные устройства */
+  @media (max-width: 768px) {
+    padding: 50px 16px 100px 16px;
+  }
+  
+  /* Планшеты */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    padding: 75px 20px 150px 20px;
+    max-width: 1000px;
+  }
+  
+  /* Десктоп */
+  @media (min-width: 1025px) {
+    padding: 100px 24px 200px 24px;
+  }
 }
 
 .page-title {
@@ -84,14 +101,43 @@
   justify-content: center;
   gap: 12px;
   margin-top: 16px;
+  
+  /* Мобильные устройства */
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  /* Планшеты */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    gap: 16px;
+  }
 }
 
 .sidebar {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 370px;
-  height: 655px; // 330px + 84px + 221px + gaps = 655px
+  
+  /* Мобильные устройства */
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 350px;
+    height: auto;
+  }
+  
+  /* Планшеты */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    width: 320px;
+    height: auto;
+  }
+  
+  /* Десктоп */
+  @media (min-width: 1025px) {
+    width: 370px;
+    height: 655px;
+  }
 }
 
 .sidebar-block {
@@ -99,20 +145,81 @@
   border-radius: 25px;
   display: flex;
   flex-direction: column;
-  width: 370px;
+  
+  /* Мобильные устройства */
+  @media (max-width: 768px) {
+    width: 100%;
+    border-radius: 20px;
+  }
+  
+  /* Планшеты */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    width: 320px;
+    border-radius: 22px;
+  }
+  
+  /* Десктоп */
+  @media (min-width: 1025px) {
+    width: 370px;
+    border-radius: 25px;
+  }
     
   &.legal-block {
-    height: 330px; // Уменьшаем высоту legal блока
+    /* Мобильные устройства */
+    @media (max-width: 768px) {
+      height: auto;
+      min-height: 280px;
+    }
+    
+    /* Планшеты */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      height: 300px;
+    }
+    
+    /* Десктоп */
+    @media (min-width: 1025px) {
+      height: 330px;
+    }
   }
   
   &.community-block {
     align-items: center;
-    height: 84px; // Фиксированная высота для community блока
+    
+    /* Мобильные устройства */
+    @media (max-width: 768px) {
+      height: 70px;
+    }
+    
+    /* Планшеты */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      height: 75px;
+    }
+    
+    /* Десктоп */
+    @media (min-width: 1025px) {
+      height: 84px;
+    }
   }
   
   &.security-block {
-    padding: 16px; // Добавляем padding чтобы кнопки не втыкались в края
-    height: 221px; // Фиксированная высота для security блока
+    /* Мобильные устройства */
+    @media (max-width: 768px) {
+      padding: 12px;
+      height: auto;
+      min-height: 180px;
+    }
+    
+    /* Планшеты */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      padding: 14px;
+      height: 200px;
+    }
+    
+    /* Десктоп */
+    @media (min-width: 1025px) {
+      padding: 16px;
+      height: 221px;
+    }
   }
 }
 
