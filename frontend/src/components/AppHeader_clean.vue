@@ -613,31 +613,50 @@ onMounted(() => {
 }
 
 .dropdown-panel.navigation-panel {
-  width: 260px !important;
-  height: 280px !important;
-  left: 34.8% !important;
-  top: 100px !important;
+  width: 260px;
+  height: 280px;
+  left: 520px; /* Фиксированная позиция относительно header-container */
+  top: 80px; /* Позиция от нижней границы хедера */
 }
 
 .dropdown-panel.faq-panel {
-  width: 260px !important;
-  height: 280px !important;
-  left: 56.2% !important;
-  top: 100px !important;
+  width: 260px;
+  height: 280px;
+  left: 550px; /* Фиксированная позиция относительно header-container */
+  top: 80px;
 }
 
 .dropdown-panel.additional-panel {
-  width: 260px !important;
-  height: 290px !important;
-  left: 74.5% !important;
-  top: 100px !important;
+  width: 260px;
+  height: 290px;
+  left: 720px; /* Фиксированная позиция относительно header-container */
+  top: 80px;
 }
 
 .dropdown-panel.profile-panel {
-  width: 290px !important;
-  height: 777px !important;
-  left: 80% !important;
-  top: 100px !important;
+  width: 290px;
+  height: 777px;
+  left: 830px; /* Фиксированная позиция относительно header-container */
+  top: 80px;
+}
+
+/* Специальные позиции для главной страницы (когда header 72% ширины) */
+.header-container.home-page {
+  .dropdown-panel.navigation-panel {
+    left: 200px; /* Скорректированная позиция для узкого header */
+  }
+  
+  .dropdown-panel.faq-panel {
+    left: 400px;
+  }
+  
+  .dropdown-panel.additional-panel {
+    left: 550px;
+  }
+  
+  .dropdown-panel.profile-panel {
+    left: 650px;
+  }
 }
 
 .panel-content {

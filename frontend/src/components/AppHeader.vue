@@ -654,34 +654,114 @@ onMounted(() => {
   pointer-events: none;
 }
 
-/* Фиксированные позиции панелей - будут скейлиться через app-wrapper */
+/* Адаптивные позиции dropdown панелей под разные разрешения экрана */
 
 .dropdown-panel.navigation-panel {
   width: 260px;
   height: 280px;
-  left: 260px;
   top: 80px;
+  
+  /* Мобильные устройства */
+  @media (max-width: 768px) {
+    left: 10px;
+    width: 200px;
+    height: 240px;
+  }
+  
+  /* Планшеты */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    left: 220px;
+    width: 220px;
+    height: 260px;
+  }
+  
+  /* Десктоп */
+  @media (min-width: 1025px) {
+    left: 550px;
+    width: 260px;
+    height: 280px;
+  }
 }
 
 .dropdown-panel.faq-panel {
   width: 260px;
   height: 280px;
-  left: 520px;
   top: 80px;
+  
+  /* Мобильные устройства */
+  @media (max-width: 768px) {
+    left: 150px;
+    width: 180px;
+    height: 240px;
+  }
+  
+  /* Планшеты */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    left: 400px;
+    width: 200px;
+    height: 260px;
+  }
+  
+  /* Десктоп */
+  @media (min-width: 1025px) {
+    left: 830px;
+    width: 260px;
+    height: 280px;
+  }
 }
 
 .dropdown-panel.additional-panel {
   width: 260px;
   height: 290px;
-  left: 720px;
   top: 80px;
+  
+  /* Мобильные устройства */
+  @media (max-width: 768px) {
+    left: 280px;
+    width: 180px;
+    height: 250px;
+  }
+  
+  /* Планшеты */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    left: 570px;
+    width: 200px;
+    height: 270px;
+  }
+  
+  /* Десктоп */
+  @media (min-width: 1025px) {
+    left: 1100px;
+    width: 260px;
+    height: 290px;
+  }
 }
 
 .dropdown-panel.profile-panel {
   width: 290px;
   height: 777px;
-  left: 830px;
   top: 80px;
+  
+  /* Мобильные устройства */
+  @media (max-width: 768px) {
+    left: 400px;
+    width: 250px;
+    height: 600px;
+  }
+  
+  /* Планшеты */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    left: 720px;
+    width: 270px;
+    height: 700px;
+  }
+  
+  /* Десктоп */
+  @media (min-width: 1025px) {
+    left: 1210px;
+    width: 290px;
+    height: 777px;
+  }
 }
 
 .panel-content {
