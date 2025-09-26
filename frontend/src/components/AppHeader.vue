@@ -437,6 +437,7 @@ onMounted(() => {
   margin: 20px auto 0 auto !important;
 }
 
+
 // Navigation button
 .nav-button {
   position: relative;
@@ -613,31 +614,31 @@ onMounted(() => {
   pointer-events: none;
 }
 
-.navigation-panel {
+.dropdown-panel.navigation-panel {
   width: 260px !important;
   height: 280px !important;
-  left: 755px !important; /* Сдвинул левее на 50px */
+  left: 34.8% !important; /* Адаптивное позиционирование относительно центра */
   top: 100px !important;
 }
 
-.faq-panel {
+.dropdown-panel.faq-panel {
   width: 260px !important;
   height: 280px !important;
-  left: 1110px !important;
+  left: 58.5% !important; /* Адаптивное позиционирование относительно центра */
   top: 100px !important;
 }
 
-.additional-panel {
+.dropdown-panel.additional-panel {
   width: 260px !important;
   height: 290px !important;
-  left: 1430px !important;
+  left: 78.5% !important; /* Адаптивное позиционирование относительно центра */
   top: 100px !important;
 }
 
-.profile-panel {
+.dropdown-panel.profile-panel {
   width: 290px !important;
   height: 777px !important;
-  left: 1540px !important;
+  left: 85.5% !important; /* Адаптивное позиционирование относительно центра */
   top: 100px !important;
 }
 
@@ -824,7 +825,7 @@ a:hover {
 }
 
 /* Для экранов 1440p (2560x1440) - 2K */
-@media (min-width: 2561px) and (max-width: 3839px) {
+@media (min-width: 2560px) and (max-width: 3839px) {
   .header-container {
     height: 104px !important; /* 80px * 1.3 */
     padding: 0 26px !important; /* 20px * 1.3 */
@@ -951,29 +952,29 @@ a:hover {
     background-color: rgba(67, 73, 86, 1) !important;
   }
   
-  .navigation-panel {
-    left: 1093px !important;
+  .dropdown-panel.navigation-panel {
+    left: 40% !important; /* Адаптивное позиционирование для 2K */
     width: 370px !important;
     height: 460px !important;
     top: 130px !important;
   }
   
-  .faq-panel {
-    left: 1563px !important;
+  .dropdown-panel.faq-panel {
+    left: 55.5% !important; /* Адаптивное позиционирование для 2K */
     width: 370px !important;
     height: 460px !important;
     top: 130px !important;
   }
   
-  .additional-panel {
-    left: 1969px !important;
+  .dropdown-panel.additional-panel {
+    left: 75.5% !important; /* Адаптивное позиционирование для 2K */
     width: 370px !important;
     height: 480px !important;
     top: 130px !important;
   }
   
-  .profile-panel {
-    left: 2089px !important;
+  .dropdown-panel.profile-panel {
+    left: 78.5% !important; /* Адаптивное позиционирование для 2K */
     width: 440px !important;
     height: 1200px !important;
     top: 130px !important;
@@ -1026,6 +1027,13 @@ a:hover {
     margin: 8px auto !important;
     width: 280px !important;
   }
+  
+  /* Стили для главной страницы 2K */
+  .header-container.home-page {
+    width: 80% !important;
+    margin: 26px auto 0 auto !important; /* 20px * 1.3 */
+  }
+  
 }
 
 /* Для экранов 4K (3840x2160) */
@@ -1113,7 +1121,7 @@ a:hover {
   }
   
   .nav-icon {
-    transform: scale(10) !important;
+    transform: scale(2.5) !important;
     margin-left: 0 !important;
     margin-right: 20px !important;
   }
@@ -1131,7 +1139,7 @@ a:hover {
   }
   
   .nav-arrow {
-    transform: scale(10) !important;
+    transform: scale(2.5) !important;
     margin-left: 35px !important;
     margin-right: 15px !important;
   }
@@ -1173,29 +1181,29 @@ a:hover {
     background-color: rgba(67, 73, 86, 1) !important;
   }
   
-  .navigation-panel {
-    left: 1500px !important;
+  .dropdown-panel.navigation-panel {
+    left: 29.5% !important; /* Адаптивное позиционирование для 4K */
     width: 520px !important;
     height: 650px !important;
     top: 170px !important;
   }
   
-  .faq-panel {
-    left: 1980px !important;
+  .dropdown-panel.faq-panel {
+    left: 54% !important; /* Адаптивное позиционирование для 4K */
     width: 520px !important;
     height: 650px !important;
     top: 170px !important;
   }
   
-  .additional-panel {
-    left: 2700px !important;
+  .dropdown-panel.additional-panel {
+    left: 75% !important; /* Адаптивное позиционирование для 4K */
     width: 520px !important;
     height: 680px !important;
     top: 170px !important;
   }
   
-  .profile-panel {
-    left: 2800px !important;
+  .dropdown-panel.profile-panel {
+    left: 80% !important; /* Адаптивное позиционирование для 4K */
     width: 620px !important;
     height: 1700px !important;
     top: 170px !important;
@@ -1276,6 +1284,13 @@ a:hover {
     border-radius: 30px;
     margin-left: 15px;
   }
+  
+  /* Стили для главной страницы 4K */
+  .header-container.home-page {
+    width: 80% !important;
+    margin: 32px auto 0 auto !important; /* 20px * 1.6 */
+  }
+  
 }
 
 </style>

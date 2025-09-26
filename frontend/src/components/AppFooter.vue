@@ -88,8 +88,9 @@
     background-color: var(--bg-primary);
     display: flex;
     flex-direction: row;
-    width: 100%;
-    height: 430px;
+    width: 72%; /* Соответствует app-wrapper */
+    height: 344px; /* Уменьшено на 20% с 430px */
+    margin: 0 auto; /* Центрируем как app-wrapper */
 }
 
 .footer-content {
@@ -99,41 +100,41 @@
 }
 
 .ae-logo-footer {
-    width: 168px;
-    height: 184px;
-    margin-left: 20px;
+    width: 134px; /* Уменьшено на 20% с 168px */
+    height: 147px; /* Уменьшено на 20% с 184px */
+    margin-left: 16px; /* Уменьшено на 20% с 20px */
     position: absolute;
 }
 
 .site-title {
     font-family: var(--font-primary);
-    font-size: 38px;
+    font-size: 30px; /* Уменьшено на 20% с 38px */
     font-weight: bold;
-    margin-left: 30px;
-    margin-top: 140px;
+    margin-left: 24px; /* Уменьшено на 20% с 30px */
+    margin-top: 112px; /* Уменьшено на 20% с 140px */
     color: var(--text-primary);
 }
 
 .site-subtitle {
     font-family: var(--font-comfortaa);
-    font-size: 30px;
+    font-size: 24px; /* Уменьшено на 20% с 30px */
     font-weight: bold;
-    margin-left: 30px;
+    margin-left: 24px; /* Уменьшено на 20% с 30px */
     color: var(--text-secondary);
 }
 
 .social-buttons {
     display: flex;
     flex-direction: row;
-    gap: 20px;
+    gap: 16px; /* Уменьшено на 20% с 20px */
 }
 
 .social-button {
-    width: 76px;
-    height: 76px;
+    width: 61px; /* Уменьшено на 20% с 76px */
+    height: 61px; /* Уменьшено на 20% с 76px */
     border-radius: 50%;
     border: 2px solid white;
-    margin-top: 20px;
+    margin-top: 16px; /* Уменьшено на 20% с 20px */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -151,29 +152,29 @@
 }
 
 .social-icon {
-    width: 60px;
-    height: 60px;
+    width: 48px; /* Уменьшено на 20% с 60px */
+    height: 48px; /* Уменьшено на 20% с 60px */
     transition: filter 0.3s ease-in-out;
 }
 
 .telegram-icon {
-    height: 50px;
-    width: 50px;
+    height: 40px; /* Уменьшено на 20% с 50px */
+    width: 40px; /* Уменьшено на 20% с 50px */
     margin-right: 1px;
 }
 
 .boosty-icon {
-    height: 50px;
-    width: 45px;
+    height: 40px; /* Уменьшено на 20% с 50px */
+    width: 36px; /* Уменьшено на 20% с 45px */
     margin-left: 1px;
 }
 
 .opensource-text {
     font-family: var(--font-comfortaa);
-    font-size: 25px;
+    font-size: 20px; /* Уменьшено на 20% с 25px */
     font-weight: bold;
-    margin-top: 30px;
-    margin-left: 30px;
+    margin-top: 24px; /* Уменьшено на 20% с 30px */
+    margin-left: 24px; /* Уменьшено на 20% с 30px */
     color: var(--text-secondary);
 }
 
@@ -190,35 +191,35 @@
 .footer-block {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 20px;
+    align-items: flex-start; /* Изменено с center на flex-start для выравнивания по левому краю */
+    gap: 16px; /* Уменьшено на 20% с 20px */
     margin-left: auto;
 }
 
 .about-block {
-    margin-top: 50px;
+    margin-top: 40px; /* Уменьшено на 20% с 50px */
 }
 
 .resources-block {
-    margin-top: 50px;
+    margin-top: 40px; /* Уменьшено на 20% с 50px */
 }
 
 .footer-container .legal-block {
-    margin-top: 50px;
-    margin-right: 100px;
+    margin-top: 40px; /* Уменьшено на 20% с 50px */
+    margin-right: 40px; /* Уменьшено на 20% с 100px */
 }
 
 .block-title {
     font-family: var(--font-comfortaa);
-    font-size: 33px;
+    font-size: 26px; /* Уменьшено на 20% с 33px */
     font-weight: bold;
-    margin-top: 50px;
+    margin-top: 40px; /* Уменьшено на 20% с 50px */
     color: var(--text-primary);
 }
 
 .block-link {
     font-family: var(--font-comfortaa);
-    font-size: 25px;
+    font-size: 20px; /* Уменьшено на 20% с 25px */
     font-weight: normal;
     color: var(--text-primary);
     text-decoration: none;
@@ -298,7 +299,9 @@ a:hover {
 /* Для экранов 1440p (2560x1440) */
 @media (min-width: 2560px) and (max-width: 3839px) {
   .footer-container {
-    height: 560px !important;
+    height: 448px !important; /* Уменьшено на 20% с 560px */
+    width: 72% !important; /* Соответствует app-wrapper */
+    margin: 0 auto !important; /* Центрируем как app-wrapper */
   }
 
   .ae-logo-footer {
@@ -400,7 +403,9 @@ a:hover {
 /* Для экранов 4K (3840x2160) */
 @media (min-width: 3840px) {
   .footer-container {
-    height: 784px !important;
+    height: 627px !important; /* Уменьшено на 20% с 784px */
+    width: 72% !important; /* Соответствует app-wrapper */
+    margin: 0 auto !important; /* Центрируем как app-wrapper */
   }
 
   .ae-logo-footer {
