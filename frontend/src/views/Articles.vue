@@ -257,11 +257,11 @@ const handleScroll = () => {
       // Calculate opacity from 1 to 0 with sharper curve
       const fadeProgress = Math.max(0, distanceToFooter / fadeDistance)
       opacity = Math.pow(fadeProgress, 0.5) // square root curve for sharper disappearance
-      console.log('Button fading, opacity:', opacity, 'distance to footer:', distanceToFooter)
+      // console.log('Button fading, opacity:', opacity, 'distance to footer:', distanceToFooter)
     } else if (distanceToFooter <= 0) {
       // Footer is already visible - button is fully transparent
       opacity = 0
-      console.log('Footer visible, button fully transparent')
+      // console.log('Footer visible, button fully transparent')
     }
 
     // Apply opacity directly for smooth transition
@@ -270,7 +270,7 @@ const handleScroll = () => {
 
     // If footer appeared in visible area (top border of footer is visible)
     if (footerTop <= windowHeight) {
-      console.log('Footer is visible, switching to absolute position')
+      // console.log('Footer is visible, switching to absolute position')
 
       // Calculate button position above footer
       const buttonPosition = footerTop - buttonHeight - 20 // 20px offset from footer
@@ -282,7 +282,7 @@ const handleScroll = () => {
         backToTopBtn.style.top = `${buttonPosition}px`
         backToTopBtn.style.left = '30px'
         backToTopBtn.style.bottom = 'auto'
-        console.log('Button positioned above footer at:', buttonPosition)
+        // console.log('Button positioned above footer at:', buttonPosition)
       } else {
         // Footer too high, button in normal position
         backToTopBtn.classList.remove('above-footer')
@@ -290,7 +290,7 @@ const handleScroll = () => {
         backToTopBtn.style.bottom = '30px'
         backToTopBtn.style.left = '30px'
         backToTopBtn.style.top = 'auto'
-        console.log('Footer too high, using fixed position')
+        // console.log('Footer too high, using fixed position')
       }
     } else {
       // Footer not visible, button in fixed position
@@ -299,7 +299,7 @@ const handleScroll = () => {
       backToTopBtn.style.bottom = '30px'
       backToTopBtn.style.left = '30px'
       backToTopBtn.style.top = 'auto'
-      console.log('Footer not visible, using fixed position')
+      // console.log('Footer not visible, using fixed position')
     }
   } else {
     console.log('Footer or button not found')
@@ -337,18 +337,18 @@ onUnmounted(() => {
   width: 100%;
   box-sizing: border-box;
   padding: 0 16px;
-  
+
   /* Мобильные устройства */
   @media (max-width: 768px) {
     padding: 0 12px;
   }
-  
+
   /* Планшеты */
   @media (min-width: 769px) and (max-width: 1024px) {
     padding: 0 20px;
     max-width: 1000px;
   }
-  
+
   /* Десктоп */
   @media (min-width: 1025px) {
     padding: 0 24px;
@@ -362,20 +362,20 @@ onUnmounted(() => {
   justify-content: center;
   align-items: flex-start;
   gap: 16px;
-  
+
   /* Мобильные устройства */
   @media (max-width: 768px) {
     flex-direction: column;
     margin-top: 20px;
     gap: 12px;
   }
-  
+
   /* Планшеты */
   @media (min-width: 769px) and (max-width: 1024px) {
     margin-top: 30px;
     gap: 14px;
   }
-  
+
   /* Десктоп */
   @media (min-width: 1025px) {
     margin-top: 40px;
@@ -395,14 +395,14 @@ onUnmounted(() => {
   border-radius: 32px;
   display: flex;
   align-items: center;
-  
+
   /* Мобильные устройства */
   @media (max-width: 768px) {
     width: 100%;
     height: 50px;
     border-radius: 25px;
   }
-  
+
   /* Планшеты */
   @media (min-width: 769px) and (max-width: 1024px) {
     width: 100%;
@@ -410,7 +410,7 @@ onUnmounted(() => {
     height: 60px;
     border-radius: 30px;
   }
-  
+
   /* Десктоп */
   @media (min-width: 1025px) {
     width: 1060px;
@@ -468,20 +468,20 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  
+
   /* Мобильные устройства */
   @media (max-width: 768px) {
     width: 100%;
     gap: 16px;
   }
-  
+
   /* Планшеты */
   @media (min-width: 769px) and (max-width: 1024px) {
     width: 100%;
     max-width: 700px;
     gap: 18px;
   }
-  
+
   /* Десктоп */
   @media (min-width: 1025px) {
     width: 1060px;
@@ -664,19 +664,19 @@ onUnmounted(() => {
 .sidebar-section {
   display: flex;
   flex-direction: column;
-  
+
   /* Мобильные устройства */
   @media (max-width: 768px) {
     width: 100%;
     margin-top: 20px;
   }
-  
+
   /* Планшеты */
   @media (min-width: 769px) and (max-width: 1024px) {
     width: 280px;
     flex-shrink: 0;
   }
-  
+
   /* Десктоп */
   @media (min-width: 1025px) {
     width: 300px;
@@ -690,20 +690,20 @@ onUnmounted(() => {
   border-radius: 30px;
   display: flex;
   flex-direction: column;
-  
+
   /* Мобильные устройства */
   @media (max-width: 768px) {
     width: 100%;
     height: 350px;
     border-radius: 25px;
   }
-  
+
   /* Планшеты */
   @media (min-width: 769px) and (max-width: 1024px) {
     width: 280px;
     height: 380px;
   }
-  
+
   /* Десктоп */
   @media (min-width: 1025px) {
     width: 300px;
@@ -762,7 +762,7 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   margin-top: 16px;
-  
+
   /* Мобильные устройства */
   @media (max-width: 768px) {
     width: 100%;
@@ -770,14 +770,14 @@ onUnmounted(() => {
     border-radius: 25px;
     margin-top: 12px;
   }
-  
+
   /* Планшеты */
   @media (min-width: 769px) and (max-width: 1024px) {
     width: 280px;
     height: 380px;
     margin-top: 14px;
   }
-  
+
   /* Десктоп */
   @media (min-width: 1025px) {
     width: 300px;
