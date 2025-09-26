@@ -81,6 +81,20 @@
               </template>
             </Tag>
         </div>
+        
+        <!-- Preview Block -->
+        <div class="article-card-preview">
+            <div class="preview-image" v-if="article.previewImage">
+                <img :src="article.previewImage" :alt="article.title" class="preview-img" />
+            </div>
+            <div class="preview-content" v-else>
+                <div class="preview-placeholder">
+                    <i class="pi pi-image preview-icon"></i>
+                    <span class="preview-text">Превью статьи</span>
+                </div>
+            </div>
+        </div>
+        
         <div class="article-card-content-text" :data-text="article.excerpt || article.content">
             {{ article.excerpt || article.content }}
         </div>
@@ -262,7 +276,7 @@ const onBookmark = () => {}
 <style scoped>
 .article-card {
     background-color: var(--bg-secondary);
-    border-radius: 40px 40px 15px 40px;
+    border-radius: 70px 40px 15px 70px; /* Увеличил нижний левый угол */
     cursor: pointer;
     transition: all 0.2s ease-in-out;
     position: relative;
@@ -270,26 +284,26 @@ const onBookmark = () => {}
     /* Мобильные устройства */
     @media (max-width: 768px) {
         width: 100%;
-        height: 400px;
-        border-radius: 25px 25px 10px 25px;
+        height: 520px; /* 400px * 1.3 = 520px */
+        border-radius: 25px 25px 10px 45px; /* Увеличил нижний левый угол */
     }
     
     /* Планшеты */
     @media (min-width: 769px) and (max-width: 1024px) {
         width: 100%;
-        height: 500px;
-        border-radius: 35px 35px 12px 35px;
+        height: 650px; /* 500px * 1.3 = 650px */
+        border-radius: 35px 35px 12px 60px; /* Увеличил нижний левый угол */
     }
     
     /* Десктоп */
     @media (min-width: 1025px) {
         width: 1055px;
-        height: 600px;
-        border-radius: 40px 40px 15px 40px;
+        height: 780px; /* 600px * 1.3 = 780px */
+        border-radius: 60px 40px 15px 70px; /* Увеличил нижний левый угол */
     }
 
     &:hover {
-        transform: translateY(-2px);
+        /* Убрал transform: translateY(-2px) - подъем блока при наведении */
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     }
 }
@@ -380,7 +394,7 @@ const onBookmark = () => {}
 
 .article-card-content {
     display: flex;
-    margin-top: 20px;
+    margin-top: 0px; /* Убрал отступ сверху, так как есть превью блок */
     flex-direction: column;
     margin-left: 30px;
     margin-right: 30px;
@@ -593,7 +607,7 @@ const onBookmark = () => {}
     right: 0;
     height: 80px;
     background-color: var(--bg-secondary);
-    border-bottom-left-radius: 15px;
+    border-bottom-left-radius: 40px; /* Исправил для соответствия основному блоку */
     border-bottom-right-radius: 40px;
     display: flex;
     align-items: center;
@@ -865,6 +879,109 @@ const onBookmark = () => {}
     }
     100% {
         transform: scale(1.05);
+    }
+}
+
+/* Preview Block Styles */
+.article-card-preview {
+    background-color: var(--bg-primary);
+    border-radius: 15px;
+    overflow: hidden;
+    margin: 16px 0 20px 0; /* Убираем боковые отступы, так как уже внутри content */
+    
+    /* Мобильные устройства */
+    @media (max-width: 768px) {
+        height: 120px;
+        margin: 12px 0 16px 0;
+        border-radius: 12px;
+    }
+    
+    /* Планшеты */
+    @media (min-width: 769px) and (max-width: 1024px) {
+        height: 140px;
+        margin: 14px 0 18px 0;
+        border-radius: 13px;
+    }
+    
+    /* Десктоп */
+    @media (min-width: 1025px) {
+        height: 160px;
+        margin: 16px 0 20px 0;
+        border-radius: 15px;
+    }
+}
+
+.preview-image {
+    width: 100%;
+    height: 100%;
+}
+
+.preview-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    
+    &:hover {
+        transform: scale(1.05);
+    }
+}
+
+.preview-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.preview-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    opacity: 0.6;
+}
+
+.preview-icon {
+    font-size: 24px;
+    color: var(--text-secondary);
+    
+    /* Мобильные устройства */
+    @media (max-width: 768px) {
+        font-size: 20px;
+    }
+    
+    /* Планшеты */
+    @media (min-width: 769px) and (max-width: 1024px) {
+        font-size: 22px;
+    }
+    
+    /* Десктоп */
+    @media (min-width: 1025px) {
+        font-size: 24px;
+    }
+}
+
+.preview-text {
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-family: var(--font-sans);
+    
+    /* Мобильные устройства */
+    @media (max-width: 768px) {
+        font-size: 12px;
+    }
+    
+    /* Планшеты */
+    @media (min-width: 769px) and (max-width: 1024px) {
+        font-size: 13px;
+    }
+    
+    /* Десктоп */
+    @media (min-width: 1025px) {
+        font-size: 14px;
     }
 }
 </style>
