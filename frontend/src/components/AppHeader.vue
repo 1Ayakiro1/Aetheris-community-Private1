@@ -1,5 +1,5 @@
 <template>
-  <div class="header-container">
+  <div class="header-container" :class="{ 'home-page': isHomePage }">
     <!-- Левая группа: Logo и Navigation -->
     <div class="header-left">
       <router-link to="/" class="header-brand-link">
@@ -220,7 +220,8 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted, computed } from 'vue'
+import { useRoute } from 'vue-router'
 import Logo from './Logo.vue'
 import NavigationIcon from '@/assets/icons/NavigationIcon.vue'
 import DropdownIcon from '@/assets/icons/DropdownIcon.vue'
@@ -244,6 +245,10 @@ import ShopIcon from '@/assets/icons/ShopIcon.vue'
 import SignOutIcon from '@/assets/icons/SignOutIcon.vue'
 import ChangesIcon from '@/assets/icons/ChangesIcon.vue'
 import RulesIcon from '@/assets/icons/RulesIcon.vue'
+
+// Route setup
+const route = useRoute()
+const isHomePage = computed(() => route.name === 'Home')
 
 // Type definitions
 interface PanelElement {
@@ -365,6 +370,7 @@ onMounted(() => {
 
 <style lang="scss">
 /* Группы хедера */
+
 .header-left {
   display: flex;
   align-items: center;
@@ -388,7 +394,6 @@ onMounted(() => {
   transition: all 0.3s ease-in-out;
   display: flex;
   align-items: center;
-  margin: 0;
   padding: 0;
   
   &:hover {
@@ -424,7 +429,12 @@ onMounted(() => {
   position: relative;
   margin-top: 20px;
   box-sizing: border-box;
-  padding: 0 20px; /* Базовые отступы */
+}
+
+/* Стили для главной страницы */
+.header-container.home-page {
+  width: 80% !important;
+  margin: 20px auto 0 auto !important;
 }
 
 // Navigation button
@@ -432,15 +442,15 @@ onMounted(() => {
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: flex-start; /* Прижимаем содержимое к левому краю */
+  justify-content: center; /* Прижимаем содержимое к левому краю */
   background-color: rgba(67, 73, 86, 0);
   border-radius: 15px;
-  width: 260px;
+  width: 230px;
   height: 52px;
   transition: background-color 0.3s ease-in-out;
   border: none;
   cursor: pointer;
-  padding: 0; /* Убираем внутренние отступы */
+  padding: 0px;
 
   &:hover {
     background-color: rgba(67, 73, 86, 1);
@@ -516,11 +526,6 @@ onMounted(() => {
   color: var(--text-primary);
   transition: transform 0.3s ease-in-out;
   margin-left: 16px;
-}
-
-// Navigation arrow special spacing
-.nav-arrow {
-  margin-right: 20px;
 }
 
 // FAQ arrow spacing

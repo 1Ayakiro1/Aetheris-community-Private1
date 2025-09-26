@@ -84,8 +84,6 @@
 </script>
 
 <style scoped>
-/* Cache buster comment - 2025-09-22-v2 */
-
 
 
 .home-container {
@@ -818,22 +816,5 @@
     margin-left: 1950px;
     margin-top: 5400px;
   }
-}
-
-:deep(.header-container) {
-  .header-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between; /* Растягиваем элементы по всей ширине */
-  width: auto;
-  height: 80px;
-  background-color: var(--bg-primary);
-  position: relative;
-  margin-top: 20px;
-  box-sizing: border-box;
-  margin-left: 20% !important;
-  margin-right: 20% !important;
-}
 }
 </style>
