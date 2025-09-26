@@ -920,7 +920,7 @@ const lockProfile = async () => {
   max-width: 90vw;
   max-height: 90vh;
   overflow-y: auto;
-  (box-shadow, 0 24px 72px rgba(0, 0, 0, 0.3));
+  box-shadow: 0 24px 72px rgba(0, 0, 0, 0.3);
   
   &.danger-modal {
     border: 2px solid var(--text-red);
