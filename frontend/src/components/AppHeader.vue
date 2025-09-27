@@ -710,6 +710,11 @@ onMounted(() => {
     width: 180px;
     height: 240px;
   }
+
+    /* 2К экраны */
+    @media (min-width: 2860px) {    /*ДОРАБОТАТЬ! ДЛЯ ДРУГИХ ПАНЕЛЕЙ */
+    left: 920px;
+  }
 }
 
 .dropdown-panel.additional-panel {
@@ -732,6 +737,11 @@ onMounted(() => {
     width: 180px;
     height: 250px;
   }
+
+  /* 2К экраны */
+  @media (min-width: 2860px) {    /*ДОРАБОТАТЬ! ДЛЯ ДРУГИХ ПАНЕЛЕЙ */
+    left: 1250px;
+  }
 }
 
 .dropdown-panel.profile-panel {
@@ -753,6 +763,11 @@ onMounted(() => {
     left: 400px;
     width: 250px;
     height: 600px;
+  }
+
+  /* 2К экраны */
+  @media (min-width: 2860px) {    /*ДОРАБОТАТЬ! ДЛЯ ДРУГИХ ПАНЕЛЕЙ */
+    left: 1350px;
   }
 }
 
