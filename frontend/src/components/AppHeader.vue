@@ -426,9 +426,19 @@ onMounted(() => {
   width: 100%;
   background-color: var(--bg-primary);
   position: relative;
-  margin-top: 20px;
   box-sizing: border-box;
-  padding: 0 16px;
+  
+  /* Десктоп (базовые значения) */
+  height: 80px;
+  margin-top: 20px;
+  padding: 0 20px;
+  
+  /* Планшеты */
+  @media (max-width: 1024px) {
+    height: 70px;
+    margin-top: 16px;
+    padding: 0 16px;
+  }
   
   /* Мобильные устройства */
   @media (max-width: 768px) {
@@ -436,20 +446,6 @@ onMounted(() => {
     margin-top: 12px;
     padding: 0 12px;
     flex-wrap: wrap;
-  }
-  
-  /* Планшеты */
-  @media (min-width: 769px) and (max-width: 1024px) {
-    height: 70px;
-    margin-top: 16px;
-    padding: 0 16px;
-  }
-  
-  /* Десктоп */
-  @media (min-width: 1025px) {
-    height: 80px;
-    margin-top: 20px;
-    padding: 0 20px;
   }
 }
 
@@ -470,28 +466,25 @@ onMounted(() => {
   transition: background-color 0.3s ease-in-out;
   border: none;
   cursor: pointer;
+  
+  /* Десктоп (базовые значения) */
+  width: 260px;
+  height: 52px;
   padding: 8px 16px;
-
+  
+  /* Планшеты */
+  @media (max-width: 1024px) {
+    width: 220px;
+    height: 46px;
+    padding: 7px 14px;
+  }
+  
   /* Мобильные устройства */
   @media (max-width: 768px) {
     width: 200px;
     height: 40px;
     border-radius: 12px;
     padding: 6px 12px;
-  }
-  
-  /* Планшеты */
-  @media (min-width: 769px) and (max-width: 1024px) {
-    width: 220px;
-    height: 46px;
-    padding: 7px 14px;
-  }
-  
-  /* Десктоп */
-  @media (min-width: 1025px) {
-    width: 260px;
-    height: 52px;
-    padding: 8px 16px;
   }
 
   &:hover {
@@ -654,12 +647,40 @@ onMounted(() => {
   pointer-events: none;
 }
 
-/* Адаптивные позиции dropdown панелей под разные разрешения экрана */
+/* ==================== DROPDOWN PANELS POSITIONING ==================== */
+/* 
+ * ВАЖНО ДЛЯ РАЗРАБОТЧИКОВ:
+ * 
+ * 1. Структура каждой панели (Desktop-first подход):
+ *    - Базовые значения (десктоп ≥1025px)
+ *    - Планшеты: @media (max-width: 1024px)
+ *    - Мобильные: @media (max-width: 768px)
+ * 
+ * 2. Порядок панелей слева направо:
+ *    Navigation (550px) → FAQ (870px) → Additional (1100px) → Profile (1210px)
+ * 
+ * 3. НЕ ИСПОЛЬЗУЙ !important - все конфликты решены через правильную специфичность
+ * 
+ * 4. Для изменения позиции:
+ *    - Измени базовое значение left для десктопа
+ *    - При необходимости измени значения в медиазапросах
+ * 
+ * 5. Порядок медиазапросов везде одинаковый: Десктоп → Планшеты → Мобильные
+ */
 
 .dropdown-panel.navigation-panel {
+  /* Десктоп (базовые значения) */
   width: 260px;
   height: 280px;
   top: 80px;
+  left: 550px;
+  
+  /* Планшеты */
+  @media (max-width: 1024px) {
+    left: 220px;
+    width: 220px;
+    height: 260px;
+  }
   
   /* Мобильные устройства */
   @media (max-width: 768px) {
@@ -667,26 +688,21 @@ onMounted(() => {
     width: 200px;
     height: 240px;
   }
-  
-  /* Планшеты */
-  @media (min-width: 769px) and (max-width: 1024px) {
-    left: 220px;
-    width: 220px;
-    height: 260px;
-  }
-  
-  /* Десктоп */
-  @media (min-width: 1025px) {
-    left: 550px;
-    width: 260px;
-    height: 280px;
-  }
 }
 
 .dropdown-panel.faq-panel {
+  /* Десктоп (базовые значения) */
   width: 260px;
   height: 280px;
   top: 80px;
+  left: 870px;
+  
+  /* Планшеты */
+  @media (max-width: 1024px) {
+    left: 400px;
+    width: 200px;
+    height: 260px;
+  }
   
   /* Мобильные устройства */
   @media (max-width: 768px) {
@@ -694,26 +710,21 @@ onMounted(() => {
     width: 180px;
     height: 240px;
   }
-  
-  /* Планшеты */
-  @media (min-width: 769px) and (max-width: 1024px) {
-    left: 400px;
-    width: 200px;
-    height: 260px;
-  }
-  
-  /* Десктоп */
-  @media (min-width: 1025px) {
-    left: 830px;
-    width: 260px;
-    height: 280px;
-  }
 }
 
 .dropdown-panel.additional-panel {
+  /* Десктоп (базовые значения) */
   width: 260px;
   height: 290px;
   top: 80px;
+  left: 1110px;
+  
+  /* Планшеты */
+  @media (max-width: 1024px) {
+    left: 570px;
+    width: 200px;
+    height: 270px;
+  }
   
   /* Мобильные устройства */
   @media (max-width: 768px) {
@@ -721,46 +732,27 @@ onMounted(() => {
     width: 180px;
     height: 250px;
   }
-  
-  /* Планшеты */
-  @media (min-width: 769px) and (max-width: 1024px) {
-    left: 570px;
-    width: 200px;
-    height: 270px;
-  }
-  
-  /* Десктоп */
-  @media (min-width: 1025px) {
-    left: 1100px;
-    width: 260px;
-    height: 290px;
-  }
 }
 
 .dropdown-panel.profile-panel {
+  /* Десктоп (базовые значения) */
   width: 290px;
   height: 777px;
   top: 80px;
+  left: 1210px;
+  
+  /* Планшеты */
+  @media (max-width: 1024px) {
+    left: 720px;
+    width: 270px;
+    height: 700px;
+  }
   
   /* Мобильные устройства */
   @media (max-width: 768px) {
     left: 400px;
     width: 250px;
     height: 600px;
-  }
-  
-  /* Планшеты */
-  @media (min-width: 769px) and (max-width: 1024px) {
-    left: 720px;
-    width: 270px;
-    height: 700px;
-  }
-  
-  /* Десктоп */
-  @media (min-width: 1025px) {
-    left: 1210px;
-    width: 290px;
-    height: 777px;
   }
 }
 

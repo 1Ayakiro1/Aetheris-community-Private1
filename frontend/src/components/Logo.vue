@@ -26,8 +26,19 @@
 }
 
 .logo-image {
-  @include scale-property(width, 118px);
-  @include scale-property(height, 134px);
+  width: 118px;
+  height: 134px;
   object-fit: contain;
+  
+  // Уменьшенное масштабирование для логотипа
+  @include responsive-2k {
+    width: 130px;  // +10% вместо +40%
+    height: 147px;
+  }
+  
+  @include responsive-4k {
+    width: 142px;  // +20% вместо +80%
+    height: 161px;
+  }
 }
 </style>

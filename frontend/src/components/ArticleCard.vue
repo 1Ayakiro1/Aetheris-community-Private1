@@ -406,6 +406,7 @@ const onBookmark = () => {}
 .article-card-content-title {
     color: var(--text-primary);
     font-size: 25px;
+    margin-top: 30px;
     font-family: var(--font-sans);
     font-weight: 700;
 }
