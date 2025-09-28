@@ -1,143 +1,61 @@
 <template>
-  <div class="signin-container">
-    
-    <!-- Main Body -->
-    <div class="main-body">
-      <div class="signin-content">
-        <h2 class="signin-title">Sign in</h2>
-        <div class="signin-form">
-          <h2 class="field-label">Nickname</h2>
-          <input 
-            id="nickname" 
-            v-model="nickname"
-            type="text" 
-            placeholder="Enter your nickname" 
-            class="input-field"
-            :class="{ 'error': !nicknameError.isValid }"
-            maxlength="24"
-          >
-          <p v-if="!nicknameError.isValid" class="error-message">{{ nicknameError.message }}</p>
-          
-          <h2 class="field-label">Mail</h2>
-          <input 
-            id="email" 
-            v-model="email"
-            type="email" 
-            placeholder="Enter your mail" 
-            class="input-field"
-            :class="{ 'error': !emailError.isValid }"
-            maxlength="254"
-          >
-          <p v-if="!emailError.isValid" class="error-message">{{ emailError.message }}</p>
-          
-          <h2 class="field-label">Password</h2>
-          <input 
-            id="password" 
-            v-model="password"
-            type="password" 
-            placeholder="Enter your password" 
-            class="input-field"
-            :class="{ 'error': !passwordError.isValid }"
-            maxlength="48"
-          >
-          <p v-if="!passwordError.isValid" class="error-message">{{ passwordError.message }}</p>
-          
-          <!-- API Error Display -->
-          <div v-if="error" class="api-error">
-            <p class="api-error-message">{{ error }}</p>
-          </div>
-          
-          <p class="login-link">Or <router-link to="/login" class="link">log in</router-link></p>
-          
-          <button @click="handleSignIn" class="signin-button" :disabled="loading">
-            <span v-if="loading" class="loading-spinner"></span>
-            <span v-if="!loading">Sign in</span>
-            <span v-else>Signing in...</span>
-          </button>
+    <div class="signin-container">
+        <div class="main-body">
+            <div class="signin-content">
+                <h2 class="signin-title">Sign in</h2>
+                <div class="signin-form">
+                    <h2 class="field-label">Username</h2>
+                    <input
+                        v-model="username"
+                        type="text"
+                        placeholder="Enter your username"
+                        class="input-field"
+                    >
+
+                    <h2 class="field-label">Password</h2>
+                    <input
+                        v-model="password"
+                        type="password"
+                        placeholder="Enter your password"
+                        class="input-field"
+                    >
+
+                    <div v-if="error" class="api-error">
+                        <p>{{ error }}</p>
+                    </div>
+
+                    <button @click="handleSignIn" class="signin-button" :disabled="loading">
+                        <span v-if="loading">Signing in...</span>
+                        <span v-else>Sign in</span>
+                    </button>
+
+                    <p class="login-link">Or <router-link to="/login" class="link">log in</router-link></p>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-    
-  </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
-import { useValidation, type ValidationResult } from '../composables/useValidation'
-import { useAuth } from '../composables/useAuth'
-import type { RegisterData } from '../types/user'
+import { ref } from 'vue'
+import { useAuth } from '@/composables/useAuth'
 
-const { sanitizeNickname, sanitizePassword, validateNickname, validatePassword, validateEmail } = useValidation()
 const { register, loading, error, clearError } = useAuth()
 
-// Реактивные данные формы
-const nickname = ref('')
-const email = ref('')
+const username = ref('')
 const password = ref('')
 
-// Состояния ошибок валидации
-const nicknameError = ref<ValidationResult>({ isValid: true, message: '' })
-const emailError = ref<ValidationResult>({ isValid: true, message: '' })
-const passwordError = ref<ValidationResult>({ isValid: true, message: '' })
-
-// Валидация в реальном времени
-watch(nickname, (newValue) => {
-  const sanitized = sanitizeNickname(newValue)
-  if (sanitized !== newValue) {
-    nickname.value = sanitized
-  }
-  nicknameError.value = validateNickname(nickname.value)
-})
-
-watch(email, (newValue) => {
-  emailError.value = validateEmail(newValue)
-})
-
-watch(password, (newValue) => {
-  const sanitized = sanitizePassword(newValue)
-  if (sanitized !== newValue) {
-    password.value = sanitized
-  }
-  passwordError.value = validatePassword(password.value)
-})
-
 const handleSignIn = async () => {
-  clearError()
-  
-  // Финальная валидация всех полей
-  const nicknameValidation = validateNickname(nickname.value)
-  const emailValidation = validateEmail(email.value)
-  const passwordValidation = validatePassword(password.value)
-  
-  nicknameError.value = nicknameValidation
-  emailError.value = emailValidation
-  passwordError.value = passwordValidation
-  
-  // Проверяем, что все поля валидны
-  const isFormValid = nicknameValidation.isValid && 
-                     emailValidation.isValid && 
-                     passwordValidation.isValid
-  
-  if (isFormValid) {
-    try {
-      const userData: RegisterData = {
-        nickname: nickname.value,
-        email: email.value,
-        password: password.value,
-        confirmPassword: password.value, // В простой форме используем тот же пароль
-        agreeToTerms: true, // Предполагаем согласие
-        agreeToPrivacy: true
-      }
-      
-      await register(userData)
-      // При успехе пользователь будет перенаправлен автоматически
-    } catch (err) {
-      // Ошибка уже обработана в useAuth
-      console.error('Registration failed:', err)
+    clearError()
+    if (!username.value || !password.value) {
+        return
     }
-  } else {
-    console.log('Form validation failed')
-  }
+    try {
+        await register({ username: username.value, password: password.value })
+        alert('Registered successfully! Now log in.')
+        username.value = ''
+        password.value = ''
+    } catch {}
 }
 </script>
 
@@ -148,18 +66,18 @@ const handleSignIn = async () => {
   min-height: 100vh;
   padding: 0 16px;
   box-sizing: border-box;
-  
+
   /* Мобильные устройства */
   @media (max-width: 768px) {
     padding: 0 12px;
   }
-  
+
   /* Планшеты */
   @media (min-width: 769px) and (max-width: 1024px) {
     padding: 0 20px;
     max-width: 800px;
   }
-  
+
   /* Десктоп */
   @media (min-width: 1025px) {
     padding: 0 24px;
@@ -218,11 +136,11 @@ const handleSignIn = async () => {
   padding: 0 16px;
   font-size: 22px;
   color: var(--text-primary);
-  
+
   &::placeholder {
     color: var(--text-secondary);
   }
-  
+
   &.error {
     border: 2px solid #FF3B3B;
   }
@@ -248,7 +166,7 @@ const handleSignIn = async () => {
 .link {
   color: var(--btn-primary);
   text-decoration: none;
-  
+
   &:hover {
     text-decoration: underline;
   }
@@ -267,11 +185,11 @@ const handleSignIn = async () => {
   margin: 16px auto 0;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-  
+
   &:hover:not(:disabled) {
     opacity: 0.8;
   }
-  
+
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;

@@ -1,98 +1,60 @@
 <template>
-  <div class="login-container">
-    
-    <!-- Main Body -->
-    <div class="main-body">
-      <div class="login-content">
-        <h2 class="login-title">Log in</h2>
-        <div class="login-form">
-          <h2 class="field-label">Nickname/mail</h2>
-          <input 
-            id="nickname" 
-            v-model="nickname"
-            type="text" 
-            placeholder="Enter your nickname/mail" 
-            class="input-field"
-            :class="{ 'error': nicknameError }"
-          >
-          <p v-if="nicknameError" class="error-message">Nickname is invalid</p>
-          
-          <h2 class="field-label">Password</h2>
-          <input 
-            id="password" 
-            v-model="password"
-            type="password" 
-            placeholder="Enter your password" 
-            class="input-field"
-            :class="{ 'error': passwordError }"
-          >
-          <p v-if="passwordError" class="error-message">Password is invalid</p>
-          
-          <!-- API Error Display -->
-          <div v-if="error" class="api-error">
-            <p class="api-error-message">{{ error }}</p>
-          </div>
-          
-          <p class="forgot-password">Forgot password?</p>
-          <p class="sign-in-link">Or <router-link to="/signin" class="link">sign in</router-link></p>
-          
-          <button @click="handleLogin" class="login-button" :disabled="loading">
-            <span v-if="loading" class="loading-spinner"></span>
-            <span v-if="!loading">Log in</span>
-            <span v-else>Logging in...</span>
-          </button>
+    <div class="login-container">
+        <div class="main-body">
+            <div class="login-content">
+                <h2 class="login-title">Log in</h2>
+                <div class="login-form">
+                    <h2 class="field-label">Username</h2>
+                    <input
+                        v-model="username"
+                        type="text"
+                        placeholder="Enter your username"
+                        class="input-field"
+                    >
+
+                    <h2 class="field-label">Password</h2>
+                    <input
+                        v-model="password"
+                        type="password"
+                        placeholder="Enter your password"
+                        class="input-field"
+                    >
+
+                    <div v-if="error" class="api-error">
+                        <p>{{ error }}</p>
+                    </div>
+
+                    <button @click="handleLogin" class="login-button" :disabled="loading">
+                        <span v-if="loading">Logging in...</span>
+                        <span v-else>Log in</span>
+                    </button>
+
+                    <p class="sign-in-link">Or <router-link to="/signin" class="link">sign in</router-link></p>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-    
-  </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useAuth } from '../composables/useAuth'
-import type { LoginCredentials } from '../types/user'
+import { useAuth } from '@/composables/useAuth'
 
 const { login, loading, error, clearError } = useAuth()
 
-const nickname = ref('')
+const username = ref('')
 const password = ref('')
-const rememberMe = ref(false)
-const nicknameError = ref(false)
-const passwordError = ref(false)
-
-const validateNickname = (value: string): boolean => {
-  return value.length >= 3 && value.length <= 50
-}
-
-const validatePassword = (value: string): boolean => {
-  return value.length >= 6
-}
 
 const handleLogin = async () => {
-  clearError()
-  
-  const nicknameValid = validateNickname(nickname.value)
-  const passwordValid = validatePassword(password.value)
-  
-  nicknameError.value = !nicknameValid
-  passwordError.value = !passwordValid
-  
-  if (nicknameValid && passwordValid) {
+    clearError()
+    if (!username.value || !password.value) return
+
     try {
-      const credentials: LoginCredentials = {
-        login: nickname.value,
-        password: password.value,
-        rememberMe: rememberMe.value
-      }
-      
-      await login(credentials)
-      // При успехе пользователь будет перенаправлен автоматически
-    } catch (err) {
-      // Ошибка уже обработана в useAuth
-      console.error('Login failed:', err)
-    }
-  }
+        await login({ username: username.value, password: password.value })
+        alert('Logged in successfully!')
+        username.value = ''
+        password.value = ''
+    } catch {}
 }
 </script>
 
@@ -103,18 +65,18 @@ const handleLogin = async () => {
   min-height: 100vh;
   padding: 0 16px;
   box-sizing: border-box;
-  
+
   /* Мобильные устройства */
   @media (max-width: 768px) {
     padding: 0 12px;
   }
-  
+
   /* Планшеты */
   @media (min-width: 769px) and (max-width: 1024px) {
     padding: 0 20px;
     max-width: 800px;
   }
-  
+
   /* Десктоп */
   @media (min-width: 1025px) {
     padding: 0 24px;
@@ -141,19 +103,19 @@ const handleLogin = async () => {
   font-family: var(--font-sans);
   font-weight: bold;
   text-align: center;
-  
+
   /* Мобильные устройства */
   @media (max-width: 768px) {
     font-size: 36px;
     margin-bottom: 8px;
   }
-  
+
   /* Планшеты */
   @media (min-width: 769px) and (max-width: 1024px) {
     font-size: 44px;
     margin-bottom: 9px;
   }
-  
+
   /* Десктоп */
   @media (min-width: 1025px) {
     font-size: 50px;
@@ -190,11 +152,11 @@ const handleLogin = async () => {
   padding: 0 16px;
   font-size: 22px;
   color: var(--text-primary);
-  
+
   &::placeholder {
     color: var(--text-secondary);
   }
-  
+
   &.error {
     border: 2px solid #FF3B3B;
   }
@@ -229,7 +191,7 @@ const handleLogin = async () => {
 .link {
   color: var(--btn-primary);
   text-decoration: none;
-  
+
   &:hover {
     text-decoration: underline;
   }
@@ -248,11 +210,11 @@ const handleLogin = async () => {
   margin: 16px auto 0;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-  
+
   &:hover:not(:disabled) {
     opacity: 0.8;
   }
-  
+
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;

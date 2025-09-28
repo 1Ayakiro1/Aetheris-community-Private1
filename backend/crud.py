@@ -1,6 +1,30 @@
 from sqlalchemy.orm import Session
+from passlib.context import CryptContext
 from . import models, schemas
 import json
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+#auth
+
+def get_user_by_username(db: Session, username: str):
+    return db.query(models.User).filter(models.User.username == username).first()
+
+def create_user(db: Session, user: schemas.UserCreate):
+    # bcrypt поддерживает только до 72байт потому пришлосьь обрезать но я хз с чем это связано потому что пароль явно не 72 байта
+    safe_password = user.password[:72]
+    hashed_password = pwd_context.hash(safe_password)
+    db_user = models.User(username=user.username, password_hash=hashed_password)
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
+
+def verify_password(plain_password, hashed_password):
+    safe_password = plain_password[:72]
+    return pwd_context.verify(safe_password, hashed_password)
+
+#счтатьи
 
 def get_article(db: Session, article_id: int):
     return db.query(models.Article).filter(models.Article.id == article_id).first()
@@ -47,13 +71,6 @@ def get_article_with_user(db: Session, article_id: int, user_id: int | None = No
     return a
 
 def react_article(db: Session, article_id: int, user_id: int, reaction: str):
-    """
-    reaction: 'like' or 'dislike'
-    логика:
-      - если записи нет -> создаем + увеличиваем соответствующий счётчик
-      - если запись есть и та же реакция -> удаляем запись (toggle off) и уменьшаем счётчик
-      - если запись есть и другая реакция -> меняем запись и корректируем оба счётчика
-    """
     article = get_article(db, article_id)
     if not article:
         return None
@@ -65,14 +82,12 @@ def react_article(db: Session, article_id: int, user_id: int, reaction: str):
 
     if existing:
         if existing.reaction == reaction:
-            # toggle off
             db.delete(existing)
             if reaction == 'like':
                 article.likes = max(0, article.likes - 1)
             elif reaction == 'dislike':
                 article.dislikes = max(0, article.dislikes - 1)
         else:
-            # switch reaction
             prev = existing.reaction
             existing.reaction = reaction
             if prev == 'like':
@@ -85,7 +100,6 @@ def react_article(db: Session, article_id: int, user_id: int, reaction: str):
             elif reaction == 'dislike':
                 article.dislikes += 1
     else:
-        # new reaction
         new = models.ArticleReaction(user_id=user_id, article_id=article_id, reaction=reaction)
         db.add(new)
         if reaction == 'like':
@@ -96,9 +110,7 @@ def react_article(db: Session, article_id: int, user_id: int, reaction: str):
     db.commit()
     db.refresh(article)
 
-    # expose tags as list for response
     article.tags = article.tags.split(",") if article.tags else []
-    # set user_reaction to current reaction present (or None if removed)
     r = db.query(models.ArticleReaction).filter(
         models.ArticleReaction.article_id == article_id,
         models.ArticleReaction.user_id == user_id

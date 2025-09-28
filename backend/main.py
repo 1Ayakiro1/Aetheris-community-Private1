@@ -3,13 +3,14 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from typing import Optional
 from . import models, schemas, crud, database
-from .routers import articles
+from .routers import articles, auth
 
 models.Base.metadata.create_all(bind=database.engine)
 
 app = FastAPI()
 
 app.include_router(articles.router)
+app.include_router(auth.router)
 
 def get_db():
     db = database.SessionLocal()
