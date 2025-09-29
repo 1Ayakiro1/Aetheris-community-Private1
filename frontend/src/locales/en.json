@@ -1,0 +1,113 @@
+{
+  "nav": {
+    "home": "Start page",
+    "articles": "Articles",
+    "interactive": "Interactive",
+    "companies": "Companies",
+    "faq": "FAQ",
+    "help": "Help",
+    "changes": "Site changes",
+    "rules": "Forum rules",
+    "profile": "Profile",
+    "notifications": "Notifications",
+    "stared": "Stared articles",
+    "settings": "Settings",
+    "articles": {
+      "yours": "Your articles"
+    },
+    "draft": "Draft",
+    "analytics": "Analytics",
+    "balance": "Balance",
+    "subscription": "Subscription",
+    "shop": "Shop",
+    "signout": "Sign out"
+  },
+  "page": {
+    "home": {
+      "title": "Aetheris",
+      "subtitle": "A community of IT developers, neural network scientists and ML engineers",
+      "cta": "Join our community to create!",
+      "register": "Register"
+    },
+    "articles": {
+      "title": "Articles",
+      "search": "Search anything",
+      "info": "Article info",
+      "similar": "Similar articles",
+      "date": "Date:",
+      "likes": "Likes:",
+      "views": "Views:",
+      "comments": "Comments:",
+      "symbols": "Symbols:"
+    },
+    "your-articles": {
+      "title": "Your articles"
+    },
+    "analytics": {
+      "title": "Analytics"
+    },
+    "balance": {
+      "title": "Balance"
+    },
+    "development": "This page in development now"
+  },
+  "settings": {
+    "appearance": {
+      "title": "Appearance",
+      "theme": {
+        "title": "Color theme",
+        "subtitle": "Choose your favorite color theme for this web-site",
+        "system": "System theme",
+        "white": "White",
+        "aquamarine": "Aquamarine",
+        "dark": "Dark"
+      },
+      "language": {
+        "title": "Language",
+        "subtitle": "Choose your preferred language for the interface"
+      },
+      "font": {
+        "title": "Article font",
+        "subtitle": "Choose a font that is convenient for you, which will be used in the article as the main one",
+        "select": "Select font",
+        "preview": "Example of text article. Here exist more different words,which can use in any article and news,science facts and another places"
+      }
+    }
+  },
+  "form": {
+    "signin": {
+      "title": "Sign in",
+      "nickname": "Nickname",
+      "nicknamePlaceholder": "Enter your nickname",
+      "email": "Mail",
+      "emailPlaceholder": "Enter your mail",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "submit": "Sign in",
+      "loginLink": "Or log in"
+    }
+  },
+  "validation": {
+    "nickname": {
+      "required": "Nickname is required",
+      "length": "Nickname must be no more than 50 characters",
+      "invalid": "Nickname can only contain Latin letters, Cyrillic letters and spaces"
+    },
+    "email": {
+      "required": "Email is required",
+      "invalid": "Email must contain @"
+    },
+    "password": {
+      "required": "Password is required",
+      "length": "Password must be at least 6 characters",
+      "invalid": "Password is invalid (printable ASCII, max 48)"
+    },
+    "bio": {
+      "length": "Bio must be no more than 300 characters"
+    }
+  },
+  "common": {
+    "unknown": "unknown",
+    "sameArticle": "same article"
+  }
+}

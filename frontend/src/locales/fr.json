@@ -1,0 +1,113 @@
+{
+  "nav": {
+    "home": "Page d'accueil",
+    "articles": "Articles",
+    "interactive": "Interactif",
+    "companies": "Entreprises",
+    "faq": "FAQ",
+    "help": "Aide",
+    "changes": "Changements du site",
+    "rules": "Règles du forum",
+    "profile": "Profil",
+    "notifications": "Notifications",
+    "stared": "Articles favoris",
+    "settings": "Paramètres",
+    "articles": {
+      "yours": "Vos articles"
+    },
+    "draft": "Brouillon",
+    "analytics": "Analytiques",
+    "balance": "Solde",
+    "subscription": "Abonnement",
+    "shop": "Boutique",
+    "signout": "Se déconnecter"
+  },
+  "page": {
+    "home": {
+      "title": "Aetheris",
+      "subtitle": "Une communauté de développeurs IT, de scientifiques en réseaux de neurones et d'ingénieurs ML",
+      "cta": "Rejoignez notre communauté pour créer !",
+      "register": "S'inscrire"
+    },
+    "articles": {
+      "title": "Articles",
+      "search": "Rechercher n'importe quoi",
+      "info": "Informations sur l'article",
+      "similar": "Articles similaires",
+      "date": "Date :",
+      "likes": "J'aime :",
+      "views": "Vues :",
+      "comments": "Commentaires :",
+      "symbols": "Symboles :"
+    },
+    "your-articles": {
+      "title": "Vos articles"
+    },
+    "analytics": {
+      "title": "Analytiques"
+    },
+    "balance": {
+      "title": "Solde"
+    },
+    "development": "Cette page est en développement"
+  },
+  "settings": {
+    "appearance": {
+      "title": "Apparence",
+      "theme": {
+        "title": "Thème de couleur",
+        "subtitle": "Choisissez votre thème de couleur préféré pour ce site web",
+        "system": "Thème système",
+        "white": "Blanc",
+        "aquamarine": "Aigue-marine",
+        "dark": "Sombre"
+      },
+      "language": {
+        "title": "Langue",
+        "subtitle": "Choisissez votre langue préférée pour l'interface"
+      },
+      "font": {
+        "title": "Police d'article",
+        "subtitle": "Choisissez une police qui vous convient, qui sera utilisée dans l'article comme principale",
+        "select": "Sélectionner la police",
+        "preview": "Exemple de texte d'article. Ici existent plus de mots différents, qui peuvent être utilisés dans n'importe quel article et actualités, faits scientifiques et autres endroits"
+      }
+    }
+  },
+  "form": {
+    "signin": {
+      "title": "S'inscrire",
+      "nickname": "Pseudonyme",
+      "nicknamePlaceholder": "Entrez votre pseudonyme",
+      "email": "Mail",
+      "emailPlaceholder": "Entrez votre mail",
+      "password": "Mot de passe",
+      "passwordPlaceholder": "Entrez votre mot de passe",
+      "submit": "S'inscrire",
+      "loginLink": "Ou se connecter"
+    }
+  },
+  "validation": {
+    "nickname": {
+      "required": "Le pseudonyme est obligatoire",
+      "length": "Le pseudonyme doit faire maximum 50 caractères",
+      "invalid": "Le pseudonyme ne peut contenir que des lettres latines, cyrilliques et des espaces"
+    },
+    "email": {
+      "required": "Le mail est obligatoire",
+      "invalid": "Le mail doit contenir @"
+    },
+    "password": {
+      "required": "Le mot de passe est obligatoire",
+      "length": "Le mot de passe doit faire au moins 6 caractères",
+      "invalid": "Le mot de passe est invalide (ASCII imprimable, max 48)"
+    },
+    "bio": {
+      "length": "La biographie doit faire maximum 300 caractères"
+    }
+  },
+  "common": {
+    "unknown": "inconnu",
+    "sameArticle": "même article"
+  }
+}

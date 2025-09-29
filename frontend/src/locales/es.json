@@ -1,0 +1,113 @@
+{
+  "nav": {
+    "home": "Página de inicio",
+    "articles": "Artículos",
+    "interactive": "Interactivo",
+    "companies": "Empresas",
+    "faq": "FAQ",
+    "help": "Ayuda",
+    "changes": "Cambios del sitio",
+    "rules": "Reglas del foro",
+    "profile": "Perfil",
+    "notifications": "Notificaciones",
+    "stared": "Artículos favoritos",
+    "settings": "Configuración",
+    "articles": {
+      "yours": "Tus artículos"
+    },
+    "draft": "Borrador",
+    "analytics": "Analíticas",
+    "balance": "Saldo",
+    "subscription": "Suscripción",
+    "shop": "Tienda",
+    "signout": "Cerrar sesión"
+  },
+  "page": {
+    "home": {
+      "title": "Aetheris",
+      "subtitle": "Una comunidad de desarrolladores de TI, científicos de redes neuronales e ingenieros de ML",
+      "cta": "¡Únete a nuestra comunidad para crear!",
+      "register": "Registrarse"
+    },
+    "articles": {
+      "title": "Artículos",
+      "search": "Buscar cualquier cosa",
+      "info": "Información del artículo",
+      "similar": "Artículos similares",
+      "date": "Fecha:",
+      "likes": "Me gusta:",
+      "views": "Vistas:",
+      "comments": "Comentarios:",
+      "symbols": "Símbolos:"
+    },
+    "your-articles": {
+      "title": "Tus artículos"
+    },
+    "analytics": {
+      "title": "Analíticas"
+    },
+    "balance": {
+      "title": "Saldo"
+    },
+    "development": "Esta página está en desarrollo"
+  },
+  "settings": {
+    "appearance": {
+      "title": "Apariencia",
+      "theme": {
+        "title": "Tema de color",
+        "subtitle": "Elige tu tema de color favorito para este sitio web",
+        "system": "Tema del sistema",
+        "white": "Blanco",
+        "aquamarine": "Aguamarina",
+        "dark": "Oscuro"
+      },
+      "language": {
+        "title": "Idioma",
+        "subtitle": "Elige tu idioma preferido para la interfaz"
+      },
+      "font": {
+        "title": "Fuente del artículo",
+        "subtitle": "Elige una fuente que te sea conveniente, que se usará en el artículo como principal",
+        "select": "Seleccionar fuente",
+        "preview": "Ejemplo de texto de artículo. Aquí existen más palabras diferentes, que se pueden usar en cualquier artículo y noticias, hechos científicos y otros lugares"
+      }
+    }
+  },
+  "form": {
+    "signin": {
+      "title": "Registrarse",
+      "nickname": "Apodo",
+      "nicknamePlaceholder": "Ingresa tu apodo",
+      "email": "Correo",
+      "emailPlaceholder": "Ingresa tu correo",
+      "password": "Contraseña",
+      "passwordPlaceholder": "Ingresa tu contraseña",
+      "submit": "Registrarse",
+      "loginLink": "O iniciar sesión"
+    }
+  },
+  "validation": {
+    "nickname": {
+      "required": "El apodo es obligatorio",
+      "length": "El apodo debe tener máximo 50 caracteres",
+      "invalid": "El apodo solo puede contener letras latinas, cirílicas y espacios"
+    },
+    "email": {
+      "required": "El correo es obligatorio",
+      "invalid": "El correo debe contener @"
+    },
+    "password": {
+      "required": "La contraseña es obligatoria",
+      "length": "La contraseña debe tener al menos 6 caracteres",
+      "invalid": "La contraseña es inválida (ASCII imprimible, máx 48)"
+    },
+    "bio": {
+      "length": "La biografía debe tener máximo 300 caracteres"
+    }
+  },
+  "common": {
+    "unknown": "desconocido",
+    "sameArticle": "mismo artículo"
+  }
+}

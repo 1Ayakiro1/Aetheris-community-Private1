@@ -54,6 +54,7 @@ import { createPinia } from 'pinia'
 import App from './App.vue';
 import router from './router';
 import { useAuthStore } from '@/stores/auth'
+import i18n from './i18n'
 
 console.log('Vue app started/Веб приложение запущено');
 const app = createApp(App);
@@ -63,6 +64,7 @@ app.use(PrimeVue, {
     theme: { preset: Aura }
 });
 app.use(pinia)
+app.use(i18n)
 
 app.component('Editor', Editor);
 app.use(router);

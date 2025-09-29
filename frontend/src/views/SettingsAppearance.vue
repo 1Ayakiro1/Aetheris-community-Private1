@@ -112,7 +112,7 @@
             >
               <div 
                 class="language-option"
-                :class="{ 'active': getCurrentLanguage === 'en' }"
+                :class="{ 'active': getCurrentLocale() === 'en' }"
                 @click="selectLanguage('en')"
               >
                 <span class="language-flag">🇺🇸</span>
@@ -121,7 +121,7 @@
               
               <div 
                 class="language-option"
-                :class="{ 'active': getCurrentLanguage === 'ru' }"
+                :class="{ 'active': getCurrentLocale() === 'ru' }"
                 @click="selectLanguage('ru')"
               >
                 <span class="language-flag">🇷🇺</span>
@@ -130,7 +130,7 @@
               
               <div 
                 class="language-option"
-                :class="{ 'active': getCurrentLanguage === 'es' }"
+                :class="{ 'active': getCurrentLocale() === 'es' }"
                 @click="selectLanguage('es')"
               >
                 <span class="language-flag">🇪🇸</span>
@@ -139,7 +139,7 @@
               
               <div 
                 class="language-option"
-                :class="{ 'active': getCurrentLanguage === 'fr' }"
+                :class="{ 'active': getCurrentLocale() === 'fr' }"
                 @click="selectLanguage('fr')"
               >
                 <span class="language-flag">🇫🇷</span>
@@ -237,12 +237,13 @@ import theme1Image from '@/assets/imgs/theme3.png'
 import theme2Image from '@/assets/imgs/theme2.png'
 import theme3Image from '@/assets/imgs/theme1.png'
 import { useTheme } from '@/composables/useTheme'
-import { useI18n } from '@/composables/useI18n'
+import { useI18n } from 'vue-i18n'
+import { setLocale, getCurrentLocale, getCurrentLocaleData, availableLocales } from '@/i18n'
 import SettingsSidebar from '@/components/SettingsSidebar.vue'
 
 // Используем composables
 const { selectedTheme, selectTheme } = useTheme()
-const { t, setLanguage, getCurrentLanguage, getCurrentLanguageData, initLanguage, languages } = useI18n()
+const { t } = useI18n()
 
 // Состояние выпадающих списков
 const isLanguageDropdownOpen = ref(false)
@@ -282,7 +283,7 @@ const toggleFontDropdown = () => {
 
 // Функция выбора языка
 const selectLanguage = (language: string) => {
-  setLanguage(language)
+  setLocale(language)
   isLanguageDropdownOpen.value = false
 }
 
@@ -296,11 +297,11 @@ const selectFont = (font: FontKey) => {
 
 // Функции для получения текущего языка
 const getCurrentLanguageFlag = () => {
-  return getCurrentLanguageData.value?.flag || '🇺🇸'
+  return getCurrentLocaleData()?.flag || '🇺🇸'
 }
 
 const getCurrentLanguageName = () => {
-  return getCurrentLanguageData.value?.name || 'English'
+  return getCurrentLocaleData()?.name || 'English'
 }
 
 // Функции для получения текущего шрифта
@@ -314,8 +315,6 @@ const getCurrentFontFamily = () => {
 
 // Инициализация языка и шрифта при загрузке компонента
 onMounted(() => {
-  initLanguage()
-  
   // Инициализация шрифта из localStorage
   const savedFont = localStorage.getItem('selected-font') as FontKey
   if (savedFont && fonts[savedFont]) {
