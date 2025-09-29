@@ -1,26 +1,4 @@
 {
-  "nav": {
-    "brand": "Aetheris Community",
-    "navigation": "Navigation",
-    "home": "Start page",
-    "articles": "Articles",
-    "interactive": "Interactive",
-    "companies": "Companies",
-    "faq": "FAQ",
-    "help": "Help",
-    "changes": "Site changes",
-    "rules": "Forum rules",
-    "profile": "Profile",
-    "notifications": "Notifications",
-    "stared": "Stared articles",
-    "settings": "Settings",
-    "draft": "Draft",
-    "analytics": "Analytics",
-    "balance": "Balance",
-    "subscription": "Subscription",
-    "shop": "Shop",
-    "signout": "Sign out"
-  },
   "page": {
     "home": {
       "title": "Aetheris",
@@ -28,6 +6,10 @@
       "cta": "Join our community to create!",
       "register": "Register"
     },
+
+
+
+
     "articles": {
       "title": "Articles",
       "search": "Search anything",
@@ -39,17 +21,38 @@
       "comments": "Comments:",
       "symbols": "Symbols:"
     },
+
+
+
+
     "your-articles": {
       "title": "Your articles"
     },
+
+
+
+
     "analytics": {
       "title": "Analytics"
     },
+
+
+
+
+
     "balance": {
       "title": "Balance"
     },
+
+
+
+
     "development": "This page in development now"
   },
+
+
+
+
   "settings": {
     "appearance": {
       "title": "Appearance",
@@ -71,8 +74,47 @@
         "select": "Select font",
         "preview": "Example of text article. Here exist more different words,which can use in any article and news,science facts and another places"
       }
+    },
+    "display_profile": {
+      "title": "Display profile",
+      "h1": "Profile information",
+      "subtitle": "Menu for changing profile information that is displayed to all users",
+      "h2": "Avatar",
+      "button1": "Upload image",
+      "button2": "Remove image",
+      "button3": "reset",
+      "h3": "Nickname",
+      "subtitle3": "Change the name displayed on your account",
+      "input_text1": "Enter your nickname",
+      "h4": "Bio",
+      "subtitle4": "Add information about you and your hobbies and skills",
+      "input_text2": "Input your bio",
+      "upload_panel": {
+        "h1": "Upload avatar",
+        "h2": "Drag & Drop your image here",
+        "subtitle": "or click to browse files",
+        "info": "Supports: JPG, PNG, GIF (max 5MB)",
+        "browse_button": "Browse Files",
+        "upload_button": "Upload Avatar"
+      },
+      "remove_panel": {
+        "h1": "Delete avatar?",
+        "subtitle": "Are you sure you want to delete your avatar?",
+        "warning": "This action cannot be undone. Your profile will display the default avatar after deletion.",
+        "button1": "Cancel",
+        "button2": "Remove"
+      },
+      "reset_panel": {
+        "h1": "Reset profile settings?",
+        "button1": "Cancel",
+        "button2": "Reset"
+      }
     }
   },
+
+
+
+
   "form": {
     "signin": {
       "title": "Sign in",
@@ -110,6 +152,8 @@
     "sameArticle": "same article"
   },
 
+
+
   "header": {
     "navigation": {
       "button": "Navigation",
@@ -117,6 +161,34 @@
       "title2": "Articles",
       "title3": "Interaction page",
       "title4": "Companies"
+    },
+    "faq": {
+      "button": "FAQ",
+      "title1": "FAQ page",
+      "title2": "Help",
+      "title3": "Site changes",
+      "title4": "Forum rules"
+    },
+    "additional": {
+      "button": "Additional",
+      "title1": "New article",
+      "title2": "List",
+      "title3": "Grid",
+      "title4": "Default"
+    },
+    "profile": {
+      "button": "Profile",
+      "title1": "Profile",
+      "title2": "Notifications",
+      "title3": "Stared articles",
+      "title4": "Settings",
+      "title5": "Your articles",
+      "title6": "Draft",
+      "title7": "Analytics",
+      "title8": "Balance",
+      "title9": "Subscription",
+      "title10": "Shop",
+      "title11": "Sign out"
     }
   }
 }

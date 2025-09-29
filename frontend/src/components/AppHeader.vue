@@ -76,28 +76,28 @@
       <router-link to="/faq">
         <button class="panel-button">
           <FAQIcon class="panel-icon" />
-          <p class="panel-text">FAQ page</p>
+          <p class="panel-text">{{ t('header.faq.title1') }}</p>
         </button>
       </router-link>
 
       <router-link to="/faq/help">
         <button class="panel-button">
           <HelpIcon class="panel-icon" />
-          <p class="panel-text">Help</p>
+          <p class="panel-text">{{ t('header.faq.title2') }}</p>
         </button>
       </router-link>
 
       <router-link to="/faq/changes">
         <button class="panel-button">
           <ChangesIcon class="panel-icon" />
-          <p class="panel-text">Site changes</p>
+          <p class="panel-text">{{ t('header.faq.title3') }}</p>
         </button>
       </router-link>
 
       <router-link to="/legal/community-rules">
         <button class="panel-button">
           <RulesIcon class="panel-icon" />
-          <p class="panel-text">Forum rules</p>
+          <p class="panel-text">{{ t('header.faq.title4') }}</p>
         </button>
       </router-link>
     </div>
@@ -109,7 +109,7 @@
       <router-link to="/create-article">
         <button class="panel-button">
           <div class="icon-placeholder panel-icon"></div>
-          <p class="panel-text">New article</p>
+          <p class="panel-text">{{ t('header.additional.title1') }}</p>
         </button>
       </router-link>
 
@@ -117,17 +117,17 @@
 
       <button class="panel-button">
         <div class="icon-placeholder panel-icon"></div>
-        <p class="panel-text">List</p>
+        <p class="panel-text">{{ t('header.additional.title2') }}</p>
       </button>
 
       <button class="panel-button">
         <div class="icon-placeholder panel-icon"></div>
-        <p class="panel-text">Grid</p>
+        <p class="panel-text">{{ t('header.additional.title3') }}</p>
       </button>
 
       <button class="panel-button">
         <div class="icon-placeholder panel-icon"></div>
-        <p class="panel-text">Default</p>
+        <p class="panel-text">{{ t('header.additional.title4') }}</p>
       </button>
     </div>
   </div>
@@ -138,28 +138,28 @@
       <router-link to="/profile">
         <button class="panel-button">
           <ProfileIcon class="panel-icon" />
-          <p class="panel-text">Profile</p>
+          <p class="panel-text">{{ t('header.profile.title1') }}</p>
         </button>
       </router-link>
 
       <router-link to="/notifications">
         <button class="panel-button">
           <NotificationsIcon class="panel-icon" />
-          <p class="panel-text">Notifications</p>
+          <p class="panel-text">{{ t('header.profile.title2') }}</p>
         </button>
       </router-link>
 
       <router-link to="/stared-articles">
         <button class="panel-button">
           <StarIcon class="panel-icon" />
-          <p class="panel-text">Stared articles</p>
+          <p class="panel-text">{{ t('header.profile.title3') }}</p>
         </button>
       </router-link>
 
       <router-link to="/settings/appearance">
         <button class="panel-button">
           <SettingsIcon class="panel-icon" />
-          <p class="panel-text">Settings</p>
+          <p class="panel-text">{{ t('header.profile.title4') }}</p>
         </button>
       </router-link>
 
@@ -168,28 +168,28 @@
       <router-link to="/your-articles">
         <button class="panel-button">
           <EditIcon class="panel-icon" />
-          <p class="panel-text">Your articles</p>
+          <p class="panel-text">{{ t('header.profile.title5') }}</p>
         </button>
       </router-link>
 
       <router-link to="/draft">
         <button class="panel-button">
           <DraftIcon class="panel-icon" />
-          <p class="panel-text">Draft</p>
+          <p class="panel-text">{{ t('header.profile.title6') }}</p>
         </button>
       </router-link>
 
       <router-link to="/analytics">
         <button class="panel-button">
           <AnalyticsIcon class="panel-icon" />
-          <p class="panel-text">Analytics</p>
+          <p class="panel-text">{{ t('header.profile.title7') }}</p>
         </button>
       </router-link>
 
       <router-link to="/balance">
         <button class="panel-button">
           <BalanceIcon class="panel-icon" />
-          <p class="panel-text">Balance</p>
+          <p class="panel-text">{{ t('header.profile.title8') }}</p>
         </button>
       </router-link>
 
@@ -198,14 +198,14 @@
       <router-link to="/settings/subscription">
         <button class="panel-button">
           <CheckmarkIcon class="panel-icon" />
-          <p class="panel-text">Subscription</p>
+          <p class="panel-text">{{ t('header.profile.title9') }}</p>
         </button>
       </router-link>
 
       <router-link to="/shop">
         <button class="panel-button">
           <ShopIcon class="panel-icon" />
-          <p class="panel-text">Shop</p>
+          <p class="panel-text">{{ t('header.profile.title10') }}</p>
         </button>
       </router-link>
 
@@ -213,7 +213,7 @@
 
         <button class="panel-button sign-out-button" @click="signOut">
             <SignOutIcon class="panel-icon" />
-            <p class="panel-text sign-out-text">Sign out</p>
+            <p class="panel-text sign-out-text">{{ t('header.profile.title11') }}</p>
         </button>
     </div>
   </div>

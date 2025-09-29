@@ -55,25 +55,40 @@
   },
   "settings": {
     "appearance": {
-      "title": "Внешний вид",
+      "title": "Appearance",
       "theme": {
-        "title": "Цветовая тема",
-        "subtitle": "Выберите любимую цветовую тему для этого веб-сайта",
-        "system": "Системная тема",
-        "white": "Белая",
-        "aquamarine": "Аквамариновая",
-        "dark": "Темная"
+        "title": "Color theme",
+        "subtitle": "Choose your favorite color theme for this web-site",
+        "system": "System theme",
+        "white": "White",
+        "aquamarine": "Aquamarine",
+        "dark": "Dark"
       },
       "language": {
-        "title": "Язык",
-        "subtitle": "Выберите предпочитаемый язык для интерфейса"
+        "title": "Language",
+        "subtitle": "Choose your preferred language for the interface"
       },
       "font": {
-        "title": "Шрифт статей",
-        "subtitle": "Выберите удобный для вас шрифт, который будет использоваться в статьях как основной",
-        "select": "Выбрать шрифт",
-        "preview": "Пример текста статьи. Здесь есть много разных слов, которые можно использовать в любой статье и новостях, научных фактах и других местах"
+        "title": "Article font",
+        "subtitle": "Choose a font that is convenient for you, which will be used in the article as the main one",
+        "select": "Select font",
+        "preview": "Example of text article. Here exist more different words,which can use in any article and news,science facts and another places"
       }
+    },
+    "display_profile": {
+      "title": "тест",
+      "h1": "тест",
+      "subtitle": "тест",
+      "h2": "тест",
+      "button1": "тест",
+      "button2": "тест",
+      "button3": "тест",
+      "h3": "тест",
+      "subtitle3": "тест",
+      "input_text1": "тест",
+      "h4": "тест",
+      "subtitle4": "тест",
+      "input_text2": "тест"
     }
   },
   "form": {

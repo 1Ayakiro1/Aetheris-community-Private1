@@ -11,31 +11,31 @@
       <div class="content">
         <!-- Profile Information Section -->
         <div class="profile-section">
-          <h1 class="section-title">Profile information</h1>
-          <h2 class="section-subtitle">Menu for changing profile information that is displayed to all users</h2>
+          <h1 class="section-title">{{ t('settings.display_profile.h1') }}</h1>
+          <h2 class="section-subtitle">{{ t('settings.display_profile.subtitle') }}</h2>
           
           <!-- Avatar Section -->
-          <h1 class="section-title">Avatar</h1>
+          <h1 class="section-title">{{ t('settings.display_profile.h2') }}</h1>
           <div class="avatar-section">
             <div class="avatar-placeholder"></div>
             <div class="avatar-buttons">
-              <button class="avatar-button" @click="openUploadModal">upload image</button>
-              <button class="avatar-button" @click="openDeleteModal">remove image</button>
+              <button class="avatar-button" @click="openUploadModal">{{ t('settings.display_profile.button1') }}</button>
+              <button class="avatar-button" @click="openDeleteModal">{{ t('settings.display_profile.button2') }}</button>
             </div>
             <button class="reset-button" @click="openResetModal">
               <svg class="reset-icon" width="27" height="26" viewBox="0 0 27 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1.20831 3.02937V10.7742M1.20831 10.7742H8.45831M1.20831 10.7742L6.81498 5.14629C8.48358 3.36681 10.6484 2.21484 12.9831 1.86393C15.3179 1.51302 17.6962 1.98219 19.7597 3.20074C21.8231 4.4193 23.46 6.32123 24.4236 8.61996C25.3872 10.9187 25.6253 13.4897 25.1022 15.9456C24.579 18.4015 23.3228 20.6092 21.523 22.2362C19.7231 23.8631 17.477 24.8211 15.1231 24.9659C12.7693 25.1106 10.4351 24.4342 8.4724 23.0386C6.50968 21.643 5.02471 19.6038 4.24123 17.2282" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-              <p class="reset-text">reset</p>
+              <p class="reset-text">{{ t('settings.display_profile.button3') }}</p>
             </button>
           </div>
           
           <!-- Nickname Section -->
-          <h1 class="section-title">Nickname</h1>
-          <h2 class="section-subtitle">Change the name displayed on your account</h2>
+          <h1 class="section-title">{{ t('settings.display_profile.h3') }}</h1>
+          <h2 class="section-subtitle">{{ t('settings.display_profile.subtitle3') }}</h2>
           <input 
             type="text" 
-            placeholder="Enter your nickname" 
+            :placeholder="t('settings.display_profile.input_text1')" 
             class="nickname-input"
             :class="{ 'error': nicknameError }"
             v-model="nickname"
@@ -44,10 +44,10 @@
           
           <!-- Bio Section -->
           <div class="bio-section">
-            <h1 class="section-title">Bio</h1>
-            <h2 class="section-subtitle">Add information about you and your hobbies and skills</h2>
+            <h1 class="section-title">{{ t('settings.display_profile.h4') }}</h1>
+            <h2 class="section-subtitle">{{ t('settings.display_profile.subtitle4') }}</h2>
             <textarea 
-              placeholder="Enter your bio" 
+              :placeholder="t('settings.display_profile.input_text2')" 
               class="bio-input"
               :class="{ 'error': bioError }"
               v-model="bio"
@@ -66,7 +66,7 @@
       <div v-if="isUploadModalOpen" class="modal-overlay" @click="closeUploadModal">
         <div class="modal-content" @click.stop>
           <div class="modal-header">
-          <h2 class="modal-title">Upload Avatar</h2>
+          <h2 class="modal-title">{{ t('settings.display_profile.upload_panel.h1') }}</h2>
           <button class="modal-close" @click="closeUploadModal">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M18 6L6 18M6 6L18 18" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -88,9 +88,9 @@
               <svg class="upload-icon" width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15M17 8L12 3M12 3L7 8M12 3V15" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-              <h3 class="dropzone-title">Drag & Drop your image here</h3>
-              <p class="dropzone-subtitle">or click to browse files</p>
-              <p class="dropzone-info">Supports: JPG, PNG, GIF (max 5MB)</p>
+              <h3 class="dropzone-title">{{ t('settings.display_profile.upload_panel.h2') }}</h3>
+              <p class="dropzone-subtitle">{{ t('settings.display_profile.upload_panel.subtitle') }}</p>
+              <p class="dropzone-info">{{ t('settings.display_profile.upload_panel.info') }}</p>
             </div>
           </div>
           
@@ -110,10 +110,10 @@
               <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M14 2V8H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            Browse Files
+            {{ t('settings.display_profile.upload_panel.browse_button') }}
           </button>
           <button class="modal-button primary" @click="uploadAvatar" :disabled="!selectedFile">
-            Upload Avatar
+            {{ t('settings.display_profile.upload_panel.upload_button') }}
           </button>
         </div>
         </div>
@@ -125,7 +125,7 @@
       <div v-if="isDeleteModalOpen" class="modal-overlay" @click="closeDeleteModal">
         <div class="modal-content delete-modal" @click.stop>
           <div class="modal-header">
-            <h2 class="modal-title">Delete Avatar</h2>
+            <h2 class="modal-title">{{ t('settings.display_profile.remove_panel.h1') }}</h2>
             <button class="modal-close" @click="closeDeleteModal">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M18 6L6 18M6 6L18 18" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -139,16 +139,16 @@
                 <path d="M12 9V13M12 17H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
-            <h3 class="warning-title">Are you sure you want to delete your avatar?</h3>
-            <p class="warning-message">This action cannot be undone. Your profile will display the default avatar after deletion.</p>
+            <h3 class="warning-title">{{ t('settings.display_profile.remove_panel.h1') }}</h3>
+            <p class="warning-message">{{ t('settings.display_profile.remove_panel.subtitle') }}</p>
           </div>
           
           <div class="modal-footer">
             <button class="modal-button secondary" @click="closeDeleteModal">
-              Cancel
+              {{ t('settings.display_profile.remove_panel.button1') }}
             </button>
             <button class="modal-button danger" @click="confirmDeleteAvatar">
-              Delete Avatar
+              {{ t('settings.display_profile.remove_panel.button2') }}
             </button>
           </div>
         </div>
@@ -159,10 +159,10 @@
     <div v-if="isResetPanelOpen" class="reset-panel-overlay" @click="closeResetPanel">
       <div class="reset-panel" @click.stop>
         <div class="reset-panel-content">
-          <p class="reset-panel-text">Reset profile settings?</p>
+          <p class="reset-panel-text">{{ t('settings.display_profile.reset_panel.h1') }}</p>
           <div class="reset-panel-buttons">
-            <button class="reset-panel-button cancel" @click="closeResetPanel">Cancel</button>
-            <button class="reset-panel-button confirm" @click="confirmReset">Reset</button>
+            <button class="reset-panel-button cancel" @click="closeResetPanel">{{ t('settings.display_profile.reset_panel.button1') }}</button>
+            <button class="reset-panel-button confirm" @click="confirmReset">{{ t('settings.display_profile.reset_panel.button2') }}</button>
           </div>
         </div>
       </div>
@@ -180,8 +180,11 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { ref, watch } from 'vue'
 import SettingsSidebar from '@/components/SettingsSidebar.vue'
+
+const { t } = useI18n()
 
 const nickname = ref('')
 const bio = ref('')
