@@ -9,7 +9,7 @@
 
       <button type="button" id="nav-btn" class="nav-button">
         <NavigationIcon class="nav-icon" />
-        <p class="button-text">Navigation</p>
+        <p class="button-text">{{ t('header.navigation.button') }}</p>
         <DropdownIcon class="dropdown-icon nav-arrow" />
       </button>
     </div>
@@ -43,28 +43,28 @@
       <router-link to="/">
         <button class="panel-button">
           <HomeIcon class="panel-icon" />
-          <p class="panel-text">Start page</p>
+          <p class="panel-text">{{ t('header.navigation.title1') }}</p>
         </button>
       </router-link>
 
       <router-link to="/articles">
         <button class="panel-button">
           <ArticlesIcon class="panel-icon" />
-          <p class="panel-text">Articles</p>
+          <p class="panel-text">{{ t('header.navigation.title2') }}</p>
         </button>
       </router-link>
 
       <router-link to="/articles/interactive">
         <button class="panel-button">
           <InteractiveIcon class="panel-icon" />
-          <p class="panel-text">Interactive</p>
+          <p class="panel-text">{{ t('header.navigation.title3') }}</p>
         </button>
       </router-link>
 
       <router-link to="/articles/companies">
         <button class="panel-button">
           <CompaniesIcon class="panel-icon" />
-          <p class="panel-text">Companies</p>
+          <p class="panel-text">{{ t('header.navigation.title4') }}</p>
         </button>
       </router-link>
     </div>
@@ -246,6 +246,9 @@ import ShopIcon from '@/assets/icons/ShopIcon.vue'
 import SignOutIcon from '@/assets/icons/SignOutIcon.vue'
 import ChangesIcon from '@/assets/icons/ChangesIcon.vue'
 import RulesIcon from '@/assets/icons/RulesIcon.vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 // Route setup
 const route = useRoute()

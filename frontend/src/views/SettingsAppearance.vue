@@ -13,7 +13,7 @@
       <div class="content">
         <!-- Color Theme Section -->
         <div class="theme-section">
-          <h1 class="section-title">{{ t('settings.appearance.theme') }}</h1>
+          <h1 class="section-title">{{ t('settings.appearance.theme.title') }}</h1>
           <h2 class="section-subtitle">{{ t('settings.appearance.theme.subtitle') }}</h2>
           
           <div class="theme-buttons">
@@ -89,7 +89,7 @@
         
         <!-- Language Section -->
         <div class="language-section">
-          <h1 class="section-title">{{ t('settings.appearance.language') }}</h1>
+          <h1 class="section-title">{{ t('settings.appearance.language.title') }}</h1>
           <h2 class="section-subtitle">{{ t('settings.appearance.language.subtitle') }}</h2>
           
           <div class="language-dropdown">
@@ -151,7 +151,7 @@
         
         <!-- Article Font Section -->
         <div class="font-section">
-          <h1 class="section-title">{{ t('settings.appearance.font') }}</h1>
+          <h1 class="section-title">{{ t('settings.appearance.font.title') }}</h1>
           <h2 class="section-subtitle">{{ t('settings.appearance.font.subtitle') }}</h2>
           
           <div class="font-dropdown">

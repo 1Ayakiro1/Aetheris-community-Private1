@@ -1,5 +1,7 @@
 {
   "nav": {
+    "brand": "Aetheris Communauté",
+    "navigation": "Navigation",
     "home": "Page d'accueil",
     "articles": "Articles",
     "interactive": "Interactif",

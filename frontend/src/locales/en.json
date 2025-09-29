@@ -1,5 +1,7 @@
 {
   "nav": {
+    "brand": "Aetheris Community",
+    "navigation": "Navigation",
     "home": "Start page",
     "articles": "Articles",
     "interactive": "Interactive",
@@ -12,9 +14,6 @@
     "notifications": "Notifications",
     "stared": "Stared articles",
     "settings": "Settings",
-    "articles": {
-      "yours": "Your articles"
-    },
     "draft": "Draft",
     "analytics": "Analytics",
     "balance": "Balance",
@@ -109,5 +108,15 @@
   "common": {
     "unknown": "unknown",
     "sameArticle": "same article"
+  },
+
+  "header": {
+    "navigation": {
+      "button": "Navigation",
+      "title1": "Start Page",
+      "title2": "Articles",
+      "title3": "Interaction page",
+      "title4": "Companies"
+    }
   }
 }
