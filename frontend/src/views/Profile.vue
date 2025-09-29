@@ -1,56 +1,74 @@
 <template>
-  <div class="profile-container">
-    <!-- Profile Header Section -->
-    <div class="profile-header">
-      <!-- Avatar -->
-      <div class="profile-avatar"></div>
-      
-      <!-- User Info -->
-      <div class="user-info">
-        <h1 class="user-nickname">Nickname</h1>
-        <p class="user-tag">#UserTag</p>
-        
-        <!-- User Stats -->
-        <div class="user-stats">
-          <span class="stat-item">N articles</span>
-          <div class="stat-divider"></div>
-          <span class="stat-item">N comments</span>
-          <div class="stat-divider"></div>
-          <span class="stat-item">Joined ddmmyy</span>
-          <div class="stat-divider"></div>
-          <span class="stat-item">Rank</span>
+    <div class="profile-container">
+        <!-- Profile Header Section -->
+        <div class="profile-header">
+            <!-- Avatar -->
+            <div class="profile-avatar"></div>
+
+            <!-- User Info -->
+            <div class="user-info">
+                <h1 class="user-nickname">
+                    {{ auth.user?.username || "Гость" }}
+                </h1>
+
+                <p class="user-tag">
+                    {{ auth.user ? "#" + auth.user.id : "#0000" }}
+                </p>
+
+                <!-- User Stats -->
+                <div class="user-stats">
+                    <span class="stat-item">N articles</span>
+                    <div class="stat-divider"></div>
+                    <span class="stat-item">N comments</span>
+                    <div class="stat-divider"></div>
+                    <span class="stat-item">
+            Joined {{ joinDate }}
+          </span>
+                    <div class="stat-divider"></div>
+                    <span class="stat-item">Rank</span>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons" v-if="auth.isAuthenticated">
+                <button class="edit-button">
+                    <img src="/src/assets/imgs/pen.png" alt="Edit" class="edit-icon" width="30" height="30">
+                    <span class="edit-text">Edit</span>
+                </button>
+
+                <button class="more-button">
+                    <svg class="more-icon" width="6" height="30" viewBox="0 0 6 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="3" cy="6" r="2" fill="currentColor"/>
+                        <circle cx="3" cy="15" r="2" fill="currentColor"/>
+                        <circle cx="3" cy="24" r="2" fill="currentColor"/>
+                    </svg>
+                </button>
+            </div>
         </div>
-      </div>
-      
-      <!-- Action Buttons -->
-      <div class="action-buttons">
-        <button class="edit-button">
-          <img src="/src/assets/imgs/pen.png" alt="Edit" class="edit-icon" width="30" height="30">
-          <span class="edit-text">Edit</span>
-        </button>
-        
-        <button class="more-button">
-          <svg class="more-icon" width="6" height="30" viewBox="0 0 6 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="3" cy="6" r="2" fill="currentColor"/>
-            <circle cx="3" cy="15" r="2" fill="currentColor"/>
-            <circle cx="3" cy="24" r="2" fill="currentColor"/>
-          </svg>
-        </button>
-      </div>
+
+        <!-- Divider Line -->
+        <div class="profile-divider"></div>
+
+        <!-- Content Section -->
+        <div class="profile-content">
+            <p v-if="!auth.isAuthenticated" class="empty-message">
+                Вы не вошли в систему
+            </p>
+            <p v-else class="empty-message">
+                The user has not created any articles yet!
+            </p>
+        </div>
     </div>
-    
-    <!-- Divider Line -->
-    <div class="profile-divider"></div>
-    
-    <!-- Content Section -->
-    <div class="profile-content">
-      <p class="empty-message">The user has not created any articles yet.</p>
-    </div>
-  </div>
 </template>
 
 <script setup lang="ts">
+import { useAuthStore } from "@/stores/auth"
+
+const auth = useAuthStore()
+
+const joinDate = "2025-09-29"
 </script>
+
 
 <style scoped>
 .profile-container {
@@ -59,18 +77,18 @@
   min-height: 100vh;
   padding: 0 16px;
   box-sizing: border-box;
-  
+
   /* Мобильные устройства */
   @media (max-width: 768px) {
     padding: 0 12px;
   }
-  
+
   /* Планшеты */
   @media (min-width: 769px) and (max-width: 1024px) {
     padding: 0 20px;
     max-width: 1000px;
   }
-  
+
   /* Десктоп */
   @media (min-width: 1025px) {
     padding: 0 24px;

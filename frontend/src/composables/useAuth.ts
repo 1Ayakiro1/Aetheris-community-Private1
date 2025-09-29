@@ -1,57 +1,47 @@
 import { ref } from 'vue'
 import apiClient from '@/api/axios'
-
-interface LoginData {
-    username: string
-    password: string
-}
+import { useAuthStore } from '@/stores/auth'
 
 export function useAuth() {
+    const store = useAuthStore()
     const loading = ref(false)
     const error = ref<string | null>(null)
 
-    const clearError = () => {
-        error.value = null
-    }
+    const clearError = () => { error.value = null }
 
-    const register = async (data: LoginData) => {
+    const register = async (username: string, password: string) => {
         loading.value = true
         clearError()
-
         try {
-            // Обрезаем пароль до 72 символов перед отправкой
-            const payload = {
-                username: data.username,
-                password: data.password.slice(0, 72),
-            }
-            const response = await apiClient.post('/register', payload)
-            loading.value = false
-            return response.data
+            const payload = { username, password: password.slice(0, 72) }
+            const res = await apiClient.post('/register', payload)
+            return res.data
         } catch (err: any) {
-            loading.value = false
-            error.value = err.response?.data?.detail || 'Registration failed'
+            error.value = err.response?.data?.detail || err.message || 'Registration failed'
             throw err
+        } finally {
+            loading.value = false
         }
     }
 
-    const login = async (data: LoginData) => {
+    const login = async (username: string, password: string) => {
         loading.value = true
         clearError()
-
         try {
-            const payload = {
-                username: data.username,
-                password: data.password.slice(0, 72),
-            }
-            const response = await apiClient.post('/login', payload)
-            loading.value = false
-            // Сохраняем токен или user id, если нужно
-            localStorage.setItem('token', response.data.access_token || '')
-            return response.data
+            const payload = { username, password: password.slice(0, 72) }
+            const res = await apiClient.post('/login', payload)
+            const token = res.data?.access_token ?? res.data?.token ?? null
+            const user = res.data?.user ?? (res.data?.user_id ? { id: res.data.user_id, username } : null)
+
+            if (token) store.setToken(token)
+            if (user) store.setUser(user)
+
+            return res.data
         } catch (err: any) {
-            loading.value = false
-            error.value = err.response?.data?.detail || 'Login failed'
+            error.value = err.response?.data?.detail || err.message || 'Login failed'
             throw err
+        } finally {
+            loading.value = false
         }
     }
 

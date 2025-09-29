@@ -50,17 +50,24 @@ import Editor from 'primevue/editor';
 
 //vue
 import { createApp } from 'vue';
+import { createPinia } from 'pinia'
 import App from './App.vue';
 import router from './router';
+import { useAuthStore } from '@/stores/auth'
 
 console.log('Vue app started/Веб приложение запущено');
 const app = createApp(App);
+const pinia = createPinia()
 
 app.use(PrimeVue, {
     theme: { preset: Aura }
 });
+app.use(pinia)
 
 app.component('Editor', Editor);
 app.use(router);
+
+const auth = useAuthStore()
+auth.tryRestoreFromStorage()
 
 app.mount('#app');

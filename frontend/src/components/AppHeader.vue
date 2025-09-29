@@ -6,7 +6,7 @@
         <Logo class="logo" />
         <p class="header-title">Aetheris Community</p>
       </router-link>
-      
+
       <button type="button" id="nav-btn" class="nav-button">
         <NavigationIcon class="nav-icon" />
         <p class="button-text">Navigation</p>
@@ -112,7 +112,7 @@
           <p class="panel-text">New article</p>
         </button>
       </router-link>
-      
+
       <div class="panel-divider"></div>
 
       <button class="panel-button">
@@ -162,7 +162,7 @@
           <p class="panel-text">Settings</p>
         </button>
       </router-link>
-      
+
       <div class="panel-divider"></div>
 
       <router-link to="/your-articles">
@@ -192,7 +192,7 @@
           <p class="panel-text">Balance</p>
         </button>
       </router-link>
-      
+
       <div class="panel-divider"></div>
 
       <router-link to="/settings/subscription">
@@ -208,13 +208,13 @@
           <p class="panel-text">Shop</p>
         </button>
       </router-link>
-      
+
       <div class="panel-divider"></div>
 
-      <button class="panel-button sign-out-button">
-        <SignOutIcon class="panel-icon" />
-        <p class="panel-text sign-out-text">Sign out</p>
-      </button>
+        <button class="panel-button sign-out-button" @click="signOut">
+            <SignOutIcon class="panel-icon" />
+            <p class="panel-text sign-out-text">Sign out</p>
+        </button>
     </div>
   </div>
 </template>
@@ -222,6 +222,7 @@
 <script setup lang="ts">
 import { onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import Logo from './Logo.vue'
 import NavigationIcon from '@/assets/icons/NavigationIcon.vue'
 import DropdownIcon from '@/assets/icons/DropdownIcon.vue'
@@ -248,6 +249,7 @@ import RulesIcon from '@/assets/icons/RulesIcon.vue'
 
 // Route setup
 const route = useRoute()
+const router = useRouter()
 const isHomePage = computed(() => route.name === 'Home')
 
 // Type definitions
@@ -366,6 +368,13 @@ onMounted(() => {
     })
   })
 })
+
+function signOut() {
+    localStorage.removeItem('token')
+    localStorage.removeItem('username')
+    router.push('/login')
+}
+
 </script>
 
 <style lang="scss">
@@ -395,7 +404,7 @@ onMounted(() => {
   display: flex;
   align-items: center;
   padding: 0;
-  
+
   &:hover {
     opacity: 0.8;
   }
@@ -427,19 +436,19 @@ onMounted(() => {
   background-color: var(--bg-primary);
   position: relative;
   box-sizing: border-box;
-  
+
   /* Десктоп (базовые значения) */
   height: 80px;
   margin-top: 20px;
   padding: 0 20px;
-  
+
   /* Планшеты */
   @media (max-width: 1024px) {
     height: 70px;
     margin-top: 16px;
     padding: 0 16px;
   }
-  
+
   /* Мобильные устройства */
   @media (max-width: 768px) {
     height: 60px;
@@ -466,19 +475,19 @@ onMounted(() => {
   transition: background-color 0.3s ease-in-out;
   border: none;
   cursor: pointer;
-  
+
   /* Десктоп (базовые значения) */
   width: 260px;
   height: 52px;
   padding: 8px 16px;
-  
+
   /* Планшеты */
   @media (max-width: 1024px) {
     width: 220px;
     height: 46px;
     padding: 7px 14px;
   }
-  
+
   /* Мобильные устройства */
   @media (max-width: 768px) {
     width: 200px;
@@ -648,23 +657,23 @@ onMounted(() => {
 }
 
 /* ==================== DROPDOWN PANELS POSITIONING ==================== */
-/* 
+/*
  * ВАЖНО ДЛЯ РАЗРАБОТЧИКОВ:
- * 
+ *
  * 1. Структура каждой панели (Desktop-first подход):
  *    - Базовые значения (десктоп ≥1025px)
  *    - Планшеты: @media (max-width: 1024px)
  *    - Мобильные: @media (max-width: 768px)
- * 
+ *
  * 2. Порядок панелей слева направо:
  *    Navigation (550px) → FAQ (870px) → Additional (1100px) → Profile (1210px)
- * 
+ *
  * 3. НЕ ИСПОЛЬЗУЙ !important - все конфликты решены через правильную специфичность
- * 
+ *
  * 4. Для изменения позиции:
  *    - Измени базовое значение left для десктопа
  *    - При необходимости измени значения в медиазапросах
- * 
+ *
  * 5. Порядок медиазапросов везде одинаковый: Десктоп → Планшеты → Мобильные
  */
 
@@ -674,14 +683,14 @@ onMounted(() => {
   height: 280px;
   top: 80px;
   left: 550px;
-  
+
   /* Планшеты */
   @media (max-width: 1024px) {
     left: 220px;
     width: 220px;
     height: 260px;
   }
-  
+
   /* Мобильные устройства */
   @media (max-width: 768px) {
     left: 10px;
@@ -696,14 +705,14 @@ onMounted(() => {
   height: 280px;
   top: 80px;
   left: 870px;
-  
+
   /* Планшеты */
   @media (max-width: 1024px) {
     left: 400px;
     width: 200px;
     height: 260px;
   }
-  
+
   /* Мобильные устройства */
   @media (max-width: 768px) {
     left: 150px;
@@ -723,14 +732,14 @@ onMounted(() => {
   height: 290px;
   top: 80px;
   left: 1110px;
-  
+
   /* Планшеты */
   @media (max-width: 1024px) {
     left: 570px;
     width: 200px;
     height: 270px;
   }
-  
+
   /* Мобильные устройства */
   @media (max-width: 768px) {
     left: 280px;
@@ -750,14 +759,14 @@ onMounted(() => {
   height: 777px;
   top: 80px;
   left: 1210px;
-  
+
   /* Планшеты */
   @media (max-width: 1024px) {
     left: 720px;
     width: 270px;
     height: 700px;
   }
-  
+
   /* Мобильные устройства */
   @media (max-width: 768px) {
     left: 400px;

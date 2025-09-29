@@ -38,8 +38,10 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { useAuth } from '@/composables/useAuth'
 
+const router = useRouter()
 const { register, loading, error, clearError } = useAuth()
 
 const username = ref('')
@@ -47,17 +49,16 @@ const password = ref('')
 
 const handleSignIn = async () => {
     clearError()
-    if (!username.value || !password.value) {
-        return
-    }
+    if (!username.value || !password.value) return
     try {
-        await register({ username: username.value, password: password.value })
-        alert('Registered successfully! Now log in.')
-        username.value = ''
-        password.value = ''
-    } catch {}
+        await register(username.value, password.value)
+        router.push('/login')
+    } catch (err) {
+        console.error(err)
+    }
 }
 </script>
+
 
 <style scoped lang="scss">
 .signin-container {
