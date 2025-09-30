@@ -4,20 +4,20 @@
     <div class="content-wrapper">
       <!-- Path block -->
       <div class="path-block">
-        <h2 class="path-title">Create theme in: <a href="#" class="path-link">path</a></h2>
+        <h2 class="path-title">{{ $t('create-article.path') }} <a href="#" class="path-link">path</a></h2>
       </div>
       
       <!-- Warning block -->
       <div class="warning-block">
-        <h2 class="warning-title">Before making an article, read the section rules</h2>
-        <h2 class="warning-subtitle">For violation of the rules your article may be restricted or deleted.</h2>
-        <button class="read-rules-button">Read the rules</button>
+        <h2 class="warning-title">{{ $t('create-article.h1') }}</h2>
+        <h2 class="warning-subtitle">{{ $t('create-article.h2') }}</h2>
+        <button class="read-rules-button">{{ $t('create-article.button1') }}</button>
       </div>
       
       <!-- Edit block -->
       <div class="edit-block">
-        <h2 class="edit-title">Article title</h2>
-        <h2 class="edit-subtitle">Give a brief description of the article</h2>
+        <h2 class="edit-title">{{ $t('create-article.h4') }}</h2>
+        <h2 class="edit-subtitle">{{ $t('create-article.h5') }}</h2>
         <input type="text" placeholder="Enter title..." class="title-input" v-model="articleTitle">
         
         <!-- Article editor block -->
@@ -29,8 +29,8 @@
           />
         </div>
         
-        <h2 class="tags-title">Tags</h2>
-        <h2 class="tags-subtitle">Add a tag for better promotion of the article</h2>
+        <h2 class="tags-title">{{ $t('create-article.h6') }}</h2>
+        <h2 class="tags-subtitle">{{ $t('create-article.h7') }}</h2>
         <input type="text" placeholder="Enter tags (separated by commas)..." class="tags-input" v-model="articleTags">
         
         <!-- Action buttons -->
@@ -38,15 +38,15 @@
           <button class="create-button" @click="handleCreateArticle" :disabled="loading">
             <i v-if="!loading" class="pi pi-send button-icon"></i>
             <i v-else class="pi pi-spin pi-spinner button-icon"></i>
-            <p class="button-text">{{ isEditing ? 'Update' : 'Create' }}</p>
+            <p class="button-text">{{ isEditing ? $t('create-article.button5') : $t('create-article.button2') }}</p>
           </button>
           <button class="preview-button" @click="previewArticle" :disabled="loading">
             <i class="pi pi-eye button-icon"></i>
-            <p class="button-text">Preview</p>
+            <p class="button-text">{{ $t('create-article.button3') }}</p>
           </button>
           <button class="draft-button" @click="saveDraft" :disabled="loading">
             <i class="pi pi-save button-icon"></i>
-            <p class="button-text">Save in draft</p>
+            <p class="button-text">{{ $t('create-article.button4') }}</p>
           </button>
         </div>
         
@@ -62,15 +62,15 @@
               <div class="checkbox" :class="{ checked: publicationTimeEnabled }" @click="publicationTimeEnabled = !publicationTimeEnabled">
                 <i v-if="publicationTimeEnabled" class="pi pi-check checkmark-icon"></i>
               </div>
-              <p class="checkbox-label">Publication time</p>
+              <p class="checkbox-label">{{ $t('create-article.h6') }}</p>
             </div>
           </div>
-          <h2 class="publication-subtitle">Add a tag for better promotion of the article</h2>
+          <h2 class="publication-subtitle">{{ $t('create-article.h7') }}</h2>
           <div class="time-inputs">
             <input type="text" placeholder="ddmmyy" class="date-input" />
             <input type="text" placeholder="00:00 am/pm" class="time-input" />
           </div>
-          <p class="publication-label">Publication time</p>
+          <p class="publication-label">{{ $t('create-article.h6') }}</p>
         </div>
         
         <!-- Ranks section -->
@@ -127,10 +127,13 @@
     </div>
   </div>
 </template>
-
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 import { useRouter } from 'vue-router'
+
 import { useArticles } from '../composables/useArticles'
 import type { CreateArticleRequest } from '../types/article'
 

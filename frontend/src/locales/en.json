@@ -27,14 +27,40 @@
 
   "articles": {
     "title": "Articles",
-    "search": "Search anything",
-    "info": "Article info",
-    "similar": "Similar articles",
-    "date": "Date:",
-    "likes": "Likes:",
-    "views": "Views:",
-    "comments": "Comments:",
-    "symbols": "Symbols:"
+    "search": "Find articles...",
+    "info": {
+      "title": "Article info",
+      "date": "Date:",
+      "likes": "Likes:",
+      "views": "Views:",
+      "comments": "Comments:",
+      "symbols": "Symbols:"
+    },
+    "similar": {
+      "title": "Similar articles",
+      "nothing": "no similar articles"
+    }
+    
+  },
+
+  "create-article": {
+    "path": "Create theme in: ",
+    "h1": "Before making an article, read the section rules",
+    "subtitle1": "For violation of the rules your article may be restricted or deleted.",
+    "button1": "Read the rules",
+    "h4": "Article title",
+    "subtitle2": "Give a brief description of the article",
+    "input1": "Enter title...",
+    "h5": "Tags",
+    "subtitle3": "Add a tag for better promotion of the article",
+    "input2": "Enter tags (separated by commas)...",
+    "button2": "Create",
+    "button3": "Preview",
+    "button4": "Save in draft",
+    "button5": "Update",
+    "h6": "Publication time",
+    "subtitle4": "Add a tag for better promotion of the article",
+    "input3": "ddmmyy"
   },
 
 

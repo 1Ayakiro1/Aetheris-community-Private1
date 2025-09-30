@@ -84,31 +84,31 @@
             <svg class="card-icon" width="25" height="27" viewBox="0 0 25 27" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M13.7083 1.41666L1.625 15.9167H12.5L11.2917 25.5833L23.375 11.0833H12.5L13.7083 1.41666Z" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <h2 class="card-title">Article info</h2>
+            <h2 class="card-title">{{ $t('articles.info.title') }}</h2>
           </div>
 
           <div class="info-item">
-            <p class="info-label">Date:</p>
+            <p class="info-label">{{ $t('articles.info.date') }}</p>
             <p class="info-value">unknown</p>
           </div>
 
           <div class="info-item">
-            <p class="info-label">Likes:</p>
+            <p class="info-label">{{ $t('articles.info.likes') }}</p>
             <p class="info-value">unknown</p>
           </div>
 
           <div class="info-item">
-            <p class="info-label">Views:</p>
+            <p class="info-label">{{ $t('articles.info.views') }}</p>
             <p class="info-value">unknown</p>
           </div>
 
           <div class="info-item">
-            <p class="info-label">Comments:</p>
+            <p class="info-label">{{ $t('articles.info.comments') }}</p>
             <p class="info-value">unknown</p>
           </div>
 
           <div class="info-item">
-            <p class="info-label">Symbols:</p>
+            <p class="info-label">{{ $t('articles.info.symbols') }}</p>
             <p class="info-value">unknown</p>
           </div>
         </div>
@@ -119,14 +119,12 @@
             <svg class="card-icon" width="25" height="27" viewBox="0 0 25 27" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M13.7083 1.41666L1.625 15.9167H12.5L11.2917 25.5833L23.375 11.0833H12.5L13.7083 1.41666Z" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <h2 class="card-title">Similar articles</h2>
+            <h2 class="card-title">{{ $t('articles.similar.title') }}</h2>
           </div>
 
-          <div class="similar-item">same article</div>
-          <div class="similar-item">same article</div>
-          <div class="similar-item">same article</div>
-          <div class="similar-item">same article</div>
-          <div class="similar-item">same article</div>
+          <div class="similar-item">{{ $t('articles.similar.nothing') }}</div>
+          <div class="similar-item">{{ $t('articles.similar.nothing') }}</div>
+          <div class="similar-item">{{ $t('articles.similar.nothing') }}</div>
         </div>
       </div>
     </div>
@@ -137,8 +135,11 @@
 import { ref, onMounted, onUnmounted, watch } from 'vue'
 import ArticleCard from '@/components/ArticleCard.vue'
 import Paginator from 'primevue/paginator'
-import { useArticles } from '@/composables/useArticles'
 
+import { useArticles } from '@/composables/useArticles'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 // Используем composable для работы со статьями
 const {
   articles,
