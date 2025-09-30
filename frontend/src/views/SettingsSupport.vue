@@ -10,9 +10,9 @@
       <div class="content">
         <!-- Support Section -->
         <div class="support-section">
-          <h1 class="section-title">Support</h1>
-          <h2 class="section-subtitle">You can support our project on various platforms, thereby helping in the further development of the community and improvement of technologies</h2>
-          <h2 class="section-subtitle">By supporting us, you become a volunteer and an active member of the community, you will have access to increased privileges</h2>
+          <h1 class="section-title">{{ $t('settings.support.h1') }}</h1>
+          <h2 class="section-subtitle">{{ $t('settings.support.subtitle') }}</h2>
+          <h2 class="section-subtitle">{{ $t('settings.support.subtitle2') }}</h2>
           
           <!-- Support Icons -->
           <div class="support-icons">
@@ -68,23 +68,23 @@
             <svg class="note-icon" width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M5.04169 17.1248H3.83335C3.19241 17.1248 2.57773 16.8702 2.12451 16.417C1.6713 15.9638 1.41669 15.3491 1.41669 14.7082V3.83317C1.41669 3.19223 1.6713 2.57754 2.12451 2.12433C2.57773 1.67112 3.19241 1.4165 3.83335 1.4165H14.7084C15.3493 1.4165 15.964 1.67112 16.4172 2.12433C16.8704 2.57754 17.125 3.19223 17.125 3.83317V5.0415M12.2917 9.87484H23.1667C24.5014 9.87484 25.5834 10.9568 25.5834 12.2915V23.1665C25.5834 24.5012 24.5014 25.5832 23.1667 25.5832H12.2917C10.957 25.5832 9.87502 24.5012 9.87502 23.1665V12.2915C9.87502 10.9568 10.957 9.87484 12.2917 9.87484Z" stroke="#5A6272" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <h2 class="note-text">click to go or copy</h2>
+            <h2 class="note-text"></h2>
           </div>
         </div>
         
         <!-- GitHub Section -->
         <div class="github-section">
-          <h1 class="section-title">Github</h1>
-          <h2 class="section-subtitle">We are an open community and encourage improvements and suggestions from our users, and also host interesting projects and code on our Github</h2>
+          <h1 class="section-title">{{ $t('settings.support.h2') }}</h1>
+          <h2 class="section-subtitle">{{ $t('settings.support.subtitle3') }}</h2>
           
           <!-- GitHub Link -->
           <a href="https://github.com/1Ayakiro1/Aetheris_Community" class="github-link">
             <div class="github-card">
               <div class="github-icon"></div>
-              <h1 class="github-title">Aetheris-Community</h1>
-              <h2 class="github-stats">0 stars</h2>
-              <h2 class="github-stats">0 commits</h2>
-              <h2 class="github-stats">0 activity</h2>
+              <h1 class="github-title">{{ $t('settings.support.github.title') }}</h1>
+              <h2 class="github-stats">{{ $t('settings.support.github.subtitle') }}</h2>
+              <h2 class="github-stats">{{ $t('settings.support.github.subtitle2') }}</h2>
+              <h2 class="github-stats">{{ $t('settings.support.github.subtitle3') }}</h2>
             </div>
           </a>
         </div>

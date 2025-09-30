@@ -10,79 +10,79 @@
       <div class="content">
         <!-- Account Security Section -->
         <div class="security-section">
-          <h1 class="section-title">Account security</h1>
-          <h2 class="section-subtitle">settings to enhance the security of your account</h2>
+          <h1 class="section-title">{{ $t('settings.privacy.h1') }}</h1>
+          <h2 class="section-subtitle">{{ $t('settings.privacy.subtitle') }}</h2>
           
           <div class="security-options">
             <!-- Email -->
             <div class="security-option">
               <div class="option-info">
-                <h1 class="option-title">Email</h1>
-                <h2 class="option-subtitle">change your account email to receive confirmation code and announcements</h2>
+                <h1 class="option-title">{{ $t('settings.privacy.h2') }}</h1>
+                <h2 class="option-subtitle">{{ $t('settings.privacy.subtitle2') }}</h2>
               </div>
-              <button class="option-button" @click="openEmailModal">Change email</button>
+              <button class="option-button" @click="openEmailModal">{{ $t('settings.privacy.buttons.changeEmail') }}</button>
             </div>
             
             <!-- Password -->
             <div class="security-option">
               <div class="option-info">
-                <h1 class="option-title">Password</h1>
-                <h2 class="option-subtitle">create a new password for account security</h2>
+                <h1 class="option-title">{{ $t('settings.privacy.h3') }}</h1>
+                <h2 class="option-subtitle">{{ $t('settings.privacy.subtitle3') }}</h2>
               </div>
-              <button class="option-button" @click="openPasswordModal">Change password</button>
+              <button class="option-button" @click="openPasswordModal">{{ $t('settings.privacy.buttons.changePassword') }}</button>
             </div>
             
             <!-- 2FA -->
             <div class="security-option">
               <div class="option-info">
-                <h1 class="option-title">2FA</h1>
-                <h2 class="option-subtitle">set up a second layer of protection for your account(recommended)</h2>
+                <h1 class="option-title">{{ $t('settings.privacy.h4') }}</h1>
+                <h2 class="option-subtitle">{{ $t('settings.privacy.subtitle4') }}</h2>
               </div>
-              <button class="option-button" @click="open2FAModal">add 2FA</button>
+              <button class="option-button" @click="open2FAModal">{{ $t('settings.privacy.buttons.add2FA') }}</button>
             </div>
             
             <!-- Download Data -->
             <div class="security-option">
               <div class="option-info">
-                <h1 class="option-title">Download data</h1>
-                <h2 class="option-subtitle">Download the data we store</h2>
+                <h1 class="option-title">{{ $t('settings.privacy.h5') }}</h1>
+                <h2 class="option-subtitle">{{ $t('settings.privacy.subtitle5') }}</h2>
               </div>
-              <button class="option-button" @click="downloadData">Download</button>
+              <button class="option-button" @click="downloadData">{{ $t('settings.privacy.buttons.downloadData') }}</button>
             </div>
           </div>
         </div>
         
         <!-- Data Management Section -->
         <div class="data-section">
-          <h1 class="section-title">Deleting and hiding data</h1>
-          <h2 class="section-subtitle">section for completely deleting all information from our community</h2>
+          <h1 class="section-title">{{ $t('settings.privacy.h6') }}</h1>
+          <h2 class="section-subtitle">{{ $t('settings.privacy.subtitle6') }}</h2>
           
           <div class="data-options">
             <!-- Delete Account -->
             <div class="data-option">
               <div class="option-info">
-                <h1 class="option-title danger">Delete account</h1>
-                <h2 class="option-subtitle">deleting account and information about it</h2>
+                <h1 class="option-title danger">{{ $t('settings.privacy.h7') }}</h1>
+                <h2 class="option-subtitle">{{ $t('settings.privacy.subtitle7') }}</h2>
               </div>
-              <button class="option-button danger" @click="openDeleteAccountModal">Delete</button>
+              <button class="option-button danger" @click="openDeleteAccountModal">{{ $t('settings.privacy.buttons.deleteAccount') }}</button>
             </div>
             
             <!-- Hide Profile -->
             <div class="data-option">
               <div class="option-info">
-                <h1 class="option-title danger">Hide profile</h1>
-                <h2 class="option-subtitle">hide profile and all info about it</h2>
+                <h1 class="option-title danger">{{ $t('settings.privacy.h8') }}</h1>
+                <h2 class="option-subtitle">{{ $t('settings.privacy.subtitle8') }}</h2>
               </div>
-              <button class="option-button danger" @click="openHideProfileModal">Hide</button>
+              <button class="option-button danger" @click="openHideProfileModal">{{ $t('settings.privacy.buttons.hideProfile') }}</button>
             </div>
             
             <!-- Extra Lock -->
             <div class="data-option">
               <div class="option-info">
-                <h1 class="option-title danger">Extra lock</h1>
-                <h2 class="option-subtitle">Have you been hacked? Isolate your profile completely for a while</h2>
+                <h1 class="option-title danger">{{ $t('settings.privacy.h9') }}</h1>
+                <h2 class="option-subtitle">{{ $t('settings.privacy.subtitle9') }}</h2>
               </div>
-              <button class="option-button danger" @click="openExtraLockModal">Lock</button>
+              <button class="option-button danger" @click="openExtraLockModal">{{ $t('settings.privacy.buttons.lockProfile') }}</button>
             </div>
           </div>
         </div>
@@ -95,51 +95,51 @@
     <div v-if="isEmailModalOpen" class="modal-overlay" @click="closeEmailModal">
       <div class="modal-content" @click.stop>
         <div class="modal-header">
-          <h1 class="modal-title">Change Email</h1>
+          <h1 class="modal-title">{{ $t('settings.privacy.panels.email.title') }}</h1>
           <button class="modal-close" @click="closeEmailModal">×</button>
         </div>
         
         <div class="modal-body">
           <div class="form-group">
-            <label class="form-label">Current Email</label>
+            <label class="form-label">{{ $t('settings.privacy.panels.email.h1') }}</label>
             <input 
               type="email" 
               class="form-input" 
               :class="{ 'error': currentEmailError }"
               v-model="currentEmail"
-              placeholder="Enter current email"
+              :placeholder="$t('settings.privacy.panels.email.input1')"
             />
             <p v-if="currentEmailError" class="error-message">{{ currentEmailError }}</p>
           </div>
           
           <div class="form-group">
-            <label class="form-label">New Email</label>
+            <label class="form-label">{{ $t('settings.privacy.panels.email.h2') }}</label>
             <input 
               type="email" 
               class="form-input" 
               :class="{ 'error': newEmailError }"
               v-model="newEmail"
-              placeholder="Enter new email"
+              :placeholder="$t('settings.privacy.panels.email.input2')"
             />
             <p v-if="newEmailError" class="error-message">{{ newEmailError }}</p>
           </div>
           
           <div class="form-group">
-            <label class="form-label">Password</label>
+            <label class="form-label">{{ $t('settings.privacy.panels.email.h3') }}</label>
             <input 
               type="password" 
               class="form-input" 
               :class="{ 'error': passwordError }"
               v-model="emailPassword"
-              placeholder="Enter your password"
+              :placeholder="$t('settings.privacy.panels.email.input3')"
             />
             <p v-if="passwordError" class="error-message">{{ passwordError }}</p>
           </div>
         </div>
         
         <div class="modal-footer">
-          <button class="modal-button secondary" @click="closeEmailModal">Cancel</button>
-          <button class="modal-button primary" @click="changeEmail" :disabled="!isEmailFormValid">Change Email</button>
+          <button class="modal-button secondary" @click="closeEmailModal">{{ $t('settings.privacy.panels.email.button1') }}</button>
+          <button class="modal-button primary" @click="changeEmail" :disabled="!isEmailFormValid">{{ $t('settings.privacy.panels.email.button2') }}</button>
         </div>
       </div>
     </div>
@@ -148,51 +148,51 @@
     <div v-if="isPasswordModalOpen" class="modal-overlay" @click="closePasswordModal">
       <div class="modal-content" @click.stop>
         <div class="modal-header">
-          <h1 class="modal-title">Change Password</h1>
+          <h1 class="modal-title">{{ $t('settings.privacy.panels.password.title') }}</h1>
           <button class="modal-close" @click="closePasswordModal">×</button>
         </div>
         
         <div class="modal-body">
           <div class="form-group">
-            <label class="form-label">Current Password</label>
+            <label class="form-label">{{ $t('settings.privacy.panels.password.h1') }}</label>
             <input 
               type="password" 
               class="form-input" 
               :class="{ 'error': currentPasswordError }"
               v-model="currentPassword"
-              placeholder="Enter current password"
+              :placeholder="$t('settings.privacy.panels.password.input1')"
             />
             <p v-if="currentPasswordError" class="error-message">{{ currentPasswordError }}</p>
           </div>
           
           <div class="form-group">
-            <label class="form-label">New Password</label>
+            <label class="form-label">{{ $t('settings.privacy.panels.password.h2') }}</label>
             <input 
               type="password" 
               class="form-input" 
               :class="{ 'error': newPasswordError }"
               v-model="newPassword"
-              placeholder="Enter new password"
+              :placeholder="$t('settings.privacy.panels.password.input2')"
             />
             <p v-if="newPasswordError" class="error-message">{{ newPasswordError }}</p>
           </div>
           
           <div class="form-group">
-            <label class="form-label">Confirm New Password</label>
+            <label class="form-label">{{ $t('settings.privacy.panels.password.h3') }}</label>
             <input 
               type="password" 
               class="form-input" 
               :class="{ 'error': confirmPasswordError }"
               v-model="confirmPassword"
-              placeholder="Confirm new password"
+              :placeholder="$t('settings.privacy.panels.password.input3')"
             />
             <p v-if="confirmPasswordError" class="error-message">{{ confirmPasswordError }}</p>
           </div>
         </div>
         
         <div class="modal-footer">
-          <button class="modal-button secondary" @click="closePasswordModal">Cancel</button>
-          <button class="modal-button primary" @click="changePassword" :disabled="!isPasswordFormValid">Change Password</button>
+          <button class="modal-button secondary" @click="closePasswordModal">{{ $t('settings.privacy.panels.password.button1') }}</button>
+          <button class="modal-button primary" @click="changePassword" :disabled="!isPasswordFormValid">{{ $t('settings.privacy.panels.password.button2') }}</button>
         </div>
       </div>
     </div>
@@ -201,28 +201,28 @@
     <div v-if="is2FAModalOpen" class="modal-overlay" @click="close2FAModal">
       <div class="modal-content" @click.stop>
         <div class="modal-header">
-          <h1 class="modal-title">Setup 2FA</h1>
+          <h1 class="modal-title">{{ $t('settings.privacy.panels.2FA.title') }}</h1>
           <button class="modal-close" @click="close2FAModal">×</button>
         </div>
         
         <div class="modal-body">
           <div class="twofa-info">
-            <p class="info-text">Scan this QR code with your authenticator app:</p>
+            <p class="info-text">{{ $t('settings.privacy.panels.2FA.subtitle') }}</p>
             <div class="qr-code-placeholder">
-              <div class="qr-code">QR CODE</div>
+              <div class="qr-code">{{ $t('settings.privacy.panels.2FA.qrCode') }}</div>
             </div>
-            <p class="info-text">Or enter this code manually:</p>
+            <p class="info-text">{{ $t('settings.privacy.panels.2FA.subtitle2') }}</p>
             <div class="manual-code">{{ twoFASecret }}</div>
           </div>
           
           <div class="form-group">
-            <label class="form-label">Verification Code</label>
+            <label class="form-label">{{ $t('settings.privacy.panels.2FA.h1') }}</label>
             <input 
               type="text" 
               class="form-input" 
               :class="{ 'error': twoFACodeError }"
               v-model="twoFACode"
-              placeholder="Enter 6-digit code"
+              :placeholder="$t('settings.privacy.panels.2FA.input2')"
               maxlength="6"
             />
             <p v-if="twoFACodeError" class="error-message">{{ twoFACodeError }}</p>
@@ -230,8 +230,8 @@
         </div>
         
         <div class="modal-footer">
-          <button class="modal-button secondary" @click="close2FAModal">Cancel</button>
-          <button class="modal-button primary" @click="setup2FA" :disabled="!is2FAFormValid">Enable 2FA</button>
+          <button class="modal-button secondary" @click="close2FAModal">{{ $t('settings.privacy.panels.2FA.button1') }}</button>
+          <button class="modal-button primary" @click="setup2FA" :disabled="!is2FAFormValid">{{ $t('settings.privacy.panels.2FA.button2') }}</button>
         </div>
       </div>
     </div>
@@ -240,44 +240,44 @@
     <div v-if="isDeleteAccountModalOpen" class="modal-overlay" @click="closeDeleteAccountModal">
       <div class="modal-content danger-modal" @click.stop>
         <div class="modal-header">
-          <h1 class="modal-title danger">Delete Account</h1>
+          <h1 class="modal-title danger">{{ $t('settings.privacy.panels.deleteAccount.title') }}</h1>
           <button class="modal-close" @click="closeDeleteAccountModal">×</button>
         </div>
         
         <div class="modal-body">
           <div class="warning-section">
-            <p class="warning-text">⚠️ This action cannot be undone!</p>
-            <p class="warning-description">All your data, articles, and account information will be permanently deleted.</p>
+            <p class="warning-text">{{ $t('settings.privacy.panels.deleteAccount.warning') }}</p>
+            <p class="warning-description">{{ $t('settings.privacy.panels.deleteAccount.subtitle') }}</p>
           </div>
           
           <div class="form-group">
-            <label class="form-label">Type "DELETE" to confirm</label>
+            <label class="form-label">{{ $t('settings.privacy.panels.deleteAccount.h1') }}</label>
             <input 
               type="text" 
               class="form-input" 
               :class="{ 'error': deleteConfirmError }"
               v-model="deleteConfirm"
-              placeholder="Type DELETE"
+              :placeholder="$t('settings.privacy.panels.deleteAccount.input1')"
             />
             <p v-if="deleteConfirmError" class="error-message">{{ deleteConfirmError }}</p>
           </div>
           
           <div class="form-group">
-            <label class="form-label">Password</label>
+            <label class="form-label">{{ $t('settings.privacy.panels.deleteAccount.h2') }}</label>
             <input 
               type="password" 
               class="form-input" 
               :class="{ 'error': deletePasswordError }"
               v-model="deletePassword"
-              placeholder="Enter your password"
+              :placeholder="$t('settings.privacy.panels.deleteAccount.input2')"
             />
             <p v-if="deletePasswordError" class="error-message">{{ deletePasswordError }}</p>
           </div>
         </div>
         
         <div class="modal-footer">
-          <button class="modal-button secondary" @click="closeDeleteAccountModal">Cancel</button>
-          <button class="modal-button danger" @click="deleteAccount" :disabled="!isDeleteFormValid">Delete Account</button>
+          <button class="modal-button secondary" @click="closeDeleteAccountModal">{{ $t('settings.privacy.panels.deleteAccount.button1') }}</button>
+          <button class="modal-button danger" @click="deleteAccount" :disabled="!isDeleteFormValid">{{ $t('settings.privacy.panels.deleteAccount.button2') }}</button>
         </div>
       </div>
     </div>
@@ -286,32 +286,32 @@
     <div v-if="isHideProfileModalOpen" class="modal-overlay" @click="closeHideProfileModal">
       <div class="modal-content" @click.stop>
         <div class="modal-header">
-          <h1 class="modal-title">Hide Profile</h1>
+          <h1 class="modal-title">{{ $t('settings.privacy.panels.hideProfile.title') }}</h1>
           <button class="modal-close" @click="closeHideProfileModal">×</button>
         </div>
         
         <div class="modal-body">
           <div class="warning-section">
-            <p class="warning-text">Your profile will be hidden from other users</p>
-            <p class="warning-description">You can unhide it anytime from settings</p>
+            <p class="warning-text">{{ $t('settings.privacy.panels.hideProfile.warning') }}</p>
+            <p class="warning-description">{{ $t('settings.privacy.panels.hideProfile.subtitle') }}</p>
           </div>
           
           <div class="form-group">
-            <label class="form-label">Password</label>
+            <label class="form-label">{{ $t('settings.privacy.panels.hideProfile.h2') }}</label>
             <input 
               type="password" 
               class="form-input" 
               :class="{ 'error': hidePasswordError }"
               v-model="hidePassword"
-              placeholder="Enter your password"
+              :placeholder="$t('settings.privacy.panels.hideProfile.input1')"
             />
             <p v-if="hidePasswordError" class="error-message">{{ hidePasswordError }}</p>
           </div>
         </div>
         
         <div class="modal-footer">
-          <button class="modal-button secondary" @click="closeHideProfileModal">Cancel</button>
-          <button class="modal-button primary" @click="hideProfile" :disabled="!isHideFormValid">Hide Profile</button>
+          <button class="modal-button secondary" @click="closeHideProfileModal">{{ $t('settings.privacy.panels.hideProfile.button1') }}</button>
+          <button class="modal-button primary" @click="hideProfile" :disabled="!isHideFormValid">{{ $t('settings.privacy.panels.hideProfile.button2') }}</button>
         </div>
       </div>
     </div>
@@ -320,42 +320,42 @@
     <div v-if="isExtraLockModalOpen" class="modal-overlay" @click="closeExtraLockModal">
       <div class="modal-content" @click.stop>
         <div class="modal-header">
-          <h1 class="modal-title">Extra Lock</h1>
+          <h1 class="modal-title">{{ $t('settings.privacy.panels.lockProfile.title') }}</h1>
           <button class="modal-close" @click="closeExtraLockModal">×</button>
         </div>
         
         <div class="modal-body">
           <div class="warning-section">
-            <p class="warning-text">🔒 Your profile will be completely locked</p>
-            <p class="warning-description">No one will be able to access your profile or data for the selected period</p>
+            <p class="warning-text">{{ $t('settings.privacy.panels.lockProfile.warning') }}</p>
+            <p class="warning-description">{{ $t('settings.privacy.panels.lockProfile.subtitle') }}</p>
           </div>
           
           <div class="form-group">
-            <label class="form-label">Lock Duration</label>
+            <label class="form-label">{{ $t('settings.privacy.panels.lockProfile.h2') }}</label>
             <select class="form-select" v-model="lockDuration">
-              <option value="1">1 hour</option>
-              <option value="24">24 hours</option>
-              <option value="168">1 week</option>
-              <option value="720">1 month</option>
+              <option value="1">{{ $t('settings.privacy.panels.lockProfile.lockDuration.1') }}</option>
+              <option value="24">{{ $t('settings.privacy.panels.lockProfile.lockDuration.24') }}</option>
+              <option value="168">{{ $t('settings.privacy.panels.lockProfile.lockDuration.168') }}</option>
+              <option value="720">{{ $t('settings.privacy.panels.lockProfile.lockDuration.720') }}</option>
             </select>
           </div>
           
           <div class="form-group">
-            <label class="form-label">Password</label>
+            <label class="form-label">{{ $t('settings.privacy.panels.lockProfile.h3') }}</label>
             <input 
               type="password" 
               class="form-input" 
               :class="{ 'error': lockPasswordError }"
               v-model="lockPassword"
-              placeholder="Enter your password"
+              :placeholder="$t('settings.privacy.panels.lockProfile.input1')"
             />
             <p v-if="lockPasswordError" class="error-message">{{ lockPasswordError }}</p>
           </div>
         </div>
         
         <div class="modal-footer">
-          <button class="modal-button secondary" @click="closeExtraLockModal">Cancel</button>
-          <button class="modal-button primary" @click="lockProfile" :disabled="!isLockFormValid">Lock Profile</button>
+          <button class="modal-button secondary" @click="closeExtraLockModal">{{ $t('settings.privacy.panels.lockProfile.button1') }}</button>
+          <button class="modal-button primary" @click="lockProfile" :disabled="!isLockFormValid">{{ $t('settings.privacy.panels.lockProfile.button2') }}</button>
         </div>
       </div>
     </div>

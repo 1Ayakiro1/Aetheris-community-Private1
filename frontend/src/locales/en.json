@@ -52,7 +52,6 @@
 
 
 
-
   "settings": {
     "appearance": {
       "title": "Appearance",
@@ -108,6 +107,151 @@
         "h1": "Reset profile settings?",
         "button1": "Cancel",
         "button2": "Reset"
+      }
+    },
+    "privacy": {
+      "title": "Privacy & Security",
+      "h1": "Account security",
+      "subtitle": "settings to enhance the security of your account",
+      "h2": "Email",
+      "subtitle2": "change your account email to receive confirmation code and announcements",
+      "h3": "Password",
+      "subtitle3": "create a new password for account security",
+      "h4": "2FA",
+      "subtitle4": "set up a second layer of protection for your account(recommended)",
+      "h5": "Download data",
+      "subtitle5": "Download the data we store",
+      "h6": "Deleting and hiding data",
+      "subtitle6": "section for completely deleting all information from our community",
+      "h7": "Delete account",
+      "subtitle7": "deleting account and information about it",
+      "h8": "Hide profile",
+      "subtitle8": "hide profile and all info about it",
+      "h9": "Extra lock",
+      "subtitle9": "Have you been hacked? Isolate your profile completely for a while",
+      "buttons": {
+        "changeEmail": "Change email",
+        "changePassword": "Change password",
+        "add2FA": "add 2FA",
+        "downloadData": "Download",
+        "deleteAccount": "Delete",
+        "hideProfile": "Hide",
+        "lockProfile": "Lock"
+      },
+      "panels": {
+        "email": {
+          "title": "Change email",
+          "h1": "Current email",
+          "h2": "New email",
+          "h3": "Password",
+          "button1": "Cancel",
+          "button2": "Change email",
+          "input1": "Enter current email",
+          "input2": "Enter new email",
+          "input3": "Enter password"
+        },
+        "password": {
+          "title": "Change password",
+          "h1": "Current password",
+          "h2": "New password",
+          "h3": "Confirm new password",
+          "button1": "Cancel",
+          "button2": "Change password",
+          "input1": "Enter current password",
+          "input2": "Enter new password",
+          "input3": "Confirm new password"
+        },
+        "2FA": {
+          "title": "Setup 2FA",
+          "subtitle": "Scan this QR code with your authenticator app:",
+          "subtitle2": "Or enter this code manually:",
+          "h1": "Verification Code",
+          "button1": "Cancel",
+          "button2": "Enable 2FA",
+          "input2": "Enter 6-digit code"
+        },
+        "deleteAccount": {
+          "title": "Delete account",
+          "subtitle": "Are you sure you want to delete your account?",
+          "warning": "This action cannot be undone. Your account will be deleted and all your data will be lost.",
+          "h1": "Type \"DELETE\" to confirm",
+          "h2": "Password",
+          "input1": "Type \"DELETE\"",
+          "button1": "Cancel",
+          "button2": "Delete account",
+          "input2": "Enter password"
+        },
+        "hideProfile": {
+          "title": "Hide profile",
+          "h1": "Your profile will be hidden from other users",
+          "subtitle": "You can unhide it anytime from settings",
+          "h2": "Password",
+          "button1": "Cancel",
+          "button2": "Hide profile",
+          "input1": "Enter your password"
+        },
+        "lockProfile": {
+          "title": "Extra Lock",
+          "h1": "Your profile will be completely locked",
+          "subtitle": "No one will be able to access your profile or data for the selected period",
+          "h2": "Lock Duration",
+          "h3": "Password",
+          "button1": "Cancel",
+          "button2": "Lock profile",
+          "input1": "Enter password",
+          "lockDuration": {
+            "1": "1 hour",
+            "24": "24 hours",
+            "168": "1 week",
+            "720": "1 month"
+          }
+        }
+      },
+      "errors": {
+        "email": {
+          "required": "Email is required",
+          "invalid": "Email must contain @"
+        },
+        "password": {
+          "required": "Password is required",
+          "length": "Password must be at least 6 characters",
+          "invalid": "Password is invalid (printable ASCII, max 48)"
+        },
+        "2FA": {
+          "required": "2FA code is required",
+          "invalid": "2FA code must be 6 digits"
+        },
+        "deleteAccount": {
+          "required": "Delete account is required",
+          "invalid": "Delete account must be exactly \"DELETE\""
+        },
+        "hideProfile": {
+          "required": "Hide profile is required",
+          "invalid": "Hide profile must be exactly \"DELETE\""
+        }
+      }
+    },
+    "sessions": {
+      "title": "Sessions",
+      "h1": "Active sessions",
+      "subtitle": "This section contains all active sessions that you can manage.",
+      "subtitle2": "If you notice a session whose details you don't know or notice a new suspicious login, we recommend changing the password and activating 2FA",
+      "button1": "Delete all sessions and leave"
+    },
+    "support": {
+      "title": "Support",
+      "h1": "Support",
+      "h2": "Github",
+      "subtitle": "You can support our project on various platforms, thereby helping in the further development of the community and improvement of technologies",
+      "subtitle2": "By supporting us, you become a volunteer and an active member of the community, you will have access to increased privileges",
+      "subtitle3": "We are an open community and encourage improvements and suggestions from our users, and also host interesting projects and code on our Github",
+      "button1": "Click to go or copy",
+      "button2": "Report a bug",
+      "github": {
+        "title": "Aetheris-Community",
+        "subtitle": "0 stars",
+        "subtitle2": "0 commits",
+        "subtitle3": "0 activity"
       }
     }
   },

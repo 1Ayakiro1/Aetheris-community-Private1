@@ -10,9 +10,9 @@
       <div class="content">
         <!-- Active Sessions Section -->
         <div class="sessions-section">
-          <h1 class="section-title">Active sessions</h1>
-          <h2 class="section-subtitle">This section contains all active sessions that you can manage.</h2>
-          <h2 class="section-warning">If you notice a session whose details you don't know or notice a new suspicious login, we recommend changing the password and activating 2FA</h2>
+          <h1 class="section-title">{{ $t('settings.sessions.h1') }}</h1>
+          <h2 class="section-subtitle">{{ $t('settings.sessions.subtitle') }}</h2>
+          <h2 class="section-warning">{{ $t('settings.sessions.subtitle2') }}</h2>
           
           <div class="sessions-content">
             <!-- Session placeholder -->
@@ -20,7 +20,7 @@
             
             <!-- Delete all sessions button -->
             <button class="delete-all-button" @click="deleteAllSessions">
-              Delete all sessions and leave
+              {{ $t('settings.sessions.button1') }}
             </button>
           </div>
         </div>
