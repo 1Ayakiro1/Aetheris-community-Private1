@@ -334,5 +334,24 @@
       "title10": "Shop",
       "title11": "Sign out"
     }
+  },
+
+
+
+  "footer": {
+    "h1": "About",
+    "h2": "Resources",
+    "h3": "Legal",
+    "block1": "News",
+    "block2": "Changelog",
+    "block3": "Help Center",
+    "block4": "FAQ",
+    "block5": "Terms of use",
+    "block6": "Privacy Policy",
+    "block7": "Content rules",
+    "block8": "Copyright policy",
+    "subtitle1": "Eternity in our hands",
+    "subtitle2": "Community is",
+    "subtitle3": "open source"
   }
 }

@@ -6,7 +6,7 @@
         <div class="footer-content">
             <img src="../assets/svgs/logo.svg" alt="Logo" class="ae-logo-footer">
             <p class="site-title">Aetheris Community</p>
-            <p class="site-subtitle">Eternity in our hands</p>
+            <p class="site-subtitle">{{ $t('footer.subtitle1') }}</p>
             <!--Social media buttons-->
             <div class="social-buttons">
                 <a href="https://discord.gg/XUFmR4bDMw">
@@ -27,42 +27,42 @@
                     </button>
                 </a>
             </div>
-            <p class="opensource-text">Community is <a href="https://github.com/Aetheris-Community" class="github-link">opensource</a></p>
+            <p class="opensource-text">{{ $t('footer.subtitle2') }} <a href="https://github.com/Aetheris-Community" class="github-link">{{ $t('footer.subtitle3') }}</a></p>
         </div>
         <!--About us block-->
         <div class="footer-block about-block">
-            <p class="block-title">About</p>
+            <p class="block-title">{{ $t('footer.h1') }}</p>
             <router-link to="/news">
-                <p class="block-link">News</p>
+                <p class="block-link">{{ $t('footer.block1') }}</p>
             </router-link>
             <a href="https://github.com/1Ayakiro1/Aetheris_Community/commits/main/">
-                <p class="block-link">Changelog</p>
+                <p class="block-link">{{ $t('footer.block2') }}</p>
             </a>
         </div>
         <!--Resources block-->
         <div class="footer-block resources-block">
-            <p class="block-title">Resources</p>
+            <p class="block-title">{{ $t('footer.h2') }}</p>
             <router-link to="/faq/help">
-                <p class="block-link">Help Center</p>
+                <p class="block-link">{{ $t('footer.block3') }}</p>
             </router-link>
             <router-link to="/faq">
-                <p class="block-link">FAQ</p>
+                <p class="block-link">{{ $t('footer.block4') }}</p>
             </router-link>
         </div>
         <!--Legal block-->
         <div class="footer-block legal-block">
-            <p class="block-title">Legal</p>
+            <p class="block-title">{{ $t('footer.h3') }}</p>
             <router-link to="/legal/terms-of-use">
-                <p class="block-link">Terms of use</p>
+                <p class="block-link">{{ $t('footer.block5') }}</p>
             </router-link>
             <router-link to="/legal/privacy-policy">
-                <p class="block-link">Privacy Policy</p>
+                <p class="block-link">{{ $t('footer.block6') }}</p>
             </router-link>
             <router-link to="/legal/content-rules">
-                <p class="block-link">Content rules</p>
+                <p class="block-link">{{ $t('footer.block7') }}</p>
             </router-link>
             <router-link to="/legal/copyright-policy">
-                <p class="block-link">Copyright policy</p>
+                <p class="block-link">{{ $t('footer.block8') }}</p>
             </router-link>
         </div>
     </div>
