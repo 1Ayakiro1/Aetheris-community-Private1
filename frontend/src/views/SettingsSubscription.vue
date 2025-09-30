@@ -8,7 +8,7 @@
       <!-- Content -->
       <div class="content">
         <div class="development-message">
-          <h1 class="development-text">This page in development now</h1>
+          <h1 class="development-text">{{ $t('common.in_development') }}</h1>
         </div>
       </div>
     </div>
@@ -18,6 +18,10 @@
 
 <script setup lang="ts">
 import SettingsSidebar from '@/components/SettingsSidebar.vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
 // Subscription settings logic can be added here
 </script>
 

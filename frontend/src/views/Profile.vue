@@ -17,15 +17,13 @@
 
                 <!-- User Stats -->
                 <div class="user-stats">
-                    <span class="stat-item">N articles</span>
+                    <span class="stat-item">N {{ $t('profile_page.title1') }}</span>
                     <div class="stat-divider"></div>
-                    <span class="stat-item">N comments</span>
+                    <span class="stat-item">N {{ $t('profile_page.title2') }}</span>
                     <div class="stat-divider"></div>
-                    <span class="stat-item">
-            Joined {{ joinDate }}
-          </span>
+                    <span class="stat-item">{{ $t('profile_page.title3') }} {{ joinDate }}</span>
                     <div class="stat-divider"></div>
-                    <span class="stat-item">Rank</span>
+                    <span class="stat-item">{{ $t('profile_page.title4') }}</span>
                 </div>
             </div>
 
@@ -33,7 +31,7 @@
             <div class="action-buttons" v-if="auth.isAuthenticated">
                 <button class="edit-button">
                     <img src="/src/assets/imgs/pen.png" alt="Edit" class="edit-icon" width="30" height="30">
-                    <span class="edit-text">Edit</span>
+                    <span class="edit-text">{{ $t('profile_page.button1') }}</span>
                 </button>
 
                 <button class="more-button">
@@ -52,10 +50,10 @@
         <!-- Content Section -->
         <div class="profile-content">
             <p v-if="!auth.isAuthenticated" class="empty-message">
-                Вы не вошли в систему
+                {{ $t('common.not_registered') }}
             </p>
             <p v-else class="empty-message">
-                The user has not created any articles yet!
+                {{ $t('common.no_articles') }}
             </p>
         </div>
     </div>
@@ -63,10 +61,12 @@
 
 <script setup lang="ts">
 import { useAuthStore } from "@/stores/auth"
-
+import { useI18n } from 'vue-i18n'
 const auth = useAuthStore()
 
 const joinDate = "2025-09-29"
+
+const { t } = useI18n()
 </script>
 
 

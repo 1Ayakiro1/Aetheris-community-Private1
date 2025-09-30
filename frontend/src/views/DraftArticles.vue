@@ -1,10 +1,13 @@
 <template>
   <div>
-    <h1 class="main-header">Your drafts</h1>
+    <h1 class="main-header">{{ $t('common.in_development') }}</h1>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 </script>
 
 <style scoped>

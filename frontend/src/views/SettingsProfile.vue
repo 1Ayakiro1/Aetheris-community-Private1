@@ -183,7 +183,6 @@
 import { useI18n } from 'vue-i18n'
 import { ref, watch } from 'vue'
 import SettingsSidebar from '@/components/SettingsSidebar.vue'
-
 const { t } = useI18n()
 
 const nickname = ref('')

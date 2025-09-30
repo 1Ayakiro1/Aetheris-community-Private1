@@ -364,8 +364,11 @@
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import SettingsSidebar from '@/components/SettingsSidebar.vue'
 import { useValidation } from '@/composables/useValidation'
+
+const { t } = useI18n()
 
 const { validateEmail, validatePassword } = useValidation()
 

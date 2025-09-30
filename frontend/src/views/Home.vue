@@ -4,9 +4,7 @@
     <div data-element="slide1" class="slide1">
       <img src="../assets/svgs/logo.svg" alt="Logo" class="slide1-logo">
       <h1 class="slide1-title">Aetheris</h1>
-      <h2 class="slide1-subtitle">
-        A community of IT developers, neural network scientists and ML engineers
-      </h2>
+      <h2 class="slide1-subtitle">{{ $t('home.subtitle') }}</h2>
     </div>
     
     <div class="divider"></div>
@@ -23,21 +21,13 @@
       <img src="/src/assets/svgs/slide_img1.png" alt="Slide Image 1" class="slide-img-1">
       
       
-      <h1 class="slide2-title slide2-title-1">
-        Find ways to solve problems more effectively
-      </h1>
-      <h2 class="slide2-subtitle slide2-subtitle-1">
-        Ask questions and work with others to find the best solutions to anything.
-      </h2>
+      <h1 class="slide2-title slide2-title-1">{{ $t('home.h1') }}</h1>
+      <h2 class="slide2-subtitle slide2-subtitle-1">{{ $t('home.subtitle2') }}</h2>
       
       <img src="/src/assets/svgs/slide_img3.png" alt="Slide Image 3" class="slide-img-3">
       
-      <h1 class="slide2-title slide2-title-2">
-        Develop and improve yourself by testing your skills on real projects
-      </h1>
-      <h2 class="slide2-subtitle slide2-subtitle-2">
-        Write articles, delve into a new topic for you and become stronger
-      </h2>
+      <h1 class="slide2-title slide2-title-2">{{ $t('home.h2') }}</h1>
+      <h2 class="slide2-subtitle slide2-subtitle-2">{{ $t('home.subtitle3') }}</h2>
       
       <!-- Cubes -->
       <img src="/src/assets/svgs/cubes1.png" alt="Cubes 1" class="cubes-1">
@@ -45,12 +35,8 @@
       
       <img src="/src/assets/imgs/slide_img4.png" alt="Slide Image 4" class="slide-img-4">
       
-      <h1 class="slide2-title slide2-title-3">
-        Solve problems together to achieve the desired result
-      </h1>
-      <h2 class="slide2-subtitle slide2-subtitle-3">
-        Got an error or don't know how it works? Ask others!
-      </h2>
+      <h1 class="slide2-title slide2-title-3">{{ $t('home.h3') }}</h1>
+      <h2 class="slide2-subtitle slide2-subtitle-3">{{ $t('home.subtitle4') }}</h2>
       
       <img src="/src/assets/svgs/cubes4.png" alt="Cubes 4" class="cubes-4">
       <img src="/src/assets/svgs/cubes3.png" alt="Cubes 3" class="cubes-3">
@@ -58,22 +44,14 @@
       <img src="/src/assets/svgs/cubes6.png" alt="Cubes 6" class="cubes-6">
       <img src="/src/assets/svgs/slide_img5.png" alt="Slide Image 5" class="slide-img-5">
       
-      <h1 class="slide2-title slide2-title-4">
-        Collaborate and join teams to turn ideas into reality
-      </h1>
-      <h2 class="slide2-subtitle slide2-subtitle-4">
-        Join teams to bring the most complex projects to life!
-      </h2>
+      <h1 class="slide2-title slide2-title-4">{{ $t('home.h4') }}</h1>
+      <h2 class="slide2-subtitle slide2-subtitle-4">{{ $t('home.subtitle5') }}</h2>
       
-      <h2 class="slide2-cta">
-        Join our community to create!
-      </h2>
+      <h2 class="slide2-cta">{{ $t('home.h5') }}</h2>
       
       <router-link to="/signin" class="register-link">
         <button class="register-button">
-          <p class="register-text">
-            Register
-          </p>
+          <p class="register-text">{{ $t('home.register') }}</p>
         </button>
       </router-link>
     </div>
