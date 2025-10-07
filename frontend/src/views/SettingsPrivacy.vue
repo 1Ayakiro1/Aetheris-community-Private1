@@ -246,7 +246,7 @@
         
         <div class="modal-body">
           <div class="warning-section">
-            <p class="warning-text">{{ $t('settings.privacy.panels.deleteAccount.warning') }}</p>
+            <p class="warning-text">{{ $t('settings.privacy.panels.deleteAccount.subtitle') }}</p>
             <p class="warning-description">{{ $t('settings.privacy.panels.deleteAccount.subtitle') }}</p>
           </div>
           
@@ -292,7 +292,7 @@
         
         <div class="modal-body">
           <div class="warning-section">
-            <p class="warning-text">{{ $t('settings.privacy.panels.hideProfile.warning') }}</p>
+            <p class="warning-text">{{ $t('settings.privacy.panels.hideProfile.h1') }}</p>
             <p class="warning-description">{{ $t('settings.privacy.panels.hideProfile.subtitle') }}</p>
           </div>
           
@@ -326,7 +326,7 @@
         
         <div class="modal-body">
           <div class="warning-section">
-            <p class="warning-text">{{ $t('settings.privacy.panels.lockProfile.warning') }}</p>
+            <p class="warning-text">{{ $t('settings.privacy.panels.lockProfile.h1') }}</p>
             <p class="warning-description">{{ $t('settings.privacy.panels.lockProfile.subtitle') }}</p>
           </div>
           

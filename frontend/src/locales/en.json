@@ -277,6 +277,25 @@
   },
 
 
+  "policy_page":{
+    "panel1": {
+      "title1" : "Legal",
+      "btn1": "Content rules",
+      "btn2": "Terms of use",
+      "btn3": "Copyright policy",
+      "btn4": "Another"
+    },
+    "panel2": {
+      "title": "Community rules"
+    },
+    "panel3": {
+      "title": "Security",
+      "btn1": "Privacy policy",
+      "btn2": "Another"
+    }
+  },
+
+
 
 
   "form": {
