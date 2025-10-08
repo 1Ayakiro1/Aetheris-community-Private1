@@ -1,7 +1,9 @@
 <template>
-  <!-- Для Home page без wrapper -->
+  <!-- Для Home page с wrapper только для хедера -->
   <div v-if="$route.name === 'Home'">
-    <AppHeader />
+    <div class="app-wrapper home-header-wrapper">
+      <AppHeader />
+    </div>
     <router-view />
     <AppFooter />
   </div>
@@ -85,6 +87,10 @@ onMounted(() => {
   width: 100%;
 }
 
-/* ============ ADAPTIVE DESIGN LIKE HABR ============ */
-/* Нормальная адаптивная верстка без transform scale */
+/* Специальный стиль,применяется только к home page,
+чтоб не было проблем с отображением элементов хэдера*/
+.home-header-wrapper {
+  min-height: 100px !important;
+  height: 100px;
+}
 </style>

@@ -461,11 +461,7 @@ function signOut() {
   }
 }
 
-/* Стили для главной страницы */
-.header-container.home-page {
-  width: 72%;
-  margin: 20px auto 0 auto;
-}
+/* Стили для главной страницы убраны, так как теперь хедер находится внутри app-wrapper */
 
 // Navigation button
 .nav-button {

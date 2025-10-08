@@ -284,21 +284,21 @@ const onBookmark = () => {}
     /* Мобильные устройства */
     @media (max-width: 768px) {
         width: 100%;
-        height: 520px; /* 400px * 1.3 = 520px */
+        height: 620px; /* Увеличено с 520px до 620px (+100px) */
         border-radius: 25px 25px 10px 45px; /* Увеличил нижний левый угол */
     }
     
     /* Планшеты */
     @media (min-width: 769px) and (max-width: 1024px) {
         width: 100%;
-        height: 650px; /* 500px * 1.3 = 650px */
+        height: 780px; /* Увеличено с 650px до 780px (+130px) */
         border-radius: 35px 35px 12px 60px; /* Увеличил нижний левый угол */
     }
     
     /* Десктоп */
     @media (min-width: 1025px) {
         width: 1055px;
-        height: 780px; /* 600px * 1.3 = 780px */
+        height: 950px; /* Увеличено с 780px до 950px (+170px) */
         border-radius: 60px 40px 15px 70px; /* Увеличил нижний левый угол */
     }
 
@@ -310,7 +310,7 @@ const onBookmark = () => {}
 
 .article-card-header {
     display: flex;
-    height: 108px;
+    height: 120px;
     width: 100%;
     flex-direction: row;
     align-items: center;
@@ -398,7 +398,7 @@ const onBookmark = () => {}
     flex-direction: column;
     margin-left: 30px;
     margin-right: 30px;
-    height: calc(100% - 188px); /* Высота карточки минус header (108px) и footer (80px) */
+    height: calc(100% - 200px); /* Высота карточки минус header (120px) и footer (80px) */
     overflow: hidden;
     position: relative;
 }
@@ -509,7 +509,7 @@ const onBookmark = () => {}
     position: relative;
     display: block;
     line-height: 1.5;
-    max-height: 240px; /* Добавили ещё ~30px для ещё одной строки */
+    max-height: 200px;
 
     /* Настоящее размытие текста */
     &::after {
@@ -892,21 +892,21 @@ const onBookmark = () => {}
     
     /* Мобильные устройства */
     @media (max-width: 768px) {
-        height: 120px;
+        height: 200px; /* Увеличено с 120px до 200px */
         margin: 12px 0 16px 0;
         border-radius: 12px;
     }
     
     /* Планшеты */
     @media (min-width: 769px) and (max-width: 1024px) {
-        height: 140px;
+        height: 240px; /* Увеличено с 140px до 240px */
         margin: 14px 0 18px 0;
         border-radius: 13px;
     }
     
     /* Десктоп */
     @media (min-width: 1025px) {
-        height: 160px;
+        height: 400px; /* Увеличено с 160px до 280px (альбомный формат) */
         margin: 16px 0 20px 0;
         border-radius: 15px;
     }
@@ -930,7 +930,7 @@ const onBookmark = () => {}
 
 .preview-content {
     width: 100%;
-    height: 100%;
+    height: 100%; 
     display: flex;
     align-items: center;
     justify-content: center;
