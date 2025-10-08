@@ -509,7 +509,8 @@ const onBookmark = () => {}
     position: relative;
     display: block;
     line-height: 1.5;
-    max-height: 200px;
+    min-height: 270px;
+    max-height: 320px;
 
     /* Настоящее размытие текста */
     &::after {
