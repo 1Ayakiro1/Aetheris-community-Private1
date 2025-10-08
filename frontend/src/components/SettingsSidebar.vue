@@ -85,10 +85,14 @@
   border-radius: 25px;
   display: flex;
   flex-direction: column;
+  flex-shrink: 0; /* Не сжимается под влиянием flex-контейнера */
+  box-sizing: border-box; /* Включает padding и border в ширину */
 
   /* Мобильные устройства */
   @media (max-width: 768px) {
-    width: 100%;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
     height: auto;
     min-height: 400px;
     border-radius: 20px;
@@ -97,14 +101,18 @@
   
   /* Планшеты */
   @media (min-width: 769px) and (max-width: 1024px) {
-    width: 320px;
+    width: 320px !important;
+    max-width: 320px !important;
+    min-width: 320px !important;
     height: 580px;
     border-radius: 22px;
   }
   
   /* Десктоп */
   @media (min-width: 1025px) {
-    width: 395px;
+    width: 395px !important;
+    max-width: 395px !important;
+    min-width: 395px !important;
     height: 685px;
     border-radius: 25px;
   }
@@ -145,21 +153,25 @@ gap: 8px;
 }
 
 .sidebar-button {
-width: 300px;
-height: 56px;
+  width: 300px !important;
+  max-width: 300px !important;
+  min-width: 300px !important;
+  height: 56px;
   background-color: rgba(67, 73, 86, 0);
-border-radius: 15px;
+  border-radius: 15px;
   color: var(--text-primary);
-font-size: 23px;
+  font-size: 23px;
   font-family: var(--font-sans);
   font-weight: bold;
   transition: all 0.3s ease-in-out;
   display: flex;
   align-items: center;
-margin-top: 3px;
+  margin-top: 3px;
   border: none;
   cursor: pointer;
   text-decoration: none;
+  box-sizing: border-box;
+  flex-shrink: 0;
 
   &:hover {
     background-color: rgba(67, 73, 86, 1);

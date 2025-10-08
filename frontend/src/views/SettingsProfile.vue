@@ -385,19 +385,23 @@ const confirmReset = () => {
   /* Планшеты */
   @media (min-width: 769px) and (max-width: 1024px) {
     padding: 0 20px;
-    max-width: 1000px;
   }
   
   /* Десктоп */
   @media (min-width: 1025px) {
     padding: 0 24px;
-    max-width: 1400px;
   }
 }
 
 .main-body {
   display: flex;
-margin-top: 48px; // mt-12
+  justify-content: center; // Центрируем весь контент
+  align-items: flex-start;
+  margin-top: 48px; // mt-12
+  gap: 12px; // Стандартный отступ между сайдбаром и контентом
+  max-width: 1600px; // Максимальная ширина для больших экранов
+  margin-left: auto;
+  margin-right: auto;
 }
 
 
@@ -406,7 +410,7 @@ margin-top: 48px; // mt-12
   display: flex;
   flex-direction: column;
   align-items: center;
-margin-left: 12px;
+  flex: 1; // Занимает оставшееся пространство
 }
 
 .profile-section {

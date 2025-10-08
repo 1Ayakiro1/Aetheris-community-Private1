@@ -29,15 +29,37 @@ const { t } = useI18n()
 @import '@/assets/main.scss';
 
 .settings-subscription-container {
-  margin: 0 auto; padding: 0 16px; box-sizing: border-box;
   margin: 0 auto;
   background-color: var(--bg-primary);
   min-height: 100vh;
+  padding: 0 16px;
+  box-sizing: border-box;
+  
+  /* Мобильные устройства */
+  @media (max-width: 768px) {
+    padding: 0 12px;
+  }
+  
+  /* Планшеты */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    padding: 0 20px;
+  }
+  
+  /* Десктоп */
+  @media (min-width: 1025px) {
+    padding: 0 24px;
+  }
 }
 
 .main-body {
   display: flex;
+  justify-content: center; // Центрируем весь контент
+  align-items: flex-start;
   margin-top: 48px; // mt-12
+  gap: 12px; // Стандартный отступ между сайдбаром и контентом
+  max-width: 1600px; // Максимальная ширина для больших экранов
+  margin-left: auto;
+  margin-right: auto;
 }
 
 
@@ -46,9 +68,8 @@ const { t } = useI18n()
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-left: 12px;
   justify-content: center;
-  flex: 1;
+  flex: 1; // Занимает оставшееся пространство
 }
 
 .development-message {

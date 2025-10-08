@@ -347,33 +347,35 @@ const themeImages = {
   /* Планшеты */
   @media (min-width: 769px) and (max-width: 1024px) {
     padding: 0 20px;
-    max-width: 1000px;
   }
   
   /* Десктоп */
   @media (min-width: 1025px) {
     padding: 0 24px;
-    max-width: 1400px;
   }
   min-height: 100vh;
 }
 
 .main-body {
   display: flex;
-  justify-content: center;
+  justify-content: center; // Центрируем весь контент
   align-items: flex-start;
   margin-top: 48px; // mt-12
+  gap: 12px; // Стандартный отступ между сайдбаром и контентом
+  max-width: 1600px; // Максимальная ширина для больших экранов
+  margin-left: auto;
+  margin-right: auto;
 }
 
 
 // Content Styles
-  .content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-left: 12px;
-    margin-bottom: 200px;
-  }
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1; // Занимает оставшееся пространство
+  margin-bottom: 200px;
+}
 
 
 .theme-section {
