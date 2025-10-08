@@ -5,10 +5,10 @@ from typing import List, Optional
 class ArticleBase(BaseModel):
     title: str
     content: str
-    excerpt: Optional[str] = None
     author: str = "Anonymous"
     tags: List[str] = []
     status: str = "published"
+    preview_image: Optional[str] = None
 
 class ArticleCreate(ArticleBase):
     pass

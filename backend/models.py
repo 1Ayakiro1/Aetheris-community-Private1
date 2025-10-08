@@ -9,9 +9,9 @@ class Article(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, nullable=False)
     content = Column(Text, nullable=False)
-    excerpt = Column(String, nullable=True)
     author = Column(String, nullable=False, default="Anonymous")
     tags = Column(String, nullable=True)
+    preview_image = Column(String, nullable=True)  # Теперь тут будет преввьюшка. А excerpt убрал
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     status = Column(String, default="published")

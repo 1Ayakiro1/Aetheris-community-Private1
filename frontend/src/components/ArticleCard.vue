@@ -81,7 +81,7 @@
               </template>
             </Tag>
         </div>
-        
+
         <!-- Preview Block -->
         <div class="article-card-preview">
             <div class="preview-image" v-if="article.previewImage">
@@ -94,7 +94,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="article-card-content-text" :data-text="article.excerpt || article.content">
             {{ article.excerpt || article.content }}
         </div>
@@ -176,60 +176,28 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import { reactArticle } from '@/api/articles'
-import type { Article, ArticleCardProps, ArticleCardEmits } from '@/types/article'
 import Tag from 'primevue/tag'
+import type { Article, ArticleCardProps, ArticleCardEmits } from '@/types/article'
+import { useArticles } from '@/composables/useArticles'
 
-
-
-const formatDate = (date: string | Date): string => {
-  const dateObj = typeof date === 'string' ? new Date(date) : date
-  const now = new Date()
-  const diffInMs = now.getTime() - dateObj.getTime()
-  const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24))
-
-  if (diffInDays === 0) {
-    return 'Today'
-  } else if (diffInDays === 1) {
-    return 'Yesterday'
-  } else if (diffInDays < 7) {
-    return `${diffInDays} days ago`
-  } else if (diffInDays < 30) {
-    const weeks = Math.floor(diffInDays / 7)
-    return `${weeks} weeks ago`
-  } else {
-    return dateObj.toLocaleDateString('en-US', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric'
-    })
-  }
-}
-
+// === props и emits ===
 const props = defineProps<ArticleCardProps>()
 const emit = defineEmits<ArticleCardEmits>()
 
-const getOrCreateUserId = () => {
-    const key = '3' //Это айди пользователя импровизиованый для тестов
-    let id = localStorage.getItem(key)
-    if (!id) {
-        id = String(Date.now() + Math.floor(Math.random() * 10000))
-        localStorage.setItem(key, id)
-    }
-    return Number(id)
-}
+// === composable ===
+const { react } = useArticles()
 
+// === состояния ===
 const isLiked = ref(props.article.userReaction === 'like')
 const isDisliked = ref(props.article.userReaction === 'dislike')
 const likesCount = ref(props.article.likes || 0)
 const dislikesCount = ref(props.article.dislikes || 0)
-
-//пока заглушки
 const isBookmarked = ref(false)
 const isCommentsOpen = ref(false)
 const isShared = ref(false)
 const commentsCount = ref(props.article.commentsCount || 0)
 
+// === watchers ===
 watch(() => props.article.userReaction, (v) => {
     isLiked.value = v === 'like'
     isDisliked.value = v === 'dislike'
@@ -237,15 +205,14 @@ watch(() => props.article.userReaction, (v) => {
 watch(() => props.article.likes, (v) => { likesCount.value = v ?? likesCount.value })
 watch(() => props.article.dislikes, (v) => { dislikesCount.value = v ?? dislikesCount.value })
 
+// === реакция (лайк/дизлайк) ===
 const onLike = async () => {
     try {
-        const userId = getOrCreateUserId()
-        const updated = await reactArticle(props.article.id, userId, 'like')
+        const updated = await react(props.article.id, 'like')
         likesCount.value = updated.likes
         dislikesCount.value = updated.dislikes
-        const ur = updated.user_reaction ?? updated.userReaction ?? null
-        isLiked.value = ur === 'like'
-        isDisliked.value = ur === 'dislike'
+        isLiked.value = updated.userReaction === 'like'
+        isDisliked.value = updated.userReaction === 'dislike'
     } catch (e) {
         console.error('Ошибка лайка:', e)
     }
@@ -253,25 +220,38 @@ const onLike = async () => {
 
 const onDislike = async () => {
     try {
-        const userId = getOrCreateUserId()
-        const updated = await reactArticle(props.article.id, userId, 'dislike')
+        const updated = await react(props.article.id, 'dislike')
         likesCount.value = updated.likes
         dislikesCount.value = updated.dislikes
-        const ur = updated.user_reaction ?? updated.userReaction ?? null
-        isLiked.value = ur === 'like'
-        isDisliked.value = ur === 'dislike'
+        isLiked.value = updated.userReaction === 'like'
+        isDisliked.value = updated.userReaction === 'dislike'
     } catch (e) {
         console.error('Ошибка дизлайка:', e)
     }
 }
 
-const onShare =  () => {}
-const onTagClick = (tag) => {}
-const onComment =  () => {}
+// === прочее ===
+const onShare = () => {}
+const onTagClick = (tag: string) => {}
+const onComment = () => {}
 const onArticleClick = () => {}
 const onAuthorClick = () => {}
 const onBookmark = () => {}
+
+const formatDate = (date: string | Date): string => {
+    const dateObj = typeof date === 'string' ? new Date(date) : date
+    const now = new Date()
+    const diffInMs = now.getTime() - dateObj.getTime()
+    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24))
+
+    if (diffInDays === 0) return 'Today'
+    if (diffInDays === 1) return 'Yesterday'
+    if (diffInDays < 7) return `${diffInDays} days ago`
+    if (diffInDays < 30) return `${Math.floor(diffInDays / 7)} weeks ago`
+    return dateObj.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })
+}
 </script>
+
 
 <style scoped>
 .article-card {
@@ -287,14 +267,14 @@ const onBookmark = () => {}
         height: 620px; /* Увеличено с 520px до 620px (+100px) */
         border-radius: 25px 25px 10px 45px; /* Увеличил нижний левый угол */
     }
-    
+
     /* Планшеты */
     @media (min-width: 769px) and (max-width: 1024px) {
         width: 100%;
         height: 780px; /* Увеличено с 650px до 780px (+130px) */
         border-radius: 35px 35px 12px 60px; /* Увеличил нижний левый угол */
     }
-    
+
     /* Десктоп */
     @media (min-width: 1025px) {
         width: 1055px;
@@ -890,21 +870,21 @@ const onBookmark = () => {}
     border-radius: 15px;
     overflow: hidden;
     margin: 16px 0 20px 0; /* Убираем боковые отступы, так как уже внутри content */
-    
+
     /* Мобильные устройства */
     @media (max-width: 768px) {
         height: 200px; /* Увеличено с 120px до 200px */
         margin: 12px 0 16px 0;
         border-radius: 12px;
     }
-    
+
     /* Планшеты */
     @media (min-width: 769px) and (max-width: 1024px) {
         height: 240px; /* Увеличено с 140px до 240px */
         margin: 14px 0 18px 0;
         border-radius: 13px;
     }
-    
+
     /* Десктоп */
     @media (min-width: 1025px) {
         height: 400px; /* Увеличено с 160px до 280px (альбомный формат) */
@@ -923,7 +903,7 @@ const onBookmark = () => {}
     height: 100%;
     object-fit: cover;
     transition: transform 0.3s ease;
-    
+
     &:hover {
         transform: scale(1.05);
     }
@@ -931,7 +911,7 @@ const onBookmark = () => {}
 
 .preview-content {
     width: 100%;
-    height: 100%; 
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -949,17 +929,17 @@ const onBookmark = () => {}
 .preview-icon {
     font-size: 24px;
     color: var(--text-secondary);
-    
+
     /* Мобильные устройства */
     @media (max-width: 768px) {
         font-size: 20px;
     }
-    
+
     /* Планшеты */
     @media (min-width: 769px) and (max-width: 1024px) {
         font-size: 22px;
     }
-    
+
     /* Десктоп */
     @media (min-width: 1025px) {
         font-size: 24px;
@@ -970,17 +950,17 @@ const onBookmark = () => {}
     font-size: 14px;
     color: var(--text-secondary);
     font-family: var(--font-sans);
-    
+
     /* Мобильные устройства */
     @media (max-width: 768px) {
         font-size: 12px;
     }
-    
+
     /* Планшеты */
     @media (min-width: 769px) and (max-width: 1024px) {
         font-size: 13px;
     }
-    
+
     /* Десктоп */
     @media (min-width: 1025px) {
         font-size: 14px;

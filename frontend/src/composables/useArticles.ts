@@ -6,6 +6,14 @@ const articles = ref<Article[]>([])
 const loading = ref(false)
 const error = ref<string | null>(null)
 
+function generateExcerpt(content: string, length = 450): string {
+    if (!content) return ''
+    const clean = content.replace(/<[^>]+>/g, '') // На счет этого внимательнее с html когда будет тита
+    return clean.length > length
+        ? clean.slice(0, length).trimEnd() + '…'
+        : clean
+}
+
 function getOrCreateUserId(): number {
     const key = 'anon_user_id'
     let id = localStorage.getItem(key)
@@ -17,23 +25,26 @@ function getOrCreateUserId(): number {
 }
 
 function mapServerArticle(a: any): Article {
-    return {
+    const article: Article = {
         id: a.id,
         title: a.title,
         content: a.content,
-        excerpt: a.excerpt,
+        excerpt: a.excerpt || generateExcerpt(a.content),
         author: {
             id: Number(a.author) || 0,
             username: typeof a.author === 'string' ? a.author : `User ${a.author}`
         },
-        tags: a.tags || (Array.isArray(a.tags) ? a.tags : []),
+        tags: a.tags && Array.isArray(a.tags)
+            ? a.tags
+            : (typeof a.tags === 'string' ? a.tags.split(',') : []),
         createdAt: a.created_at || a.createdAt,
         status: a.status || 'published',
-        likes: a.likes,
-        dislikes: a.dislikes,
-        commentsCount: a.comments_count ?? a.commentsCount,
+        likes: a.likes ?? 0,
+        dislikes: a.dislikes ?? 0,
+        commentsCount: a.comments_count ?? a.commentsCount ?? 0,
         userReaction: a.user_reaction ?? null
-    } as unknown as Article
+    }
+    return article
 }
 
 export function useArticles() {

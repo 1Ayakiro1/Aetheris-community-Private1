@@ -33,10 +33,10 @@ def create_article(db: Session, article: schemas.ArticleCreate):
     db_article = models.Article(
         title=article.title,
         content=article.content,
-        excerpt=article.excerpt,
         author=article.author,
         tags=",".join(article.tags) if isinstance(article.tags, list) else article.tags,
-        status=article.status
+        status=article.status,
+        preview_image=article.preview_image
     )
     db.add(db_article)
     db.commit()
