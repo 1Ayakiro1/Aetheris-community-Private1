@@ -1,5 +1,5 @@
 <template>
-  <div class="header-container" :class="{ 'home-page': isHomePage }">
+  <div class="header-container" :class="{ 'home-page': isWelcomePage }">
     <!-- Левая группа: Logo и Navigation -->
     <div class="header-left">
       <router-link to="/" class="header-brand-link">
@@ -40,14 +40,14 @@
   <!-- Navigation panel -->
   <div id="navigation_panel" class="dropdown-panel navigation-panel hidden opacity-0 pointer-events-none">
     <div class="panel-content">
-      <router-link to="/">
+      <router-link to="/home">
         <button class="panel-button">
           <HomeIcon class="panel-icon" />
           <p class="panel-text">{{ t('header.navigation.title1') }}</p>
         </button>
       </router-link>
 
-      <router-link to="/articles">
+      <router-link to="/">
         <button class="panel-button">
           <ArticlesIcon class="panel-icon" />
           <p class="panel-text">{{ t('header.navigation.title2') }}</p>
@@ -253,7 +253,7 @@ const { t } = useI18n()
 // Route setup
 const route = useRoute()
 const router = useRouter()
-const isHomePage = computed(() => route.name === 'Home')
+const isWelcomePage = computed(() => route.name === 'Welcome')
 
 // Type definitions
 interface PanelElement {

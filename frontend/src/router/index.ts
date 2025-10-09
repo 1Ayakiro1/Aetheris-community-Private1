@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 const routes = [
-  // Home page (start page)
-  { path: '/', name: 'Home', component: () => import('@/views/Home.vue') },
+  // Main page (articles)
+  { path: '/', name: 'HomePage', component: () => import('@/views/HomePage.vue') },
 
-  // Articles pages
-  { path: '/articles', name: 'Articles', component: () => import('@/views/Articles.vue') },
+  // Welcome page (landing)
+  { path: '/home', name: 'Welcome', component: () => import('@/views/Welcome.vue') },
   { path: '/articles/interactive', name: 'ArticlesInteractive', component: () => import('@/views/ArticlesInteractive.vue') },
   { path: '/articles/companies', name: 'ArticlesCompanies', component: () => import('@/views/ArticlesCompanies.vue') },
   { path: '/article/:id', name: 'FullArticle', component: () => import('@/views/FullArticle.vue'), props: true },

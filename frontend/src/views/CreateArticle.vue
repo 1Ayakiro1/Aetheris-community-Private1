@@ -299,7 +299,7 @@ const handleCreateArticle = async () => {
       localStorage.removeItem('article_draft')
       
       // Перенаправляем на страницу статьи или список статей
-      await router.push('/articles')
+      await router.push('/')
       
       alert(isEditing.value ? 'Статья успешно обновлена!' : 'Статья успешно создана!')
     }

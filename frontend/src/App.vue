@@ -1,6 +1,5 @@
 <template>
-  <!-- Для Home page с wrapper только для хедера -->
-  <div v-if="$route.name === 'Home'">
+  <div v-if="$route.name === 'Welcome'">
     <div class="app-wrapper home-header-wrapper">
       <AppHeader />
     </div>
