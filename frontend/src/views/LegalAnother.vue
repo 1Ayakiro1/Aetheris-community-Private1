@@ -56,11 +56,11 @@
 </template>
 
 <script setup lang="ts">
-// Component logic here
+
 </script>
 
 <style lang="scss" scoped>
-// Import responsive mixins
+
 @import '@/assets/main.scss';
 
 .legal-another-container {
@@ -70,25 +70,23 @@
   padding-top: 100px;
   padding-bottom: 200px;
 
-  // Тестовое правило для всех экранов 1200px+ 
+
   @media screen and (min-width: 1200px) {
-    max-width: 2496px; // 1920 * 1.3
-    padding-top: 130px; // 100 * 1.3
-    padding-bottom: 260px; // 200 * 1.3
+    max-width: 2496px;
+    padding-top: 130px;
+    padding-bottom: 260px;
   }
 
-  // 2K monitor scaling (+30%)
   @include responsive-2k {
-    max-width: 2496px; // 1920 * 1.3
-    padding-top: 130px; // 100 * 1.3
-    padding-bottom: 260px; // 200 * 1.3
+    max-width: 2496px;
+    padding-top: 130px;
+    padding-bottom: 260px;
   }
 
-  // 4K monitor scaling (+60% from base)
   @include responsive-4k {
-    max-width: 3072px; // 1920 * 1.6
-    padding-top: 160px; // 100 * 1.6
-    padding-bottom: 320px; // 200 * 1.6
+    max-width: 3072px;
+    padding-top: 160px;
+    padding-bottom: 320px;
   }
 }
 
@@ -97,33 +95,29 @@
   align-items: center;
   justify-content: center;
   margin-top: 16px;
-  color: red !important; /* ТЕСТ - КРАСНЫЙ */
-  font-size: 50px !important; /* ТЕСТ - ОГРОМНЫЙ */
+  color: red !important;
+  font-size: 50px !important;
   font-family: var(--font-sans-serif);
   font-weight: bold;
 
-  // Тестовое правило - сработает на любом разрешении
   @media screen and (min-width: 1px) {
-    font-size: 50px !important; // ТЕСТ - должен быть ОГРОМНЫЙ!
-    color: red !important; // И КРАСНЫЙ!
+    font-size: 50px !important;
+    color: red !important;
   }
 
-  // Тестовое правило для всех экранов 1200px+
   @media screen and (min-width: 1200px) {
-    font-size: 39px; // 30 * 1.3 - ТЕСТ!
-    margin-top: 21px; // 16 * 1.3
+    font-size: 39px;
+    margin-top: 21px;
   }
 
-  // 2K monitor scaling (+30%)
   @include responsive-2k {
-    font-size: 39px; // 30 * 1.3
-    margin-top: 21px; // 16 * 1.3
+    font-size: 39px;
+    margin-top: 21px;
   }
 
-  // 4K monitor scaling (+60% from base)
   @include responsive-4k {
-    font-size: 48px; // 30 * 1.6
-    margin-top: 26px; // 16 * 1.6
+    font-size: 48px;
+    margin-top: 26px;
   }
 }
 
@@ -133,16 +127,14 @@
   gap: 12px;
   margin-top: 16px;
 
-  // 2K monitor scaling (+30%)
   @include responsive-2k {
-    gap: 16px; // 12 * 1.3
-    margin-top: 21px; // 16 * 1.3
+    gap: 16px;
+    margin-top: 21px;
   }
 
-  // 4K monitor scaling (+60% from base)
   @include responsive-4k {
-    gap: 19px; // 12 * 1.6
-    margin-top: 26px; // 16 * 1.6
+    gap: 19px;
+    margin-top: 26px;
   }
 }
 
@@ -151,20 +143,18 @@
   flex-direction: column;
   gap: 10px;
   width: 370px;
-  height: 655px; // 330px + 84px + 221px + gaps = 655px
+  height: 655px;
 
-  // 2K monitor scaling (+30%)
   @include responsive-2k {
-    gap: 13px; // 10 * 1.3
-    width: 481px; // 370 * 1.3
-    height: 852px; // 655 * 1.3
+    gap: 13px;
+    width: 481px;
+    height: 852px;
   }
 
-  // 4K monitor scaling (+60% from base)
   @include responsive-4k {
-    gap: 16px; // 10 * 1.6
-    width: 592px; // 370 * 1.6
-    height: 1048px; // 655 * 1.6
+    gap: 16px;
+    width: 592px;
+    height: 1048px;
   }
 }
 
@@ -175,61 +165,53 @@
   flex-direction: column;
   width: 370px;
 
-  // 2K monitor scaling (+30%)
   @include responsive-2k {
-    border-radius: 33px; // 25 * 1.3
-    width: 481px; // 370 * 1.3
+    border-radius: 33px;
+    width: 481px;
   }
 
-  // 4K monitor scaling (+60% from base)
   @include responsive-4k {
-    border-radius: 40px; // 25 * 1.6
-    width: 592px; // 370 * 1.6
+    border-radius: 40px;
+    width: 592px;
   }
     
   &.legal-block {
-    height: 330px; // Уменьшаем высоту legal блока
+    height: 330px;
 
-    // 2K monitor scaling (+30%)
     @include responsive-2k {
-      height: 429px; // 330 * 1.3
+      height: 429px;
     }
 
-    // 4K monitor scaling (+60% from base)
     @include responsive-4k {
-      height: 528px; // 330 * 1.6
+      height: 528px;
     }
   }
   
   &.community-block {
     align-items: center;
-    height: 84px; // Фиксированная высота для community блока
+    height: 84px;
 
-    // 2K monitor scaling (+30%)
     @include responsive-2k {
-      height: 109px; // 84 * 1.3
+      height: 109px;
     }
 
-    // 4K monitor scaling (+60% from base)
     @include responsive-4k {
-      height: 134px; // 84 * 1.6
+      height: 134px;
     }
   }
   
   &.security-block {
-    padding: 16px; // Добавляем padding чтобы кнопки не втыкались в края
-    height: 221px; // Фиксированная высота для security блока
+    padding: 16px;
+    height: 221px;
 
-    // 2K monitor scaling (+30%)
     @include responsive-2k {
-      padding: 21px; // 16 * 1.3
-      height: 287px; // 221 * 1.3
+      padding: 21px;
+      height: 287px;
     }
 
-    // 4K monitor scaling (+60% from base)
     @include responsive-4k {
-      padding: 26px; // 16 * 1.6
-      height: 354px; // 221 * 1.6
+      padding: 26px;
+      height: 354px;
     }
   }
 
@@ -243,18 +225,16 @@
   margin-top: 16px;
   margin-left: 48px;
 
-  // 2K monitor scaling (+30%)
   @include responsive-2k {
-    font-size: 33px; // 25 * 1.3
-    margin-top: 21px; // 16 * 1.3
-    margin-left: 62px; // 48 * 1.3
+    font-size: 33px;
+    margin-top: 21px;
+    margin-left: 62px;
   }
 
-  // 4K monitor scaling (+60% from base)
   @include responsive-4k {
-    font-size: 40px; // 25 * 1.6
-    margin-top: 26px; // 16 * 1.6
-    margin-left: 77px; // 48 * 1.6
+    font-size: 40px;
+    margin-top: 26px;
+    margin-left: 77px;
   }
 }
 
@@ -266,32 +246,28 @@
   align-items: center;
   margin-top: 8px;
 
-  // 2K monitor scaling (+30%)
   @include responsive-2k {
-    gap: 10px; // 8 * 1.3
-    margin-top: 10px; // 8 * 1.3
+    gap: 10px;
+    margin-top: 10px;
   }
 
-  // 4K monitor scaling (+60% from base)
   @include responsive-4k {
-    gap: 13px; // 8 * 1.6
-    margin-top: 13px; // 8 * 1.6
+    gap: 13px;
+    margin-top: 13px;
   }
   
   .security-block & {
     gap: 10px;
     margin-top: 16px;
 
-    // 2K monitor scaling (+30%)
     @include responsive-2k {
-      gap: 13px; // 10 * 1.3
-      margin-top: 21px; // 16 * 1.3
+      gap: 13px;
+      margin-top: 21px;
     }
 
-    // 4K monitor scaling (+60% from base)
     @include responsive-4k {
-      gap: 16px; // 10 * 1.6
-      margin-top: 26px; // 16 * 1.6
+      gap: 16px;
+      margin-top: 26px;
     }
   }
 }
@@ -309,20 +285,18 @@
   transition: all 0.3s ease-in-out;
   cursor: pointer;
 
-  // 2K monitor scaling (+30%)
   @include responsive-2k {
-    width: 390px; // 300 * 1.3
-    height: 73px; // 56 * 1.3
-    border-radius: 20px; // 15 * 1.3
-    font-size: 30px; // 23 * 1.3
+    width: 390px;
+    height: 73px;
+    border-radius: 20px;
+    font-size: 30px;
   }
 
-  // 4K monitor scaling (+60% from base)
   @include responsive-4k {
-    width: 480px; // 300 * 1.6
-    height: 90px; // 56 * 1.6
-    border-radius: 24px; // 15 * 1.6
-    font-size: 37px; // 23 * 1.6
+    width: 480px;
+    height: 90px;
+    border-radius: 24px;
+    font-size: 37px;
   }
   
   &:hover {
@@ -332,14 +306,12 @@
   .community-block & {
     margin-top: 16px;
 
-    // 2K monitor scaling (+30%)
     @include responsive-2k {
-      margin-top: 21px; // 16 * 1.3
+      margin-top: 21px;
     }
 
-    // 4K monitor scaling (+60% from base)
     @include responsive-4k {
-      margin-top: 26px; // 16 * 1.6
+      margin-top: 26px;
     }
   }
 }
@@ -355,18 +327,16 @@
   background-color: var(--bg-secondary);
   border-radius: 20px;
 
-  // 2K monitor scaling (+30%)
   @include responsive-2k {
-    width: 1300px; // 1000 * 1.3
-    height: 852px; // 655 * 1.3
-    border-radius: 26px; // 20 * 1.3
+    width: 1300px;
+    height: 852px;
+    border-radius: 26px;
   }
 
-  // 4K monitor scaling (+60% from base)
   @include responsive-4k {
-    width: 1600px; // 1000 * 1.6
-    height: 1048px; // 655 * 1.6
-    border-radius: 32px; // 20 * 1.6
+    width: 1600px;
+    height: 1048px;
+    border-radius: 32px;
   }
 }
 </style>

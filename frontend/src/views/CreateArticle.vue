@@ -517,7 +517,7 @@ onMounted(() => {
 }
 
 :deep(.ql-toolbar) {
-  background: var(--btn-primary);
+  background: var(--bg-primary) !important; 
   border-radius: 25px !important;   
   padding: 24px 20px;              
   width: 1300px;                   
@@ -743,7 +743,8 @@ onMounted(() => {
 }
 
 :deep(.ql-container) {
-  background: var(--btn-primary);
+  background: var(--bg-primary) !important;  // Меняем на bg-primary (было btn-primary)
+  background-color: var(--bg-primary) !important;  // Дублируем для надежности
   border: none;
   border-radius: 0 0 50px 50px;     
   width: 1300px;                   
@@ -761,13 +762,27 @@ onMounted(() => {
 
 :deep(.ql-container.ql-snow) {
   margin-top: 20px;                  
-  border-radius: 25px !important;    
+  border-radius: 25px !important;
+  background: var(--bg-primary) !important;
 }
 
 :deep(.p-editor-content.ql-container.ql-snow) {
   border-radius: 25px !important;    
   overflow: hidden !important;       
   border-color: none !important;
+  background-color: var(--bg-primary) !important;
+}
+
+:deep(.ql-container.ql-snow) {
+  background-color: var(--bg-primary) !important;
+}
+
+:deep(.p-editor .ql-container) {
+  background-color: var(--bg-primary) !important;
+}
+
+:deep(.p-editor-content) {
+  background-color: var(--bg-primary) !important;
 }
 .tags-title {
   color: var(--text-primary);
@@ -920,6 +935,10 @@ onMounted(() => {
   &:last-child {
     margin-bottom: 0;
   }
+}
+
+:deep(.p-editor .p-editor-content .ql-editor) {
+  background-color: var(--bg-primary) !important;
 }
 
 // Custom checkbox styling

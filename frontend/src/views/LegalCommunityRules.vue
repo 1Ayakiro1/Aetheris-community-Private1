@@ -56,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-// Component logic here
+
 </script>
 
 <style lang="scss" scoped>
@@ -91,7 +91,7 @@
   flex-direction: column;
   gap: 10px;
   width: 370px;
-  height: 655px; // 330px + 84px + 221px + gaps = 655px
+  height: 655px; 
 }
 
 .sidebar-block {
@@ -102,17 +102,17 @@
   width: 370px;
     
   &.legal-block {
-    height: 330px; // Уменьшаем высоту legal блока
+    height: 330px;
   }
   
   &.community-block {
     align-items: center;
-    height: 84px; // Фиксированная высота для community блока
+    height: 84px;
   }
   
   &.security-block {
-    padding: 16px; // Добавляем padding чтобы кнопки не втыкались в края
-    height: 221px; // Фиксированная высота для security блока
+    padding: 16px;
+    height: 221px;
   }
 }
 

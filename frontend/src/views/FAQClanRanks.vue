@@ -34,11 +34,10 @@
 </template>
 
 <script setup lang="ts">
-// No imports needed - header and footer are in main layout
+
 </script>
 
 <style scoped lang="scss">
-// Import responsive mixins
 @import '@/assets/main.scss';
 
 .faq-clan-ranks-container {

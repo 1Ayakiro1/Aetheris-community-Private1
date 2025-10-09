@@ -21,9 +21,12 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import ArticleCard from '@/components/ArticleCard.vue'
 import { useArticles } from '@/composables/useArticles'
 import { Article } from '@/types/article'
+
+const router = useRouter()
 
 const {
     articles,
@@ -53,7 +56,10 @@ const articlesToShow = computed(() => {
 
 const handleTagClick = (tag: string) => console.log('tag clicked', tag)
 const handleAuthorClick = (id: number) => console.log('author clicked', id)
-const handleArticleClick = (id: number) => console.log('article clicked', id)
+const handleArticleClick = (id: number) => {
+    console.log('article clicked', id)
+    router.push(`/article/${id}`)
+}
 
 onMounted(async () => {
     await fetchArticles()

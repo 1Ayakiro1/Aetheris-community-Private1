@@ -1,5 +1,5 @@
 <template>
-  <div class="article-card" @click="onArticleClick">
+  <div class="full-article-card">
     <!-- Header -->
     <div class="article-card-header">
         <div class="logo" @click.stop="onAuthorClick">
@@ -49,7 +49,7 @@
     </div>
     <!-- Content -->
     <div class="article-card-content">
-        <h2 class="article-card-content-title">{{ article.title }}</h2>
+        <h1 class="article-card-content-title">{{ article.title }}</h1>
 
         <!-- Metadata Panel -->
         <div class="metadata-panel">
@@ -95,12 +95,12 @@
             </div>
         </div>
 
-        <div class="article-card-content-text" :data-text="article.excerpt || article.content">
-            {{ article.excerpt || article.content }}
+        <!-- Full Article Content (без размытия) -->
+        <div class="article-card-content-text full-content" v-html="article.content">
         </div>
     </div>
 
-    <!-- Footer block with icons and read more button -->
+    <!-- Footer block with icons -->
     <div class="article-card-footer">
         <div class="article-actions">
             <div class="action-group">
@@ -166,10 +166,6 @@
                 </button>
             </div>
         </div>
-
-        <button class="read-more-btn" @click.stop="onArticleClick">
-            Читать далее
-        </button>
     </div>
   </div>
 </template>
@@ -234,12 +230,7 @@ const onDislike = async () => {
 const onShare = () => {}
 const onTagClick = (tag: string) => {}
 const onComment = () => {}
-const onArticleClick = () => {
-    emit('articleClick', props.article.id)
-}
-const onAuthorClick = () => {
-    emit('authorClick', props.article.author.id)
-}
+const onAuthorClick = () => {}
 const onBookmark = () => {}
 
 const formatDate = (date: string | Date): string => {
@@ -256,39 +247,33 @@ const formatDate = (date: string | Date): string => {
 }
 </script>
 
-
 <style scoped>
-.article-card {
+.full-article-card {
     background-color: var(--bg-secondary);
-    border-radius: 70px 40px 15px 70px; /* Увеличил нижний левый угол */
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
+    border-radius: 70px 40px 15px 70px;
     position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: auto;
+    padding-bottom: 80px;
 
     /* Мобильные устройства */
     @media (max-width: 768px) {
-        width: 100%;
-        height: 620px; /* Увеличено с 520px до 620px (+100px) */
-        border-radius: 25px 25px 10px 45px; /* Увеличил нижний левый угол */
+        border-radius: 25px 25px 10px 45px;
+        margin: 20px;
     }
 
     /* Планшеты */
     @media (min-width: 769px) and (max-width: 1024px) {
-        width: 100%;
-        height: 780px; /* Увеличено с 650px до 780px (+130px) */
-        border-radius: 35px 35px 12px 60px; /* Увеличил нижний левый угол */
+        border-radius: 35px 35px 12px 60px;
+        margin: 30px;
     }
 
     /* Десктоп */
     @media (min-width: 1025px) {
-        width: 1055px;
-        height: 950px; /* Увеличено с 780px до 950px (+170px) */
-        border-radius: 60px 40px 15px 70px; /* Увеличил нижний левый угол */
-    }
-
-    &:hover {
-        /* Убрал transform: translateY(-2px) - подъем блока при наведении */
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        border-radius: 60px 40px 15px 70px;
+        margin: 40px auto;
     }
 }
 
@@ -301,11 +286,11 @@ const formatDate = (date: string | Date): string => {
 }
 
 .logo {
-    width: 80px; /* Уменьшено с 85px на 30% */
+    width: 80px;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 80px; /* Уменьшено с 85px на 30% */
+    height: 80px;
     background-color: #434956;
     border-radius: 100%;
     margin-left: 30px;
@@ -336,7 +321,7 @@ const formatDate = (date: string | Date): string => {
     align-items: center;
     background-color: var(--btn-primary);
     color: var(--text-primary);
-    font-size: 22px; /* Уменьшено с 32px на 30% */
+    font-size: 22px;
     font-weight: 700;
     font-family: var(--font-sans);
 }
@@ -378,21 +363,21 @@ const formatDate = (date: string | Date): string => {
 
 .article-card-content {
     display: flex;
-    margin-top: 0px; /* Убрал отступ сверху, так как есть превью блок */
+    margin-top: 0px;
     flex-direction: column;
     margin-left: 30px;
     margin-right: 30px;
-    height: calc(100% - 200px); /* Высота карточки минус header (120px) и footer (80px) */
-    overflow: hidden;
+    overflow: visible;
     position: relative;
 }
 
 .article-card-content-title {
     color: var(--text-primary);
-    font-size: 25px;
+    font-size: 32px;
     margin-top: 30px;
     font-family: var(--font-sans);
     font-weight: 700;
+    line-height: 1.2;
 }
 
 .metadata-panel {
@@ -441,6 +426,7 @@ const formatDate = (date: string | Date): string => {
     flex-direction: row;
     gap: 10px;
     margin-top: 10px;
+    flex-wrap: wrap;
 }
 
 .custom-tag {
@@ -482,107 +468,96 @@ const formatDate = (date: string | Date): string => {
     color: rgba(255, 255, 255, 0.8);
 }
 
-.article-card-content-text {
-    color: var(--text-primary);
-    font-size: 20px;
-    font-family: var(--font-sans);
-    font-weight: 500;
-    margin-top: 30px;
-    flex: 1;
+/* Preview Block Styles */
+.article-card-preview {
+    background-color: var(--bg-primary);
+    border-radius: 15px;
     overflow: hidden;
-    position: relative;
-    display: block;
-    line-height: 1.5;
-    min-height: 270px;
-    max-height: 320px;
+    margin: 16px 0 20px 0;
+    height: 400px;
 
-    /* Настоящее размытие текста */
-    &::after {
-        content: attr(data-text);
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        color: var(--text-primary);
-        font-size: 20px;
-        font-family: var(--font-sans);
-        font-weight: 500;
-        line-height: 1.5;
-        pointer-events: none;
-
-        /* Настоящее blur размытие с маской */
-        filter: blur(1.5px);
-        mask-image: linear-gradient(
-            to bottom,
-            rgba(0, 0, 0, 0) 0%,
-            rgba(0, 0, 0, 0) 45%,
-            rgba(0, 0, 0, 0.3) 60%,
-            rgba(0, 0, 0, 0.8) 80%,
-            rgba(0, 0, 0, 1) 100%
-        );
-        -webkit-mask-image: linear-gradient(
-            to bottom,
-            rgba(0, 0, 0, 0) 0%,
-            rgba(0, 0, 0, 0) 45%,
-            rgba(0, 0, 0, 0.3) 60%,
-            rgba(0, 0, 0, 0.8) 80%,
-            rgba(0, 0, 0, 1) 100%
-        );
+    /* Мобильные устройства */
+    @media (max-width: 768px) {
+        height: 250px;
+        margin: 12px 0 16px 0;
+        border-radius: 12px;
     }
 
-    /* Оригинальный текст с fade-out маской для показа обрезанной строки */
-    mask-image: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 1) 0%,
-        rgba(0, 0, 0, 1) 70%,
-        rgba(0, 0, 0, 0.8) 75%,
-        rgba(0, 0, 0, 0.5) 80%,
-        rgba(0, 0, 0, 0.3) 85%,
-        rgba(0, 0, 0, 0.1) 92%,
-        rgba(0, 0, 0, 0) 100%
-    );
-    -webkit-mask-image: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 1) 0%,
-        rgba(0, 0, 0, 1) 70%,
-        rgba(0, 0, 0, 0.8) 75%,
-        rgba(0, 0, 0, 0.5) 80%,
-        rgba(0, 0, 0, 0.3) 85%,
-        rgba(0, 0, 0, 0.1) 92%,
-        rgba(0, 0, 0, 0) 100%
-    );
+    /* Планшеты */
+    @media (min-width: 769px) and (max-width: 1024px) {
+        height: 300px;
+        margin: 14px 0 18px 0;
+        border-radius: 13px;
+    }
+
+    /* Десктоп */
+    @media (min-width: 1025px) {
+        height: 400px;
+        margin: 16px 0 20px 0;
+        border-radius: 15px;
+    }
 }
 
+.preview-image {
+    width: 100%;
+    height: 100%;
+}
 
-.read-more-btn {
-    background-color: var(--btn-primary);
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 16px;
-    font-family: var(--font-sans);
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    min-width: 140px;
-    position: relative;
-    z-index: 10; /* Поднимаем кнопку над тенями */
+.preview-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
 
     &:hover {
-        background-color: var(--btn-primary-hover, #2563eb);
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        transform: scale(1.05);
     }
+}
 
-    &:active {
-        transform: translateY(0);
-    }
+.preview-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-    &:focus {
-        outline: none;
-        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+.preview-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    opacity: 0.6;
+}
+
+.preview-icon {
+    font-size: 24px;
+    color: var(--text-secondary);
+}
+
+.preview-text {
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-family: var(--font-sans);
+}
+
+/* Полный контент статьи без размытия */
+.article-card-content-text.full-content {
+    color: var(--text-primary);
+    font-size: 18px;
+    font-family: var(--font-sans);
+    font-weight: 400;
+    margin-top: 30px;
+    margin-bottom: 40px;
+    line-height: 1.6;
+    
+    /* Убираем все маски и размытия */
+    mask-image: none;
+    -webkit-mask-image: none;
+    
+    &::after {
+        display: none;
     }
 }
 
@@ -593,11 +568,11 @@ const formatDate = (date: string | Date): string => {
     right: 0;
     height: 80px;
     background-color: var(--bg-secondary);
-    border-bottom-left-radius: 40px; /* Исправил для соответствия основному блоку */
+    border-bottom-left-radius: 40px;
     border-bottom-right-radius: 40px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     padding: 0 20px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -610,23 +585,23 @@ const formatDate = (date: string | Date): string => {
 .action-group {
     display: flex;
     align-items: center;
-    gap: 10px; /* Увеличено с 8px (+25%) */
+    gap: 10px;
 }
 
 .action-btn {
     background: none;
     border: none;
     border-radius: 8px;
-    padding: 12px 17px; /* Увеличено с 10px 14px (+20%) */
+    padding: 12px 17px;
     display: flex;
     align-items: center;
-    gap: 10px; /* Увеличено с 8px (+25%) */
+    gap: 10px;
     cursor: pointer;
     transition: all 0.2s ease;
     color: var(--text-secondary);
-    font-size: 18px; /* Увеличено с 15px (+20%) */
+    font-size: 18px;
     font-family: var(--font-sans);
-    min-height: 48px; /* Увеличено с 40px (+20%) */
+    min-height: 48px;
 
     &:hover {
         background-color: rgba(255, 255, 255, 0.1);
@@ -638,13 +613,13 @@ const formatDate = (date: string | Date): string => {
     }
 
     i {
-        font-size: 22px; /* Увеличено с 18px до 22px (+22%) */
+        font-size: 22px;
         transition: all 0.2s ease;
     }
 
     .action-count {
         font-weight: 500;
-        font-size: 18px; /* Увеличено с 15px (+20%) */
+        font-size: 18px;
     }
 }
 
@@ -867,107 +842,5 @@ const formatDate = (date: string | Date): string => {
         transform: scale(1.05);
     }
 }
-
-/* Preview Block Styles */
-.article-card-preview {
-    background-color: var(--bg-primary);
-    border-radius: 15px;
-    overflow: hidden;
-    margin: 16px 0 20px 0; /* Убираем боковые отступы, так как уже внутри content */
-
-    /* Мобильные устройства */
-    @media (max-width: 768px) {
-        height: 200px; /* Увеличено с 120px до 200px */
-        margin: 12px 0 16px 0;
-        border-radius: 12px;
-    }
-
-    /* Планшеты */
-    @media (min-width: 769px) and (max-width: 1024px) {
-        height: 240px; /* Увеличено с 140px до 240px */
-        margin: 14px 0 18px 0;
-        border-radius: 13px;
-    }
-
-    /* Десктоп */
-    @media (min-width: 1025px) {
-        height: 400px; /* Увеличено с 160px до 280px (альбомный формат) */
-        margin: 16px 0 20px 0;
-        border-radius: 15px;
-    }
-}
-
-.preview-image {
-    width: 100%;
-    height: 100%;
-}
-
-.preview-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-
-    &:hover {
-        transform: scale(1.05);
-    }
-}
-
-.preview-content {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.preview-placeholder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    opacity: 0.6;
-}
-
-.preview-icon {
-    font-size: 24px;
-    color: var(--text-secondary);
-
-    /* Мобильные устройства */
-    @media (max-width: 768px) {
-        font-size: 20px;
-    }
-
-    /* Планшеты */
-    @media (min-width: 769px) and (max-width: 1024px) {
-        font-size: 22px;
-    }
-
-    /* Десктоп */
-    @media (min-width: 1025px) {
-        font-size: 24px;
-    }
-}
-
-.preview-text {
-    font-size: 14px;
-    color: var(--text-secondary);
-    font-family: var(--font-sans);
-
-    /* Мобильные устройства */
-    @media (max-width: 768px) {
-        font-size: 12px;
-    }
-
-    /* Планшеты */
-    @media (min-width: 769px) and (max-width: 1024px) {
-        font-size: 13px;
-    }
-
-    /* Десктоп */
-    @media (min-width: 1025px) {
-        font-size: 14px;
-    }
-}
 </style>
+

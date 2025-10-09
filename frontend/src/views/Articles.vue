@@ -35,7 +35,7 @@
           <div v-else-if="isEmpty" class="empty-state">
             <h3>Статьи не найдены</h3>
             <p>Попробуйте изменить фильтры или поисковый запрос</p>
-            <button @click="resetFilters" class="reset-filters-btn">
+            <button @click="handleResetFilters" class="reset-filters-btn">
               Сбросить фильтры
             </button>
           </div>
@@ -60,7 +60,7 @@
               :rows="rows"
               :totalRecords="totalRecords"
               template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
-              @page="onPageChange"
+              @page="handlePageChange"
             />
           </div>
         </div>
@@ -132,7 +132,8 @@
 </div>
 </template>
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch } from 'vue'
+import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import ArticleCard from '@/components/ArticleCard.vue'
 import Paginator from 'primevue/paginator'
 
@@ -140,34 +141,24 @@ import { useArticles } from '@/composables/useArticles'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
+const router = useRouter()
 // Используем composable для работы со статьями
 const {
   articles,
   loading,
   error,
-  total,
-  currentPage,
-  hasMore,
-  isEmpty,
-  fetchArticles,
-  loadMore,
-  searchArticles,
-  filterByTag,
-  filterByAuthor,
-  resetFilters
+  fetchArticles
 } = useArticles()
+
+// Вычисляемые свойства
+const isEmpty = computed(() => articles.value.length === 0)
+const totalRecords = computed(() => articles.value.length)
 
 const first = ref(0)
 const rows = ref(10)
-const totalRecords = ref(100)
 const showBackToTop = ref(false)
 const buttonOpacity = ref(1)
 const searchQuery = ref('')
-
-// Обновляем totalRecords при изменении total
-watch(total, (newTotal) => {
-  totalRecords.value = newTotal
-})
 
 // const onPageChange = async (event: any) => {
 //   first.value = event.first
@@ -182,29 +173,26 @@ watch(total, (newTotal) => {
 // }
 
 // Обработчики событий ArticleCard
-const handleTagClick = async (tag: string) => {
+const handleTagClick = (tag: string) => {
   console.log('Клик по тегу:', tag)
-  await filterByTag(tag)
+  // TODO: Реализовать фильтрацию по тегу
 }
 
-const handleAuthorClick = async (authorId: number) => {
+const handleAuthorClick = (authorId: number) => {
   console.log('Клик по автору:', authorId)
-  await filterByAuthor(authorId)
+  // TODO: Реализовать фильтрацию по автору
 }
 
 const handleArticleClick = (articleId: number) => {
   console.log('Клик по статье:', articleId)
-  // Здесь можно добавить переход к полной статье
-  // router.push(`/article/${articleId}`)
+  // Переход к полной статье
+  router.push(`/article/${articleId}`)
 }
 
 // Обработчик поиска
-const handleSearch = async () => {
-  if (searchQuery.value.trim()) {
-    await searchArticles(searchQuery.value.trim())
-  } else {
-    await resetFilters()
-  }
+const handleSearch = () => {
+  console.log('Поиск:', searchQuery.value)
+  // TODO: Реализовать поиск статей
 }
 
 // Обработчик изменения поискового запроса
@@ -222,6 +210,20 @@ const onSearchInput = async (event: Event) => {
 }
 
 const searchTimeout = ref<ReturnType<typeof setTimeout> | null>(null)
+
+// Дополнительные обработчики
+const handleResetFilters = () => {
+  searchQuery.value = ''
+  console.log('Фильтры сброшены')
+  // TODO: Реализовать сброс фильтров
+}
+
+const handlePageChange = (event: any) => {
+  first.value = event.first
+  rows.value = event.rows
+  console.log('Page changed:', event)
+  // TODO: Реализовать пагинацию
+}
 
 const scrollToTop = () => {
   window.scrollTo({

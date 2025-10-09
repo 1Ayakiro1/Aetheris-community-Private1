@@ -8,6 +8,7 @@ const routes = [
   { path: '/articles', name: 'Articles', component: () => import('@/views/Articles.vue') },
   { path: '/articles/interactive', name: 'ArticlesInteractive', component: () => import('@/views/ArticlesInteractive.vue') },
   { path: '/articles/companies', name: 'ArticlesCompanies', component: () => import('@/views/ArticlesCompanies.vue') },
+  { path: '/article/:id', name: 'FullArticle', component: () => import('@/views/FullArticle.vue'), props: true },
 
   // FAQ
   { path: '/faq', name: 'FAQ', component: () => import('@/views/FAQ.vue') },

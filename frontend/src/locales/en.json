@@ -46,12 +46,13 @@
   "create-article": {
     "path": "Create theme in: ",
     "h1": "Before making an article, read the section rules",
+    "h2": "For violation of the rules your article may be restricted or deleted.",
     "subtitle1": "For violation of the rules your article may be restricted or deleted.",
     "button1": "Read the rules",
     "h4": "Article title",
     "subtitle2": "Give a brief description of the article",
     "input1": "Enter title...",
-    "h5": "Tags",
+    "h5": "Give a brief description of the article",
     "subtitle3": "Add a tag for better promotion of the article",
     "input2": "Enter tags (separated by commas)...",
     "button2": "Create",
@@ -59,6 +60,7 @@
     "button4": "Save in draft",
     "button5": "Update",
     "h6": "Publication time",
+    "h7": "Set the publication time of the article",
     "subtitle4": "Add a tag for better promotion of the article",
     "input3": "ddmmyy"
   },

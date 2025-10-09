@@ -8,6 +8,13 @@ export async function getAllArticles(userId?: number): Promise<Article[]> {
     return res.data
 }
 
+export async function getArticle(id: number, userId?: number): Promise<Article> {
+    const res = await apiClient.get<Article>(`/articles/${id}`, {
+        params: userId ? { user_id: userId } : {}
+    })
+    return res.data
+}
+
 export async function createArticle(
     data: Omit<Article, 'id' | 'createdAt'>
 ): Promise<Article> {

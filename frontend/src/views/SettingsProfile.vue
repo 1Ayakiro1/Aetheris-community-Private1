@@ -395,11 +395,11 @@ const confirmReset = () => {
 
 .main-body {
   display: flex;
-  justify-content: center; // Центрируем весь контент
+  justify-content: center;
   align-items: flex-start;
-  margin-top: 48px; // mt-12
-  gap: 12px; // Стандартный отступ между сайдбаром и контентом
-  max-width: 1600px; // Максимальная ширина для больших экранов
+  margin-top: 48px;
+  gap: 12px;
+  max-width: 1600px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -410,7 +410,7 @@ const confirmReset = () => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex: 1; // Занимает оставшееся пространство
+  flex: 1;
 }
 
 .profile-section {
@@ -485,7 +485,7 @@ font-size: 23px;
   }
 
   &:first-child {
-margin-top: 16px; // mt-4
+margin-top: 16px;
   }
 }
 
@@ -504,7 +504,7 @@ font-size: 23px;
   justify-content: center;
   border: none;
   cursor: pointer;
-margin-top: 48px; // mt-12
+margin-top: 48px;
 
   &:hover {
     background-color: rgba(67, 73, 86, 1);
@@ -608,9 +608,6 @@ margin-left: 48px;
   margin-bottom: 0;
 }
 
-// Bio section styles are inherited from parent
-
-// Upload Modal Styles
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -624,7 +621,6 @@ margin-left: 48px;
   z-index: 1000;
 }
 
-// Modal Transition Animations
 .modal-enter-active {
   transition: opacity 0.3s ease;
 }
@@ -886,7 +882,6 @@ box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
   flex-shrink: 0;
 }
 
-// Delete Modal Styles
 .delete-modal {
   width: 500px;
   text-align: center;

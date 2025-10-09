@@ -34,11 +34,10 @@
 </template>
 
 <script setup lang="ts">
-// No imports needed - header and footer are in main layout
+
 </script>
 
 <style lang="scss" scoped>
-// Import responsive mixins
 @import '@/assets/main.scss';
 
 .faq-keywords-container {
@@ -78,8 +77,8 @@
   border-radius: 20px;
   width: 414px;
   height: 429px;
-  margin-top: 56px; // mt-14
-  gap: 8px; // gap-2
+  margin-top: 56px;
+  gap: 8px;
 
 
 }
@@ -110,7 +109,7 @@
   background-color: var(--bg-secondary);
   border-radius: 20px;
   margin-left: 12px;
-  margin-top: 56px; // mt-14
+  margin-top: 56px;
 
 
 }
@@ -126,7 +125,6 @@
 
 }
 
-// Router link styling
 a {
   text-decoration: none;
   color: inherit;

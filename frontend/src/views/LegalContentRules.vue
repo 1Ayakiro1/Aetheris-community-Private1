@@ -56,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-// Component logic here
+
 </script>
 
 <style lang="scss" scoped>
@@ -68,18 +68,15 @@
   padding: 0 16px;
   box-sizing: border-box;
   
-  /* Мобильные устройства */
   @media (max-width: 768px) {
     padding: 50px 16px 100px 16px;
   }
   
-  /* Планшеты */
   @media (min-width: 769px) and (max-width: 1024px) {
     padding: 75px 20px 150px 20px;
     max-width: 1000px;
   }
   
-  /* Десктоп */
   @media (min-width: 1025px) {
     padding: 100px 24px 200px 24px;
   }
@@ -120,20 +117,17 @@
   flex-direction: column;
   gap: 10px;
   
-  /* Мобильные устройства */
   @media (max-width: 768px) {
     width: 100%;
     max-width: 350px;
     height: auto;
   }
   
-  /* Планшеты */
   @media (min-width: 769px) and (max-width: 1024px) {
     width: 320px;
     height: auto;
   }
   
-  /* Десктоп */
   @media (min-width: 1025px) {
     width: 370px;
     height: 655px;
@@ -146,37 +140,31 @@
   display: flex;
   flex-direction: column;
   
-  /* Мобильные устройства */
   @media (max-width: 768px) {
     width: 100%;
     border-radius: 20px;
   }
   
-  /* Планшеты */
   @media (min-width: 769px) and (max-width: 1024px) {
     width: 320px;
     border-radius: 22px;
   }
   
-  /* Десктоп */
   @media (min-width: 1025px) {
     width: 370px;
     border-radius: 25px;
   }
     
   &.legal-block {
-    /* Мобильные устройства */
     @media (max-width: 768px) {
       height: auto;
       min-height: 280px;
     }
     
-    /* Планшеты */
     @media (min-width: 769px) and (max-width: 1024px) {
       height: 300px;
     }
     
-    /* Десктоп */
     @media (min-width: 1025px) {
       height: 330px;
     }
@@ -185,12 +173,10 @@
   &.community-block {
     align-items: center;
     
-    /* Мобильные устройства */
     @media (max-width: 768px) {
       height: 70px;
     }
     
-    /* Планшеты */
     @media (min-width: 769px) and (max-width: 1024px) {
       height: 75px;
     }
@@ -202,20 +188,17 @@
   }
   
   &.security-block {
-    /* Мобильные устройства */
     @media (max-width: 768px) {
       padding: 12px;
       height: auto;
       min-height: 180px;
     }
     
-    /* Планшеты */
     @media (min-width: 769px) and (max-width: 1024px) {
       padding: 14px;
       height: 200px;
     }
     
-    /* Десктоп */
     @media (min-width: 1025px) {
       padding: 16px;
       height: 221px;

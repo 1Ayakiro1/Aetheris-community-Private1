@@ -67,22 +67,21 @@ const deleteAllSessions = () => {
 
 .main-body {
   display: flex;
-  justify-content: center; // Центрируем весь контент
+  justify-content: center;
   align-items: flex-start;
-  margin-top: 48px; // mt-12
-  gap: 12px; // Стандартный отступ между сайдбаром и контентом
-  max-width: 1600px; // Максимальная ширина для больших экранов
+  margin-top: 48px;
+  gap: 12px;
+  max-width: 1600px;
   margin-left: auto;
   margin-right: auto;
 }
 
 
-// Content Styles
 .content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex: 1; // Занимает оставшееся пространство
+  flex: 1;
 }
 
 .sessions-section {
@@ -96,8 +95,8 @@ const deleteAllSessions = () => {
 }
 
 .section-title {
-  margin-top: 40px; // mt-10
-  margin-left: 48px; // ml-12
+  margin-top: 40px;
+  margin-left: 48px;
   color: var(--text-primary);
   font-size: 25px;
   font-family: var(--font-sans);

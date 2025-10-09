@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import type { Article } from '@/types/article'
-import { getAllArticles, reactArticle as apiReact } from '@/api/articles'
+import { getAllArticles, getArticle as apiGetArticle, reactArticle as apiReact } from '@/api/articles'
 
 const articles = ref<Article[]>([])
 const loading = ref(false)
@@ -78,5 +78,16 @@ export function useArticles() {
         }
     }
 
-    return { articles, loading, error, fetchArticles, react }
+    async function getArticle(articleId: number) {
+        try {
+            const userId = getOrCreateUserId()
+            const raw = await apiGetArticle(articleId, userId)
+            return mapServerArticle(raw)
+        } catch (e: any) {
+            console.error('Ошибка при загрузке статьи', e)
+            throw e
+        }
+    }
+
+    return { articles, loading, error, fetchArticles, react, getArticle }
 }

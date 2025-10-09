@@ -272,13 +272,13 @@ const fonts: Record<FontKey, FontData> = {
 // Функция переключения выпадающего списка языков
 const toggleLanguageDropdown = () => {
   isLanguageDropdownOpen.value = !isLanguageDropdownOpen.value
-  isFontDropdownOpen.value = false // Закрываем другой список
+  isFontDropdownOpen.value = false
 }
 
 // Функция переключения выпадающего списка шрифтов
 const toggleFontDropdown = () => {
   isFontDropdownOpen.value = !isFontDropdownOpen.value
-  isLanguageDropdownOpen.value = false // Закрываем другой список
+  isLanguageDropdownOpen.value = false
 }
 
 // Функция выбора языка
@@ -358,11 +358,11 @@ const themeImages = {
 
 .main-body {
   display: flex;
-  justify-content: center; // Центрируем весь контент
+  justify-content: center;
   align-items: flex-start;
-  margin-top: 48px; // mt-12
-  gap: 12px; // Стандартный отступ между сайдбаром и контентом
-  max-width: 1600px; // Максимальная ширина для больших экранов
+  margin-top: 48px;
+  gap: 12px;
+  max-width: 1600px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -373,7 +373,7 @@ const themeImages = {
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex: 1; // Занимает оставшееся пространство
+  flex: 1;
   margin-bottom: 200px;
 }
 
@@ -388,8 +388,8 @@ const themeImages = {
 }
 
 .section-title {
-  margin-top: 24px; // mt-12
-  margin-left: 48px; // ml-12
+  margin-top: 24px;
+  margin-left: 48px;
   color: var(--text-primary);
   font-size: 25px;
   font-family: var(--font-sans);
@@ -425,34 +425,34 @@ const themeImages = {
   cursor: pointer;
 
   &:hover {
-    transform: translateY(-2px); // Легкий подъем при наведении
+    transform: translateY(-2px);
   }
 
   // Состояние при наведении
   &:hover .theme-indicator-dot {
-    background-color: #8b5cf6; // purple-500 - только центральный кружок
+    background-color: #8b5cf6;
   }
 
   // Состояние активной темы
   &.active {
-    transform: scale(1.02); // Легкое увеличение активной темы
+    transform: scale(1.02);
   }
   
   // Активный блок при наведении тоже должен подниматься
   &.active:hover {
-    transform: scale(1.02) translateY(-2px); // Увеличение + подъем
+    transform: scale(1.02) translateY(-2px);
   }
   
   &.active .theme-indicator {
-    border-color: #8b5cf6; // purple-500
-    width: 22px; // Увеличиваем размер вместо scale
+    border-color: #8b5cf6;
+    width: 22px;
     height: 22px;
-    margin-left: 15px; // Корректируем отступ
+    margin-left: 15px;
   }
   
   &.active .theme-indicator-dot {
-    background-color: #8b5cf6; // purple-500
-    width: 12.5px; // Увеличиваем размер вместо scale
+    background-color: #8b5cf6;
+    width: 12.5px;
     height: 12.5px;
   }
 }
@@ -514,7 +514,7 @@ const themeImages = {
 .theme-indicator {
   width: 20px;
   height: 20px;
-  border: 2px solid #d1d5db; // gray-300 - цвет границы по умолчанию
+  border: 2px solid #d1d5db;
   border-radius: 50%;
   margin-left: 16px;
   display: flex;
@@ -526,7 +526,7 @@ const themeImages = {
 .theme-indicator-dot {
   width: 11.5px;
   height: 11.5px;
-  background-color: transparent; // Прозрачный по умолчанию
+  background-color: transparent;
   border-radius: 50%;
   transition: all 0.3s ease-in-out;
 }
@@ -706,7 +706,7 @@ const themeImages = {
 }
 
 .dropdown-icon {
-  margin-left: 16px; // ml-4
+  margin-left: 16px; 
 }
 
 .font-dropdown-menu {
@@ -785,8 +785,8 @@ const themeImages = {
   height: 170px;
   background-color: var(--btn-primary);
   border-radius: 25px;
-  margin-top: 24px; // mt-6
-  margin-left: 40px; // ml-10
+  margin-top: 24px;
+  margin-left: 40px;
   display: flex;
   justify-content: center;
 }
@@ -795,7 +795,7 @@ const themeImages = {
   color: var(--text-primary);
   font-size: 18px;
   font-weight: 600;
-  margin-top: 24px; // mt-6
+  margin-top: 24px;
   text-align: center;
   width: 700px;
 }

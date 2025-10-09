@@ -73,13 +73,12 @@
 }
 
 
-/* Slide1 Styles */
 .slide1 {
   background-color: var(--bg-primary);
   display: flex;
   flex-direction: column;
   position: relative;
-  min-height: 100vh; /* Минимальная высота экрана */
+  min-height: 100vh;
 }
 
 .slide1-logo {
@@ -114,21 +113,19 @@
 }
 
 .divider {
-  height: 4px; /* h-1 */
+  height: 4px;
   width: 100%;
   background-color: white;
 }
 
-/* Slide2 Styles */
 .slide2 {
   background: linear-gradient(180deg, #16181C 0%, #21003d 100%);
   display: flex;
   flex-direction: column;
-  padding-bottom: 13rem; /* pb-52 */
+  padding-bottom: 13rem;
   position: relative;
 }
 
-/* Blur Effects */
 .blur-effect {
   width: 1000px;
   filter: blur(900px);
@@ -161,7 +158,6 @@
   padding-top: 700px;
 }
 
-/* Images */
 .slide-img-1,
 .slide-img-2,
 .slide-img-3,
@@ -177,7 +173,6 @@
 }
 
 
-/* Slide2 Text Styles */
 .slide2-title {
   font-family: var(--font-sans);
   font-weight: normal;
@@ -201,7 +196,7 @@
 }
 
 .slide2-title-3 {
-  margin-left: 160px; /* ml-40 */
+  margin-left: 160px;
   margin-right: 150px;
   margin-top: 700px;
   width: 650px;
@@ -224,28 +219,28 @@
 
 .slide2-subtitle-1 {
   margin-left: auto;
-  margin-right: 11rem; /* mr-44 */
+  margin-right: 11rem;
   margin-top: 20px;
   width: 600px;
 }
 
 .slide2-subtitle-2 {
   margin-left: auto;
-  margin-right: 11rem; /* mr-44 */
+  margin-right: 11rem;
   margin-top: 20px;
   width: 600px;
 }
 
 .slide2-subtitle-3 {
   margin-left: 190px;
-  margin-right: 11rem; /* mr-44 */
+  margin-right: 11rem;
   margin-top: 20px;
   width: 600px;
 }
 
 .slide2-subtitle-4 {
   margin-left: auto;
-  margin-right: 11rem; /* mr-44 */
+  margin-right: 11rem;
   margin-top: 20px;
   width: 600px;
 }
@@ -262,7 +257,6 @@
   width: 700px;
 }
 
-/* Register Button */
 .register-button {
   width: 370px;
   height: 80px;
@@ -370,72 +364,72 @@
   .slide-img-1 {
     width: 720px;
     height: 470px;
-    margin-left: 120px; /* 80px - 300px */
-    margin-top: 275px; /* 256px - 400px */
+    margin-left: 120px;
+    margin-top: 275px;
   }
 
   .slide-img-3 {
     width: 600px;
     height: 400px;
-    margin-left: 200px; /* 200px - 300px */
-    margin-top: 1220px; /* 1270px - 400px */
+    margin-left: 200px;
+    margin-top: 1220px;
   }
 
   .slide-img-4 {
     width: 500px;
     height: 450px;
-    margin-left: 1100px; /* 1050px - 300px */
-    margin-top: 2220px; /* 2640px - 400px */
+    margin-left: 1100px;
+    margin-top: 2220px;
   }
 
   .slide-img-5 {
     width: 500px;
     height: 380px;
-    margin-left: 250px; /* 150px - 300px */
-    margin-top: 3350px; /* 3370px - 400px */
+    margin-left: 250px;
+    margin-top: 3350px;
   }
 
   /* Кубы для Full HD */
   .cubes-1 {
     width: 500px;
     height: 500px;
-    margin-left: 280px; /* 20px - 300px */
-    margin-top: 910px; /* 1310px - 400px */
+    margin-left: 280px;
+    margin-top: 910px;
   }
 
   .cubes-2 {
     width: 400px;
     height: 1000px;
-    margin-left: 1000px; /* 1300px - 300px */
-    margin-top: 660px; /* 1060px - 400px */
+    margin-left: 1000px;
+    margin-top: 660px;
   }
 
   .cubes-3 {
     width: 800px;
     height: 800px;
-    margin-left: 750px; /* 950px - 300px */
-    margin-top: 2260px; /* 2460px - 400px */
+    margin-left: 750px;
+    margin-top: 2260px;
   }
 
   .cubes-4 {
     width: 400px;
     height: 400px;
-    margin-left: 100px; /* 200px - 300px */
-    margin-top: 2060px; /* 2460px - 400px */
+    margin-left: 100px;
+    margin-top: 2060px;
   }
 
   .cubes-5 {
     width: 400px;
     height: 200px;
-    margin-left: 250px; /* 50px - 300px */
-    margin-top: 3360px; /* 3760px - 400px */
+    margin-left: 250px;
+    margin-top: 3360px;
   }
 
   .cubes-6 {
     width: 400px;
     height: 600px;
-    margin-left: 1000px; /* 1300px - 300px */
-    margin-top: 3300px; /* 3700px - 400px */
+    margin-left: 1000px;
+    margin-top: 3300px;
   }
 }
 
