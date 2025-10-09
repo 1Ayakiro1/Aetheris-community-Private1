@@ -518,29 +518,29 @@ onMounted(() => {
 
 :deep(.ql-toolbar) {
   background: var(--btn-primary);
-  border-radius: 25px !important;    // Увеличиваем скругление до 30px
-  padding: 24px 20px;               // Увеличиваем вертикальные отступы (было 16px)
-  width: 1300px;                    // Такая же ширина как у инпута
-  margin-left: 48px;                // Такой же отступ слева как у инпута
-  margin-top: 56px;                 // Отступ сверху
-  min-height: 80px;                 // Минимальная высота тулбара
-  display: flex !important;         // Flexbox для центрирования
-  align-items: center !important;   // Центрируем все элементы по вертикали
+  border-radius: 25px !important;   
+  padding: 24px 20px;              
+  width: 1300px;                   
+  margin-left: 48px;
+  margin-top: 56px;                 
+  min-height: 80px;                
+  display: flex !important; 
+  align-items: center !important; 
   flex-wrap: wrap !important;
 }
 
-:deep(.ql-toolbar button) {
-  width: 44px !important;           // Увеличиваем ширину кнопки еще больше
-  height: 40px !important;          // Увеличиваем высоту кнопки еще больше
-  padding: 8px !important;          // Равномерные отступы со всех сторон
-  margin: 3px !important;           // Больше отступов между кнопками
-  border-radius: 15px;              // Сильное скругление кнопок
+  :deep(.ql-toolbar button) {
+    width: 50px !important;
+    height: 46px !important;
+    padding: 10px !important;
+    margin: 4px !important;
+    border-radius: 18px;
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.2);
   transition: all 0.3s ease;
-  display: flex !important;         // Flexbox для центрирования
-  align-items: center !important;   // Центрируем по вертикали
-  justify-content: center !important; // Центрируем по горизонтали
+  display: flex !important;           
+  align-items: center !important;   
+  justify-content: center !important; 
   
   &:hover {
     background: rgba(255, 255, 255, 0.1) !important;
@@ -555,22 +555,20 @@ onMounted(() => {
 }
 
 :deep(.ql-toolbar button svg) {
-  width: 24px !important;           // Увеличиваем размер SVG иконок
-  height: 24px !important;          // Увеличиваем размер SVG иконок
-  min-width: 24px !important;       // Минимальная ширина
-  min-height: 24px !important;      // Минимальная высота
-  max-width: 24px !important;       // Максимальная ширина
-  max-height: 24px !important;      // Максимальная высота
+  width: 28px !important;
+  height: 28px !important;
+  min-width: 28px !important;       
+  min-height: 28px !important;      
+  max-width: 28px !important;       
+  max-height: 28px !important;      
   color: var(--text-primary);
-  object-fit: contain;              // Сохраняем пропорции
+  object-fit: contain;              
 }
 
-// Специальные стили для SVG в активных кнопках
 :deep(.ql-toolbar button.ql-active svg) {
   color: var(--text-primary) !important;
 }
 
-// Стили для fill и stroke в активных кнопках
 :deep(.ql-toolbar button.ql-active .ql-fill) {
   fill: var(--text-primary) !important;
 }
@@ -579,31 +577,30 @@ onMounted(() => {
   stroke: var(--text-primary) !important;
 }
 
-// Стили для групп кнопок
 :deep(.ql-toolbar .ql-formats) {
-  display: flex !important;         // Flexbox для групп
-  align-items: center !important;   // Центрируем элементы в группе
-  margin-right: 15px !important;    // Отступы между группами
+  display: flex !important;         
+  align-items: center !important;   
+  margin-right: 15px !important;    
 }
 
 :deep(.ql-toolbar .ql-picker) {
-  height: 40px !important;          // Соответствует высоте кнопок
-  font-size: 16px !important;       // Увеличиваем размер шрифта (было 14px)
-  margin: 3px !important;           // Такие же отступы как у кнопок
-  display: flex !important;         // Flexbox для пикеров
-  align-items: center !important;   // Центрируем содержимое пикера
+  height: 46px !important;
+  font-size: 18px !important;
+  margin: 4px !important;
+  display: flex !important;         
+  align-items: center !important;   
 }
 
 :deep(.ql-toolbar .ql-picker-label) {
-  height: 40px !important;
-  line-height: 38px !important;     // Центрируем текст по вертикали
-  padding: 0 12px !important;       // Увеличиваем отступы
-  border-radius: 15px;              // Сильное скругление как у кнопок
+  height: 46px !important;
+  line-height: 44px !important;
+  padding: 0 16px !important;
+  border-radius: 18px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   background: transparent;
   color: var(--text-primary);
-  display: flex !important;         // Flexbox для лучшего центрирования
-  align-items: center !important;   // Центрируем содержимое
+  display: flex !important;         
+  align-items: center !important;   
   
   &:hover {
     background: rgba(255, 255, 255, 0.1) !important;
@@ -611,58 +608,76 @@ onMounted(() => {
   }
 }
 
-// Специальные стили для цветовых и иконочных пикеров
+
 :deep(.ql-toolbar .ql-color-picker) {
-  width: 44px !important;           // Такая же ширина как у кнопок
-  height: 40px !important;          // Такая же высота как у кнопок
-  margin: 3px !important;
+  width: 50px !important;
+  height: 46px !important;
+  margin: 4px !important;
 }
 
 :deep(.ql-toolbar .ql-color-picker .ql-picker-label) {
-  width: 44px !important;
-  height: 40px !important;
-  padding: 8px !important;          // Равномерные отступы
+  width: 50px !important;
+  height: 46px !important;
+  padding: 10px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
 }
 
 :deep(.ql-toolbar .ql-color-picker .ql-picker-label svg) {
-  width: 24px !important;
-  height: 24px !important;
-  min-width: 24px !important;
-  min-height: 24px !important;
+  width: 28px !important;
+  height: 28px !important;
+  min-width: 28px !important;
+  min-height: 28px !important;
 }
 
 :deep(.ql-toolbar .ql-icon-picker) {
-  width: 44px !important;           // Такая же ширина как у кнопок
-  height: 40px !important;          // Такая же высота как у кнопок
-  margin: 3px !important;
+  width: 50px !important;
+  height: 46px !important;
+  margin: 4px !important;
 }
 
 :deep(.ql-toolbar .ql-icon-picker .ql-picker-label) {
-  width: 44px !important;
-  height: 40px !important;
-  padding: 8px !important;          // Равномерные отступы
+  width: 50px !important;
+  height: 46px !important;
+  padding: 10px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
 }
 
 :deep(.ql-toolbar .ql-icon-picker .ql-picker-label svg) {
-  width: 24px !important;
-  height: 24px !important;
-  min-width: 24px !important;
-  min-height: 24px !important;
+  width: 28px !important;
+  height: 28px !important;
+  min-width: 28px !important;
+  min-height: 28px !important;
 }
 
-// Стили для выпадающих элементов пикеров
+:deep(.ql-toolbar .ql-header.ql-picker .ql-picker-label svg) {
+  width: 20px !important;          
+  height: 20px !important;         
+  position: absolute !important;   
+  right: 15px !important;          
+  top: 70% !important;             
+  transform: translateY(-50%) !important;
+  color: var(--text-primary) !important;
+}
+
+// Элементы в выпадающих меню
 :deep(.ql-toolbar .ql-picker-options .ql-picker-item) {
-  padding: 8px !important;
-  min-height: 32px !important;
+  padding: 12px 16px !important;    
+  min-height: 40px !important;      
   display: flex !important;
   align-items: center !important;
-  justify-content: center !important;
+  justify-content: flex-start !important;
+  font-size: 15px !important;       
+  white-space: nowrap !important;
+  overflow: hidden !important;      
+  text-overflow: ellipsis !important;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+  }
 }
 
 :deep(.ql-toolbar .ql-color-picker .ql-picker-item) {
@@ -679,32 +694,60 @@ onMounted(() => {
 
 
 
+
 :deep(.ql-toolbar .ql-header.ql-picker) {
-  width: 125px !important;          // Базовая ширина для заголовков
+  width: 160px !important;         
+}
+
+:deep(.ql-toolbar .ql-font.ql-picker) {
+  width: 160px !important;         
 }
 
 :deep(.ql-toolbar .ql-header.ql-picker .ql-picker-label) {
-  width: 150px !important;          // Ширина лейбла
-  padding: 0 16px !important;       // Больше отступов для текста
+  width: 160px !important;         
+  padding: 0 45px 0 20px !important;
+  font-size: 16px !important;      
+  white-space: nowrap !important;
+  overflow: hidden !important;     
+  text-overflow: ellipsis !important;
+  position: relative !important;   
+  justify-content: flex-start !important;
 }
 
+:deep(.ql-toolbar .ql-font.ql-picker .ql-picker-label) {
+  width: 160px !important;         
+  padding: 0 20px !important;      
+  font-size: 16px !important;      
+  white-space: nowrap !important;  
+  overflow: hidden !important;     
+  text-overflow: ellipsis !important;
+}
+
+// Выпадающие меню
 :deep(.ql-toolbar .ql-header.ql-picker .ql-picker-options) {
-  width: 150px !important;          // Ширина выпадающего меню
-  min-width: 150px !important;      // Минимальная ширина
+  width: 180px !important;         
+  min-width: 180px !important;     
+  max-width: 200px !important;     
+}
+
+:deep(.ql-toolbar .ql-font.ql-picker .ql-picker-options) {
+  width: 180px !important;         
+  min-width: 180px !important;     
+  max-width: 200px !important;     
 }
 
 
 :deep(.ql-snow .ql-picker.ql-expanded .ql-picker-options) {
   left: 0px !important;  
-  top: 70px !important;         // Смещаем только эту панель на 10px левее   // Относительное позиционирование
+  top: 70px !important;         
 }
 
 :deep(.ql-container) {
   background: var(--btn-primary);
   border: none;
-  border-radius: 0 0 50px 50px;     // Сильное скругление снизу 50px
-  width: 1300px;                    // Такая же ширина как у инпута
-  margin-left: 48px;                // Такой же отступ слева как у инпута
+  border-radius: 0 0 50px 50px;     
+  width: 1300px;                   
+  margin-left: 48px;               
 }
 
 :deep(.ql-editor) {
@@ -717,17 +760,15 @@ onMounted(() => {
 }
 
 :deep(.ql-container.ql-snow) {
-  margin-top: 20px;                  // Убираем отступ сверху (уже есть в основном стиле)
-  border-radius: 25px !important;    // Сильное скругление только снизу 50px
+  margin-top: 20px;                  
+  border-radius: 25px !important;    
 }
 
-// Специальный стиль для p-editor-content ql-container ql-snow
 :deep(.p-editor-content.ql-container.ql-snow) {
-  border-radius: 25px !important;    // Скругление 25px для контента редактора
-  overflow: hidden !important;       // Обрезаем содержимое по границам
+  border-radius: 25px !important;    
+  overflow: hidden !important;       
   border-color: none !important;
 }
-// Tags section
 .tags-title {
   color: var(--text-primary);
   font-size: 30px;
@@ -773,7 +814,6 @@ onMounted(() => {
   }
 }
 
-// Action buttons
 .action-buttons {
   width: 100%;
   display: flex;
