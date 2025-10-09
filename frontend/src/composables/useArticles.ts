@@ -6,7 +6,7 @@ const articles = ref<Article[]>([])
 const loading = ref(false)
 const error = ref<string | null>(null)
 
-function generateExcerpt(content: string, length = 450): string {
+function generateExcerpt(content: string, length = 900): string {
     if (!content) return ''
     const clean = content.replace(/<[^>]+>/g, '') // На счет этого внимательнее с html когда будет тита
     return clean.length > length
