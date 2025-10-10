@@ -2,10 +2,6 @@
   <div class="create-article-container">
     <!-- Body -->
     <div class="content-wrapper">
-      <!-- Path block -->
-      <div class="path-block">
-        <h2 class="path-title">{{ $t('create-article.path') }} <a href="#" class="path-link">path</a></h2>
-      </div>
       
       <!-- Warning block -->
       <div class="warning-block">
@@ -14,11 +10,16 @@
         <button class="read-rules-button">{{ $t('create-article.button1') }}</button>
       </div>
       
-      <!-- Edit block -->
-      <div class="edit-block">
+      <!-- Path block -->
+      <div class="path-block">
         <h2 class="edit-title">{{ $t('create-article.h4') }}</h2>
         <h2 class="edit-subtitle">{{ $t('create-article.h5') }}</h2>
         <input type="text" placeholder="Enter title..." class="title-input" v-model="articleTitle">
+        
+      </div>
+
+      <!-- Edit block -->
+      <div class="edit-block">
         
         <!-- Article editor block -->
         <Editor 
@@ -26,9 +27,9 @@
           editorStyle="height: 500px;"
         />
         
-        <h2 class="tags-title">{{ $t('create-article.h6') }}</h2>
+        <!-- <h2 class="tags-title">{{ $t('create-article.h6') }}</h2>
         <h2 class="tags-subtitle">{{ $t('create-article.h7') }}</h2>
-        <input type="text" placeholder="Enter tags (separated by commas)..." class="tags-input" v-model="articleTags">
+        <input type="text" placeholder="Enter tags (separated by commas)..." class="tags-input" v-model="articleTags"> -->
         
         <!-- Action buttons -->
         <div class="action-buttons">
@@ -394,7 +395,7 @@ onMounted(() => {
 .path-block {
   background-color: var(--bg-secondary);
   width: 1400px;
-  height: 101px;
+  height: 190px;
   border-radius: 25px;
   justify-content: center;
   justify-items: center;
@@ -785,14 +786,15 @@ onMounted(() => {
 :deep(.p-editor-content) {
   background-color: var(--bg-primary) !important;
 }
-.tags-title {
-  color: var(--text-primary);
-  font-size: 30px;
-  font-family: var(--font-sans);
-  font-weight: bold;
-  margin-top: 24px;
-  margin-left: 48px;
-}
+
+// .tags-title {
+//   color: var(--text-primary);
+//   font-size: 30px;
+//   font-family: var(--font-sans);
+//   font-weight: bold;
+//   margin-top: 24px;
+//   margin-left: 48px;
+// }
 
 .tags-subtitle {
   color: var(--text-secondary);
@@ -834,6 +836,7 @@ onMounted(() => {
   width: 100%;
   display: flex;
   gap: 4px;
+  margin-top: 25px;
 }
 
 .create-button {
