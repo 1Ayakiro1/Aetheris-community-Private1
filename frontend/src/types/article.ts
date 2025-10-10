@@ -11,6 +11,7 @@ export interface Article {
     author: {
         id: number
         username: string
+        avatar?: string
     }
     tags: string[]
     createdAt: string
@@ -19,6 +20,7 @@ export interface Article {
     dislikes?: number
     commentsCount?: number
     userReaction?: 'like' | 'dislike' | null
+    previewImage?: string
 }
 
 export interface ArticleCardProps {

@@ -53,7 +53,7 @@
         </div>
         
         <!-- Publication time -->
-        <div class="publication-time-section">
+        <!-- <div class="publication-time-section">
           <div class="publication-time-header">
             <div class="checkbox-item">
               <div class="checkbox" :class="{ checked: publicationTimeEnabled }" @click="publicationTimeEnabled = !publicationTimeEnabled">
@@ -68,9 +68,9 @@
             <input type="text" placeholder="00:00 am/pm" class="time-input" />
           </div>
           <p class="publication-label">{{ $t('create-article.h6') }}</p>
-        </div>
+        </div> -->
         
-        <!-- Ranks section -->
+        <!-- Ranks section 
         <div class="ranks-section">
           <div class="checkbox-item">
             <div class="checkbox" :class="{ checked: rank1Enabled }" @click="rank1Enabled = !rank1Enabled">
@@ -84,9 +84,9 @@
             </div>
             <p class="checkbox-label">rank</p>
           </div>
-        </div>
+        </div> -->
         
-        <!-- Additional settings -->
+        <!-- Additional settings
         <p class="additional-settings-title">Additional settings</p>
         <div class="additional-settings">
           <div class="checkbox-item">
@@ -119,7 +119,7 @@
             </div>
             <p class="checkbox-label">Disable replying to comments</p>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -147,7 +147,7 @@ const isEditing = ref(false)
 const editingArticleId = ref<number | null>(null)
 
 // Reactive variables for checkboxes
-const publicationTimeEnabled = ref(false)
+// const publicationTimeEnabled = ref(false)
 const rank1Enabled = ref(false)
 const rank2Enabled = ref(false)
 const disableCommenting = ref(false)
@@ -242,10 +242,10 @@ const exportToJSON = () => {
       html: articleContent.value,
       formatted: formattedContent
     },
-    tags: articleTags.value.split(',').map(tag => tag.trim()).filter(tag => tag),
-    settings: {
-      publicationTime: publicationTimeEnabled.value,
-      ranks: {
+      tags: articleTags.value.split(',').map(tag => tag.trim()).filter(tag => tag),
+      settings: {
+        // publicationTime: publicationTimeEnabled.value,
+        ranks: {
         rank1: rank1Enabled.value,
         rank2: rank2Enabled.value
       },
@@ -298,8 +298,8 @@ const handleCreateArticle = async () => {
       // Очищаем черновик
       localStorage.removeItem('article_draft')
       
-      // Перенаправляем на страницу статьи или список статей
-      await router.push('/')
+        // Перенаправляем на главную страницу со статьями
+        await router.push('/')
       
       alert(isEditing.value ? 'Статья успешно обновлена!' : 'Статья успешно создана!')
     }
@@ -341,9 +341,9 @@ onMounted(() => {
       articleTags.value = draftData.tags?.join(', ') || ''
       articleContent.value = draftData.content?.html || ''
       
-      if (draftData.settings) {
-        publicationTimeEnabled.value = draftData.settings.publicationTime || false
-        rank1Enabled.value = draftData.settings.ranks?.rank1 || false
+        if (draftData.settings) {
+          // publicationTimeEnabled.value = draftData.settings.publicationTime || false
+          rank1Enabled.value = draftData.settings.ranks?.rank1 || false
         rank2Enabled.value = draftData.settings.ranks?.rank2 || false
         disableCommenting.value = draftData.settings.disableCommenting || false
         doNotNotify.value = draftData.settings.doNotNotify || false
@@ -466,10 +466,11 @@ onMounted(() => {
 .edit-block {
   background-color: var(--bg-secondary);
   width: 1400px;
-  height: 2000px;
+  min-height: auto;
   border-radius: 25px;
   display: flex;
   flex-direction: column;
+  padding-bottom: 48px;
 }
 
 .edit-title {
@@ -917,7 +918,7 @@ onMounted(() => {
 }
 
 // Publication time section
-.publication-time-section {
+/* .publication-time-section {
   width: 100%;
   margin-top: 48px;
 }
@@ -925,7 +926,7 @@ onMounted(() => {
 .publication-time-header {
   display: flex;
   align-items: center;
-}
+} */
 
 .checkbox-item {
   display: flex;
@@ -1033,7 +1034,7 @@ onMounted(() => {
   margin-left: 8px;
 }
 
-.publication-subtitle {
+/* .publication-subtitle {
   color: var(--text-secondary);
   font-size: 20px;
   font-family: var(--font-sans);
@@ -1109,7 +1110,7 @@ onMounted(() => {
   font-weight: bold;
   margin-top: 32px;
   margin-left: 48px;
-}
+} */
 
 // Ranks section
 .ranks-section {

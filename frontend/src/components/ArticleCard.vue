@@ -209,8 +209,8 @@ watch(() => props.article.dislikes, (v) => { dislikesCount.value = v ?? dislikes
 const onLike = async () => {
     try {
         const updated = await react(props.article.id, 'like')
-        likesCount.value = updated.likes
-        dislikesCount.value = updated.dislikes
+        likesCount.value = updated.likes ?? 0
+        dislikesCount.value = updated.dislikes ?? 0
         isLiked.value = updated.userReaction === 'like'
         isDisliked.value = updated.userReaction === 'dislike'
     } catch (e) {
@@ -221,8 +221,8 @@ const onLike = async () => {
 const onDislike = async () => {
     try {
         const updated = await react(props.article.id, 'dislike')
-        likesCount.value = updated.likes
-        dislikesCount.value = updated.dislikes
+        likesCount.value = updated.likes ?? 0
+        dislikesCount.value = updated.dislikes ?? 0
         isLiked.value = updated.userReaction === 'like'
         isDisliked.value = updated.userReaction === 'dislike'
     } catch (e) {
@@ -232,13 +232,15 @@ const onDislike = async () => {
 
 // === прочее ===
 const onShare = () => {}
-const onTagClick = (tag: string) => {}
+const onTagClick = (tag: string) => {
+  emit('tagClick', tag)
+}
 const onComment = () => {}
 const onArticleClick = () => {
-    emit('articleClick', props.article.id)
+  emit('articleClick', props.article.id)
 }
 const onAuthorClick = () => {
-    emit('authorClick', props.article.author.id)
+  emit('authorClick', props.article.author.id)
 }
 const onBookmark = () => {}
 
@@ -260,7 +262,7 @@ const formatDate = (date: string | Date): string => {
 <style scoped>
 .article-card {
     background-color: var(--bg-secondary);
-    border-radius: 70px 40px 15px 70px; /* Увеличил нижний левый угол */
+    border-radius: 70px 70px 15px 15px; 
     cursor: pointer;
     transition: all 0.2s ease-in-out;
     position: relative;
@@ -268,26 +270,25 @@ const formatDate = (date: string | Date): string => {
     /* Мобильные устройства */
     @media (max-width: 768px) {
         width: 100%;
-        height: 620px; /* Увеличено с 520px до 620px (+100px) */
-        border-radius: 25px 25px 10px 45px; /* Увеличил нижний левый угол */
+        height: 620px;
+        border-radius: 25px 25px 10px 45px;
     }
 
     /* Планшеты */
     @media (min-width: 769px) and (max-width: 1024px) {
         width: 100%;
-        height: 780px; /* Увеличено с 650px до 780px (+130px) */
-        border-radius: 35px 35px 12px 60px; /* Увеличил нижний левый угол */
+        height: 780px;
+        border-radius: 35px 35px 12px 12px;
     }
 
     /* Десктоп */
     @media (min-width: 1025px) {
         width: 1055px;
-        height: 950px; /* Увеличено с 780px до 950px (+170px) */
-        border-radius: 60px 40px 15px 70px; /* Увеличил нижний левый угол */
+        height: 950px;
+        border-radius: 60px 60px 15px 15px; 
     }
 
     &:hover {
-        /* Убрал transform: translateY(-2px) - подъем блока при наведении */
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     }
 }
