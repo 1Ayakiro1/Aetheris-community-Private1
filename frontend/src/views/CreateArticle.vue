@@ -368,7 +368,8 @@ function onFileSelected(event: Event) {
 }
 
 async function uploadToImgBB(file: File): Promise<string> {
-    const apiKey = import.meta.env.VITE_IMGBB_API_KEY  //ключ решить
+    // const apiKey = import.meta.env.VITE_IMGBB_API_KEY  //ключ решить
+    const apiKey = "58df18c9866715b1c55a851ab1130bc4" //ВРЕМЕННО!!!!!!!!!!!!!!!!!!!!
     const url = `https://api.imgbb.com/1/upload?key=${apiKey}`
     console.log('API key:', apiKey)
 
