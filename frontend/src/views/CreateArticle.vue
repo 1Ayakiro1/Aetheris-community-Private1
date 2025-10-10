@@ -363,7 +363,7 @@ onMounted(() => {
 .create-article-container {
   margin: 0 auto;
   background-color: var(--bg-primary);
-  padding: 100px 16px 200px;
+  padding: 100px 16px;
   box-sizing: border-box;
   
   /* Мобильные устройства */

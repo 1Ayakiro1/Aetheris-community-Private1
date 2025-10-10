@@ -496,8 +496,8 @@ onUnmounted(() => {
 .pagination-container {
   display: flex;
   justify-content: center;
-  margin-top: 30px;
-  padding: 20px 0;
+  padding-bottom: 20px;
+  padding-top: 3px;
   background-color: transparent;
 }
 
