@@ -1,6 +1,6 @@
 import { ref } from 'vue'
-import type { Article } from '@/types/article'
-import { getAllArticles, getArticle as apiGetArticle, reactArticle as apiReact } from '@/api/articles'
+import type {Article, CreateArticleRequest} from '@/types/article'
+import { getAllArticles, getArticle as apiGetArticle, reactArticle as apiReact, createArticle as apiCreateArticle, updateArticle as apiUpdateArticle } from '@/api/articles'
 
 const articles = ref<Article[]>([])
 const loading = ref(false)
@@ -89,50 +89,39 @@ export function useArticles() {
         }
     }
 
-    async function createArticle(data: any) {
-        loading.value = true
-        error.value = null
+    async function createArticle(data: CreateArticleRequest) {
         try {
-            const res = await fetch('http://127.0.0.1:8000/articles', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            })
-            if (!res.ok) throw new Error('Ошибка API при создании статьи')
-            const raw = await res.json()
-            const article = mapServerArticle(raw)
-            articles.value.push(article)
+            loading.value = true
+            error.value = null
+            const article = await apiCreateArticle(data)
+            articles.value.unshift(article)
             return article
         } catch (e: any) {
-            error.value = e.message
-            throw e
+            error.value = e.message || 'Ошибка API при создании статьи'
+            console.error(error.value)
+            throw new Error(String(error.value))
         } finally {
             loading.value = false
         }
     }
 
-    async function updateArticle(id: number, data: any) {
-        loading.value = true
-        error.value = null
+    async function updateArticle(id: number, data: CreateArticleRequest) {
         try {
-            const res = await fetch(`/articles/${id}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            })
-            if (!res.ok) throw new Error('Ошибка API при обновлении статьи')
-            const raw = await res.json()
-            const article = mapServerArticle(raw)
+            loading.value = true
+            error.value = null
+            const article = await apiUpdateArticle(id, data)
             const idx = articles.value.findIndex(a => a.id === id)
             if (idx !== -1) articles.value[idx] = article
             return article
         } catch (e: any) {
-            error.value = e.message
-            throw e
+            error.value = e.message || 'Ошибка API при обновлении статьи'
+            console.error(error.value)
+            throw new Error(String(error.value))
         } finally {
             loading.value = false
         }
     }
+
 
     return { articles, loading, error, fetchArticles, react, getArticle, createArticle, updateArticle }
 }
