@@ -368,18 +368,18 @@ onMounted(() => {
   
   /* Мобильные устройства */
   @media (max-width: 768px) {
-    padding: 60px 12px 120px;
+    padding: 60px 12px 100px;
   }
   
   /* Планшеты */
   @media (min-width: 769px) and (max-width: 1024px) {
-    padding: 80px 20px 160px;
+    padding: 80px 20px 100px;
     max-width: 1000px;
   }
   
   /* Десктоп */
   @media (min-width: 1025px) {
-    padding: 100px 24px 200px;
+    padding: 100px 24px 100px;
     max-width: 1400px;
   }
 }

@@ -1,16 +1,20 @@
 <template>
-  <div class="news-container">
+  <div>
+    <h1 class="development-text">{{ $t('common.in_development') }}</h1>
+  </div>
+  
+  <!-- <div class="news-container">
     <!-- News Header -->
-    <div class="news-header">
+    <!-- <div class="news-header">
       <h1 class="news-title">News</h1>
       <p class="news-subtitle">Latest updates from Aetheris Community</p>
     </div>
     
     <!-- News Content -->
-    <div class="news-content">
+    <!-- <div class="news-content">
       <div class="news-list">
         <!-- Sample news items -->
-        <div class="news-item">
+        <!-- <div class="news-item">
           <div class="news-image">
             <div class="news-image-placeholder"></div>
           </div>
@@ -63,14 +67,27 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 </script>
 
 <style scoped>
-.news-container {
+.development-text {
+  color: var(--text-secondary);
+  font-size: 30px;
+  font-family: var(--font-sans);
+  margin-top: 350px;
+  margin-bottom: 650px;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* .news-container {
   max-width: 1920px;
   margin: 0 auto;
   background-color: var(--bg-primary);
@@ -79,7 +96,7 @@
 }
 
 /* News Header */
-.news-header {
+/* .news-header {
   margin-bottom: 40px;
 }
 
@@ -100,7 +117,7 @@
 }
 
 /* News Content */
-.news-content {
+/* .news-content {
   width: 100%;
 }
 
@@ -184,5 +201,5 @@
   font-size: 14px;
   font-weight: 500;
   color: var(--text-third);
-}
+} */
 </style>

@@ -111,7 +111,7 @@
     @media (min-width: 1025px) {
         width: 100%;
         max-width: 1400px;
-        height: 430px;
+        height: 380px;
         padding: 20px;
     }
 }
