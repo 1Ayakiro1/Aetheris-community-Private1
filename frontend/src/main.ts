@@ -1,5 +1,7 @@
 import './assets/main.scss';
 
+console.log(import.meta.env)
+console.log('IMGBB KEY from main:', import.meta.env.VITE_IMGBB_API_KEY)
 // Инициализация темы при загрузке приложения
 const initializeAppTheme = () => {
   // Функция для работы с cookies

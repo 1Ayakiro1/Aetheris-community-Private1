@@ -2,35 +2,38 @@
   <div class="create-article-container">
     <!-- Body -->
     <div class="content-wrapper">
-      
+
       <!-- Warning block -->
       <div class="warning-block">
         <h2 class="warning-title">{{ $t('create-article.h1') }}</h2>
         <h2 class="warning-subtitle">{{ $t('create-article.h2') }}</h2>
         <button class="read-rules-button">{{ $t('create-article.button1') }}</button>
       </div>
-      
-      <!-- Path block -->
+
+        <!--Потом поработаем над оформлением этого блока, пока так. А лучше вообще взять из prime vue решение где можно разворачивать картинку, обрезать ее итд сразу-->
+        <input type="file" @change="onFileSelected" accept="image/*" />
+
+        <!-- Path block -->
       <div class="path-block">
         <h2 class="edit-title">{{ $t('create-article.h4') }}</h2>
         <h2 class="edit-subtitle">{{ $t('create-article.h5') }}</h2>
         <input type="text" placeholder="Enter title..." class="title-input" v-model="articleTitle">
-        
+
       </div>
 
       <!-- Edit block -->
       <div class="edit-block">
-        
+
         <!-- Article editor block -->
-        <Editor 
-          v-model="articleContent" 
+        <Editor
+          v-model="articleContent"
           editorStyle="height: 500px;"
         />
-        
+
         <!-- <h2 class="tags-title">{{ $t('create-article.h6') }}</h2>
         <h2 class="tags-subtitle">{{ $t('create-article.h7') }}</h2>
         <input type="text" placeholder="Enter tags (separated by commas)..." class="tags-input" v-model="articleTags"> -->
-        
+
         <!-- Action buttons -->
         <div class="action-buttons">
           <button class="create-button" @click="handleCreateArticle" :disabled="loading">
@@ -47,12 +50,12 @@
             <p class="button-text">{{ $t('create-article.button4') }}</p>
           </button>
         </div>
-        
+
         <!-- Error Display -->
         <div v-if="error" class="api-error">
           <p class="api-error-message">{{ error }}</p>
         </div>
-        
+
         <!-- Publication time -->
         <!-- <div class="publication-time-section">
           <div class="publication-time-header">
@@ -70,8 +73,8 @@
           </div>
           <p class="publication-label">{{ $t('create-article.h6') }}</p>
         </div> -->
-        
-        <!-- Ranks section 
+
+        <!-- Ranks section
         <div class="ranks-section">
           <div class="checkbox-item">
             <div class="checkbox" :class="{ checked: rank1Enabled }" @click="rank1Enabled = !rank1Enabled">
@@ -86,7 +89,7 @@
             <p class="checkbox-label">rank</p>
           </div>
         </div> -->
-        
+
         <!-- Additional settings
         <p class="additional-settings-title">Additional settings</p>
         <div class="additional-settings">
@@ -141,6 +144,7 @@ const articleTitle = ref('')
 const articleContent = ref('')
 const articleTags = ref('')
 const router = useRouter()
+const selectedFile = ref<File | null>(null)
 
 // API integration
 const { createArticle, updateArticle, loading, error } = useArticles()
@@ -157,16 +161,18 @@ const hideContacts = ref(false)
 const hideCommentatorsInfo = ref(false)
 const disableReplying = ref(false)
 
-// Functions
+//debug
+console.log('VITE_IMGBB_API_KEY =', import.meta.env.VITE_IMGBB_API_KEY)
 
+// Functions
 const exportToJSON = () => {
   // Parse HTML content to extract formatted text
   const parser = new DOMParser()
   const doc = parser.parseFromString(articleContent.value, 'text/html')
-  
+
   const extractFormattedContent = (element: Element): any[] => {
     const result: any[] = []
-    
+
     element.childNodes.forEach(node => {
       if (node.nodeType === Node.TEXT_NODE) {
         if (node.textContent?.trim()) {
@@ -179,7 +185,7 @@ const exportToJSON = () => {
         const el = node as Element
         const tagName = el.tagName.toLowerCase()
         const textContent = el.textContent || ''
-        
+
         switch (tagName) {
           case 'strong':
           case 'b':
@@ -196,8 +202,8 @@ const exportToJSON = () => {
             result.push({ type: 'code', content: textContent })
             break
           case 'a':
-            result.push({ 
-              type: 'link', 
+            result.push({
+              type: 'link',
               content: textContent,
               href: el.getAttribute('href') || ''
             })
@@ -208,8 +214,8 @@ const exportToJSON = () => {
           case 'h4':
           case 'h5':
           case 'h6':
-            result.push({ 
-              type: 'heading', 
+            result.push({
+              type: 'heading',
               content: textContent,
               level: parseInt(tagName.charAt(1))
             })
@@ -219,7 +225,7 @@ const exportToJSON = () => {
             break
           case 'ul':
           case 'ol':
-            result.push({ 
+            result.push({
               type: 'list',
               ordered: tagName === 'ol',
               items: Array.from(el.querySelectorAll('li')).map(li => li.textContent || '')
@@ -231,12 +237,12 @@ const exportToJSON = () => {
         }
       }
     })
-    
+
     return result
   }
-  
+
   const formattedContent = extractFormattedContent(doc.body)
-  
+
   const articleData = {
     title: articleTitle.value,
     content: {
@@ -258,56 +264,52 @@ const exportToJSON = () => {
     },
     createdAt: new Date().toISOString()
   }
-  
+
   return articleData
 }
 
 const handleCreateArticle = async () => {
-  if (!articleTitle.value.trim()) {
-    alert('Пожалуйста, введите заголовок статьи')
-    return
-  }
-  
-  if (!articleContent.value.trim()) {
-    alert('Пожалуйста, добавьте содержание статьи')
-    return
-  }
-
-  try {
-    const articleData: CreateArticleRequest = {
-      title: articleTitle.value.trim(),
-      content: articleContent.value,
-      excerpt: generateExcerpt(articleContent.value),
-      tags: articleTags.value.split(',').map(tag => tag.trim()).filter(tag => tag),
-      status: 'published',
-      category: 'General' // Можно добавить выбор категории
+    if (!articleTitle.value.trim()) {
+        alert('Пожалуйста, введите заголовок статьи')
+        return
+    }
+    if (!articleContent.value.trim()) {
+        alert('Пожалуйста, добавьте содержание статьи')
+        return
     }
 
-    let result
-    if (isEditing.value && editingArticleId.value) {
-      result = await updateArticle(editingArticleId.value, articleData)
-    } else {
-      result = await createArticle(articleData)
-    }
+    try {
+        let previewUrl: string | undefined = undefined
+        if (selectedFile.value) {
+            previewUrl = await uploadToImgBB(selectedFile.value)
+        }
 
-    if (result) {
-      // Очищаем форму
-      articleTitle.value = ''
-      articleContent.value = ''
-      articleTags.value = ''
-      
-      // Очищаем черновик
-      localStorage.removeItem('article_draft')
-      
-        // Перенаправляем на главную страницу со статьями
+        const articleData: CreateArticleRequest = {
+            title: articleTitle.value.trim(),
+            content: articleContent.value,
+            excerpt: generateExcerpt(articleContent.value),
+            tags: articleTags.value.split(',').map(tag => tag.trim()).filter(tag => tag),
+            status: 'published',
+            previewImage: previewUrl
+        }
+
+        let result
+        if (isEditing.value && editingArticleId.value) {
+            result = await updateArticle(editingArticleId.value, articleData)
+        } else {
+            result = await createArticle(articleData)
+        }
+
+        articleTitle.value = ''
+        articleContent.value = ''
+        articleTags.value = ''
+        localStorage.removeItem('article_draft')
         await router.push('/')
-      
-      alert(isEditing.value ? 'Статья успешно обновлена!' : 'Статья успешно создана!')
+        alert(isEditing.value ? 'Статья успешно обновлена!' : 'Статья успешно создана!')
+    } catch (err: any) {
+        console.error('Error creating/updating article:', err)
+        alert('Произошла ошибка при сохранении статьи: ' + (err.message || ''))
     }
-  } catch (err) {
-    console.error('Error creating/updating article:', err)
-    alert('Произошла ошибка при сохранении статьи. Попробуйте еще раз.')
-  }
 }
 
 // Генерация краткого описания из контента
@@ -315,7 +317,7 @@ const generateExcerpt = (content: string): string => {
   // Удаляем HTML теги
   const textContent = content.replace(/<[^>]*>/g, '')
   // Берем первые 200 символов
-  return textContent.length > 200 
+  return textContent.length > 200
     ? textContent.substring(0, 200) + '...'
     : textContent
 }
@@ -341,7 +343,7 @@ onMounted(() => {
       articleTitle.value = draftData.title || ''
       articleTags.value = draftData.tags?.join(', ') || ''
       articleContent.value = draftData.content?.html || ''
-      
+
         if (draftData.settings) {
           // publicationTimeEnabled.value = draftData.settings.publicationTime || false
           rank1Enabled.value = draftData.settings.ranks?.rank1 || false
@@ -357,6 +359,36 @@ onMounted(() => {
     }
   }
 })
+
+function onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement
+    if (input.files && input.files[0]) {
+        selectedFile.value = input.files[0]
+    }
+}
+
+async function uploadToImgBB(file: File): Promise<string> {
+    const apiKey = import.meta.env.VITE_IMGBB_API_KEY  //ключ решить
+    const url = `https://api.imgbb.com/1/upload?key=${apiKey}`
+    console.log('API key:', apiKey)
+
+    const formData = new FormData()
+    formData.append('image', file)
+
+    const response = await fetch(url, {
+        method: 'POST',
+        body: formData
+    })
+
+    const result = await response.json()
+
+    if (!result.success) {
+        throw new Error('Ошибка загрузки превью на ресурс')
+    }
+
+    return result.data.url
+}
+
 </script>
 
 <style lang="scss" scoped>
@@ -365,18 +397,18 @@ onMounted(() => {
   background-color: var(--bg-primary);
   padding: 100px 16px;
   box-sizing: border-box;
-  
+
   /* Мобильные устройства */
   @media (max-width: 768px) {
     padding: 60px 12px 100px;
   }
-  
+
   /* Планшеты */
   @media (min-width: 769px) and (max-width: 1024px) {
     padding: 80px 20px 100px;
     max-width: 1000px;
   }
-  
+
   /* Десктоп */
   @media (min-width: 1025px) {
     padding: 100px 24px 100px;
@@ -460,7 +492,7 @@ onMounted(() => {
   margin-top: 15px;
   cursor: pointer;
   transition: all 0s ease-in-out;
-  
+
 }
 
 // Edit block
@@ -506,11 +538,11 @@ onMounted(() => {
   font-size: 22px;
   color: var(--text-primary);
   transition: all 0s ease-in-out;
-  
+
   &::placeholder {
     color: var(--text-third);
   }
-  
+
   &:focus {
     outline: none;
     border: 2px solid white;
@@ -519,15 +551,15 @@ onMounted(() => {
 }
 
 :deep(.ql-toolbar) {
-  background: var(--bg-primary) !important; 
-  border-radius: 25px !important;   
-  padding: 24px 20px;              
-  width: 1300px;                   
+  background: var(--bg-primary) !important;
+  border-radius: 25px !important;
+  padding: 24px 20px;
+  width: 1300px;
   margin-left: 48px;
-  margin-top: 56px;                 
-  min-height: 80px;                
-  display: flex !important; 
-  align-items: center !important; 
+  margin-top: 56px;
+  min-height: 80px;
+  display: flex !important;
+  align-items: center !important;
   flex-wrap: wrap !important;
 }
 
@@ -540,15 +572,15 @@ onMounted(() => {
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.2);
   transition: all 0.3s ease;
-  display: flex !important;           
-  align-items: center !important;   
-  justify-content: center !important; 
-  
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
   &:hover {
     background: rgba(255, 255, 255, 0.1) !important;
     border-color: var(--primary-violet) !important;
   }
-  
+
   &.ql-active {
     background: var(--btn-primary) !important;
     border-color: var(--text-primary) !important;
@@ -559,12 +591,12 @@ onMounted(() => {
 :deep(.ql-toolbar button svg) {
   width: 28px !important;
   height: 28px !important;
-  min-width: 28px !important;       
-  min-height: 28px !important;      
-  max-width: 28px !important;       
-  max-height: 28px !important;      
+  min-width: 28px !important;
+  min-height: 28px !important;
+  max-width: 28px !important;
+  max-height: 28px !important;
   color: var(--text-primary);
-  object-fit: contain;              
+  object-fit: contain;
 }
 
 :deep(.ql-toolbar button.ql-active svg) {
@@ -580,17 +612,17 @@ onMounted(() => {
 }
 
 :deep(.ql-toolbar .ql-formats) {
-  display: flex !important;         
-  align-items: center !important;   
-  margin-right: 15px !important;    
+  display: flex !important;
+  align-items: center !important;
+  margin-right: 15px !important;
 }
 
 :deep(.ql-toolbar .ql-picker) {
   height: 46px !important;
   font-size: 18px !important;
   margin: 4px !important;
-  display: flex !important;         
-  align-items: center !important;   
+  display: flex !important;
+  align-items: center !important;
 }
 
 :deep(.ql-toolbar .ql-picker-label) {
@@ -601,9 +633,9 @@ onMounted(() => {
   border: 1px solid rgba(255, 255, 255, 0.2);
   background: transparent;
   color: var(--text-primary);
-  display: flex !important;         
-  align-items: center !important;   
-  
+  display: flex !important;
+  align-items: center !important;
+
   &:hover {
     background: rgba(255, 255, 255, 0.1) !important;
     border-color: var(--primary-violet) !important;
@@ -656,27 +688,27 @@ onMounted(() => {
 }
 
 :deep(.ql-toolbar .ql-header.ql-picker .ql-picker-label svg) {
-  width: 20px !important;          
-  height: 20px !important;         
-  position: absolute !important;   
-  right: 15px !important;          
-  top: 70% !important;             
+  width: 20px !important;
+  height: 20px !important;
+  position: absolute !important;
+  right: 15px !important;
+  top: 70% !important;
   transform: translateY(-50%) !important;
   color: var(--text-primary) !important;
 }
 
 // Элементы в выпадающих меню
 :deep(.ql-toolbar .ql-picker-options .ql-picker-item) {
-  padding: 12px 16px !important;    
-  min-height: 40px !important;      
+  padding: 12px 16px !important;
+  min-height: 40px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: flex-start !important;
-  font-size: 15px !important;       
+  font-size: 15px !important;
   white-space: nowrap !important;
-  overflow: hidden !important;      
+  overflow: hidden !important;
   text-overflow: ellipsis !important;
-  
+
   &:hover {
     background: rgba(255, 255, 255, 0.1) !important;
   }
@@ -698,59 +730,59 @@ onMounted(() => {
 
 
 :deep(.ql-toolbar .ql-header.ql-picker) {
-  width: 160px !important;         
+  width: 160px !important;
 }
 
 :deep(.ql-toolbar .ql-font.ql-picker) {
-  width: 160px !important;         
+  width: 160px !important;
 }
 
 :deep(.ql-toolbar .ql-header.ql-picker .ql-picker-label) {
-  width: 160px !important;         
+  width: 160px !important;
   padding: 0 45px 0 20px !important;
-  font-size: 16px !important;      
+  font-size: 16px !important;
   white-space: nowrap !important;
-  overflow: hidden !important;     
+  overflow: hidden !important;
   text-overflow: ellipsis !important;
-  position: relative !important;   
+  position: relative !important;
   justify-content: flex-start !important;
 }
 
 :deep(.ql-toolbar .ql-font.ql-picker .ql-picker-label) {
-  width: 160px !important;         
-  padding: 0 20px !important;      
-  font-size: 16px !important;      
-  white-space: nowrap !important;  
-  overflow: hidden !important;     
+  width: 160px !important;
+  padding: 0 20px !important;
+  font-size: 16px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
   text-overflow: ellipsis !important;
 }
 
 // Выпадающие меню
 :deep(.ql-toolbar .ql-header.ql-picker .ql-picker-options) {
-  width: 180px !important;         
-  min-width: 180px !important;     
-  max-width: 200px !important;     
+  width: 180px !important;
+  min-width: 180px !important;
+  max-width: 200px !important;
 }
 
 :deep(.ql-toolbar .ql-font.ql-picker .ql-picker-options) {
-  width: 180px !important;         
-  min-width: 180px !important;     
-  max-width: 200px !important;     
+  width: 180px !important;
+  min-width: 180px !important;
+  max-width: 200px !important;
 }
 
 
 :deep(.ql-snow .ql-picker.ql-expanded .ql-picker-options) {
-  left: 0px !important;  
-  top: 70px !important;         
+  left: 0px !important;
+  top: 70px !important;
 }
 
 :deep(.ql-container) {
   background: var(--bg-primary) !important;  // Меняем на bg-primary (было btn-primary)
   background-color: var(--bg-primary) !important;  // Дублируем для надежности
   border: none;
-  border-radius: 0 0 50px 50px;     
-  width: 1300px;                   
-  margin-left: 48px;               
+  border-radius: 0 0 50px 50px;
+  width: 1300px;
+  margin-left: 48px;
 }
 
 :deep(.ql-editor) {
@@ -763,14 +795,14 @@ onMounted(() => {
 }
 
 :deep(.ql-container.ql-snow) {
-  margin-top: 20px;                  
+  margin-top: 20px;
   border-radius: 25px !important;
   background: var(--bg-primary) !important;
 }
 
 :deep(.p-editor-content.ql-container.ql-snow) {
-  border-radius: 25px !important;    
-  overflow: hidden !important;       
+  border-radius: 25px !important;
+  overflow: hidden !important;
   border-color: none !important;
   background-color: var(--bg-primary) !important;
 }
@@ -820,11 +852,11 @@ onMounted(() => {
   font-size: 22px;
   color: var(--text-primary);
   transition: all 0s ease-in-out;
-  
+
   &::placeholder {
     color: var(--text-third);
   }
-  
+
   &:focus {
     outline: none;
     border: 2px solid white;
@@ -853,7 +885,7 @@ onMounted(() => {
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   padding-left: 32px;
-  
+
   &:hover {
     opacity: 0.8;
   }
@@ -873,7 +905,7 @@ onMounted(() => {
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   padding-left: 32px;
-  
+
   &:hover {
     opacity: 0.8;
   }
@@ -893,7 +925,7 @@ onMounted(() => {
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   padding-left: 32px;
-  
+
   &:hover {
     opacity: 0.8;
   }
@@ -902,11 +934,11 @@ onMounted(() => {
 .button-icon {
   font-size: 24px;
   margin-right: 12px;
-  
+
   .preview-button & {
     font-size: 26px;
   }
-  
+
   .draft-button & {
     font-size: 24px;
   }
@@ -935,7 +967,7 @@ onMounted(() => {
   display: flex;
   align-items: center;
   margin-bottom: 12px;
-  
+
   &:last-child {
     margin-bottom: 0;
   }
@@ -957,23 +989,23 @@ onMounted(() => {
   margin-left: 48px;
   position: relative;
   overflow: hidden;
-  
+
   &:hover {
     border-color: #9CA3AF;
     transform: scale(1.05);
     box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3);
   }
-  
+
   &:active {
     transform: scale(0.95);
   }
-  
+
   &.checked {
     background-color: #8B5CF6;
     border: 2px solid white;
     transform: scale(1.1);
     box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
-    
+
     &::before {
       content: '';
       position: absolute;
@@ -986,7 +1018,7 @@ onMounted(() => {
       transform: translate(-50%, -50%);
       animation: ripple 0.6s ease-out;
     }
-    
+
   }
 }
 
@@ -1067,17 +1099,17 @@ onMounted(() => {
   cursor: text;
   transition: all 0s ease-in-out;
   padding: 0 20px;
-  
+
   &::placeholder {
     color: var(--text-third);
   }
-  
+
   &:focus {
     outline: none;
     border: 2px solid white;
     border-radius: 20px;
   }
-  
+
 }
 
 .time-input {
@@ -1093,17 +1125,17 @@ onMounted(() => {
   cursor: text;
   transition: all 0s ease-in-out;
   padding: 0 20px;
-  
+
   &::placeholder {
     color: var(--text-third);
   }
-  
+
   &:focus {
     outline: none;
     border: 2px solid white;
     border-radius: 20px;
   }
-  
+
 }
 
 .publication-label {

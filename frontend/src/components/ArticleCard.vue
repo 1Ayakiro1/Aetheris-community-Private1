@@ -84,9 +84,24 @@
 
         <!-- Preview Block -->
         <div class="article-card-preview">
-            <div class="preview-image" v-if="article.previewImage">
-                <img :src="article.previewImage" :alt="article.title" class="preview-img" />
+            <!-- Если превью есть и не сломалось -->
+            <div class="preview-image" v-if="article.previewImage && !imageError">
+                <img
+                    :src="article.previewImage"
+                    :alt="article.title"
+                    class="preview-img"
+                    @error="onImageError"
+                />
             </div>
+
+            <!-- Если ссылка есть, но изображение не загрузилось -->
+            <div class="preview-fallback" v-else-if="imageError">
+    <span class="preview-fallback-text">
+      Изображение было удалено из-за плохого содержания
+    </span>
+            </div>
+
+            <!-- Если вообще нет превью -->
             <div class="preview-content" v-else>
                 <div class="preview-placeholder">
                     <i class="pi pi-image preview-icon"></i>
@@ -94,6 +109,7 @@
                 </div>
             </div>
         </div>
+
 
         <div class="article-card-content-text" :data-text="article.excerpt || article.content">
             {{ article.excerpt || article.content }}
@@ -196,6 +212,7 @@ const isBookmarked = ref(false)
 const isCommentsOpen = ref(false)
 const isShared = ref(false)
 const commentsCount = ref(props.article.commentsCount || 0)
+const imageError = ref(false)
 
 // === watchers ===
 watch(() => props.article.userReaction, (v) => {
@@ -256,13 +273,15 @@ const formatDate = (date: string | Date): string => {
     if (diffInDays < 30) return `${Math.floor(diffInDays / 7)} weeks ago`
     return dateObj.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })
 }
+
+function onImageError() {
+    imageError.value = true
+}
 </script>
-
-
 <style scoped>
 .article-card {
     background-color: var(--bg-secondary);
-    border-radius: 70px 70px 15px 15px; 
+    border-radius: 70px 70px 15px 15px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
     position: relative;
@@ -285,7 +304,7 @@ const formatDate = (date: string | Date): string => {
     @media (min-width: 1025px) {
         width: 1055px;
         height: 950px;
-        border-radius: 60px 60px 15px 15px; 
+        border-radius: 60px 60px 15px 15px;
     }
 
     &:hover {
@@ -969,6 +988,27 @@ const formatDate = (date: string | Date): string => {
     /* Десктоп */
     @media (min-width: 1025px) {
         font-size: 14px;
+    }
+
+    /* фолбек если ошибка загрузки изображения*/
+    .preview-fallback {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--bg-secondary, rgba(255, 255, 255, 0.05));
+        text-align: center;
+        padding: 20px;
+    }
+
+    .preview-fallback-text {
+        font-size: 16px;
+        color: var(--text-secondary);
+        opacity: 0.8;
+        line-height: 1.4;
+        font-family: var(--font-sans);
+        padding: 0 12px;
     }
 }
 </style>

@@ -37,3 +37,12 @@ export interface ArticlesResponse {
     articles: Article[]
     total: number
 }
+
+export interface CreateArticleRequest {
+    title: string;
+    content: string;
+    excerpt?: string;
+    tags: string[];
+    status: string;
+    previewImage?: string;  // добавил
+}
