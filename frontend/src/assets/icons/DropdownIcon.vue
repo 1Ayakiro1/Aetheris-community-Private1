@@ -12,7 +12,8 @@
       :stroke="color" 
       stroke-width="3" 
       stroke-linecap="round" 
-      stroke-linejoin="round" 
+      stroke-linejoin="round"
+      style="transition: stroke 0.5s ease-in-out;"
     />
   </svg>
 </template>
