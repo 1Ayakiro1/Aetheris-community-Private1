@@ -71,7 +71,7 @@
                     <path d="M11 4H4C3.46957 4 2.96086 4.21071 2.58579 4.58579C2.21071 4.96086 2 5.46957 2 6V20C2 20.5304 2.21071 21.0391 2.58579 21.4142C2.96086 21.7893 3.46957 22 4 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M18.5 2.5C18.8978 2.10217 19.4374 1.87868 20 1.87868C20.5626 1.87868 21.1022 2.10217 21.5 2.5C21.8978 2.89783 22.1213 3.43739 22.1213 4C22.1213 4.56261 21.8978 5.10217 21.5 5.5L12 15L8 16L9 12L18.5 2.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
-                  <span>Редактировать</span> <!-- отображается ТОЛЬКО для СОЗДАТЕЛЯ комментария,надо не забыть отразить это в логике -->
+                  <span>Edit</span> <!-- Only visible to comment CREATOR, don't forget to implement in logic -->
                 </button>
                 
                 <button class="dropdown-item danger" @click="handleDelete">
@@ -79,7 +79,7 @@
                     <path d="M3 6H5H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6H19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
-                  <span>Удалить</span> <!-- Тоже видит только создатель комментария -->
+                  <span>Delete</span> <!-- Only visible to comment creator -->
                 </button>
                 
                 <button class="dropdown-item" @click="handleReport">
@@ -88,7 +88,7 @@
                     <path d="M12 9V13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M12 17H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
-                  <span>Пожаловаться</span> <!-- Видят все-->
+                  <span>Report</span> <!-- Visible to everyone -->
                 </button>
               </div>
             </Transition>
@@ -109,7 +109,7 @@
           <path d="M9 14L4 9L9 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           <path d="M20 20V13C20 11.9391 19.5786 10.9217 18.8284 10.1716C18.0783 9.42143 17.0609 9 16 9H4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        <span class="action-text">Ответить</span>
+        <span class="action-text">Reply</span>
       </button>
       
       <div class="rating-system">
@@ -118,15 +118,67 @@
           @mouseenter="upArrowHover = true"
           @mouseleave="upArrowHover = false"
         >
-          <DropdownIcon :color="upArrowHover ? '#22c55e' : '#9BA4AE'" /> <!-- Здесь изменение цвета при ховере-->
+          <DropdownIcon :color="upArrowHover ? '#22c55e' : '#9BA4AE'" /> <!-- Color changes on hover -->
         </div>
-        <p class="rating-text">0</p> <!-- Здесь вставишь свои значени из бэкенда -->
+        <p class="rating-text">0</p> <!-- Insert values from backend here -->
         <div 
           class="dropdown-icon2"
           @mouseenter="downArrowHover = true"
           @mouseleave="downArrowHover = false"
         >
-          <DropdownIcon :color="downArrowHover ? '#ef4444' : '#9BA4AE'" /> <!-- Тут тоже цвет меняется-->
+          <DropdownIcon :color="downArrowHover ? '#ef4444' : '#9BA4AE'" /> <!-- Color changes here too -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Delete Confirmation Panel -->
+    <div v-if="isDeletePanelOpen" class="delete-panel-overlay" @click="closeDeletePanel">
+      <div class="delete-panel" @click.stop>
+        <div class="delete-panel-content">
+          <p class="delete-panel-text">Are you sure you want to delete this comment?</p>
+          <div class="delete-panel-buttons">
+            <button class="delete-panel-button cancel" @click="closeDeletePanel">Cancel</button>
+            <button class="delete-panel-button confirm" @click="confirmDelete">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Report Panel -->
+    <div v-if="isReportPanelOpen" class="report-panel-overlay" @click="closeReportPanel">
+      <div class="report-panel" @click.stop>
+        <div class="report-panel-content">
+          <h3 class="report-panel-title">Report Comment</h3>
+          <p class="report-panel-subtitle">Select the reason for reporting:</p>
+          
+          <div class="report-reasons">
+            <label 
+              v-for="reason in reportReasons" 
+              :key="reason.id" 
+              class="reason-item"
+              :class="{ 'selected': selectedReasons.includes(reason.id) }"
+            >
+              <input 
+                type="checkbox" 
+                :value="reason.id" 
+                v-model="selectedReasons"
+                class="reason-checkbox"
+              />
+              <span class="reason-checkmark"></span>
+              <span class="reason-title">{{ reason.title }}</span>
+            </label>
+          </div>
+          
+          <div class="report-panel-buttons">
+            <button class="report-panel-button cancel" @click="closeReportPanel">Cancel</button>
+            <button 
+              class="report-panel-button confirm" 
+              @click="confirmReport"
+              :disabled="selectedReasons.length === 0"
+            >
+              Submit Report
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -170,6 +222,37 @@ const likesCount = ref(props.comment.likes || 0)
 const upArrowHover = ref(false)
 const downArrowHover = ref(false)
 const showOptionsMenu = ref(false)
+const isDeletePanelOpen = ref(false)
+const isReportPanelOpen = ref(false)
+const selectedReasons = ref<string[]>([])
+
+const reportReasons = [
+  {
+    id: 'spam',
+    title: 'Spam',
+    description: 'Unwanted commercial content or repetitive messages'
+  },
+  {
+    id: 'harassment',
+    title: 'Harassment',
+    description: 'Bullying, threats, or personal attacks'
+  },
+  {
+    id: 'hate',
+    title: 'Hate Speech',
+    description: 'Content promoting violence or hatred'
+  },
+  {
+    id: 'inappropriate',
+    title: 'Inappropriate Content',
+    description: 'Sexual, violent, or disturbing content'
+  },
+  {
+    id: 'misinformation',
+    title: 'Misinformation',
+    description: 'False or misleading information'
+  }
+]
 
 const onLike = () => {
   isLiked.value = !isLiked.value
@@ -190,21 +273,43 @@ const toggleOptionsMenu = () => {
 }
 
 const handleEdit = () => {
-  console.log('Редактирование комментария:', props.comment.id)
+  console.log('Edit comment:', props.comment.id)
   showOptionsMenu.value = false
-  // TODO: Реализовать редактирование
+  // TODO: Implement edit functionality
 }
 
 const handleDelete = () => {
-  console.log('Удаление комментария:', props.comment.id)
   showOptionsMenu.value = false
-  // TODO: Реализовать удаление
+  isDeletePanelOpen.value = true
+}
+
+const closeDeletePanel = () => {
+  isDeletePanelOpen.value = false
+}
+
+const confirmDelete = () => {
+  console.log('Delete comment:', props.comment.id)
+  isDeletePanelOpen.value = false
+  // TODO: Implement comment deletion via API
+  // emit('delete', props.comment.id) - can add emit for deletion
 }
 
 const handleReport = () => {
-  console.log('Жалоба на комментарий:', props.comment.id)
   showOptionsMenu.value = false
-  // TODO: Реализовать жалобу
+  isReportPanelOpen.value = true
+  selectedReasons.value = []
+}
+
+const closeReportPanel = () => {
+  isReportPanelOpen.value = false
+  selectedReasons.value = []
+}
+
+const confirmReport = () => {
+  console.log('Report comment:', props.comment.id, 'Reasons:', selectedReasons.value)
+  isReportPanelOpen.value = false
+  selectedReasons.value = []
+  // TODO: Send report to API
 }
 
 const formatDate = (date: string | Date): string => {
@@ -215,16 +320,16 @@ const formatDate = (date: string | Date): string => {
   const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60))
   const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24))
 
-  if (diffInMinutes < 1) return 'только что'
-  if (diffInMinutes < 60) return `${diffInMinutes} мин назад`
-  if (diffInHours < 24) return `${diffInHours} ч назад`
-  if (diffInDays === 1) return 'вчера'
-  if (diffInDays < 7) return `${diffInDays} дн назад`
+  if (diffInMinutes < 1) return 'just now'
+  if (diffInMinutes < 60) return `${diffInMinutes} min ago`
+  if (diffInHours < 24) return `${diffInHours} h ago`
+  if (diffInDays === 1) return 'yesterday'
+  if (diffInDays < 7) return `${diffInDays} days ago`
   
   return dateObj.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short', year: 'numeric' })
 }
 
-// Закрытие меню при клике вне его области
+// Close menu when clicking outside
 const handleClickOutside = (event: MouseEvent) => {
   const target = event.target as HTMLElement
   const dropdown = target.closest('.more-options-wrapper')
@@ -419,7 +524,7 @@ onUnmounted(() => {
   }
 }
 
-/* Анимация появления/исчезновения */
+/* Fade in/out animation */
 .dropdown-fade-enter-active,
 .dropdown-fade-leave-active {
   transition: all 0.3s ease;
@@ -593,7 +698,7 @@ onUnmounted(() => {
   text-align: center;
 }
 
-/* Мобильная адаптация */
+/* Mobile adaptation */
 @media (max-width: 768px) {
   .comment-block {
     padding: 16px 18px;
@@ -631,7 +736,7 @@ onUnmounted(() => {
   }
 }
 
-/* Планшеты */
+/* Tablets */
 @media (min-width: 769px) and (max-width: 1024px) {
   .comment-block {
     padding: 18px 20px;
@@ -643,6 +748,333 @@ onUnmounted(() => {
   
   .comment-text {
     font-size: 15px;
+  }
+}
+
+/* Delete Confirmation Panel */
+.delete-panel-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1001;
+  animation: deletePanelOverlayAppear 0.3s ease-out;
+}
+
+@keyframes deletePanelOverlayAppear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.delete-panel {
+  animation: deletePanelAppear 0.3s ease-out 0.1s both;
+}
+
+@keyframes deletePanelAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.delete-panel-content {
+  background-color: var(--bg-secondary);
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  min-width: 300px;
+  max-width: 500px;
+}
+
+.delete-panel-text {
+  color: var(--text-primary);
+  font-size: 20px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  margin: 0 0 25px 0;
+  line-height: 1.4;
+}
+
+.delete-panel-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.delete-panel-button {
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  
+  &.cancel {
+    background-color: var(--btn-primary);
+    color: var(--text-primary);
+    border: 2px solid var(--text-secondary);
+    
+    &:hover {
+      background-color: var(--text-secondary);
+      color: var(--bg-primary);
+    }
+  }
+  
+  &.confirm {
+    background-color: #ef4444;
+    color: white;
+    
+    &:hover {
+      background-color: #dc2626;
+    }
+  }
+}
+
+/* Mobile adaptation for delete panel */
+@media (max-width: 768px) {
+  .delete-panel-content {
+    padding: 25px;
+    min-width: 280px;
+    margin: 0 20px;
+  }
+  
+  .delete-panel-text {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+  
+  .delete-panel-button {
+    padding: 10px 20px;
+    font-size: 15px;
+  }
+}
+
+/* Report Panel */
+.report-panel-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1001;
+  animation: reportPanelOverlayAppear 0.3s ease-out;
+}
+
+@keyframes reportPanelOverlayAppear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.report-panel {
+  animation: reportPanelAppear 0.3s ease-out 0.1s both;
+}
+
+@keyframes reportPanelAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.report-panel-content {
+  background-color: var(--bg-secondary);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  min-width: 550px;
+  max-width: 650px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.report-panel-title {
+  color: var(--text-primary);
+  font-size: 30px;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  margin: 0 0 12px 0;
+}
+
+.report-panel-subtitle {
+  color: var(--text-secondary);
+  font-size: 18px;
+  font-family: var(--font-sans);
+  margin: 0 0 25px 0;
+}
+
+.report-reasons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.reason-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 20px 24px;
+  background-color: var(--bg-primary);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  &.selected {
+    background-color: rgba(140, 0, 255, 0.1);
+    border-color: var(--primary-violet);
+  }
+}
+
+.reason-checkbox {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.reason-checkmark {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--text-secondary);
+  border-radius: 8px;
+  margin-right: 16px;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    display: none;
+    left: 8px;
+    top: 3px;
+    width: 8px;
+    height: 14px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+  }
+}
+
+.reason-item.selected .reason-checkmark {
+  background-color: var(--primary-violet);
+  border-color: var(--primary-violet);
+  
+  &::after {
+    display: block;
+  }
+}
+
+.reason-title {
+  color: var(--text-primary);
+  font-size: 20px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+}
+
+.report-panel-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+}
+
+.report-panel-button {
+  padding: 14px 30px;
+  border-radius: 12px;
+  font-size: 18px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  
+  &.cancel {
+    background-color: var(--btn-primary);
+    color: var(--text-primary);
+    border: 2px solid var(--text-secondary);
+    
+    &:hover {
+      background-color: var(--text-secondary);
+      color: var(--bg-primary);
+    }
+  }
+  
+  &.confirm {
+    background-color: var(--primary-violet);
+    color: white;
+    
+    &:hover:not(:disabled) {
+      background-color: var(--primary-blue);
+    }
+    
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
+
+/* Mobile adaptation for report panel */
+@media (max-width: 768px) {
+  .report-panel-content {
+    padding: 30px;
+    min-width: 320px;
+    max-width: 90vw;
+    margin: 0 20px;
+  }
+  
+  .report-panel-title {
+    font-size: 24px;
+  }
+  
+  .report-panel-subtitle {
+    font-size: 16px;
+  }
+  
+  .reason-item {
+    padding: 16px 20px;
+  }
+  
+  .reason-title {
+    font-size: 18px;
+  }
+  
+  .report-panel-button {
+    padding: 12px 24px;
+    font-size: 16px;
   }
 }
 </style>

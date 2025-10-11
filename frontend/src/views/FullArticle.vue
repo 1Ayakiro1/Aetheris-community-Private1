@@ -16,7 +16,7 @@
       
       <!-- Comments Section -->
       <div class="comments-section">
-        <h2 class="comments-title">Комментарии ({{ comments.length }})</h2>
+        <h2 class="comments-title">Comments ({{ comments.length }})</h2>
         
         <!-- Comment Input -->
         <div class="comment-input-container">
@@ -55,12 +55,12 @@
           <textarea
             v-model="newComment"
             class="comment-input"
-            placeholder="Написать комментарий..."
+            placeholder="Write a comment..."
             rows="3"
             @keydown.ctrl.enter="addComment"
           ></textarea>
           <button class="submit-comment-btn" @click="addComment" :disabled="!newComment.trim()">
-            Отправить
+            Submit
           </button>
         </div>
         
@@ -76,7 +76,7 @@
           />
           
           <div v-if="comments.length === 0" class="no-comments">
-            <p>Будьте первым, кто оставит комментарий!</p>
+            <p>Be the first to leave a comment!</p>
           </div>
         </div>
       </div>
@@ -109,16 +109,16 @@ const loading = ref(true)
 const error = ref<string | null>(null)
 const newComment = ref('')
 
-// Временные данные для комментариев (TODO: заменить на реальные данные с бэкенда)
+// Temporary comment data (TODO: replace with real data from backend)
 const comments = ref([
   {
     id: 1,
     author: {
       id: 1,
-      username: 'Александр',
+      username: 'Alexander',
       avatar: ''
     },
-    text: 'Отличная статья! Очень полезная информация, спасибо за подробное описание.',
+    text: 'Great article! Very useful information, thank you for the detailed description.',
     createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
     likes: 5,
     userLiked: false
@@ -127,10 +127,10 @@ const comments = ref([
     id: 2,
     author: {
       id: 2,
-      username: 'Мария',
+      username: 'Maria',
       avatar: ''
     },
-    text: 'Интересный подход к решению проблемы. Попробую применить на практике.',
+    text: 'Interesting approach to solving the problem. Will try to apply it in practice.',
     createdAt: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(),
     likes: 3,
     userLiked: false
@@ -139,20 +139,20 @@ const comments = ref([
     id: 3,
     author: {
       id: 3,
-      username: 'Дмитрий',
+      username: 'Dmitry',
       avatar: ''
     },
-    text: 'Можете подсказать, где можно найти больше информации по этой теме?',
+    text: 'Can you tell me where I can find more information on this topic?',
     createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
     likes: 1,
     userLiked: false
   }
 ])
 
-// Получение ID статьи из роута
+// Get article ID from route
 const articleId = ref<number>(parseInt(route.params.id as string))
 
-// Загрузка статьи
+// Load article
 const loadArticle = async () => {
   try {
     loading.value = true
@@ -172,12 +172,12 @@ const loadArticle = async () => {
   }
 }
 
-// Возврат назад
+// Go back
 const goBack = () => {
   router.go(-1)
 }
 
-// Обработчики комментариев
+// Comment handlers
 const addComment = () => {
   if (!newComment.value.trim()) return
   
@@ -185,7 +185,7 @@ const addComment = () => {
     id: comments.value.length + 1,
     author: {
       id: 999,
-      username: 'Гость',
+      username: 'Guest',
       avatar: ''
     },
     text: newComment.value.trim(),
@@ -200,20 +200,20 @@ const addComment = () => {
 
 const handleCommentLike = (commentId: number) => {
   console.log('Like comment:', commentId)
-  // TODO: Реализовать лайк комментария
+  // TODO: Implement comment like functionality
 }
 
 const handleCommentReply = (commentId: number) => {
   console.log('Reply to comment:', commentId)
-  // TODO: Реализовать ответ на комментарий
+  // TODO: Implement reply to comment functionality
 }
 
 const handleUserClick = (userId: number) => {
   console.log('User clicked:', userId)
-  // TODO: Перейти на профиль пользователя
+  // TODO: Navigate to user profile
 }
 
-// Загрузка при монтировании
+// Load on mount
 onMounted(() => {
   loadArticle()
 })
@@ -375,11 +375,9 @@ onMounted(() => {
   
   &:hover:not(:disabled) {
     background-color: var(--btn-primary-hover, #2563eb);
-    transform: translateY(-1px);
   }
   
   &:active:not(:disabled) {
-    transform: translateY(0);
   }
   
   &:disabled {

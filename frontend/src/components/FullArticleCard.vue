@@ -250,7 +250,7 @@ const formatDate = (date: string | Date): string => {
 <style scoped>
 .full-article-card {
     background-color: var(--bg-secondary);
-    border-radius: 70px 40px 15px 70px;
+    border-radius: 40px 40px 15px 15px;
     position: relative;
     width: 100%;
     max-width: 1200px;
@@ -260,19 +260,19 @@ const formatDate = (date: string | Date): string => {
 
     /* Мобильные устройства */
     @media (max-width: 768px) {
-        border-radius: 25px 25px 10px 45px;
+        border-radius: 25px 25px 10px 10px;
         margin: 20px;
     }
 
     /* Планшеты */
     @media (min-width: 769px) and (max-width: 1024px) {
-        border-radius: 35px 35px 12px 60px;
+        border-radius: 35px 35px 12px 12px;
         margin: 30px;
     }
 
     /* Десктоп */
     @media (min-width: 1025px) {
-        border-radius: 60px 40px 15px 70px;
+        border-radius: 40px 40px 15px 15px;
         margin: 40px auto;
     }
 }
