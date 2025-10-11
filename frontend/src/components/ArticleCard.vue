@@ -111,8 +111,8 @@
         </div>
 
 
-        <div class="article-card-content-text" :data-text="article.excerpt || article.content">
-            {{ article.excerpt || article.content }}
+        <div class="article-card-content-text" :data-text="decodedArticleText">
+            {{ decodedArticleText }}
         </div>
     </div>
 
@@ -191,7 +191,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import Tag from 'primevue/tag'
 import type { Article, ArticleCardProps, ArticleCardEmits } from '@/types/article'
 import { useArticles } from '@/composables/useArticles'
@@ -277,6 +277,19 @@ const formatDate = (date: string | Date): string => {
 function onImageError() {
     imageError.value = true
 }
+
+// Функция для декодирования HTML-сущностей
+const decodeHtmlEntities = (text: string): string => {
+    const textarea = document.createElement('textarea')
+    textarea.innerHTML = text
+    return textarea.value
+}
+
+// Computed свойство для декодированного текста статьи
+const decodedArticleText = computed(() => {
+    const text = props.article.excerpt || props.article.content
+    return text ? decodeHtmlEntities(text) : ''
+})
 </script>
 <style scoped>
 .article-card {
@@ -285,25 +298,30 @@ function onImageError() {
     cursor: pointer;
     transition: all 0.2s ease-in-out;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    /* Убираем ограничения высоты */
+    max-height: none;
+    height: auto;
 
     /* Мобильные устройства */
     @media (max-width: 768px) {
         width: 100%;
-        height: 620px;
+        min-height: 500px; /* Оптимальная минимальная высота для мобильных */
         border-radius: 25px 25px 10px 45px;
     }
 
     /* Планшеты */
     @media (min-width: 769px) and (max-width: 1024px) {
         width: 100%;
-        height: 780px;
+        min-height: 650px; /* Оптимальная минимальная высота для планшетов */
         border-radius: 35px 35px 12px 12px;
     }
 
     /* Десктоп */
     @media (min-width: 1025px) {
         width: 1055px;
-        height: 950px;
+        min-height: 800px; /* Оптимальная минимальная высота для десктопа */
         border-radius: 60px 60px 15px 15px;
     }
 
@@ -398,13 +416,18 @@ function onImageError() {
 
 .article-card-content {
     display: flex;
-    margin-top: 0px; /* Убрал отступ сверху, так как есть превью блок */
+    margin-top: 0px;
     flex-direction: column;
     margin-left: 30px;
     margin-right: 30px;
-    height: calc(100% - 200px); /* Высота карточки минус header (120px) и footer (80px) */
-    overflow: hidden;
+    padding-bottom: 65px;
+    overflow: visible;
     position: relative;
+    flex: 1;
+    min-height: 0;
+    /* Убираем все ограничения для текста */
+    max-height: none;
+    height: auto;
 }
 
 .article-card-content-title {
@@ -511,73 +534,17 @@ function onImageError() {
     flex: 1;
     overflow: hidden;
     position: relative;
-    display: block;
+    display: -webkit-box;
     line-height: 1.5;
-    min-height: 270px;
-    max-height: 320px;
+    min-height: 200px;
+    max-height: 300px;
     word-wrap: break-word;
     word-break: break-word;
-    white-space: normal;
-
-    /* Настоящее размытие текста */
-    &::after {
-        content: attr(data-text);
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        color: var(--text-primary);
-        font-size: 20px;
-        font-family: var(--font-sans);
-        font-weight: 500;
-        line-height: 1.5;
-        pointer-events: none;
-        word-wrap: break-word;
-        word-break: break-word;
-        white-space: normal;
-
-        /* Настоящее blur размытие с маской */
-        filter: blur(1.5px);
-        mask-image: linear-gradient(
-            to bottom,
-            rgba(0, 0, 0, 0) 0%,
-            rgba(0, 0, 0, 0) 45%,
-            rgba(0, 0, 0, 0.3) 60%,
-            rgba(0, 0, 0, 0.8) 80%,
-            rgba(0, 0, 0, 1) 100%
-        );
-        -webkit-mask-image: linear-gradient(
-            to bottom,
-            rgba(0, 0, 0, 0) 0%,
-            rgba(0, 0, 0, 0) 45%,
-            rgba(0, 0, 0, 0.3) 60%,
-            rgba(0, 0, 0, 0.8) 80%,
-            rgba(0, 0, 0, 1) 100%
-        );
-    }
-
-    /* Оригинальный текст с fade-out маской для показа обрезанной строки */
-    mask-image: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 1) 0%,
-        rgba(0, 0, 0, 1) 70%,
-        rgba(0, 0, 0, 0.8) 75%,
-        rgba(0, 0, 0, 0.5) 80%,
-        rgba(0, 0, 0, 0.3) 85%,
-        rgba(0, 0, 0, 0.1) 92%,
-        rgba(0, 0, 0, 0) 100%
-    );
-    -webkit-mask-image: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 1) 0%,
-        rgba(0, 0, 0, 1) 70%,
-        rgba(0, 0, 0, 0.8) 75%,
-        rgba(0, 0, 0, 0.5) 80%,
-        rgba(0, 0, 0, 0.3) 85%,
-        rgba(0, 0, 0, 0.1) 92%,
-        rgba(0, 0, 0, 0) 100%
-    );
+    white-space: normal !important;
+    /* Ограничиваем текст с плавным затуханием */
+    -webkit-line-clamp: 10;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
 }
 
 
