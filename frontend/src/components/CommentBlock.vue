@@ -47,6 +47,52 @@
         <div class="user-name-row">
           <h3 class="username" @click="onUserClick">{{ comment.author.username }}</h3>
           <span class="comment-time">{{ formatDate(comment.createdAt) }}</span>
+          <div class="more-options-wrapper">
+            <svg 
+              width="24" 
+              height="24" 
+              viewBox="0 0 48 48" 
+              fill="none" 
+              xmlns="http://www.w3.org/2000/svg" 
+              class="more-options-icon"
+              :class="{ 'active': showOptionsMenu }"
+              @click="toggleOptionsMenu"
+            >
+              <path d="M24 26C25.1046 26 26 25.1046 26 24C26 22.8954 25.1046 22 24 22C22.8954 22 22 22.8954 22 24C22 25.1046 22.8954 26 24 26Z" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M24 12C25.1046 12 26 11.1046 26 10C26 8.89543 25.1046 8 24 8C22.8954 8 22 8.89543 22 10C22 11.1046 22.8954 12 24 12Z" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M24 40C25.1046 40 26 39.1046 26 38C26 36.8954 25.1046 36 24 36C22.8954 36 22 36.8954 22 38C22 39.1046 22.8954 40 24 40Z" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            
+            <!-- Dropdown Menu -->
+            <Transition name="dropdown-fade">
+              <div v-if="showOptionsMenu" class="options-dropdown" @click.stop>
+                <button class="dropdown-item" @click="handleEdit">
+                  <svg width="23" height="23" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11 4H4C3.46957 4 2.96086 4.21071 2.58579 4.58579C2.21071 4.96086 2 5.46957 2 6V20C2 20.5304 2.21071 21.0391 2.58579 21.4142C2.96086 21.7893 3.46957 22 4 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M18.5 2.5C18.8978 2.10217 19.4374 1.87868 20 1.87868C20.5626 1.87868 21.1022 2.10217 21.5 2.5C21.8978 2.89783 22.1213 3.43739 22.1213 4C22.1213 4.56261 21.8978 5.10217 21.5 5.5L12 15L8 16L9 12L18.5 2.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <span>Редактировать</span> <!-- отображается ТОЛЬКО для СОЗДАТЕЛЯ комментария,надо не забыть отразить это в логике -->
+                </button>
+                
+                <button class="dropdown-item danger" @click="handleDelete">
+                  <svg width="23" height="23" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 6H5H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6H19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <span>Удалить</span> <!-- Тоже видит только создатель комментария -->
+                </button>
+                
+                <button class="dropdown-item" @click="handleReport">
+                  <svg width="23" height="23" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10.29 3.86L1.82 18C1.64537 18.3024 1.55296 18.6453 1.55199 18.9945C1.55101 19.3437 1.64151 19.6871 1.81445 19.9905C1.98738 20.2939 2.23675 20.5467 2.53773 20.7239C2.83871 20.901 3.18082 20.9962 3.53 21H20.47C20.8192 20.9962 21.1613 20.901 21.4623 20.7239C21.7633 20.5467 22.0126 20.2939 22.1856 19.9905C22.3585 19.6871 22.449 19.3437 22.448 18.9945C22.447 18.6453 22.3546 18.3024 22.18 18L13.71 3.86C13.5317 3.56611 13.2807 3.32312 12.9812 3.15448C12.6817 2.98585 12.3437 2.89725 12 2.89725C11.6563 2.89725 11.3183 2.98585 11.0188 3.15448C10.7193 3.32312 10.4683 3.56611 10.29 3.86V3.86Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 9V13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 17H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <span>Пожаловаться</span> <!-- Видят все-->
+                </button>
+              </div>
+            </Transition>
+          </div>
         </div>
       </div>
     </div>
@@ -88,7 +134,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import DropdownIcon from '@/assets/icons/DropdownIcon.vue'
 
 interface CommentAuthor {
@@ -123,6 +169,7 @@ const isLiked = ref(props.comment.userLiked || false)
 const likesCount = ref(props.comment.likes || 0)
 const upArrowHover = ref(false)
 const downArrowHover = ref(false)
+const showOptionsMenu = ref(false)
 
 const onLike = () => {
   isLiked.value = !isLiked.value
@@ -136,6 +183,28 @@ const onReply = () => {
 
 const onUserClick = () => {
   emit('userClick', props.comment.author.id)
+}
+
+const toggleOptionsMenu = () => {
+  showOptionsMenu.value = !showOptionsMenu.value
+}
+
+const handleEdit = () => {
+  console.log('Редактирование комментария:', props.comment.id)
+  showOptionsMenu.value = false
+  // TODO: Реализовать редактирование
+}
+
+const handleDelete = () => {
+  console.log('Удаление комментария:', props.comment.id)
+  showOptionsMenu.value = false
+  // TODO: Реализовать удаление
+}
+
+const handleReport = () => {
+  console.log('Жалоба на комментарий:', props.comment.id)
+  showOptionsMenu.value = false
+  // TODO: Реализовать жалобу
 }
 
 const formatDate = (date: string | Date): string => {
@@ -154,6 +223,24 @@ const formatDate = (date: string | Date): string => {
   
   return dateObj.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short', year: 'numeric' })
 }
+
+// Закрытие меню при клике вне его области
+const handleClickOutside = (event: MouseEvent) => {
+  const target = event.target as HTMLElement
+  const dropdown = target.closest('.more-options-wrapper')
+  
+  if (!dropdown && showOptionsMenu.value) {
+    showOptionsMenu.value = false
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside)
+})
 </script>
 
 <style scoped>
@@ -251,6 +338,101 @@ const formatDate = (date: string | Date): string => {
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
+}
+
+.more-options-wrapper {
+  position: relative;
+  margin-left: auto;
+}
+
+.more-options-icon {
+  width: 31px;
+  height: 31px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  
+  &:hover {
+    color: var(--text-primary);
+  }
+  
+  &.active {
+    color: var(--primary-violet);
+  }
+}
+
+.options-dropdown {
+  position: absolute;
+  top: -10px;
+  left: 70px;
+  right: -60;
+  background-color: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 10px;
+  min-width: 260px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 16px 18px;
+  background: none;
+  border: none;
+  border-radius: 10px;
+  color: var(--text-primary);
+  font-size: 20px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  
+  svg {
+    width: 23px;
+    height: 23px;
+    color: var(--text-secondary);
+    transition: color 0.2s ease;
+  }
+  
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    
+    svg {
+      color: var(--text-primary);
+    }
+  }
+  
+  &.danger {
+    &:hover {
+      background-color: rgba(239, 68, 68, 0.1);
+      color: #ef4444;
+      
+      svg {
+        color: #ef4444;
+      }
+    }
+  }
+}
+
+/* Анимация появления/исчезновения */
+.dropdown-fade-enter-active,
+.dropdown-fade-leave-active {
+  transition: all 0.3s ease;
+}
+
+.dropdown-fade-enter-from {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.dropdown-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
 }
 
 .username {
