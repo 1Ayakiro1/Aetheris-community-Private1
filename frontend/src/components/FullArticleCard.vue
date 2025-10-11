@@ -205,8 +205,8 @@ watch(() => props.article.dislikes, (v) => { dislikesCount.value = v ?? dislikes
 const onLike = async () => {
     try {
         const updated = await react(props.article.id, 'like')
-        likesCount.value = updated.likes
-        dislikesCount.value = updated.dislikes
+        likesCount.value = updated.likes ?? 0
+        dislikesCount.value = updated.dislikes ?? 0
         isLiked.value = updated.userReaction === 'like'
         isDisliked.value = updated.userReaction === 'dislike'
     } catch (e) {
@@ -217,8 +217,8 @@ const onLike = async () => {
 const onDislike = async () => {
     try {
         const updated = await react(props.article.id, 'dislike')
-        likesCount.value = updated.likes
-        dislikesCount.value = updated.dislikes
+        likesCount.value = updated.likes ?? 0
+        dislikesCount.value = updated.dislikes ?? 0
         isLiked.value = updated.userReaction === 'like'
         isDisliked.value = updated.userReaction === 'dislike'
     } catch (e) {
@@ -551,6 +551,9 @@ const formatDate = (date: string | Date): string => {
     margin-top: 30px;
     margin-bottom: 40px;
     line-height: 1.6;
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
     
     /* Убираем все маски и размытия */
     mask-image: none;

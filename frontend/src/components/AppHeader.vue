@@ -381,7 +381,6 @@ function signOut() {
 </script>
 
 <style lang="scss">
-/* Группы хедера */
 
 .header-left {
   display: flex;
@@ -461,7 +460,7 @@ function signOut() {
   }
 }
 
-/* Стили для главной страницы убраны, так как теперь хедер находится внутри app-wrapper */
+
 
 // Navigation button
 .nav-button {

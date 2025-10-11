@@ -515,6 +515,9 @@ function onImageError() {
     line-height: 1.5;
     min-height: 270px;
     max-height: 320px;
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
 
     /* Настоящее размытие текста */
     &::after {
@@ -530,6 +533,9 @@ function onImageError() {
         font-weight: 500;
         line-height: 1.5;
         pointer-events: none;
+        word-wrap: break-word;
+        word-break: break-word;
+        white-space: normal;
 
         /* Настоящее blur размытие с маской */
         filter: blur(1.5px);

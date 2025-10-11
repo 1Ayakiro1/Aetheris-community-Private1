@@ -239,79 +239,38 @@ const handleScroll = () => {
   // Show button when scrolling down more than 300px
   showBackToTop.value = scrollY > 300
 
-  // Find the real footer by class .footer-container
+  // Find the footer and button elements
   const footer = document.querySelector('.footer-container') as HTMLElement
   const backToTopBtn = document.querySelector('.back-to-top-btn') as HTMLElement
 
   if (footer && backToTopBtn) {
     const footerRect = footer.getBoundingClientRect()
     const footerTop = footerRect.top
-    const buttonHeight = 50 // button height
-    const footerHeight = 430 // footer height from CSS
+    const fadeDistance = 100 // distance to start fading
 
-    // console.log('Footer top:', footerTop, 'Window height:', windowHeight)
-
-    // Smooth disappearance when approaching the footer (always calculate)
-    const fadeDistance = 150 // distance to start disappearing
-    const distanceToFooter = footerTop - windowHeight // distance from bottom of screen to footer
-
+    // Calculate opacity based on distance to footer
     let opacity = 1
-    if (distanceToFooter <= fadeDistance && distanceToFooter > 0) {
-      // Calculate opacity from 1 to 0 with sharper curve
-      const fadeProgress = Math.max(0, distanceToFooter / fadeDistance)
-      opacity = Math.pow(fadeProgress, 0.5) // square root curve for sharper disappearance
-      // console.log('Button fading, opacity:', opacity, 'distance to footer:', distanceToFooter)
-    } else if (distanceToFooter <= 0) {
-      // Footer is already visible - button is fully transparent
-      opacity = 0
-      // console.log('Footer visible, button fully transparent')
+    if (footerTop <= windowHeight + fadeDistance) {
+      const distanceToFooter = footerTop - windowHeight
+      if (distanceToFooter <= 0) {
+        // Footer is visible - hide button completely
+        opacity = 0
+      } else {
+        // Footer is approaching - fade out
+        opacity = Math.min(1, distanceToFooter / fadeDistance)
+      }
     }
 
-    // Apply opacity directly for smooth transition
+    // Apply opacity
     buttonOpacity.value = opacity
     backToTopBtn.style.opacity = opacity.toString()
 
-    // If footer appeared in visible area (top border of footer is visible)
-    if (footerTop <= windowHeight) {
-      // console.log('Footer is visible, switching to absolute position')
-
-      // Calculate button position above footer
-      const buttonPosition = footerTop - buttonHeight - 20 // 20px offset from footer
-
-      if (buttonPosition > 0) {
-        // Button above footer
-        backToTopBtn.classList.add('above-footer')
-        backToTopBtn.style.position = 'absolute'
-        backToTopBtn.style.top = `${buttonPosition}px`
-        backToTopBtn.style.left = '30px'
-        backToTopBtn.style.bottom = 'auto'
-        // console.log('Button positioned above footer at:', buttonPosition)
-      } else {
-        // Footer too high, button in normal position
-        backToTopBtn.classList.remove('above-footer')
-        backToTopBtn.style.position = 'fixed'
-        backToTopBtn.style.bottom = '30px'
-        backToTopBtn.style.left = '30px'
-        backToTopBtn.style.top = 'auto'
-        // console.log('Footer too high, using fixed position')
-      }
-    } else {
-      // Footer not visible, button in fixed position
-      backToTopBtn.classList.remove('above-footer')
-      backToTopBtn.style.position = 'fixed'
-      backToTopBtn.style.bottom = '30px'
-      backToTopBtn.style.left = '30px'
-      backToTopBtn.style.top = 'auto'
-      // console.log('Footer not visible, using fixed position')
-    }
-  } else {
-    console.log('Footer or button not found')
-    console.log('Footer found:', !!footer)
-    console.log('Button found:', !!backToTopBtn)
-    if (footer) {
-      console.log('Footer element:', footer)
-      console.log('Footer classes:', footer.className)
-    }
+    // Always use fixed positioning to avoid "flying to stratosphere" issue
+    backToTopBtn.style.position = 'fixed'
+    backToTopBtn.style.bottom = '30px'
+    backToTopBtn.style.left = '30px'
+    backToTopBtn.style.top = 'auto'
+    backToTopBtn.classList.remove('above-footer')
   }
 }
 
@@ -539,7 +498,7 @@ onUnmounted(() => {
 :deep(.p-paginator .p-paginator-last) {
   color: var(--text-primary);
   font-family: var(--font-sans);
-  transition: all 0.2s ease; /* Плавная анимация для навигационных кнопок */
+  transition: all 0.2s ease;
 }
 
 :deep(.p-paginator .p-paginator-first:hover),
@@ -599,10 +558,6 @@ onUnmounted(() => {
   transform: translateY(0);
 }
 
-/* Button above footer - styles applied via JavaScript */
-.back-to-top-btn.above-footer {
-  transition: opacity 0.5s ease !important;
-}
 
 /* Loading and Empty States */
 .loading-container {

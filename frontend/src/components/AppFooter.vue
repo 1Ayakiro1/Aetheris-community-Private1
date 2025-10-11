@@ -123,41 +123,41 @@
 }
 
 .ae-logo-footer {
-    width: 134px; /* Уменьшено на 20% с 168px */
-    height: 147px; /* Уменьшено на 20% с 184px */
-    margin-left: 16px; /* Уменьшено на 20% с 20px */
+    width: 134px;
+    height: 147px;
+    margin-left: 16px;
     position: absolute;
 }
 
 .site-title {
     font-family: var(--font-primary);
-    font-size: 30px; /* Уменьшено на 20% с 38px */
+    font-size: 30px;
     font-weight: bold;
-    margin-left: 24px; /* Уменьшено на 20% с 30px */
-    margin-top: 112px; /* Уменьшено на 20% с 140px */
+    margin-left: 24px;
+    margin-top: 112px;
     color: var(--text-primary);
 }
 
 .site-subtitle {
     font-family: var(--font-comfortaa);
-    font-size: 24px; /* Уменьшено на 20% с 30px */
+    font-size: 24px;
     font-weight: bold;
-    margin-left: 24px; /* Уменьшено на 20% с 30px */
+    margin-left: 24px;
     color: var(--text-secondary);
 }
 
 .social-buttons {
     display: flex;
     flex-direction: row;
-    gap: 16px; /* Уменьшено на 20% с 20px */
+    gap: 16px;
 }
 
 .social-button {
-    width: 61px; /* Уменьшено на 20% с 76px */
-    height: 61px; /* Уменьшено на 20% с 76px */
+    width: 61px; 
+    height: 61px;
     border-radius: 50%;
     border: 2px solid white;
-    margin-top: 16px; /* Уменьшено на 20% с 20px */
+    margin-top: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -175,29 +175,29 @@
 }
 
 .social-icon {
-    width: 48px; /* Уменьшено на 20% с 60px */
-    height: 48px; /* Уменьшено на 20% с 60px */
+    width: 48px;
+    height: 48px;
     transition: filter 0.3s ease-in-out;
 }
 
 .telegram-icon {
-    height: 40px; /* Уменьшено на 20% с 50px */
-    width: 40px; /* Уменьшено на 20% с 50px */
+    height: 40px;
+    width: 40px;
     margin-right: 1px;
 }
 
 .boosty-icon {
-    height: 40px; /* Уменьшено на 20% с 50px */
-    width: 36px; /* Уменьшено на 20% с 45px */
+    height: 40px;
+    width: 36px;
     margin-left: 1px;
 }
 
 .opensource-text {
     font-family: var(--font-comfortaa);
-    font-size: 20px; /* Уменьшено на 20% с 25px */
+    font-size: 20px; 
     font-weight: bold;
-    margin-top: 24px; /* Уменьшено на 20% с 30px */
-    margin-left: 24px; /* Уменьшено на 20% с 30px */
+    margin-top: 24px;
+    margin-left: 24px;
     color: var(--text-secondary);
 }
 
@@ -214,35 +214,35 @@
 .footer-block {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Изменено с center на flex-start для выравнивания по левому краю */
-    gap: 16px; /* Уменьшено на 20% с 20px */
+    align-items: flex-start;
+    gap: 16px; 
     margin-left: auto;
 }
 
 .about-block {
-    margin-top: 40px; /* Уменьшено на 20% с 50px */
+    margin-top: 40px;
 }
 
 .resources-block {
-    margin-top: 40px; /* Уменьшено на 20% с 50px */
+    margin-top: 40px;
 }
 
 .footer-container .legal-block {
-    margin-top: 40px; /* Уменьшено на 20% с 50px */
-    margin-right: 40px; /* Уменьшено на 20% с 100px */
+    margin-top: 40px;
+    margin-right: 40px;
 }
 
 .block-title {
     font-family: var(--font-comfortaa);
-    font-size: 26px; /* Уменьшено на 20% с 33px */
+    font-size: 26px; 
     font-weight: bold;
-    margin-top: 40px; /* Уменьшено на 20% с 50px */
+    margin-top: 40px;
     color: var(--text-primary);
 }
 
 .block-link {
     font-family: var(--font-comfortaa);
-    font-size: 20px; /* Уменьшено на 20% с 25px */
+    font-size: 20px;
     font-weight: normal;
     color: var(--text-primary);
     text-decoration: none;
@@ -316,9 +316,6 @@ a:hover {
 
 /* Для экранов Full HD (1920x1080) и выше */
 @media (min-width: 1919px) {
-  /* Базовые стили остаются без изменений */
 }
 
-/* Только монолитное масштабирование через transform scale в App.vue */
-/* Все размеры фиксированные - интерфейс выглядит абсолютно одинаково на всех разрешениях */
 </style>
