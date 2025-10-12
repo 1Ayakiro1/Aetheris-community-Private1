@@ -85,15 +85,39 @@
               @user-click="handleUserClick"
             />
             
-            <!-- Replies to this comment -->
-            <ReplyCommentBlock
-              v-for="reply in getReplies(comment.id)"
-              :key="reply.id"
-              :comment="reply"
-              @like="handleCommentLike"
-              @reply="handleCommentReply"
-              @user-click="handleUserClick"
+            <!-- Reply Input for this comment -->
+            <CommentInput
+              v-if="replyingTo && replyingTo.id === comment.id"
+              :is-reply="true"
+              :reply-to-user="replyingTo.username"
+              :reply-to-id="replyingTo.id"
+              placeholder="Write your reply..."
+              submit-button-text="Reply"
+              @submit="handleReplySubmit"
+              @cancel="cancelReply"
             />
+            
+            <!-- Replies to this comment -->
+            <template v-for="reply in getReplies(comment.id)" :key="reply.id">
+              <ReplyCommentBlock
+                :comment="reply"
+                @like="handleCommentLike"
+                @reply="handleCommentReply"
+                @user-click="handleUserClick"
+              />
+              
+              <!-- Reply Input for this reply -->
+              <CommentInput
+                v-if="replyingTo && replyingTo.id === reply.id"
+                :is-reply="true"
+                :reply-to-user="replyingTo.username"
+                :reply-to-id="comment.id"
+                placeholder="Write your reply..."
+                submit-button-text="Reply"
+                @submit="handleReplySubmit"
+                @cancel="cancelReply"
+              />
+            </template>
           </template>
           
           <div v-if="comments.length === 0" class="no-comments">
@@ -118,6 +142,7 @@ import FullArticleCard from '@/components/FullArticleCard.vue'
 import CommentBlock from '@/components/CommentBlock.vue'
 import ReplyCommentBlock from '@/components/ReplyCommentBlock.vue'
 import AuthorCommentBlock from '@/components/AuthorCommentBlock.vue'
+import CommentInput from '@/components/CommentInput.vue'
 import { useArticles } from '@/composables/useArticles'
 import type { Article } from '@/types/article'
 
@@ -131,6 +156,7 @@ const article = ref<Article | null>(null)
 const loading = ref(true)
 const error = ref<string | null>(null)
 const newComment = ref('')
+const replyingTo = ref<{ id: number, username: string } | null>(null)
 
 // Temporary comment data (TODO: replace with real data from backend)
 const comments = ref([
@@ -283,8 +309,38 @@ const handleCommentLike = (commentId: number) => {
 }
 
 const handleCommentReply = (commentId: number) => {
-  console.log('Reply to comment:', commentId)
-  // TODO: Implement reply to comment functionality
+  const comment = comments.value.find(c => c.id === commentId) || 
+                  replyComments.value.find(c => c.id === commentId)
+  
+  if (comment) {
+    replyingTo.value = {
+      id: commentId,
+      username: comment.author.username
+    }
+  }
+}
+
+const handleReplySubmit = (data: { text: string, replyToId?: number, replyToUser?: string }) => {
+  const newReply = {
+    id: replyComments.value.length + 1000,
+    parentId: data.replyToId || 0,
+    author: {
+      id: 999,
+      username: 'Guest',
+      avatar: ''
+    },
+    text: data.text,
+    createdAt: new Date().toISOString(),
+    likes: 0,
+    userLiked: false
+  }
+  
+  replyComments.value.push(newReply)
+  replyingTo.value = null
+}
+
+const cancelReply = () => {
+  replyingTo.value = null
 }
 
 const handleUserClick = (userId: number) => {

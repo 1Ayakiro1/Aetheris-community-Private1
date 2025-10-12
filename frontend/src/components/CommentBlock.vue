@@ -99,7 +99,7 @@
 
     <!-- Comment Content -->
     <div class="comment-content">
-      <p class="comment-text">{{ comment.text }}</p>
+      <p class="comment-text" v-html="formattedText"></p>
     </div>
 
     <!-- Comment Actions -->
@@ -186,7 +186,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import DropdownIcon from '@/assets/icons/DropdownIcon.vue'
 
 interface CommentAuthor {
@@ -225,6 +225,13 @@ const showOptionsMenu = ref(false)
 const isDeletePanelOpen = ref(false)
 const isReportPanelOpen = ref(false)
 const selectedReasons = ref<string[]>([])
+
+// Format text with highlighted @mentions
+const formattedText = computed(() => {
+  const text = props.comment.text
+  // Replace @username with highlighted span (supports cyrillic and latin)
+  return text.replace(/@([a-zA-Zа-яА-ЯёЁ0-9_]+)/g, '<span class="mention" style="color: #8c00ff; font-weight: 600;">@$1</span>')
+})
 
 const reportReasons = [
   {
@@ -575,6 +582,17 @@ onUnmounted(() => {
   margin: 0;
   word-wrap: break-word;
   white-space: pre-line;
+}
+
+.comment-text :deep(.mention) {
+  color: #8c00ff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.comment-text :deep(.mention:hover) {
+  text-decoration: underline;
 }
 
 .comment-actions {
