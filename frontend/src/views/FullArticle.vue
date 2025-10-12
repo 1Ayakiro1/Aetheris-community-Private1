@@ -16,7 +16,7 @@
       
       <!-- Comments Section -->
       <div class="comments-section">
-        <h2 class="comments-title">Comments ({{ comments.length }})</h2>
+        <h2 class="comments-title">Comments ({{ totalCommentsCount }})</h2>
         
         <!-- Comment Input -->
         <div class="comment-input-container">
@@ -146,7 +146,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, nextTick } from 'vue'
+import { ref, onMounted, nextTick, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import FullArticleCard from '@/components/FullArticleCard.vue'
@@ -290,6 +290,11 @@ const replyComments = ref([
     userLiked: false
   }
 ])
+
+// Total comments count (main comments + reply comments)
+const totalCommentsCount = computed(() => {
+  return comments.value.length + replyComments.value.length
+})
 
 // Get article ID from route
 const articleId = ref<number>(parseInt(route.params.id as string))
