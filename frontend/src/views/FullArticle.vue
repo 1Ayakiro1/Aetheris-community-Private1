@@ -169,7 +169,8 @@ const comments = ref([
     },
     text: 'Today i have been a beautiful day, becaus i did create this article and my friends have liked it lol xddddd \n im just need to kill my friends, im need to kill all of our eternal calamity',
     createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
-    likes: 5,
+    likes: 15,
+    dislikes: 3,
     userLiked: false
   },
   {
@@ -181,7 +182,8 @@ const comments = ref([
     },
     text: 'Interesting approach to solving the problem. Will try to apply it in practice.',
     createdAt: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(),
-    likes: 3,
+    likes: 8,
+    dislikes: 2,
     userLiked: false
   },
   {
@@ -194,7 +196,8 @@ const comments = ref([
     },
     text: 'Thank you all for your feedback!\nI\'m glad you found this article helpful. If you have any questions, feel free to ask!',
     createdAt: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(),
-    likes: 12,
+    likes: 25,
+    dislikes: 1,
     userLiked: false
   },
   {
@@ -206,7 +209,8 @@ const comments = ref([
     },
     text: 'Can you tell me where I can find more information on this topic?',
     createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
-    likes: 1,
+    likes: 4,
+    dislikes: 0,
     userLiked: false
   }
 ])
@@ -223,7 +227,8 @@ const replyComments = ref([
     },
     text: 'Я вас взломал,господа,кланяйтесь мне и молите о пощаде,иначе мой коварный план по захвату мира будет приведен в исполнение!!! УХХУХААХХАХУХАУАХУАХУХАУХАУХАУХАХУАХУХАУХАУХУХАУХА \n Как говорится,один раз,хороший человек,а вот второй раз...уже хацкер жоски \n\n Мы будем сопротивлятся всем,ВСЕМ,УХАХУАХУАХХАУХА ',
     createdAt: new Date(Date.now() - 1.5 * 60 * 60 * 1000).toISOString(),
-    likes: 2,
+    likes: 7,
+    dislikes: 1,
     userLiked: false
   },
   {
@@ -236,7 +241,8 @@ const replyComments = ref([
     },
     text: 'Thanks for sharing your experience!',
     createdAt: new Date(Date.now() - 1 * 60 * 60 * 1000).toISOString(),
-    likes: 1,
+    likes: 3,
+    dislikes: 0,
     userLiked: false
   },
   {
@@ -249,7 +255,8 @@ const replyComments = ref([
     },
     text: 'Check out the official documentation, there is a lot of useful information there.',
     createdAt: new Date(Date.now() - 20 * 60 * 60 * 1000).toISOString(),
-    likes: 3,
+    likes: 10,
+    dislikes: 2,
     userLiked: false
   }
 ])
@@ -296,6 +303,7 @@ const addComment = () => {
     text: newComment.value.trim(),
     createdAt: new Date().toISOString(),
     likes: 0,
+    dislikes: 0,
     userLiked: false
   }
   
@@ -332,6 +340,7 @@ const handleReplySubmit = (data: { text: string, replyToId?: number, replyToUser
     text: data.text,
     createdAt: new Date().toISOString(),
     likes: 0,
+    dislikes: 0,
     userLiked: false
   }
   

@@ -120,22 +120,48 @@
         <span class="action-text">Reply</span>
       </button>
       
-      <div class="rating-system">
+      <div 
+        class="rating-system"
+        @mouseenter="showRatingTooltip = true"
+        @mouseleave="showRatingTooltip = false"
+      >
         <div 
           class="dropdown-icon1"
+          :class="{ 'active': userVote === 'up' }"
+          @click="handleVote('up')"
           @mouseenter="upArrowHover = true"
           @mouseleave="upArrowHover = false"
         >
-          <DropdownIcon :color="upArrowHover ? '#22c55e' : '#9BA4AE'" />
+          <DropdownIcon :color="userVote === 'up' ? '#22c55e' : (upArrowHover ? '#22c55e' : '#9BA4AE')" />
         </div>
-        <p class="rating-text">0</p>
+        <p class="rating-text" :class="{ 'positive': rating > 0, 'negative': rating < 0 }">{{ rating }}</p>
         <div 
           class="dropdown-icon2"
+          :class="{ 'active': userVote === 'down' }"
+          @click="handleVote('down')"
           @mouseenter="downArrowHover = true"
           @mouseleave="downArrowHover = false"
         >
-          <DropdownIcon :color="downArrowHover ? '#ef4444' : '#9BA4AE'" />
+          <DropdownIcon :color="userVote === 'down' ? '#ef4444' : (downArrowHover ? '#ef4444' : '#9BA4AE')" />
         </div>
+        
+        <!-- Rating Tooltip -->
+        <Transition name="tooltip-fade">
+          <div v-if="showRatingTooltip" class="rating-tooltip">
+            <div class="tooltip-row likes">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7 11L12 6L17 11M12 18V7" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span>{{ likes }}</span>
+            </div>
+            <div class="tooltip-row dislikes">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17 13L12 18L7 13M12 6V17" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span>{{ dislikes }}</span>
+            </div>
+          </div>
+        </Transition>
       </div>
     </div>
 
@@ -209,6 +235,7 @@ interface Comment {
   text: string
   createdAt: string | Date
   likes?: number
+  dislikes?: number
   userLiked?: boolean
 }
 
@@ -233,6 +260,13 @@ const showOptionsMenu = ref(false)
 const isDeletePanelOpen = ref(false)
 const isReportPanelOpen = ref(false)
 const selectedReasons = ref<string[]>([])
+
+// Rating system
+const userVote = ref<'up' | 'down' | null>(null)
+const likes = ref(props.comment.likes || 0)
+const dislikes = ref(props.comment.dislikes || 0)
+const rating = computed(() => likes.value - dislikes.value)
+const showRatingTooltip = ref(false)
 
 // Format text with highlighted @mentions
 const formattedText = computed(() => {
@@ -323,6 +357,41 @@ const confirmReport = () => {
   selectedReasons.value = []
 }
 
+const handleVote = (voteType: 'up' | 'down') => {
+  // If clicking the same vote, remove it
+  if (userVote.value === voteType) {
+    if (voteType === 'up') {
+      likes.value--
+    } else {
+      dislikes.value--
+    }
+    userVote.value = null
+  } 
+  // If clicking different vote, switch it
+  else if (userVote.value) {
+    if (userVote.value === 'up') {
+      likes.value--
+      dislikes.value++
+    } else {
+      dislikes.value--
+      likes.value++
+    }
+    userVote.value = voteType
+  }
+  // If no vote yet, add new vote
+  else {
+    if (voteType === 'up') {
+      likes.value++
+    } else {
+      dislikes.value++
+    }
+    userVote.value = voteType
+  }
+  
+  // TODO: Send vote to API
+  console.log('Vote:', voteType, 'Rating:', rating.value)
+}
+
 const formatDate = (date: string | Date): string => {
   const dateObj = typeof date === 'string' ? new Date(date) : date
   const now = new Date()
@@ -364,17 +433,25 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.5s ease-in-out;
+  transition: all 0.3s ease-in-out;
   margin-left: 16px;
   transform: rotate(180deg);
   cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
 
   :deep(svg path) {
-    transition: stroke 0.5s ease-in-out;
+    transition: stroke 0.3s ease-in-out;
   }
 
   &:hover {
-    transform: rotate(180deg);
+    transform: rotate(180deg) scale(1.1);
+    background-color: rgba(34, 197, 94, 0.1);
+  }
+  
+  &.active {
+    background-color: rgba(34, 197, 94, 0.15);
+    transform: rotate(180deg) scale(1.05);
   }
 }
 
@@ -382,8 +459,20 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.5s ease-in-out;
+  transition: all 0.3s ease-in-out;
   cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  
+  &:hover {
+    transform: scale(1.1);
+    background-color: rgba(239, 68, 68, 0.1);
+  }
+  
+  &.active {
+    background-color: rgba(239, 68, 68, 0.15);
+    transform: scale(1.05);
+  }
 }
 
 .author-comment-block {
@@ -718,6 +807,7 @@ onUnmounted(() => {
   padding: 8px 12px;
   border-radius: 8px;
   margin-left: auto;
+  position: relative;
 }
 
 .rating-text {
@@ -726,8 +816,86 @@ onUnmounted(() => {
   font-family: var(--font-sans);
   font-weight: 600;
   margin: 0;
-  min-width: 24px;
+  min-width: 32px;
   text-align: center;
+  transition: all 0.3s ease;
+  
+  &.positive {
+    color: #22c55e;
+  }
+  
+  &.negative {
+    color: #ef4444;
+  }
+}
+
+/* Rating Tooltip */
+.rating-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 10px;
+  background-color: var(--bg-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 12px 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  pointer-events: none;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.tooltip-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  &.likes {
+    color: #22c55e;
+  }
+  
+  &.dislikes {
+    color: #ef4444;
+    position: relative;
+    padding-left: 16px;
+    
+    &::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--text-secondary);
+      opacity: 0.5;
+      font-size: 18px;
+    }
+  }
+}
+
+/* Tooltip fade animation */
+.tooltip-fade-enter-active,
+.tooltip-fade-leave-active {
+  transition: all 0.2s ease;
+}
+
+.tooltip-fade-enter-from {
+  opacity: 0;
+  transform: translateX(-50%) translateY(-5px);
+}
+
+.tooltip-fade-leave-to {
+  opacity: 0;
+  transform: translateX(-50%) translateY(-5px);
 }
 
 /* Mobile adaptation */
