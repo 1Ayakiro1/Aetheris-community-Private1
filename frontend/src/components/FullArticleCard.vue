@@ -545,7 +545,7 @@ const formatDate = (date: string | Date): string => {
 /* Полный контент статьи без размытия */
 .article-card-content-text.full-content {
     color: var(--text-primary);
-    font-size: 18px;
+    font-size: 20px;
     font-family: var(--font-sans);
     font-weight: 400;
     margin-top: 30px;
@@ -553,7 +553,7 @@ const formatDate = (date: string | Date): string => {
     line-height: 1.6;
     word-wrap: break-word;
     word-break: break-word;
-    white-space: normal;
+    white-space: pre-line;
     
     /* Убираем все маски и размытия */
     mask-image: none;

@@ -1,8 +1,8 @@
 <template>
-  <div class="comment-block">
+  <div class="author-comment-block">
     <!-- User Info -->
     <div class="comment-header">
-      <div class="user-avatar" @click="onUserClick">
+      <div class="user-avatar author-avatar" @click="onUserClick">
         <img
           v-if="comment.author.avatar"
           :src="comment.author.avatar"
@@ -45,7 +45,15 @@
 
       <div class="user-info">
         <div class="user-name-row">
-          <h3 class="username" @click="onUserClick">{{ comment.author.username }}</h3>
+          <div class="username-with-badge">
+            <h3 class="username author-username" @click="onUserClick">{{ comment.author.username }}</h3>
+            <span class="author-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="currentColor"/>
+              </svg>
+              Author
+            </span>
+          </div>
           <span class="comment-time">{{ formatDate(comment.createdAt) }}</span>
           <div class="more-options-wrapper">
             <svg 
@@ -71,7 +79,7 @@
                     <path d="M11 4H4C3.46957 4 2.96086 4.21071 2.58579 4.58579C2.21071 4.96086 2 5.46957 2 6V20C2 20.5304 2.21071 21.0391 2.58579 21.4142C2.96086 21.7893 3.46957 22 4 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M18.5 2.5C18.8978 2.10217 19.4374 1.87868 20 1.87868C20.5626 1.87868 21.1022 2.10217 21.5 2.5C21.8978 2.89783 22.1213 3.43739 22.1213 4C22.1213 4.56261 21.8978 5.10217 21.5 5.5L12 15L8 16L9 12L18.5 2.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
-                  <span>Edit</span> <!-- Only visible to comment CREATOR, don't forget to implement in logic -->
+                  <span>Edit</span>
                 </button>
                 
                 <button class="dropdown-item danger" @click="handleDelete">
@@ -79,7 +87,7 @@
                     <path d="M3 6H5H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6H19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
-                  <span>Delete</span> <!-- Only visible to comment creator -->
+                  <span>Delete</span>
                 </button>
                 
                 <button class="dropdown-item" @click="handleReport">
@@ -88,7 +96,7 @@
                     <path d="M12 9V13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M12 17H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
-                  <span>Report</span> <!-- Visible to everyone -->
+                  <span>Report</span>
                 </button>
               </div>
             </Transition>
@@ -118,15 +126,15 @@
           @mouseenter="upArrowHover = true"
           @mouseleave="upArrowHover = false"
         >
-          <DropdownIcon :color="upArrowHover ? '#22c55e' : '#9BA4AE'" /> <!-- Color changes on hover -->
+          <DropdownIcon :color="upArrowHover ? '#22c55e' : '#9BA4AE'" />
         </div>
-        <p class="rating-text">0</p> <!-- Insert values from backend here -->
+        <p class="rating-text">0</p>
         <div 
           class="dropdown-icon2"
           @mouseenter="downArrowHover = true"
           @mouseleave="downArrowHover = false"
         >
-          <DropdownIcon :color="downArrowHover ? '#ef4444' : '#9BA4AE'" /> <!-- Color changes here too -->
+          <DropdownIcon :color="downArrowHover ? '#ef4444' : '#9BA4AE'" />
         </div>
       </div>
     </div>
@@ -275,7 +283,6 @@ const toggleOptionsMenu = () => {
 const handleEdit = () => {
   console.log('Edit comment:', props.comment.id)
   showOptionsMenu.value = false
-  // TODO: Implement edit functionality
 }
 
 const handleDelete = () => {
@@ -290,8 +297,6 @@ const closeDeletePanel = () => {
 const confirmDelete = () => {
   console.log('Delete comment:', props.comment.id)
   isDeletePanelOpen.value = false
-  // TODO: Implement comment deletion via API
-  // emit('delete', props.comment.id) - can add emit for deletion
 }
 
 const handleReport = () => {
@@ -309,7 +314,6 @@ const confirmReport = () => {
   console.log('Report comment:', props.comment.id, 'Reasons:', selectedReasons.value)
   isReportPanelOpen.value = false
   selectedReasons.value = []
-  // TODO: Send report to API
 }
 
 const formatDate = (date: string | Date): string => {
@@ -375,13 +379,32 @@ onUnmounted(() => {
   cursor: pointer;
 }
 
-.comment-block {
+.author-comment-block {
   background-color: var(--bg-secondary);
   border-radius: 20px;
   padding: 20px 24px;
   margin-bottom: 16px;
   width: 90%;
   transition: all 0.2s ease-in-out;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 20px;
+    padding: 2px;
+    background: linear-gradient(135deg, #8c00ff 0%, #3b82f6 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
   
   &:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -443,6 +466,12 @@ onUnmounted(() => {
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
+}
+
+.username-with-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .more-options-wrapper {
@@ -554,6 +583,40 @@ onUnmounted(() => {
   }
 }
 
+.author-username {
+  background: linear-gradient(135deg, #8c00ff 0%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  
+  &:hover {
+    background: linear-gradient(135deg, #a020ff 0%, #5b9fff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+.author-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #8c00ff 0%, #3b82f6 100%);
+  color: white;
+  font-size: 12px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  
+  svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
 .comment-time {
   color: var(--text-secondary);
   font-size: 14px;
@@ -608,35 +671,6 @@ onUnmounted(() => {
   }
 }
 
-.action-btn.like-btn {
-  &:hover {
-    background-color: rgba(239, 68, 68, 0.1);
-    color: #ef4444;
-    
-    .heart-icon {
-      color: #ef4444;
-    }
-  }
-  
-  &.active {
-    background-color: rgba(239, 68, 68, 0.15);
-    color: #ef4444;
-    
-    .heart-icon {
-      color: #ef4444;
-    }
-  }
-}
-
-.heart-icon {
-  transition: all 0.3s ease;
-  
-  &.filled {
-    color: #ef4444;
-    transform: scale(1.05);
-  }
-}
-
 .action-btn.reply-btn {
   &:hover {
     background-color: rgba(59, 130, 246, 0.1);
@@ -668,27 +702,6 @@ onUnmounted(() => {
   margin-left: auto;
 }
 
-.dropdown-icon {
-  width: 20px;
-  height: 20px;
-  color: var(--text-secondary);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  
-  &:hover {
-    color: var(--text-primary);
-    transform: scale(1.1);
-  }
-  
-  &:first-child {
-    transform: rotate(180deg);
-    
-    &:hover {
-      transform: rotate(180deg) scale(1.1);
-    }
-  }
-}
-
 .rating-text {
   color: var(--text-primary);
   font-size: 16px;
@@ -701,7 +714,7 @@ onUnmounted(() => {
 
 /* Mobile adaptation */
 @media (max-width: 768px) {
-  .comment-block {
+  .author-comment-block {
     padding: 16px 18px;
     border-radius: 16px;
   }
@@ -713,6 +726,16 @@ onUnmounted(() => {
   
   .username {
     font-size: 16px;
+  }
+  
+  .author-badge {
+    font-size: 10px;
+    padding: 3px 8px;
+    
+    svg {
+      width: 12px;
+      height: 12px;
+    }
   }
   
   .comment-time {
@@ -739,7 +762,7 @@ onUnmounted(() => {
 
 /* Tablets */
 @media (min-width: 769px) and (max-width: 1024px) {
-  .comment-block {
+  .author-comment-block {
     padding: 18px 20px;
   }
   

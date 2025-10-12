@@ -1,5 +1,5 @@
 <template>
-  <div class="comment-block">
+  <div class="reply-comment-block">
     <!-- User Info -->
     <div class="comment-header">
       <div class="user-avatar" @click="onUserClick">
@@ -375,16 +375,19 @@ onUnmounted(() => {
   cursor: pointer;
 }
 
-.comment-block {
+.reply-comment-block {
   background-color: var(--bg-secondary);
   border-radius: 20px;
   padding: 20px 24px;
   margin-bottom: 16px;
+  margin-left: auto;
   width: 90%;
   transition: all 0.2s ease-in-out;
+  /* border-left: 3px solid rgba(140, 0, 255, 0.3); */
   
   &:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    /* border-left-color: rgba(140, 0, 255, 0.5); */
   }
 }
 
@@ -701,9 +704,10 @@ onUnmounted(() => {
 
 /* Mobile adaptation */
 @media (max-width: 768px) {
-  .comment-block {
+  .reply-comment-block {
     padding: 16px 18px;
     border-radius: 16px;
+    margin-left: 40px;
   }
   
   .user-avatar {
@@ -739,8 +743,9 @@ onUnmounted(() => {
 
 /* Tablets */
 @media (min-width: 769px) and (max-width: 1024px) {
-  .comment-block {
+  .reply-comment-block {
     padding: 18px 20px;
+    margin-left: 60px;
   }
   
   .username {
@@ -1079,4 +1084,5 @@ onUnmounted(() => {
   }
 }
 </style>
+
 

@@ -66,14 +66,35 @@
         
         <!-- Comments List -->
         <div class="comments-list">
-          <CommentBlock
-            v-for="comment in comments"
-            :key="comment.id"
-            :comment="comment"
-            @like="handleCommentLike"
-            @reply="handleCommentReply"
-            @user-click="handleUserClick"
-          />
+          <template v-for="comment in comments" :key="comment.id">
+            <!-- Author Comment -->
+            <AuthorCommentBlock
+              v-if="comment.author.isAuthor"
+              :comment="comment"
+              @like="handleCommentLike"
+              @reply="handleCommentReply"
+              @user-click="handleUserClick"
+            />
+            
+            <!-- Regular Comment -->
+            <CommentBlock
+              v-else
+              :comment="comment"
+              @like="handleCommentLike"
+              @reply="handleCommentReply"
+              @user-click="handleUserClick"
+            />
+            
+            <!-- Replies to this comment -->
+            <ReplyCommentBlock
+              v-for="reply in getReplies(comment.id)"
+              :key="reply.id"
+              :comment="reply"
+              @like="handleCommentLike"
+              @reply="handleCommentReply"
+              @user-click="handleUserClick"
+            />
+          </template>
           
           <div v-if="comments.length === 0" class="no-comments">
             <p>Be the first to leave a comment!</p>
@@ -95,6 +116,8 @@ import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import FullArticleCard from '@/components/FullArticleCard.vue'
 import CommentBlock from '@/components/CommentBlock.vue'
+import ReplyCommentBlock from '@/components/ReplyCommentBlock.vue'
+import AuthorCommentBlock from '@/components/AuthorCommentBlock.vue'
 import { useArticles } from '@/composables/useArticles'
 import type { Article } from '@/types/article'
 
@@ -115,10 +138,10 @@ const comments = ref([
     id: 1,
     author: {
       id: 1,
-      username: 'Alexander',
+      username: 'Gesnhin player',
       avatar: ''
     },
-    text: 'Great article! Very useful information, thank you for the detailed description.',
+    text: 'Today i have been a beautiful day, becaus i did create this article and my friends have liked it lol xddddd \n im just need to kill my friends, im need to kill all of our eternal calamity',
     createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
     likes: 5,
     userLiked: false
@@ -138,6 +161,19 @@ const comments = ref([
   {
     id: 3,
     author: {
+      id: 999,
+      username: 'ArticleAuthor',
+      avatar: '',
+      isAuthor: true
+    },
+    text: 'Thank you all for your feedback!\nI\'m glad you found this article helpful. If you have any questions, feel free to ask!',
+    createdAt: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(),
+    likes: 12,
+    userLiked: false
+  },
+  {
+    id: 4,
+    author: {
       id: 3,
       username: 'Dmitry',
       avatar: ''
@@ -145,6 +181,49 @@ const comments = ref([
     text: 'Can you tell me where I can find more information on this topic?',
     createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
     likes: 1,
+    userLiked: false
+  }
+])
+
+// Temporary reply comments data (TODO: replace with real data from backend)
+const replyComments = ref([
+  {
+    id: 101,
+    parentId: 1,
+    author: {
+      id: 4,
+      username: 'Лютi Анонимус',
+      avatar: ''
+    },
+    text: 'Я вас взломал,господа,кланяйтесь мне и молите о пощаде,иначе мой коварный план по захвату мира будет приведен в исполнение!!! УХХУХААХХАХУХАУАХУАХУХАУХАУХАУХАХУАХУХАУХАУХУХАУХА \n Как говорится,один раз,хороший человек,а вот второй раз...уже хацкер жоски \n\n Мы будем сопротивлятся всем,ВСЕМ,УХАХУАХУАХХАУХА ',
+    createdAt: new Date(Date.now() - 1.5 * 60 * 60 * 1000).toISOString(),
+    likes: 2,
+    userLiked: false
+  },
+  {
+    id: 102,
+    parentId: 1,
+    author: {
+      id: 5,
+      username: 'Viktor',
+      avatar: ''
+    },
+    text: 'Thanks for sharing your experience!',
+    createdAt: new Date(Date.now() - 1 * 60 * 60 * 1000).toISOString(),
+    likes: 1,
+    userLiked: false
+  },
+  {
+    id: 103,
+    parentId: 3,
+    author: {
+      id: 1,
+      username: 'Alexander',
+      avatar: ''
+    },
+    text: 'Check out the official documentation, there is a lot of useful information there.',
+    createdAt: new Date(Date.now() - 20 * 60 * 60 * 1000).toISOString(),
+    likes: 3,
     userLiked: false
   }
 ])
@@ -211,6 +290,11 @@ const handleCommentReply = (commentId: number) => {
 const handleUserClick = (userId: number) => {
   console.log('User clicked:', userId)
   // TODO: Navigate to user profile
+}
+
+// Get replies for a specific comment
+const getReplies = (commentId: number) => {
+  return replyComments.value.filter(reply => reply.parentId === commentId)
 }
 
 // Load on mount
