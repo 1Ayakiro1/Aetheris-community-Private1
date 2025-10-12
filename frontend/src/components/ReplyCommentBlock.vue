@@ -1,5 +1,5 @@
 <template>
-  <div class="reply-comment-block">
+  <div class="reply-comment-block" :class="{ 'highlighted': highlighted }">
     <!-- User Info -->
     <div class="comment-header">
       <div class="user-avatar" @click="onUserClick">
@@ -99,7 +99,7 @@
 
     <!-- Comment Content -->
     <div class="comment-content">
-      <p class="comment-text" v-html="formattedText"></p>
+      <p class="comment-text" v-html="formattedText" @click="handleTextClick"></p>
     </div>
 
     <!-- Comment Actions -->
@@ -233,12 +233,16 @@ interface Comment {
 
 interface CommentBlockProps {
   comment: Comment
+  parentCommentId?: number
+  replyToCommentId?: number
+  highlighted?: boolean
 }
 
 interface CommentBlockEmits {
   (e: 'like', commentId: number): void
   (e: 'reply', commentId: number): void
   (e: 'userClick', userId: number): void
+  (e: 'mentionClick', commentId: number): void
 }
 
 const props = defineProps<CommentBlockProps>()
@@ -263,9 +267,22 @@ const showRatingTooltip = ref(false)
 // Format text with highlighted @mentions
 const formattedText = computed(() => {
   const text = props.comment.text
-  // Replace @username with highlighted span (supports cyrillic and latin)
-  return text.replace(/@([a-zA-Zа-яА-ЯёЁ0-9_]+)/g, '<span class="mention" style="color: #8c00ff; font-weight: 600;">@$1</span>')
+  // Replace @username with clickable highlighted span (supports cyrillic and latin)
+  return text.replace(/@([a-zA-Zа-яА-ЯёЁ0-9_]+)/g, '<span class="mention" style="color: #8c00ff; font-weight: 600; cursor: pointer;" data-mention="$1">@$1</span>')
 })
+
+// Handle click on mention
+const handleTextClick = (event: MouseEvent) => {
+  const target = event.target as HTMLElement
+  if (target.classList.contains('mention')) {
+    // Emit the specific comment id this reply is responding to
+    const commentId = props.replyToCommentId || props.parentCommentId
+    if (commentId) {
+      emit('mentionClick', commentId)
+    }
+    event.stopPropagation()
+  }
+}
 
 const reportReasons = [
   {
@@ -484,6 +501,23 @@ onUnmounted(() => {
   &:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     /* border-left-color: rgba(140, 0, 255, 0.5); */
+  }
+  
+  &.highlighted {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.8);
+    animation: highlight-fade 3s ease-in-out forwards;
+  }
+}
+
+@keyframes highlight-fade {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+  }
+  10% {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0);
   }
 }
 

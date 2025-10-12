@@ -70,19 +70,25 @@
             <!-- Author Comment -->
             <AuthorCommentBlock
               v-if="comment.author.isAuthor"
+              :id="`comment-${comment.id}`"
               :comment="comment"
+              :highlighted="highlightedCommentId === comment.id"
               @like="handleCommentLike"
               @reply="handleCommentReply"
               @user-click="handleUserClick"
+              @mention-click="handleMentionClick"
             />
             
             <!-- Regular Comment -->
             <CommentBlock
               v-else
+              :id="`comment-${comment.id}`"
               :comment="comment"
+              :highlighted="highlightedCommentId === comment.id"
               @like="handleCommentLike"
               @reply="handleCommentReply"
               @user-click="handleUserClick"
+              @mention-click="handleMentionClick"
             />
             
             <!-- Reply Input for this comment -->
@@ -100,10 +106,15 @@
             <!-- Replies to this comment -->
             <template v-for="reply in getReplies(comment.id)" :key="reply.id">
               <ReplyCommentBlock
+                :id="`comment-${reply.id}`"
                 :comment="reply"
+                :parent-comment-id="reply.parentId"
+                :reply-to-comment-id="reply.replyToCommentId"
+                :highlighted="highlightedCommentId === reply.id"
                 @like="handleCommentLike"
                 @reply="handleCommentReply"
                 @user-click="handleUserClick"
+                @mention-click="handleMentionClick"
               />
               
               <!-- Reply Input for this reply -->
@@ -135,7 +146,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import FullArticleCard from '@/components/FullArticleCard.vue'
@@ -156,7 +167,8 @@ const article = ref<Article | null>(null)
 const loading = ref(true)
 const error = ref<string | null>(null)
 const newComment = ref('')
-const replyingTo = ref<{ id: number, username: string } | null>(null)
+const replyingTo = ref<{ id: number, parentId: number, username: string } | null>(null)
+const highlightedCommentId = ref<number | null>(null)
 
 // Temporary comment data (TODO: replace with real data from backend)
 const comments = ref([
@@ -182,8 +194,8 @@ const comments = ref([
     },
     text: 'Interesting approach to solving the problem. Will try to apply it in practice.',
     createdAt: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(),
-    likes: 8,
-    dislikes: 2,
+    likes: 3,
+    dislikes: 10,
     userLiked: false
   },
   {
@@ -219,13 +231,14 @@ const comments = ref([
 const replyComments = ref([
   {
     id: 101,
-    parentId: 1,
+    parentId: 1, // Main comment this reply belongs to
+    replyToCommentId: 1, // Specific comment this is replying to
     author: {
       id: 4,
       username: 'Лютi Анонимус',
       avatar: ''
     },
-    text: 'Я вас взломал,господа,кланяйтесь мне и молите о пощаде,иначе мой коварный план по захвату мира будет приведен в исполнение!!! УХХУХААХХАХУХАУАХУАХУХАУХАУХАУХАХУАХУХАУХАУХУХАУХА \n Как говорится,один раз,хороший человек,а вот второй раз...уже хацкер жоски \n\n Мы будем сопротивлятся всем,ВСЕМ,УХАХУАХУАХХАУХА ',
+    text: '@Gesnhin, Я вас взломал,господа,кланяйтесь мне и молите о пощаде,иначе мой коварный план по захвату мира будет приведен в исполнение!!! УХХУХААХХАХУХАУАХУАХУХАУХАУХАУХАХУАХУХАУХАУХУХАУХА \n Как говорится,один раз,хороший человек,а вот второй раз...уже хацкер жоски \n\n Мы будем сопротивлятся всем,ВСЕМ,УХАХУАХУАХХАУХА ',
     createdAt: new Date(Date.now() - 1.5 * 60 * 60 * 1000).toISOString(),
     likes: 7,
     dislikes: 1,
@@ -234,29 +247,46 @@ const replyComments = ref([
   {
     id: 102,
     parentId: 1,
+    replyToCommentId: 101, // Replying to another reply
     author: {
       id: 5,
       username: 'Viktor',
       avatar: ''
     },
-    text: 'Thanks for sharing your experience!',
+    text: '@Лютi, Thanks for sharing your experience!',
     createdAt: new Date(Date.now() - 1 * 60 * 60 * 1000).toISOString(),
-    likes: 3,
-    dislikes: 0,
+    likes: 2,
+    dislikes: 8,
     userLiked: false
   },
   {
     id: 103,
     parentId: 3,
+    replyToCommentId: 3, // Replying to main comment
     author: {
       id: 1,
       username: 'Alexander',
       avatar: ''
     },
-    text: 'Check out the official documentation, there is a lot of useful information there.',
+    text: '@ArticleAuthor, Check out the official documentation, there is a lot of useful information there.',
     createdAt: new Date(Date.now() - 20 * 60 * 60 * 1000).toISOString(),
     likes: 10,
     dislikes: 2,
+    userLiked: false
+  },
+  {
+    id: 104,
+    parentId: 1,
+    replyToCommentId: 102, // Replying to Viktor's reply
+    author: {
+      id: 6,
+      username: 'Anna',
+      avatar: ''
+    },
+    text: '@Viktor, I completely agree with your point!',
+    createdAt: new Date(Date.now() - 30 * 60 * 1000).toISOString(),
+    likes: 5,
+    dislikes: 0,
     userLiked: false
   }
 ])
@@ -321,17 +351,26 @@ const handleCommentReply = (commentId: number) => {
                   replyComments.value.find(c => c.id === commentId)
   
   if (comment) {
+    // Determine the parent comment ID
+    // If replying to a main comment, use its ID
+    // If replying to a reply, use its parentId
+    const parentId = 'parentId' in comment ? comment.parentId : commentId
+    
     replyingTo.value = {
-      id: commentId,
+      id: commentId, // The comment being replied to
+      parentId: parentId, // The main comment thread
       username: comment.author.username
     }
   }
 }
 
 const handleReplySubmit = (data: { text: string, replyToId?: number, replyToUser?: string }) => {
+  if (!replyingTo.value) return
+  
   const newReply = {
     id: replyComments.value.length + 1000,
-    parentId: data.replyToId || 0,
+    parentId: replyingTo.value.parentId, // Main comment thread
+    replyToCommentId: replyingTo.value.id, // Specific comment being replied to
     author: {
       id: 999,
       username: 'Guest',
@@ -355,6 +394,33 @@ const cancelReply = () => {
 const handleUserClick = (userId: number) => {
   console.log('User clicked:', userId)
   // TODO: Navigate to user profile
+}
+
+const handleMentionClick = (commentId: number) => {
+  // Highlight the mentioned comment
+  highlightedCommentId.value = commentId
+  
+  // Scroll to the comment
+  nextTick(() => {
+    const element = document.getElementById(`comment-${commentId}`)
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      
+      // Wait for scroll to complete before starting the highlight timer
+      // Smooth scroll usually takes about 500-1000ms, so we add extra delay
+      setTimeout(() => {
+        // Remove highlight after 3 seconds from when element is visible
+        setTimeout(() => {
+          highlightedCommentId.value = null
+        }, 3000)
+      }, 800) // Wait for scroll animation to complete
+    } else {
+      // If element not found, remove highlight after standard delay
+      setTimeout(() => {
+        highlightedCommentId.value = null
+      }, 3000)
+    }
+  })
 }
 
 // Get replies for a specific comment
