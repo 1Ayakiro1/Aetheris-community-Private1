@@ -44,5 +44,5 @@ export interface CreateArticleRequest {
     excerpt?: string;
     tags: string[];
     status: string;
-    previewImage?: string;  // добавил
+    preview_image?: string | null;
 }

@@ -12,6 +12,12 @@
 
         <!--Потом поработаем над оформлением этого блока, пока так. А лучше вообще взять из prime vue решение где можно разворачивать картинку, обрезать ее итд сразу-->
         <input type="file" @change="onFileSelected" accept="image/*" />
+        <div v-if="localPreview" class="image-preview">
+            <h3 class="preview-title">Предпросмотр превью:</h3>
+            <img :src="localPreview" alt="Local preview" class="preview-img" />
+        </div>
+        <p v-if="uploadingImage" class="uploading-note">Загружается превью... Пожалуйста, подождите</p>
+
 
         <!-- Path block -->
       <div class="path-block">
@@ -30,22 +36,18 @@
           editorStyle="height: 500px;"
         />
 
-        <!-- <h2 class="tags-title">{{ $t('create-article.h6') }}</h2>
-        <h2 class="tags-subtitle">{{ $t('create-article.h7') }}</h2>
-        <input type="text" placeholder="Enter tags (separated by commas)..." class="tags-input" v-model="articleTags"> -->
-
         <!-- Action buttons -->
         <div class="action-buttons">
-          <button class="create-button" @click="handleCreateArticle" :disabled="loading">
+          <button class="create-button" @click="handleCreateArticle" :disabled="loading || uploadingImage">
             <i v-if="!loading" class="pi pi-send button-icon"></i>
             <i v-else class="pi pi-spin pi-spinner button-icon"></i>
             <p class="button-text">{{ isEditing ? $t('create-article.button5') : $t('create-article.button2') }}</p>
           </button>
-          <button class="preview-button" @click="previewArticle" :disabled="loading">
+          <button class="preview-button" @click="previewArticle" :disabled="loading || uploadingImage">
             <i class="pi pi-eye button-icon"></i>
             <p class="button-text">{{ $t('create-article.button3') }}</p>
           </button>
-          <button class="draft-button" @click="saveDraft" :disabled="loading">
+          <button class="draft-button" @click="saveDraft" :disabled="loading || uploadingImage">
             <i class="pi pi-save button-icon"></i>
             <p class="button-text">{{ $t('create-article.button4') }}</p>
           </button>
@@ -55,75 +57,6 @@
         <div v-if="error" class="api-error">
           <p class="api-error-message">{{ error }}</p>
         </div>
-
-        <!-- Publication time -->
-        <!-- <div class="publication-time-section">
-          <div class="publication-time-header">
-            <div class="checkbox-item">
-              <div class="checkbox" :class="{ checked: publicationTimeEnabled }" @click="publicationTimeEnabled = !publicationTimeEnabled">
-                <i v-if="publicationTimeEnabled" class="pi pi-check checkmark-icon"></i>
-              </div>
-              <p class="checkbox-label">{{ $t('create-article.h6') }}</p>
-            </div>
-          </div>
-          <h2 class="publication-subtitle">{{ $t('create-article.h7') }}</h2>
-          <div class="time-inputs">
-            <input type="text" placeholder="ddmmyy" class="date-input" />
-            <input type="text" placeholder="00:00 am/pm" class="time-input" />
-          </div>
-          <p class="publication-label">{{ $t('create-article.h6') }}</p>
-        </div> -->
-
-        <!-- Ranks section
-        <div class="ranks-section">
-          <div class="checkbox-item">
-            <div class="checkbox" :class="{ checked: rank1Enabled }" @click="rank1Enabled = !rank1Enabled">
-              <i v-if="rank1Enabled" class="pi pi-check checkmark-icon"></i>
-            </div>
-            <p class="checkbox-label">rank</p>
-          </div>
-          <div class="checkbox-item">
-            <div class="checkbox" :class="{ checked: rank2Enabled }" @click="rank2Enabled = !rank2Enabled">
-              <i v-if="rank2Enabled" class="pi pi-check checkmark-icon"></i>
-            </div>
-            <p class="checkbox-label">rank</p>
-          </div>
-        </div> -->
-
-        <!-- Additional settings
-        <p class="additional-settings-title">Additional settings</p>
-        <div class="additional-settings">
-          <div class="checkbox-item">
-            <div class="checkbox" :class="{ checked: disableCommenting }" @click="disableCommenting = !disableCommenting">
-              <i v-if="disableCommenting" class="pi pi-check checkmark-icon"></i>
-            </div>
-            <p class="checkbox-label">Disable commenting</p>
-          </div>
-          <div class="checkbox-item">
-            <div class="checkbox" :class="{ checked: doNotNotify }" @click="doNotNotify = !doNotNotify">
-              <i v-if="doNotNotify" class="pi pi-check checkmark-icon"></i>
-            </div>
-            <p class="checkbox-label">Do not notify about article release</p>
-          </div>
-          <div class="checkbox-item">
-            <div class="checkbox" :class="{ checked: hideContacts }" @click="hideContacts = !hideContacts">
-              <i v-if="hideContacts" class="pi pi-check checkmark-icon"></i>
-            </div>
-            <p class="checkbox-label">Hide contacts</p>
-          </div>
-          <div class="checkbox-item">
-            <div class="checkbox" :class="{ checked: hideCommentatorsInfo }" @click="hideCommentatorsInfo = !hideCommentatorsInfo">
-              <i v-if="hideCommentatorsInfo" class="pi pi-check checkmark-icon"></i>
-            </div>
-            <p class="checkbox-label">Hide commentators info</p>
-          </div>
-          <div class="checkbox-item">
-            <div class="checkbox" :class="{ checked: disableReplying }" @click="disableReplying = !disableReplying">
-              <i v-if="disableReplying" class="pi pi-check checkmark-icon"></i>
-            </div>
-            <p class="checkbox-label">Disable replying to comments</p>
-          </div>
-        </div> -->
       </div>
     </div>
   </div>
@@ -136,8 +69,8 @@ import Editor from 'primevue/editor'
 
 const { t } = useI18n()
 
-import { useArticles } from '../composables/useArticles'
-import type { CreateArticleRequest } from '../types/article'
+import { useArticles } from '@/composables/useArticles'
+import type { CreateArticleRequest } from '@/types/article'
 
 // Article data
 const articleTitle = ref('')
@@ -145,6 +78,8 @@ const articleContent = ref('')
 const articleTags = ref('')
 const router = useRouter()
 const selectedFile = ref<File | null>(null)
+const localPreview = ref<string | null>(null) //URL.createObjectURL
+const uploadingImage = ref(false) //это для индикации загрузки изображения на imgBB. Надо потом накидать стилей под это
 
 // API integration
 const { createArticle, updateArticle, loading, error } = useArticles()
@@ -281,7 +216,16 @@ const handleCreateArticle = async () => {
     try {
         let previewUrl: string | undefined = undefined
         if (selectedFile.value) {
-            previewUrl = await uploadToImgBB(selectedFile.value)
+            uploadingImage.value = true
+            try {
+                previewUrl = await uploadToImgBB(selectedFile.value)
+            } catch (err) {
+                console.error(err)
+                const keep = confirm('Не удалось загрузить превью. Продолжить без него?')
+                if (!keep) return
+            } finally {
+                uploadingImage.value = false
+            }
         }
 
         const articleData: CreateArticleRequest = {
@@ -290,26 +234,21 @@ const handleCreateArticle = async () => {
             excerpt: generateExcerpt(articleContent.value),
             tags: articleTags.value.split(',').map(tag => tag.trim()).filter(tag => tag),
             status: 'published',
-            previewImage: previewUrl
+            preview_image: previewUrl // <--- вместо previewImage
         }
 
-        let result
-        if (isEditing.value && editingArticleId.value) {
-            result = await updateArticle(editingArticleId.value, articleData)
-        } else {
-            result = await createArticle(articleData)
-        }
+        const result = isEditing.value && editingArticleId.value
+            ? await updateArticle(editingArticleId.value, articleData)
+            : await createArticle(articleData)
 
-        articleTitle.value = ''
-        articleContent.value = ''
-        articleTags.value = ''
-        localStorage.removeItem('article_draft')
+        console.log('ArticleData перед API:', articleData)
+        console.log('Созданная статья:', result)
         await router.push('/')
-        alert(isEditing.value ? 'Статья успешно обновлена!' : 'Статья успешно создана!')
-    } catch (err: any) {
-        console.error('Error creating/updating article:', err)
-        alert('Произошла ошибка при сохранении статьи: ' + (err.message || ''))
+    } catch (err) {
+        console.error(err)
+        alert('Ошибка при создании статьи')
     }
+
 }
 
 // Генерация краткого описания из контента
@@ -363,15 +302,26 @@ onMounted(() => {
 function onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement
     if (input.files && input.files[0]) {
-        selectedFile.value = input.files[0]
+        const file = input.files[0]
+        //Если была другая локал ссылка то удаляем ее, нужно на этом стили завязать потом
+        if (localPreview.value) {
+            URL.revokeObjectURL(localPreview.value)
+            localPreview.value = null
+        }
+        selectedFile.value = file
+        localPreview.value = URL.createObjectURL(file)
+    } else {
+        if (localPreview.value) {
+            URL.revokeObjectURL(localPreview.value)
+            localPreview.value = null
+        }
+        selectedFile.value = null
     }
 }
 
 async function uploadToImgBB(file: File): Promise<string> {
-    // const apiKey = import.meta.env.VITE_IMGBB_API_KEY  //ключ решить
-    const apiKey = "58df18c9866715b1c55a851ab1130bc4" //ВРЕМЕННО!!!!!!!!!!!!!!!!!!!!
+    const apiKey = "58df18c9866715b1c55a851ab1130bc4"
     const url = `https://api.imgbb.com/1/upload?key=${apiKey}`
-    console.log('API key:', apiKey)
 
     const formData = new FormData()
     formData.append('image', file)
@@ -382,11 +332,7 @@ async function uploadToImgBB(file: File): Promise<string> {
     })
 
     const result = await response.json()
-
-    if (!result.success) {
-        throw new Error('Ошибка загрузки превью на ресурс')
-    }
-
+    if (!result.success) throw new Error('Ошибка загрузки превью на ресурс')
     return result.data.url
 }
 
@@ -1207,4 +1153,27 @@ async function uploadToImgBB(file: File): Promise<string> {
 .draft-button:hover:not(:disabled) {
   opacity: 0.8;
 }
+
+.image-preview {
+    margin-top: 12px;
+}
+.preview-img {
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+.uploading-note {
+    margin-top: 8px;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+.preview-title {
+    margin: 8px 0;
+    color: var(--text-primary);
+    font-size: 14px;
+}
+
 </style>

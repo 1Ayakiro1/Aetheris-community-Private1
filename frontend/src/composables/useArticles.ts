@@ -1,6 +1,12 @@
 import { ref } from 'vue'
-import type {Article, CreateArticleRequest} from '@/types/article'
-import { getAllArticles, getArticle as apiGetArticle, reactArticle as apiReact, createArticle as apiCreateArticle, updateArticle as apiUpdateArticle } from '@/api/articles'
+import type { Article, CreateArticleRequest } from '@/types/article'
+import {
+    getAllArticles,
+    getArticle as apiGetArticle,
+    reactArticle as apiReact,
+    createArticle as apiCreateArticle,
+    updateArticle as apiUpdateArticle
+} from '@/api/articles'
 
 const articles = ref<Article[]>([])
 const loading = ref(false)
@@ -8,10 +14,8 @@ const error = ref<string | null>(null)
 
 function generateExcerpt(content: string, length = 1400): string {
     if (!content) return ''
-    const clean = content.replace(/<[^>]+>/g, '') // На счет этого внимательнее с html когда будет тита
-    return clean.length > length
-        ? clean.slice(0, length).trimEnd() + ''
-        : clean
+    const clean = content.replace(/<[^>]+>/g, '')
+    return clean.length > length ? clean.slice(0, length).trimEnd() : clean
 }
 
 function getOrCreateUserId(): number {
@@ -31,10 +35,10 @@ function mapServerArticle(a: any): Article {
         content: a.content,
         excerpt: a.excerpt || generateExcerpt(a.content),
         author: {
-            id: Number(a.author) || 0,
-            username: typeof a.author === 'string' ? a.author : `User ${a.author}`
+            id: Number(a.author?.id) || 0,
+            username: a.author?.username || (typeof a.author === 'string' ? a.author : `User ${a.author}`)
         },
-        tags: a.tags && Array.isArray(a.tags)
+        tags: Array.isArray(a.tags)
             ? a.tags
             : (typeof a.tags === 'string' ? a.tags.split(',') : []),
         createdAt: a.created_at || a.createdAt,
@@ -42,7 +46,8 @@ function mapServerArticle(a: any): Article {
         likes: a.likes ?? 0,
         dislikes: a.dislikes ?? 0,
         commentsCount: a.comments_count ?? a.commentsCount ?? 0,
-        userReaction: a.user_reaction ?? null
+        userReaction: a.user_reaction ?? null,
+        previewImage: a.preview_image || a.previewImage || null, // <- важно!
     }
     return article
 }
@@ -68,9 +73,7 @@ export function useArticles() {
             const updated = await apiReact(articleId, userId, reaction)
             const mapped = mapServerArticle(updated)
             const idx = articles.value.findIndex(a => a.id === articleId)
-            if (idx !== -1) {
-                articles.value[idx] = mapped
-            }
+            if (idx !== -1) articles.value[idx] = mapped
             return mapped
         } catch (e: any) {
             console.error('Ошибка при реакции', e)
@@ -93,8 +96,13 @@ export function useArticles() {
         try {
             loading.value = true
             error.value = null
-            const article = await apiCreateArticle(data)
+            const rawArticle = await apiCreateArticle(data)
+            console.log('API вернул article:', rawArticle)
+
+            const article = mapServerArticle(rawArticle)
             articles.value.unshift(article)
+            console.log('rawArticle из API:', article)
+
             return article
         } catch (e: any) {
             error.value = e.message || 'Ошибка API при создании статьи'
@@ -109,7 +117,8 @@ export function useArticles() {
         try {
             loading.value = true
             error.value = null
-            const article = await apiUpdateArticle(id, data)
+            const rawArticle = await apiUpdateArticle(id, data)
+            const article = mapServerArticle(rawArticle)
             const idx = articles.value.findIndex(a => a.id === id)
             if (idx !== -1) articles.value[idx] = article
             return article
@@ -121,7 +130,6 @@ export function useArticles() {
             loading.value = false
         }
     }
-
 
     return { articles, loading, error, fetchArticles, react, getArticle, createArticle, updateArticle }
 }

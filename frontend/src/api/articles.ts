@@ -1,5 +1,5 @@
 import apiClient from './axios'
-import type {Article, CreateArticleRequest} from '@/types/article'
+import type { Article, CreateArticleRequest } from '@/types/article'
 
 export async function getAllArticles(userId?: number): Promise<Article[]> {
     const res = await apiClient.get<Article[]>('/articles/', {
@@ -15,13 +15,20 @@ export async function getArticle(id: number, userId?: number): Promise<Article> 
     return res.data
 }
 
-export const reactArticle = async (articleId: number, userId: number, reaction: 'like' | 'dislike') => {
-    const res = await apiClient.post(`/articles/${articleId}/react`, { user_id: userId, reaction })
+export async function reactArticle(
+    articleId: number,
+    userId: number,
+    reaction: 'like' | 'dislike'
+): Promise<Article> {
+    const res = await apiClient.post(`/articles/${articleId}/react`, {
+        user_id: userId,
+        reaction
+    })
     return res.data as Article
 }
 
 export async function createArticle(data: CreateArticleRequest): Promise<Article> {
-    const res = await apiClient.post<Article>('/articles', data)
+    const res = await apiClient.post<Article>('/articles/', data)
     return res.data
 }
 
