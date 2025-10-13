@@ -223,6 +223,7 @@
 import { onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 import Logo from './Logo.vue'
 import NavigationIcon from '@/assets/icons/NavigationIcon.vue'
 import DropdownIcon from '@/assets/icons/DropdownIcon.vue'
@@ -249,6 +250,7 @@ import RulesIcon from '@/assets/icons/RulesIcon.vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
+const auth = useAuthStore()
 
 // Route setup
 const route = useRoute()
@@ -373,9 +375,7 @@ onMounted(() => {
 })
 
 function signOut() {
-    localStorage.removeItem('token')
-    localStorage.removeItem('username')
-    router.push('/login')
+    auth.logout()
 }
 
 </script>

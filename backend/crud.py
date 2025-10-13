@@ -3,7 +3,14 @@ from passlib.context import CryptContext
 from . import models, schemas
 import json
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+# Switch to PBKDF2-SHA256 to avoid bcrypt backend issues on macOS and 72-byte limits
+pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
+
+def _truncate_bcrypt_password(password: str) -> str:
+    # bcrypt ограничивает пароль 72 байтами (после энкодинга)
+    # отрезаем по байтам, а не по символам, чтобы избежать ValueError
+    b = (password or "").encode("utf-8")[:72]
+    return b.decode("utf-8", errors="ignore")
 
 #auth
 
@@ -11,9 +18,7 @@ def get_user_by_username(db: Session, username: str):
     return db.query(models.User).filter(models.User.username == username).first()
 
 def create_user(db: Session, user: schemas.UserCreate):
-    # bcrypt поддерживает только до 72байт потому пришлосьь обрезать но я хз с чем это связано потому что пароль явно не 72 байта
-    safe_password = user.password[:72]
-    hashed_password = pwd_context.hash(safe_password)
+    hashed_password = pwd_context.hash(user.password or "")
     db_user = models.User(username=user.username, password_hash=hashed_password)
     db.add(db_user)
     db.commit()
@@ -21,8 +26,7 @@ def create_user(db: Session, user: schemas.UserCreate):
     return db_user
 
 def verify_password(plain_password, hashed_password):
-    safe_password = plain_password[:72]
-    return pwd_context.verify(safe_password, hashed_password)
+    return pwd_context.verify(plain_password or "", hashed_password)
 
 #счтатьи
 

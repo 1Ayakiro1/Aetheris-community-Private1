@@ -164,7 +164,12 @@ const loadArticle = async () => {
     const list = await fetchComments(articleId.value)
     const mapped: UiComment[] = list.map(c => ({
       id: c.id,
-      author: { id: c.author_id ?? 0, username: c.author_name || 'Guest', avatar: '' },
+      author: {
+        id: c.author_id ?? 0,
+        username: c.author_name || 'Guest',
+        avatar: '',
+        isAuthor: (c.author_name || '') === (fetchedArticle.author?.username || fetchedArticle.author || '')
+      },
       text: c.text,
       createdAt: c.created_at,
       likes: c.likes ?? 0,
@@ -211,7 +216,12 @@ async function addCommentToBackend(text: string, parentId?: number) {
   console.log('Comment created from API:', c)
   const mapped: UiComment = {
     id: c.id,
-    author: { id: c.author_id ?? 0, username: c.author_name || 'Guest', avatar: '' },
+    author: {
+      id: c.author_id ?? 0,
+      username: c.author_name || 'Guest',
+      avatar: '',
+      isAuthor: (c.author_name || '') === (article.value?.author?.username || (article.value as any)?.author || '')
+    },
     text: c.text,
     createdAt: c.created_at,
     likes: c.likes ?? 0,

@@ -60,6 +60,7 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue'
 import { useAuthStore } from "@/stores/auth"
 import { useI18n } from 'vue-i18n'
 const auth = useAuthStore()
@@ -67,6 +68,12 @@ const auth = useAuthStore()
 const joinDate = "2025-09-29"
 
 const { t } = useI18n()
+
+onMounted(async () => {
+  if (!auth.user && auth.token) {
+    try { await auth.fetchMe() } catch {}
+  }
+})
 </script>
 
 

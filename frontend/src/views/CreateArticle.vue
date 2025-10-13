@@ -130,6 +130,7 @@ import Tag from 'primevue/tag'
 const { t } = useI18n()
 
 import { useArticles } from '@/composables/useArticles'
+import { useAuthStore } from '@/stores/auth'
 import type { CreateArticleRequest } from '@/types/article'
 
 // Article data
@@ -248,6 +249,7 @@ const filteredTags = computed(() => {
 
 // API integration
 const { createArticle, updateArticle, loading, error } = useArticles()
+const auth = useAuthStore()
 const isEditing = ref(false)
 const editingArticleId = ref<number | null>(null)
 
@@ -483,7 +485,8 @@ const handleCreateArticle = async () => {
             excerpt: generateExcerpt(articleContent.value),
             tags: selectedTags.value, // используем selectedTags вместо articleTags
             status: 'published',
-            preview_image: previewUrl // <--- вместо previewImage
+            preview_image: previewUrl, // <--- вместо previewImage
+            author: auth.user?.username || 'Anonymous'
         }
 
         const result = isEditing.value && editingArticleId.value

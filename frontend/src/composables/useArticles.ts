@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import type { Article, CreateArticleRequest } from '@/types/article'
+import { useAuthStore } from '@/stores/auth'
 import {
     getAllArticles,
     getArticle as apiGetArticle,
@@ -56,6 +57,7 @@ function mapServerArticle(a: any): Article {
 }
 
 export function useArticles() {
+    const auth = useAuthStore()
     async function fetchArticles() {
         loading.value = true
         error.value = null
@@ -99,7 +101,11 @@ export function useArticles() {
         try {
             loading.value = true
             error.value = null
-            const rawArticle = await apiCreateArticle(data)
+            const payload = {
+                ...data,
+                author: auth.user?.username || data.author || 'Anonymous'
+            } as any
+            const rawArticle = await apiCreateArticle(payload)
             console.log('API вернул article:', rawArticle)
 
             const article = mapServerArticle(rawArticle)
@@ -141,8 +147,8 @@ export function useArticles() {
     }
 
     async function addComment(articleId: number, text: string, parentId?: number | null) {
-        const authorId = getOrCreateUserId()
-        const author_name = 'Guest'
+        const authorId = auth.user?.id ?? getOrCreateUserId()
+        const author_name = auth.user?.username || 'Guest'
         return await createArticleComment(articleId, { text, parent_id: parentId ?? null, author_id: authorId, author_name })
     }
 
