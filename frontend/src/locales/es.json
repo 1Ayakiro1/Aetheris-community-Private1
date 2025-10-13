@@ -66,7 +66,14 @@
     "button3": "Vista previa",
     "button4": "Guardar en borrador",
     "button5": "Actualizar",
-    "tagsCounter": "Seleccionado: {count}/{max}"
+    "tagsCounter": "Seleccionado: {count}/{max}",
+    "h8": "Dificultad del artículo",
+    "h9": "Selecciona el nivel de dificultad de tu artículo",
+    "difficulty": {
+      "easy": "Fácil",
+      "medium": "Medio",
+      "hard": "Difícil"
+    }
   },
   "settings": {
     "appearance": {

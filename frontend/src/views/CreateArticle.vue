@@ -95,6 +95,26 @@
           </p>
         </div>
 
+        <!-- Difficulty Section -->
+        <div class="difficulty-section">
+          <h2 class="difficulty-title">{{ $t('create-article.h8') }}</h2>
+          <h2 class="difficulty-subtitle">{{ $t('create-article.h9') }}</h2>
+          
+          <!-- Difficulty Circles -->
+          <div class="difficulty-circles">
+            <button 
+              v-for="(label, level) in difficultyOptions" 
+              :key="level"
+              :class="['difficulty-circle', `difficulty-${level}`, { 'selected': selectedDifficulty === level }]"
+              @click="selectDifficulty(level)"
+              type="button"
+              :title="label"
+            >
+              <FireIcon class="difficulty-icon" />
+            </button>
+          </div>
+        </div>
+
         <!-- Action buttons -->
         <div class="action-buttons">
           <button class="create-button" @click="handleCreateArticle" :disabled="loading || uploadingImage">
@@ -126,6 +146,7 @@ import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import Editor from 'primevue/editor'
 import Tag from 'primevue/tag'
+import FireIcon from '@/assets/svgs/fire_ico.svg'
 
 const { t } = useI18n()
 
@@ -232,6 +253,14 @@ const availableTags = ref([
 const selectedTags = ref<string[]>([])
 const tagInput = ref('')
 const showSuggestions = ref(false)
+
+// Difficulty selection
+const selectedDifficulty = ref<string>('medium') // Default to medium
+const difficultyOptions = computed(() => ({
+  easy: t('create-article.difficulty.easy'),
+  medium: t('create-article.difficulty.medium'),
+  hard: t('create-article.difficulty.hard')
+} as Record<string, string>))
 
 const filteredTags = computed(() => {
   if (!tagInput.value.trim()) {
@@ -342,6 +371,11 @@ const addTagFromInput = () => {
   // Кастомные теги больше не создаются
 }
 
+// Difficulty selection function
+const selectDifficulty = (level: string) => {
+  selectedDifficulty.value = level
+}
+
 // Закрытие предложений при клике вне компонента
 const handleClickOutside = (event: MouseEvent) => {
   const target = event.target as HTMLElement
@@ -436,6 +470,7 @@ const exportToJSON = () => {
       formatted: formattedContent
     },
       tags: selectedTags.value, // используем selectedTags
+      difficulty: selectedDifficulty.value,
       settings: {
         // publicationTime: publicationTimeEnabled.value,
         ranks: {
@@ -486,6 +521,7 @@ const handleCreateArticle = async () => {
             tags: selectedTags.value, // используем selectedTags вместо articleTags
             status: 'published',
             preview_image: previewUrl, // <--- вместо previewImage
+            difficulty: selectedDifficulty.value,
             author: auth.user?.username || 'Anonymous'
         }
 
@@ -536,6 +572,7 @@ onMounted(() => {
       const draftData = JSON.parse(draft)
       articleTitle.value = draftData.title || ''
       selectedTags.value = draftData.tags || [] // загружаем теги в selectedTags
+      selectedDifficulty.value = draftData.difficulty || 'medium' // загружаем сложность
       articleContent.value = draftData.content?.html || ''
 
         if (draftData.settings) {
@@ -1026,6 +1063,150 @@ async function uploadToImgBB(file: File): Promise<string> {
   width: 100%;
   margin-top: 48px;
   padding: 0 48px;
+}
+
+// Difficulty Section
+.difficulty-section {
+  width: 100%;
+  margin-top: 48px;
+  padding: 0 48px;
+}
+
+.difficulty-title {
+  color: var(--text-primary);
+  font-size: 30px;
+  font-family: var(--font-sans);
+  font-weight: bold;
+  margin: 0;
+}
+
+.difficulty-subtitle {
+  color: var(--text-secondary);
+  font-size: 20px;
+  font-family: var(--font-sans);
+  font-weight: bold;
+  width: 460px;
+  margin-top: 8px;
+  margin-bottom: 24px;
+}
+
+.difficulty-circles {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.difficulty-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  &:focus {
+    outline: none;
+    border-color: var(--primary-violet);
+  }
+  
+  // Color variants for different difficulties
+  &.difficulty-easy {
+    &:hover {
+      border-color: rgba(34, 197, 94, 0.7);
+      background-color: rgba(34, 197, 94, 0.1);
+      color: #22c55e;
+    }
+    
+    &.selected {
+      border-color: #22c55e;
+      background-color: rgba(34, 197, 94, 0.2);
+      color: #22c55e;
+    }
+  }
+  
+  &.difficulty-medium {
+    &:hover {
+      border-color: rgba(245, 158, 11, 1);
+      background-color: rgba(245, 158, 11, 0.1);
+      color: #f59e0b;
+    }
+    
+    &.selected {
+      border-color: #f59e0b;
+      background-color: rgba(245, 158, 11, 0.2);
+      color: #f59e0b;
+    }
+  }
+  
+  &.difficulty-hard {
+    &:hover {
+      border-color: rgba(239, 68, 68, 1);
+      background-color: rgba(239, 68, 68, 0.1);
+      color: #ef4444;
+    }
+    
+    &.selected {
+      border-color: #ef4444;
+      background-color: rgba(239, 68, 68, 0.2);
+      color: #ef4444;
+    }
+  }
+}
+
+.difficulty-icon {
+  width: 24px;
+  height: 24px;
+  transition: all 0.3s ease;
+  fill: currentColor;
+  
+  .difficulty-circle:hover & {
+    transform: scale(1.1);
+  }
+  
+  .difficulty-circle.selected & {
+    transform: scale(1.1);
+  }
+}
+
+/* Цвета для иконок в зависимости от сложности */
+.difficulty-circle.difficulty-easy .difficulty-icon {
+  fill: #22c55e !important;
+}
+
+.difficulty-circle.difficulty-medium .difficulty-icon {
+  fill: #f59e0b !important;
+}
+
+.difficulty-circle.difficulty-hard .difficulty-icon {
+  fill: #ef4444 !important;
+}
+
+/* Hover эффекты для иконок */
+.difficulty-circle:hover .difficulty-icon {
+  transform: scale(1.1);
+}
+
+/* ЗАПОЛНЕНИЕ иконки цветом при выборе */
+.difficulty-circle.selected.difficulty-easy .difficulty-icon {
+  fill: #16a34a !important; /* Полное заполнение зеленым */
+}
+
+.difficulty-circle.selected.difficulty-medium .difficulty-icon {
+  fill: #d97706 !important; /* Полное заполнение оранжевым */
+}
+
+.difficulty-circle.selected.difficulty-hard .difficulty-icon {
+  fill: #dc2626 !important; /* Полное заполнение красным */
 }
 
 .tags-title {

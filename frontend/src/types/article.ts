@@ -21,6 +21,7 @@ export interface Article {
     commentsCount?: number
     userReaction?: 'like' | 'dislike' | null
     previewImage?: string
+    difficulty?: string
 }
 
 export interface ArticleCardProps {
@@ -45,4 +46,6 @@ export interface CreateArticleRequest {
     tags: string[];
     status: string;
     preview_image?: string | null;
+    difficulty?: string;
+    author?: string;
 }

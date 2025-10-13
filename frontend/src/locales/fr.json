@@ -66,7 +66,14 @@
     "button3": "Aperçu",
     "button4": "Enregistrer dans le brouillon",
     "button5": "Mettre à jour",
-    "tagsCounter": "Sélectionné : {count}/{max}"
+    "tagsCounter": "Sélectionné : {count}/{max}",
+    "h8": "Difficulté de l'article",
+    "h9": "Sélectionnez le niveau de difficulté de votre article",
+    "difficulty": {
+      "easy": "Facile",
+      "medium": "Moyen",
+      "hard": "Difficile"
+    }
   },
   "settings": {
     "appearance": {

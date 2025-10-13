@@ -8,6 +8,7 @@ class ArticleBase(BaseModel):
     author: str = "Anonymous"
     tags: List[str] = []
     status: str = "published"
+    difficulty: str = "medium"
     preview_image: Optional[str] = None
 
 class ArticleCreate(ArticleBase):

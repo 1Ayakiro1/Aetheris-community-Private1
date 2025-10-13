@@ -40,6 +40,7 @@ def create_article(db: Session, article: schemas.ArticleCreate):
         author=article.author,
         tags=",".join(article.tags) if isinstance(article.tags, list) else article.tags,
         status=article.status,
+        difficulty=article.difficulty,
         preview_image=article.preview_image
     )
     db.add(db_article)

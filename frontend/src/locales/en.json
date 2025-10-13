@@ -63,7 +63,14 @@
     "button5": "Update",
     "subtitle4": "Add a tag for better promotion of the article",
     "input3": "ddmmyy",
-    "tagsCounter": "Selected: {count}/{max}"
+    "tagsCounter": "Selected: {count}/{max}",
+    "h8": "Article difficulty",
+    "h9": "Select the difficulty level of your article",
+    "difficulty": {
+      "easy": "Easy",
+      "medium": "Medium", 
+      "hard": "Hard"
+    }
   },
 
 

@@ -15,6 +15,7 @@ class Article(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     status = Column(String, default="published")
+    difficulty = Column(String, default="medium")  # easy, medium, hard
     likes = Column(Integer, default=0)
     dislikes = Column(Integer, default=0)
     comments_count = Column(Integer, default=0)
