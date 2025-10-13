@@ -80,7 +80,11 @@
 
         <!-- Preview Block -->
         <div class="article-card-preview">
-            <div class="preview-image" v-if="article.previewImage">
+            <div 
+                class="preview-image" 
+                v-if="article.previewImage"
+                :style="{ '--preview-bg': `url(${article.previewImage})` }"
+            >
                 <img :src="article.previewImage" :alt="article.title" class="preview-img" />
             </div>
             <div class="preview-content" v-else>
@@ -281,28 +285,26 @@ const formatDate = (date: string | Date): string => {
     background-color: var(--bg-secondary);
     border-radius: 40px 40px 15px 15px;
     position: relative;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
     min-height: auto;
     padding-bottom: 80px;
+    margin: 0 auto;
 
     /* Мобильные устройства */
     @media (max-width: 768px) {
+        width: 100%;
         border-radius: 25px 25px 10px 10px;
-        margin: 20px;
     }
 
     /* Планшеты */
     @media (min-width: 769px) and (max-width: 1024px) {
+        width: 100%;
         border-radius: 35px 35px 12px 12px;
-        margin: 30px;
     }
 
     /* Десктоп */
     @media (min-width: 1025px) {
+        width: 1055px;
         border-radius: 40px 40px 15px 15px;
-        margin: 40px auto;
     }
 }
 
@@ -511,17 +513,32 @@ const formatDate = (date: string | Date): string => {
 .preview-image {
     width: 100%;
     height: 100%;
+    position: relative;
+    overflow: hidden;
+    
+    /* Размытый фон из того же изображения */
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: var(--preview-bg);
+        background-size: cover;
+        background-position: center;
+        filter: blur(20px);
+        transform: scale(1.1);
+        z-index: 1;
+    }
 }
 
 .preview-img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-
-    &:hover {
-        transform: scale(1.05);
-    }
+    object-fit: contain;
+    position: relative;
+    z-index: 2;
 }
 
 .preview-content {
@@ -560,6 +577,7 @@ const formatDate = (date: string | Date): string => {
     font-weight: 400;
     margin-top: 30px;
     margin-bottom: 40px;
+    width: 100%;
     line-height: 1.6;
     word-wrap: break-word;
     word-break: break-word;

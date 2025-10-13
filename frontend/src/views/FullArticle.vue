@@ -440,11 +440,23 @@ onMounted(() => {
 
 /* Comments Section */
 .comments-section {
-  margin-top: 40px;
+  margin: 40px auto 0;
   padding: 0;
-  max-width: 100%;
-  margin-left: 0;
-  margin-right: 0;
+  
+  /* Мобильные устройства */
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+
+  /* Планшеты */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    width: 100%;
+  }
+
+  /* Десктоп */
+  @media (min-width: 1025px) {
+    width: 1055px;
+  }
 }
 
 .comments-title {
