@@ -1,5 +1,5 @@
 <template>
-  <div class="reply-comment-block" :class="{ 'highlighted': highlighted }">
+  <div class="reply-comment-block" :class="{ 'highlighted': highlighted }" :style="{ marginLeft: `${(depth || 0) * 40}px` }">
     <!-- User Info -->
     <div class="comment-header">
       <div class="user-avatar" @click="onUserClick">
@@ -236,6 +236,7 @@ interface CommentBlockProps {
   parentCommentId?: number
   replyToCommentId?: number
   highlighted?: boolean
+  depth?: number
 }
 
 interface CommentBlockEmits {
@@ -503,17 +504,18 @@ onUnmounted(() => {
   margin-left: auto;
   width: 90%;
   transition: all 0.2s ease-in-out;
-  /* border-left: 3px solid rgba(140, 0, 255, 0.3); */
+  position: relative;
   
   &:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    /* border-left-color: rgba(140, 0, 255, 0.5); */
   }
   
   &.highlighted {
     box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.8);
     animation: highlight-fade 3s ease-in-out forwards;
   }
+  
+  /* Nested comment indicator removed per design */
 }
 
 @keyframes highlight-fade {

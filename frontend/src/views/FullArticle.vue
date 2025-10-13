@@ -66,75 +66,22 @@
         
         <!-- Comments List -->
         <div class="comments-list">
-          <template v-for="comment in comments" :key="comment.id">
-            <!-- Author Comment -->
-            <AuthorCommentBlock
-              v-if="comment.author.isAuthor"
-              :id="`comment-${comment.id}`"
+          <template v-for="comment in commentTree" :key="comment.id">
+            <CommentThread
               :comment="comment"
-              :highlighted="highlightedCommentId === comment.id"
+              :highlighted-comment-id="highlightedCommentId"
+              :replying-to="replyingTo"
               @like="handleCommentLike"
               @react="handleCommentReact"
               @reply="handleCommentReply"
               @user-click="handleUserClick"
               @mention-click="handleMentionClick"
+              @submit-reply="handleReplySubmit"
+              @cancel-reply="cancelReply"
             />
-            
-            <!-- Regular Comment -->
-            <CommentBlock
-              v-else
-              :id="`comment-${comment.id}`"
-              :comment="comment"
-              :highlighted="highlightedCommentId === comment.id"
-              @like="handleCommentLike"
-              @react="handleCommentReact"
-              @reply="handleCommentReply"
-              @user-click="handleUserClick"
-              @mention-click="handleMentionClick"
-            />
-            
-            <!-- Reply Input for this comment -->
-            <CommentInput
-              v-if="replyingTo && replyingTo.id === comment.id"
-              :is-reply="true"
-              :reply-to-user="replyingTo.username"
-              :reply-to-id="replyingTo.id"
-              placeholder="Write your reply..."
-              submit-button-text="Reply"
-              @submit="handleReplySubmit"
-              @cancel="cancelReply"
-            />
-            
-            <!-- Replies to this comment -->
-            <template v-for="reply in getReplies(comment.id)" :key="reply.id">
-              <ReplyCommentBlock
-                :id="`comment-${reply.id}`"
-                :comment="reply"
-                :parent-comment-id="reply.parentId"
-                :reply-to-comment-id="reply.replyToCommentId"
-                :highlighted="highlightedCommentId === reply.id"
-                @like="handleCommentLike"
-                @react="handleCommentReact"
-                @reply="handleCommentReply"
-                @user-click="handleUserClick"
-                @mention-click="handleMentionClick"
-              />
-              
-              <!-- Reply Input for this reply -->
-              <CommentInput
-                v-if="replyingTo && replyingTo.id === reply.id"
-                :is-reply="true"
-                :reply-to-user="replyingTo.username"
-                :reply-to-id="comment.id"
-                placeholder="Write your reply..."
-                submit-button-text="Reply"
-                @submit="handleReplySubmit"
-                @cancel="cancelReply"
-              />
-            </template>
           </template>
           
-          <div v-if="comments.length === 0" class="no-comments">
+          <div v-if="commentTree.length === 0" class="no-comments">
             <p>Be the first to leave a comment!</p>
           </div>
         </div>
@@ -157,6 +104,7 @@ import CommentBlock from '@/components/CommentBlock.vue'
 import ReplyCommentBlock from '@/components/ReplyCommentBlock.vue'
 import AuthorCommentBlock from '@/components/AuthorCommentBlock.vue'
 import CommentInput from '@/components/CommentInput.vue'
+import CommentThread from '@/components/CommentThread.vue'
 import { useArticles } from '@/composables/useArticles'
 import type { Article } from '@/types/article'
 
@@ -185,10 +133,13 @@ type UiComment = {
   userReaction?: string | null
   parentId?: number | null
   replyToCommentId?: number | null
+  depth?: number
+  children?: UiComment[]
 }
 
 const comments = ref<UiComment[]>([])
 const replyComments = ref<UiComment[]>([])
+const commentTree = ref<UiComment[]>([])
 
 // Total comments count (main comments + reply comments)
 const totalCommentsCount = computed(() => comments.value.length + replyComments.value.length)
@@ -225,6 +176,10 @@ const loadArticle = async () => {
     }))
     comments.value = mapped.filter(m => !m.parentId)
     replyComments.value = mapped.filter(m => !!m.parentId)
+    
+    // Build tree structure for nested display
+    commentTree.value = buildCommentTree(mapped)
+    console.log('Comment tree built:', commentTree.value)
   } catch (err) {
     console.error('Error loading article:', err)
     error.value = err instanceof Error ? err.message : 'Unknown error occurred'
@@ -244,10 +199,16 @@ const addComment = async () => {
   const created = await addCommentToBackend(newComment.value)
   comments.value.unshift(created)
   newComment.value = ''
+  
+  // Rebuild tree
+  const allComments = [...comments.value, ...replyComments.value]
+  commentTree.value = buildCommentTree(allComments)
 }
 
 async function addCommentToBackend(text: string, parentId?: number) {
+  console.log('Adding comment with parent_id:', parentId)
   const c = await addCommentApi(articleId.value, text, parentId ?? null)
+  console.log('Comment created from API:', c)
   const mapped: UiComment = {
     id: c.id,
     author: { id: c.author_id ?? 0, username: c.author_name || 'Guest', avatar: '' },
@@ -291,14 +252,9 @@ const handleCommentReply = (commentId: number) => {
                   replyComments.value.find(c => c.id === commentId)
   
   if (comment) {
-    // Determine the parent comment ID
-    // If replying to a main comment, use its ID
-    // If replying to a reply, use its parentId
-    const parentId = 'parentId' in comment ? comment.parentId : commentId
-    
     replyingTo.value = {
-      id: commentId, // The comment being replied to
-      parentId: parentId, // The main comment thread
+      id: commentId, // The comment being replied to (this will be the parent_id)
+      parentId: commentId, // Same as id for simplicity
       username: comment.author.username
     }
   }
@@ -306,9 +262,14 @@ const handleCommentReply = (commentId: number) => {
 
 const handleReplySubmit = async (data: { text: string, replyToId?: number, replyToUser?: string }) => {
   if (!replyingTo.value) return
-  const created = await addCommentToBackend(data.text, replyingTo.value.parentId)
+  // Use replyingTo.value.id as the parent - the comment we're replying to
+  const created = await addCommentToBackend(data.text, replyingTo.value.id)
   replyComments.value.push(created)
   replyingTo.value = null
+  
+  // Rebuild tree
+  const allComments = [...comments.value, ...replyComments.value]
+  commentTree.value = buildCommentTree(allComments)
 }
 
 const cancelReply = () => {
@@ -350,6 +311,51 @@ const handleMentionClick = (commentId: number) => {
 // Get replies for a specific comment
 const getReplies = (commentId: number) => {
   return replyComments.value.filter(reply => reply.parentId === commentId)
+}
+
+// Build 1-level comment tree (root + direct replies only)
+function buildCommentTree(flatComments: UiComment[], depth = 0): UiComment[] {
+  console.log('Building tree from comments:', flatComments)
+  const commentMap = new Map<number, UiComment>()
+  const rootComments: UiComment[] = []
+  
+  // Sort comments: root comments first, then children
+  // This ensures parents are processed before their children
+  const sortedComments = [...flatComments].sort((a, b) => {
+    if (!a.parentId && b.parentId) return -1
+    if (a.parentId && !b.parentId) return 1
+    return 0
+  })
+  
+  // Create a map of all comments
+  sortedComments.forEach(comment => {
+    commentMap.set(comment.id, { ...comment, depth, children: [] })
+  })
+  
+  // Build the tree and clamp depth to 1 level
+  sortedComments.forEach(comment => {
+    const node = commentMap.get(comment.id)!
+    if (comment.parentId) {
+      const parent = commentMap.get(comment.parentId)
+      console.log(`Comment ${comment.id} has parent ${comment.parentId}`, parent ? 'found' : 'NOT FOUND')
+      if (parent) {
+        node.depth = 1
+        parent.children = parent.children || []
+        parent.children.push(node)
+        console.log(`Added comment ${comment.id} as child of ${comment.parentId}, depth: ${node.depth}`)
+      } else {
+        // Parent not found, treat as root
+        rootComments.push(node)
+        console.log(`Parent not found for comment ${comment.id}, adding as root`)
+      }
+    } else {
+      rootComments.push(node)
+      console.log(`Comment ${comment.id} is a root comment`)
+    }
+  })
+  
+  console.log('Root comments:', rootComments)
+  return rootComments
 }
 
 // Load on mount

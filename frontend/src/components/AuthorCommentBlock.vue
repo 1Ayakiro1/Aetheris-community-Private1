@@ -1,5 +1,5 @@
 <template>
-  <div class="author-comment-block" :class="{ 'highlighted': highlighted }">
+  <div class="author-comment-block" :class="{ 'highlighted': highlighted }" :style="{ marginLeft: `${(depth || 0) * 40}px` }">
     <!-- User Info -->
     <div class="comment-header">
       <div class="user-avatar author-avatar" @click="onUserClick">
@@ -242,6 +242,7 @@ interface Comment {
 interface CommentBlockProps {
   comment: Comment
   highlighted?: boolean
+  depth?: number
 }
 
 interface CommentBlockEmits {
@@ -526,6 +527,8 @@ onUnmounted(() => {
     box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.8);
     animation: highlight-fade 3s ease-in-out forwards;
   }
+  
+  /* Nested comment indicator removed per design */
 }
 
 @keyframes highlight-fade {
