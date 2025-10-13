@@ -24,6 +24,24 @@ export interface Article {
     difficulty?: string
 }
 
+// Type for articles from user profile API (uses snake_case)
+export interface UserArticle {
+    id: number
+    title: string
+    content: string
+    excerpt?: string
+    author: string  // Backend stores author as string (username)
+    tags: string[]
+    created_at: string  // Backend uses snake_case
+    status: 'draft' | 'published' | 'archived'
+    likes?: number
+    dislikes?: number
+    comments_count?: number  // Backend uses snake_case
+    user_reaction?: 'like' | 'dislike' | null  // Backend uses snake_case
+    preview_image?: string  // Backend uses snake_case
+    difficulty?: string
+}
+
 export interface ArticleCardProps {
     article: Article
 }

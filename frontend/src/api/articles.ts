@@ -1,5 +1,5 @@
 import apiClient from './axios'
-import type { Article, CreateArticleRequest } from '@/types/article'
+import type { Article, CreateArticleRequest, UserArticle } from '@/types/article'
 
 export interface CommentDTO {
     id: number
@@ -67,6 +67,25 @@ export async function reactComment(commentId: number, userId: number, reaction: 
     const res = await apiClient.post<CommentDTO>(`/comments/${commentId}/react`, {
         user_id: userId,
         reaction
+    })
+    return res.data
+}
+
+// User stats and articles
+export interface UserStats {
+    articles_count: number
+    comments_count: number
+    join_date: string
+}
+
+export async function getUserStats(): Promise<UserStats> {
+    const res = await apiClient.get<UserStats>('/auth/me/stats')
+    return res.data
+}
+
+export async function getUserArticles(skip: number = 0, limit: number = 100): Promise<UserArticle[]> {
+    const res = await apiClient.get<UserArticle[]>('/auth/me/articles', {
+        params: { skip, limit }
     })
     return res.data
 }

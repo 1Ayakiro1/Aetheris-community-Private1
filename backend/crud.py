@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from passlib.context import CryptContext
-from . import models, schemas
+from backend import models, schemas
 import json
 
 # Switch to PBKDF2-SHA256 to avoid bcrypt backend issues on macOS and 72-byte limits
@@ -27,6 +27,40 @@ def create_user(db: Session, user: schemas.UserCreate):
 
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password or "", hashed_password)
+
+def get_user_stats(db: Session, user_id: int):
+    # Получаем пользователя для получения username
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+    if not user:
+        return {
+            "articles_count": 0,
+            "comments_count": 0,
+            "join_date": None
+        }
+    
+    # Получаем количество статей пользователя (по username, так как author хранится как строка)
+    articles_count = db.query(models.Article).filter(models.Article.author == user.username).count()
+    
+    # Получаем количество комментариев пользователя
+    comments_count = db.query(models.Comment).filter(models.Comment.author_id == user_id).count()
+    
+    return {
+        "articles_count": articles_count,
+        "comments_count": comments_count,
+        "join_date": user.created_at
+    }
+
+def get_user_articles(db: Session, user_id: int, skip: int = 0, limit: int = 100):
+    # Получаем пользователя для получения username
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+    if not user:
+        return []
+    
+    # Получаем статьи пользователя (по username, так как author хранится как строка)
+    articles = db.query(models.Article).filter(models.Article.author == user.username).offset(skip).limit(limit).all()
+    for a in articles:
+        a.tags = a.tags.split(",") if a.tags else []
+    return articles
 
 #счтатьи
 

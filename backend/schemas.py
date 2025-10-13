@@ -40,9 +40,15 @@ class UserLogin(UserBase):
 
 class User(UserBase):
     id: int
+    created_at: datetime
 
     class Config:
         from_attributes = True
+
+class UserStats(BaseModel):
+    articles_count: int
+    comments_count: int
+    join_date: datetime
 
 # Comments
 

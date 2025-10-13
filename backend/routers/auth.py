@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from jose import jwt, JWTError
 from datetime import datetime, timedelta, timezone
 import os
-from .. import crud, schemas, database
+from backend import crud, schemas, database
 
 router = APIRouter()
 
@@ -60,3 +60,12 @@ def login(user: schemas.UserLogin, db: Session = Depends(database.get_db)):
 @router.get("/auth/me", response_model=schemas.User)
 def read_me(current_user = Depends(get_current_user)):
     return current_user
+
+@router.get("/auth/me/stats", response_model=schemas.UserStats)
+def get_user_stats(current_user = Depends(get_current_user), db: Session = Depends(database.get_db)):
+    stats = crud.get_user_stats(db, current_user.id)
+    return stats
+
+@router.get("/auth/me/articles", response_model=list[schemas.Article])
+def get_user_articles(skip: int = 0, limit: int = 100, current_user = Depends(get_current_user), db: Session = Depends(database.get_db)):
+    return crud.get_user_articles(db, current_user.id, skip=skip, limit=limit)
