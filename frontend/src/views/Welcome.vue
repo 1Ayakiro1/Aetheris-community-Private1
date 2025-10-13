@@ -289,6 +289,62 @@
   font-weight: bold;
 }
 
+/* ===== Responsive: below 1920px (Full HD and smaller) ===== */
+@media (max-width: 1919px) {
+  /* Keep layout, scale proportionally using vw based on 1920 reference */
+  /* Slide 1 adjustments */
+  .slide1 { min-height: 60vw; }
+  .slide1-logo { width: 45vw; height: auto; top: 1vw; left: 4vw; z-index: 1; }
+  .slide1-title { font-size: clamp(1.6rem, 4.32vw, 4.96rem); margin-right: 27vw; margin-top: 12vw; position: relative; z-index: 2; }
+  .slide1-subtitle { font-size: clamp(1rem, 2.6vw, 3.2rem); width: min(76vw, 900px); margin-right: 10vw; position: relative; z-index: 2; }
+
+  .slide2 { padding-bottom: 13vw; }
+
+  .slide2-title { font-size: 2.86vw; }
+  .slide2-subtitle { font-size: 1.875vw; }
+  .slide2-cta { font-size: 2.60vw; width: 41.67vw; margin-top: 27.08vw; }
+
+  /* Title blocks */
+  .slide2-title-1 { margin-right: 7.81vw; margin-top: 19.79vw; width: 33.85vw; }
+  .slide2-title-2 { margin-right: 7.81vw; margin-top: 33.85vw; width: 33.85vw; }
+  .slide2-title-3 { margin-left: 8.33vw; margin-right: 7.81vw; margin-top: 36.46vw; width: 33.85vw; }
+  .slide2-title-4 { margin-right: 7.81vw; margin-top: 41.67vw; width: 33.85vw; }
+
+  /* Subtitle blocks */
+  .slide2-subtitle-1 { margin-right: 11rem; margin-top: 1.04vw; width: 31.25vw; }
+  .slide2-subtitle-2 { margin-right: 11rem; margin-top: 1.04vw; width: 31.25vw; }
+  .slide2-subtitle-3 { margin-left: 9.90vw; margin-right: 11rem; margin-top: 1.04vw; width: 31.25vw; }
+  .slide2-subtitle-4 { margin-right: 11rem; margin-top: 1.04vw; width: 31.25vw; }
+
+  /* Images (scaled from Full HD specs) */
+  .slide-img-1 { width: 37.50vw; height: 24.48vw; margin-left: 6.25vw; margin-top: 14.32vw; }
+  .slide-img-3 { width: 31.25vw; height: 20.83vw; margin-left: 10.42vw; margin-top: 63.54vw; }
+  .slide-img-4 { width: 26.04vw; height: 23.44vw; margin-left: 57.29vw; margin-top: 115.63vw; }
+  .slide-img-5 { width: 26.04vw; height: 19.79vw; margin-left: 13.02vw; margin-top: 174.48vw; }
+
+  /* Cubes (scaled from Full HD specs) */
+  .cubes-1 { width: 26.04vw; height: 26.04vw; margin-left: 14.58vw; margin-top: 47.40vw; }
+  .cubes-2 { width: 20.83vw; height: 52.08vw; margin-left: 52.08vw; margin-top: 34.38vw; }
+  .cubes-3 { width: 41.67vw; height: 41.67vw; margin-left: 39.06vw; margin-top: 117.71vw; }
+  .cubes-4 { width: 20.83vw; height: 20.83vw; margin-left: 5.21vw; margin-top: 107.29vw; }
+  .cubes-5 { width: 20.83vw; height: 10.42vw; margin-left: 13.02vw; margin-top: 175.00vw; }
+  .cubes-6 { width: 20.83vw; height: 31.25vw; margin-left: 52.08vw; margin-top: 171.88vw; }
+
+  /* Register button */
+  .register-button { width: 19.27vw; height: 4.17vw; border-radius: 1.46vw; margin-top: 1.04vw; }
+  .register-text { font-size: 1.72vw; }
+}
+
+/* ===== Tablets and below ===== */
+@media (max-width: 1024px) {
+  .slide2 { padding: 8vw 2.5vw 10vw 2.5vw; }
+}
+
+/* ===== Mobile ===== */
+@media (max-width: 640px) {
+  .register-button { height: 9.0vw; }
+}
+
 /* Медиа-запросы для больших экранов */
 
 /* Для экранов Full HD (1920x1080) */
