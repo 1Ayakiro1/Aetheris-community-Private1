@@ -44,7 +44,7 @@
           <template v-else>
               <!--              <ArticleCard :article="testArticle" />-->
             <ArticleCard
-              v-for="article in articles"
+              v-for="article in paginatedArticles"
               :key="article.id"
               :article="article"
               @tag-click="handleTagClick"
@@ -156,6 +156,13 @@ const totalRecords = computed(() => articles.value.length)
 
 const first = ref(0)
 const rows = ref(10)
+
+// Пагинированные статьи - показываем только 10 статей на текущей странице
+const paginatedArticles = computed(() => {
+  const start = first.value
+  const end = start + rows.value
+  return articles.value.slice(start, end)
+})
 const showBackToTop = ref(false)
 const buttonOpacity = ref(1)
 const searchQuery = ref('')
@@ -222,7 +229,9 @@ const handlePageChange = (event: any) => {
   first.value = event.first
   rows.value = event.rows
   console.log('Page changed:', event)
-  // TODO: Реализовать пагинацию
+  
+  // Прокручиваем страницу вверх при смене страницы
+  scrollToTop()
 }
 
 const scrollToTop = () => {
@@ -768,5 +777,4 @@ onUnmounted(() => {
   margin-right: 0;
 }
 
-/* Адаптивность реализована через медиазапросы для мобильных, планшетов и десктопа */
 </style>
