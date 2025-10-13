@@ -50,7 +50,7 @@
       <h2 class="slide2-cta">{{ $t('home.h5') }}</h2>
       
       <router-link to="/signin" class="register-link">
-        <button class="register-button">
+        <button class="register-button pulse">
           <p class="register-text">{{ $t('home.register') }}</p>
         </button>
       </router-link>
@@ -276,6 +276,18 @@
 
 .register-button:hover {
   filter: brightness(0.8);
+}
+
+/* Attention pulse animation */
+.pulse {
+  animation: pulseGlow 2s ease-in-out infinite;
+  box-shadow: 0 0 0 rgba(139, 92, 246, 0.7);
+}
+
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7); transform: translateY(0); }
+  50% { box-shadow: 0 0 30px 8px rgba(139, 92, 246, 0.35); transform: translateY(-2px); }
+  100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7); transform: translateY(0); }
 }
 
 .register-link {

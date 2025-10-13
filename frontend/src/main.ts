@@ -49,6 +49,8 @@ import PrimeVue from 'primevue/config';
 import Aura from '@primeuix/themes/aura';
 import 'primeicons/primeicons.css';
 import Editor from 'primevue/editor';
+import ToastService from 'primevue/toastservice';
+import Toast from 'primevue/toast';
 
 //vue
 import { createApp } from 'vue';
@@ -65,13 +67,25 @@ const pinia = createPinia()
 app.use(PrimeVue, {
     theme: { preset: Aura }
 });
+app.use(ToastService)
 app.use(pinia)
 app.use(i18n)
 
 app.component('Editor', Editor);
+app.component('Toast', Toast)
 app.use(router);
 
 const auth = useAuthStore()
 auth.tryRestoreFromStorage()
 
 app.mount('#app');
+
+// Global listener to show auth-required toast
+document.addEventListener('auth-required', (e: any) => {
+  const { detail } = e
+  // Find any mounted vue app root with toast service
+  try {
+    // @ts-ignore
+    app.config.globalProperties.$toast.add({ severity: 'warn', summary: 'Требуется авторизация', detail: 'Для продолжения необходимо войти или зарегистрироваться', life: 4000 })
+  } catch {}
+})
