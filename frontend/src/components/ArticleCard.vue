@@ -69,17 +69,13 @@
 
         <div class="tags-container">
             <Tag
-              v-for="(tag, index) in article.tags"
-              :key="index"
+              v-for="tag in article.tags"
+              :key="tag"
               :value="tag"
+              :severity="getTagSeverity(tag)"
               class="custom-tag"
-              @click="onTagClick(tag)"
-            >
-              <template #default>
-                <i class="pi pi-hashtag" style="font-size: 12px; margin-right: 6px; font-weight: 900;"></i>
-                <span>{{ tag }}</span>
-              </template>
-            </Tag>
+              @click.stop="onTagClick(tag)"
+            />
         </div>
 
         <!-- Preview Block -->
@@ -245,6 +241,39 @@ const onDislike = async () => {
     } catch (e) {
         console.error('Ошибка дизлайка:', e)
     }
+}
+
+// === теги ===
+const tagColors = ['success', 'info', 'warning', 'danger', 'secondary'] as const
+
+// Группы тегов по цветам (синхронизировано с CreateArticle.vue)
+const tagColorGroups: Record<'success' | 'info' | 'warning' | 'danger' | 'secondary', string[]> = {
+  success: ['JavaScript', 'Vue.js', 'React', 'Node.js', 'Web Development', 'Frontend', 'Tutorial', 'Guide'],
+  info: ['Python', 'TypeScript', 'Angular', 'Programming', 'Backend', 'Database', 'SQL', 'API', 'REST'],
+  warning: ['Design', 'UI/UX', 'Mobile Development', 'Game Development', 'Unity', 'Unreal Engine', 'Review', 'Interview'],
+  danger: ['Security', 'Testing', 'Cryptography', 'DevOps', 'Docker', 'Kubernetes', 'Blockchain'],
+  secondary: ['Tools', 'Git', 'NoSQL', 'Fullstack', 'Artificial Intelligence', 'Machine Learning', 'GraphQL', 'Microservices', 'Cloud', 'AWS', 'Azure', 'Google Cloud', 'Linux', 'Windows', 'macOS', 'News', 'Case Study', 'Architecture', 'Algorithms', 'Design Patterns']
+}
+
+const getTagSeverity = (tagOrIndex: string | number): typeof tagColors[number] => {
+  if (typeof tagOrIndex === 'number') {
+    return tagColors[tagOrIndex % tagColors.length]
+  }
+  
+  const tag = tagOrIndex as string
+  if (tagColorGroups.success.includes(tag)) return 'success'
+  if (tagColorGroups.info.includes(tag)) return 'info'
+  if (tagColorGroups.warning.includes(tag)) return 'warning'
+  if (tagColorGroups.danger.includes(tag)) return 'danger'
+  if (tagColorGroups.secondary.includes(tag)) return 'secondary'
+  
+  // Fallback
+  let hash = 0
+  for (let i = 0; i < tag.length; i++) {
+    hash = tag.charCodeAt(i) + ((hash << 5) - hash)
+  }
+  const index = Math.abs(hash) % tagColors.length
+  return tagColors[index]
 }
 
 // === прочее ===
@@ -486,43 +515,24 @@ const decodedArticleText = computed(() => {
     margin-top: 10px;
 }
 
-.custom-tag {
-    background-color: rgba(255, 255, 255, 0.2) !important;
-    min-width: 60px;
-    height: 28px !important;
-    padding: 0 12px !important;
-    border-radius: 7px !important;
-    font-size: 14px !important;
+/* PrimeVue Tag стили */
+:deep(.custom-tag) {
+    padding: 10px 16px !important;
+    font-size: 16px !important;
     font-family: var(--font-sans) !important;
-    font-weight: 420 !important;
-    color: rgba(255, 255, 255, 0.6) !important;
-    cursor: pointer;
+    font-weight: bold !important;
+    border-radius: 12px !important;
     transition: all 0.3s ease;
-    white-space: nowrap;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    letter-spacing: 1px;
-    text-transform: lowercase;
-    border: none !important;
-    margin-right: 10px;
-
+    cursor: pointer;
+    
     &:hover {
-        background-color: rgba(255, 255, 255, 0.4) !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
-
-    &:focus {
-        outline: none;
+    
+    .p-tag-value {
+        font-weight: bold !important;
     }
-
-    .pi-hashtag {
-        color: rgba(255, 255, 255, 0.6);
-        font-weight: 900;
-    }
-}
-
-.custom-tag:hover .pi-hashtag {
-    color: rgba(255, 255, 255, 0.8);
 }
 
 .article-card-content-text {

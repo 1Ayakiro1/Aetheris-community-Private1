@@ -3,7 +3,7 @@
     "brand": "Aetheris Communauté",
     "navigation": "Navigation",
     "home": "Page d'accueil",
-    "articles": "Articles",
+    "articlesNav": "Articles",
     "interactive": "Interactif",
     "companies": "Entreprises",
     "faq": "FAQ",
@@ -52,6 +52,21 @@
       "title": "Solde"
     },
     "development": "Cette page est en développement"
+  },
+  "create-article": {
+    "path": "Créer un thème dans : ",
+    "h1": "Avant de créer un article, lisez les règles de la section",
+    "h2": "En cas de violation des règles, votre article peut être restreint ou supprimé.",
+    "button1": "Lire les règles",
+    "h4": "Titre de l'article",
+    "h5": "Donnez une brève description de l'article",
+    "h6": "Tags de l'article",
+    "h7": "Sélectionnez jusqu'à 5 tags pour votre article",
+    "button2": "Créer",
+    "button3": "Aperçu",
+    "button4": "Enregistrer dans le brouillon",
+    "button5": "Mettre à jour",
+    "tagsCounter": "Sélectionné : {count}/{max}"
   },
   "settings": {
     "appearance": {
