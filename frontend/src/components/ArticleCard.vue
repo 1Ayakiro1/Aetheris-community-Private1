@@ -81,7 +81,11 @@
         <!-- Preview Block -->
         <div class="article-card-preview">
             <!-- Если превью есть и не сломалось -->
-            <div class="preview-image" v-if="article.previewImage && !imageError">
+            <div 
+                class="preview-image" 
+                v-if="article.previewImage && !imageError"
+                :style="{ '--preview-bg': `url(${article.previewImage})` }"
+            >
                 <img
                     :src="article.previewImage"
                     :alt="article.title"
@@ -903,17 +907,32 @@ const decodedArticleText = computed(() => {
 .preview-image {
     width: 100%;
     height: 100%;
+    position: relative;
+    overflow: hidden;
+    
+    /* Размытый фон из того же изображения */
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: var(--preview-bg);
+        background-size: cover;
+        background-position: center;
+        filter: blur(20px);
+        transform: scale(1.1);
+        z-index: 1;
+    }
 }
 
 .preview-img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-
-    &:hover {
-        transform: scale(1.05);
-    }
+    object-fit: contain;
+    position: relative;
+    z-index: 2;
 }
 
 .preview-content {
