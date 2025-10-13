@@ -89,25 +89,10 @@
 
         <!-- Metadata Panel -->
         <div class="metadata-panel">
-            <div class="metadata-item difficulty" :class="`difficulty-${article.difficulty || 'medium'}`">
-                <svg class="metadata-icon" width="16" height="16" viewBox="0 0 512 512" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M2230 5098 c-58 -40 -70 -65 -86 -189 -46 -351 -187 -668 -418 -931
-                    -90 -104 -165 -169 -352 -308 -498 -373 -786 -889 -835 -1498 -40 -491 129
-                    -1027 448 -1422 86 -106 251 -264 363 -347 409 -302 905 -441 1401 -393 535
-                    52 1019 309 1367 725 333 398 504 928 463 1433 -38 476 -207 872 -523 1224
-                    -97 107 -127 128 -189 128 -70 0 -102 -28 -179 -156 -63 -106 -176 -259 -217
-                    -296 -19 -17 -19 -16 -10 60 13 111 2 368 -22 502 -72 411 -254 775 -536 1068
-                    -124 129 -212 204 -341 290 -197 131 -268 155 -334 110z m321 -474 c251 -209
-                    445 -504 543 -826 56 -186 70 -288 70 -498 0 -209 -13 -298 -71 -493 -48 -161
-                    -51 -193 -21 -236 60 -88 138 -100 235 -36 186 122 386 311 513 482 58 79 78
-                    99 88 91 25 -22 154 -222 196 -307 242 -483 243 -1058 3 -1538 -141 -280 -336
-                    -501 -595 -674 -373 -250 -846 -343 -1284 -255 -622 126 -1113 562 -1308 1162
-                    -180 553 -76 1138 285 1599 91 116 231 247 391 366 151 112 311 261 407 379
-                    171 212 322 504 382 740 9 36 21 82 26 103 l10 39 27 -18 c15 -9 61 -45 103
-                    -80z"/>
-                </svg>
-                <span class="metadata-text">{{ getDifficultyText(article.difficulty) }}</span>
-            </div>
+        <div class="metadata-item difficulty" :class="`difficulty-${article.difficulty || 'medium'}`">
+          <img class="metadata-icon" :src="fireIcon" alt="Difficulty" width="16" height="16">
+          <span class="metadata-text">{{ getDifficultyText(article.difficulty) }}</span>
+        </div>
             <div class="metadata-item time">
                 <i class="pi pi-clock metadata-icon"></i>
                 <span class="metadata-text">22 min</span>
@@ -286,6 +271,7 @@ import { ref, watch, computed, onMounted, onUnmounted } from 'vue'
 import Tag from 'primevue/tag'
 import type { Article, ArticleCardProps, ArticleCardEmits } from '@/types/article'
 import { useArticles } from '@/composables/useArticles'
+const fireIcon = new URL('@/assets/svgs/fire_ico.svg', import.meta.url).href
 
 // === props и emits ===
 const props = defineProps<ArticleCardProps>()
@@ -938,30 +924,39 @@ const getDifficultyText = (difficulty: string | undefined): string => {
 
 /* Стили для разных уровней сложности */
 .metadata-item.difficulty-easy {
-    background-color: rgba(34, 197, 94, 0.2);
-    
-    .metadata-icon,
-    .metadata-text {
-        color: #22c55e;
-    }
+  background-color: rgba(34, 197, 94, 0.2);
+  
+  .metadata-icon {
+    filter: brightness(0) saturate(100%) invert(35%) sepia(100%) saturate(2000%) hue-rotate(90deg) brightness(130%) contrast(130%);
+  }
+  
+  .metadata-text {
+    color: #059669;
+  }
 }
 
 .metadata-item.difficulty-medium {
-    background-color: rgba(245, 158, 11, 0.2);
-    
-    .metadata-icon,
-    .metadata-text {
-        color: #f59e0b;
-    }
+  background-color: rgba(245, 158, 11, 0.2);
+  
+  .metadata-icon {
+    filter: brightness(0) saturate(100%) invert(84%) sepia(100%) saturate(1000%) hue-rotate(15deg) brightness(120%) contrast(120%);
+  }
+  
+  .metadata-text {
+    color: #f59e0b;
+  }
 }
 
 .metadata-item.difficulty-hard {
-    background-color: rgba(239, 68, 68, 0.2);
-    
-    .metadata-icon,
-    .metadata-text {
-        color: #DC2626;
-    }
+  background-color: rgba(239, 68, 68, 0.2);
+  
+  .metadata-icon {
+    filter: brightness(0) saturate(100%) invert(15%) sepia(100%) saturate(2000%) hue-rotate(0deg) brightness(130%) contrast(130%);
+  }
+  
+  .metadata-text {
+    color: #dc2626;
+  }
 }
 
 .metadata-icon {
