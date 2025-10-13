@@ -1,5 +1,5 @@
 <template>
-  <div class="article-card" @click="onArticleClick">
+  <div class="article-card">
     <!-- Header -->
     <div class="article-card-header">
         <div class="logo" @click.stop="onAuthorClick">
@@ -45,6 +45,42 @@
         <div class="nickname-container" @click.stop="onAuthorClick">
             <h2 class="nickname">{{ article.author.username }}</h2>
             <h2 class="publication-time">{{ formatDate(article.createdAt) }}</h2>
+        </div>
+        <div class="more-options-wrapper">
+          <svg 
+            width="24" 
+            height="24" 
+            viewBox="0 0 48 48" 
+            fill="none" 
+            xmlns="http://www.w3.org/2000/svg" 
+            class="more-options-icon"
+            :class="{ 'active': showOptionsMenu }"
+            @click.stop="toggleOptionsMenu"
+          >
+            <path d="M24 26C25.1046 26 26 25.1046 26 24C26 22.8954 25.1046 22 24 22C22.8954 22 22 22.8954 22 24C22 25.1046 22.8954 26 24 26Z" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M24 12C25.1046 12 26 11.1046 26 10C26 8.89543 25.1046 8 24 8C22.8954 8 22 8.89543 22 10C22 11.1046 22.8954 12 24 12Z" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M24 40C25.1046 40 26 39.1046 26 38C26 36.8954 25.1046 36 24 36C22.8954 36 22 36.8954 22 38C22 39.1046 22.8954 40 24 40Z" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+
+          <Transition name="dropdown-fade">
+            <div v-if="showOptionsMenu" class="options-dropdown" @click.stop>
+              <button class="dropdown-item" @click="onCopyLink">
+                <svg width="23" height="23" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M10 13a5 5 0 0 1 7.07 0l1.41 1.41a5 5 0 0 1 0 7.07v0a5 5 0 0 1-7.07 0l-1.41-1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M14 11a5 5 0 0 1-7.07 0L5.5 9.57a5 5 0 0 1 0-7.07v0a5 5 0 0 1 7.07 0L14 3.91" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>Copy link</span>
+              </button>
+              <button class="dropdown-item danger" @mousedown.stop.prevent="handleReportArticle" @pointerdown.stop="handleReportArticle" @click.stop="handleReportArticle">
+                <svg width="23" height="23" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M10.29 3.86L1.82 18c-.175.302-.267.645-.268.994-.001.35.089.693.262.997.173.303.423.556.724.733.3.177.642.272.991.276H20.47c.349-.004.691-.099.992-.276.301-.177.55-.43.723-.733.173-.304.263-.647.262-.997-.001-.349-.093-.692-.268-.994L13.71 3.86A2.5 2.5 0 0 0 12 2.897a2.5 2.5 0 0 0-1.71.963Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M12 9v4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M12 17h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>Report</span>
+              </button>
+            </div>
+          </Transition>
         </div>
     </div>
     <!-- Content -->
@@ -187,11 +223,51 @@
             Читать далее
         </button>
     </div>
+  
+  </div>
+  
+  <!-- Report Panel -->
+  <div v-if="isReportPanelOpen" class="report-panel-overlay" @click="closeReportPanel">
+    <div class="report-panel" @click.stop>
+      <div class="report-panel-content">
+      <h3 class="report-panel-title">Report Article</h3>
+      <p class="report-panel-subtitle">Select the reason for reporting:</p>
+      
+      <div class="report-reasons">
+        <label 
+          v-for="reason in reportReasons" 
+          :key="reason.id" 
+          class="reason-item"
+          :class="{ 'selected': selectedReasons.includes(reason.id) }"
+        >
+          <input 
+            type="checkbox" 
+            :value="reason.id" 
+            v-model="selectedReasons"
+            class="reason-checkbox"
+          />
+          <span class="reason-checkmark"></span>
+          <span class="reason-title">{{ reason.title }}</span>
+        </label>
+      </div>
+      
+      <div class="report-panel-buttons">
+        <button class="report-panel-button cancel" @click="closeReportPanel">Cancel</button>
+        <button 
+          class="report-panel-button confirm" 
+          @click="confirmReport"
+          :disabled="selectedReasons.length === 0"
+        >
+          Submit Report
+        </button>
+      </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue'
+import { ref, watch, computed, onMounted, onUnmounted } from 'vue'
 import Tag from 'primevue/tag'
 import type { Article, ArticleCardProps, ArticleCardEmits } from '@/types/article'
 import { useArticles } from '@/composables/useArticles'
@@ -213,6 +289,9 @@ const isCommentsOpen = ref(false)
 const isShared = ref(false)
 const commentsCount = ref(props.article.commentsCount || 0)
 const imageError = ref(false)
+const showOptionsMenu = ref(false)
+const isReportPanelOpen = ref(false)
+const selectedReasons = ref<string[]>([])
 
 // === watchers ===
 watch(() => props.article.userReaction, (v) => {
@@ -311,6 +390,86 @@ function onImageError() {
     imageError.value = true
 }
 
+const toggleOptionsMenu = () => {
+    showOptionsMenu.value = !showOptionsMenu.value
+}
+
+const onCopyLink = async () => {
+    try {
+        const url = `${window.location.origin}/article/${props.article.id}`
+        await navigator.clipboard.writeText(url)
+    } catch (e) {
+        console.error('Не удалось скопировать ссылку:', e)
+    } finally {
+        showOptionsMenu.value = false
+    }
+}
+
+function handleReportArticle() {
+    showOptionsMenu.value = false
+    isReportPanelOpen.value = true
+    selectedReasons.value = []
+    console.log('[ArticleCard] open report panel')
+}
+
+// Закрывать меню при клике вне области
+const handleClickOutside = (event: MouseEvent) => {
+    const target = event.target as HTMLElement
+    const dropdown = target.closest('.more-options-wrapper')
+    if (!dropdown && showOptionsMenu.value) {
+        showOptionsMenu.value = false
+    }
+}
+
+onMounted(() => {
+    document.addEventListener('click', handleClickOutside)
+    // Глобальный делегированный обработчик для Report (на случай перекрытий)
+    const delegatedReportHandler = (event: MouseEvent) => {
+        const target = event.target as HTMLElement
+        if (target.closest('.options-dropdown .dropdown-item.danger')) {
+            event.stopPropagation()
+            showOptionsMenu.value = false
+            isReportPanelOpen.value = true
+            selectedReasons.value = []
+            console.log('[ArticleCard] delegated open report panel')
+        }
+    }
+    // Сохраняем на window чтобы удалить корректно
+    // @ts-ignore
+    window.__articleCardDelegatedReportHandler__ = delegatedReportHandler
+    document.addEventListener('click', delegatedReportHandler, true)
+})
+
+onUnmounted(() => {
+    document.removeEventListener('click', handleClickOutside)
+    // @ts-ignore
+    const delegated = window.__articleCardDelegatedReportHandler__ as (e: MouseEvent) => void
+    if (delegated) {
+        document.removeEventListener('click', delegated, true)
+        // @ts-ignore
+        window.__articleCardDelegatedReportHandler__ = undefined
+    }
+})
+
+const reportReasons = [
+    { id: 'spam', title: 'Spam', description: 'Unwanted commercial content or repetitive messages' },
+    { id: 'harassment', title: 'Harassment', description: 'Bullying, threats, or personal attacks' },
+    { id: 'hate', title: 'Hate Speech', description: 'Content promoting violence or hatred' },
+    { id: 'inappropriate', title: 'Inappropriate Content', description: 'Sexual, violent, or disturbing content' },
+    { id: 'misinformation', title: 'Misinformation', description: 'False or misleading information' },
+]
+
+const closeReportPanel = () => {
+    isReportPanelOpen.value = false
+    selectedReasons.value = []
+}
+
+const confirmReport = () => {
+    console.log('Report article:', props.article.id, 'Reasons:', selectedReasons.value)
+    isReportPanelOpen.value = false
+    selectedReasons.value = []
+}
+
 // Функция для декодирования HTML-сущностей
 const decodeHtmlEntities = (text: string): string => {
     const textarea = document.createElement('textarea')
@@ -328,7 +487,7 @@ const decodedArticleText = computed(() => {
 .article-card {
     background-color: var(--bg-secondary);
     border-radius: 70px 70px 15px 15px;
-    cursor: pointer;
+    cursor: default;
     transition: all 0.2s ease-in-out;
     position: relative;
     display: flex;
@@ -355,7 +514,7 @@ const decodedArticleText = computed(() => {
     @media (min-width: 1025px) {
         width: 1055px;
         min-height: 800px; /* Оптимальная минимальная высота для десктопа */
-        border-radius: 60px 60px 15px 15px;
+        border-radius: 30px 30px 15px 15px;
     }
 
     &:hover {
@@ -369,6 +528,260 @@ const decodedArticleText = computed(() => {
     width: 100%;
     flex-direction: row;
     align-items: center;
+}
+
+.more-options-wrapper {
+    position: relative;
+    margin-left: auto;
+    margin-right: 30px;
+}
+
+.more-options-icon {
+    width: 31px;
+    height: 31px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    
+    &:hover {
+        color: var(--text-primary);
+    }
+    
+    &.active {
+        color: var(--primary-violet);
+    }
+}
+
+.options-dropdown {
+    position: absolute;
+    top: -10px;
+    left: 70px;
+    background-color: var(--bg-secondary);
+    border-radius: 16px;
+    padding: 10px;
+    min-width: 260px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    padding: 16px 18px;
+    background: none;
+    border: none;
+    border-radius: 10px;
+    color: var(--text-primary);
+    font-size: 20px;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+    
+    svg {
+        width: 23px;
+        height: 23px;
+        color: var(--text-secondary);
+        transition: color 0.2s ease;
+    }
+    
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+        
+        svg {
+            color: var(--text-primary);
+        }
+    }
+    
+    &.danger {
+        &:hover {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            
+            svg {
+                color: #ef4444;
+            }
+        }
+    }
+}
+
+.dropdown-fade-enter-active,
+.dropdown-fade-leave-active {
+    transition: all 0.3s ease;
+}
+
+.dropdown-fade-enter-from {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.dropdown-fade-leave-to {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+/* Report Panel */
+.report-panel-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20000;
+}
+
+.report-panel-content {
+    background-color: var(--bg-secondary);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    min-width: 550px;
+    max-width: 650px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.report-panel-title {
+    color: var(--text-primary);
+    font-size: 28px;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    margin: 0 0 12px 0;
+}
+
+.report-panel-subtitle {
+    color: var(--text-secondary);
+    font-size: 18px;
+    font-family: var(--font-sans);
+    margin: 0 0 20px 0;
+}
+
+.report-reasons {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.reason-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 16px 20px;
+    background-color: var(--bg-primary);
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.reason-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.reason-item.selected {
+    background-color: rgba(140, 0, 255, 0.1);
+    border-color: var(--primary-violet);
+}
+
+.reason-checkbox {
+    position: absolute;
+    opacity: 0;
+}
+
+.reason-checkmark {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--text-secondary);
+    border-radius: 8px;
+    margin-right: 14px;
+    flex-shrink: 0;
+}
+
+.reason-item.selected .reason-checkmark {
+    background-color: var(--primary-violet);
+    border-color: var(--primary-violet);
+}
+
+.reason-item.selected .reason-checkmark::after {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 3px;
+    width: 7px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}
+
+.reason-title {
+    color: var(--text-primary);
+    font-size: 18px;
+    font-family: var(--font-sans);
+    font-weight: 600;
+}
+
+.report-panel-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+.report-panel-button {
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.report-panel-button.cancel {
+    background-color: var(--btn-primary);
+    color: var(--text-primary);
+    border: 2px solid var(--text-secondary);
+}
+
+.report-panel-button.cancel:hover {
+    background-color: var(--text-secondary);
+    color: var(--bg-primary);
+}
+
+.report-panel-button.confirm {
+    background-color: var(--primary-violet);
+    color: white;
+}
+
+.report-panel-button.confirm:hover:not(:disabled) {
+    background-color: var(--primary-blue);
+}
+
+@media (max-width: 768px) {
+    .report-panel-content {
+        padding: 24px;
+        min-width: 320px;
+        max-width: 90vw;
+        margin: 0 20px;
+    }
+    .report-panel-title {
+        font-size: 24px;
+    }
+    .report-panel-subtitle {
+        font-size: 16px;
+    }
 }
 
 .logo {
