@@ -3,7 +3,7 @@
     "brand": "Aetheris Comunidad",
     "navigation": "Navegación",
     "home": "Página de inicio",
-    "articles": "Artículos",
+    "articlesNav": "Artículos",
     "interactive": "Interactivo",
     "companies": "Empresas",
     "faq": "FAQ",
@@ -52,6 +52,21 @@
       "title": "Saldo"
     },
     "development": "Esta página está en desarrollo"
+  },
+  "create-article": {
+    "path": "Crear tema en: ",
+    "h1": "Antes de crear un artículo, lee las reglas de la sección",
+    "h2": "Por violación de las reglas tu artículo puede ser restringido o eliminado.",
+    "button1": "Leer las reglas",
+    "h4": "Título del artículo",
+    "h5": "Proporciona una breve descripción del artículo",
+    "h6": "Etiquetas del artículo",
+    "h7": "Selecciona hasta 5 etiquetas para tu artículo",
+    "button2": "Crear",
+    "button3": "Vista previa",
+    "button4": "Guardar en borrador",
+    "button5": "Actualizar",
+    "tagsCounter": "Seleccionado: {count}/{max}"
   },
   "settings": {
     "appearance": {

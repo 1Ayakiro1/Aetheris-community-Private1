@@ -36,6 +36,65 @@
           editorStyle="height: 500px;"
         />
 
+        <!-- Tags Section -->
+        <div class="tags-section">
+          <h2 class="tags-title">{{ $t('create-article.h6') || 'Теги статьи' }}</h2>
+          <h2 class="tags-subtitle">{{ $t('create-article.h7') || 'Выберите до 5 тегов для вашей статьи' }}</h2>
+          
+          <!-- Selected Tags Display -->
+          <div v-if="selectedTags.length > 0" class="selected-tags">
+            <div 
+              v-for="tag in selectedTags" 
+              :key="tag" 
+              :class="['custom-tag-wrapper', `tag-${getTagSeverity(tag)}`]"
+            >
+              <span class="tag-text">{{ tag }}</span>
+              <button 
+                @click="removeTag(tag)" 
+                class="tag-remove-btn"
+                type="button"
+                :aria-label="`Удалить тег ${tag}`"
+              >
+                <i class="pi pi-times"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Tag Input with Autocomplete -->
+          <div class="tag-input-wrapper">
+            <input 
+              type="text" 
+              v-model="tagInput"
+              @input="onTagInput"
+              @focus="showSuggestions = true"
+              @keydown.enter.prevent="addTagFromInput"
+              :placeholder="selectedTags.length >= 5 ? 'Максимум 5 тегов' : 'Введите тег...'"
+              :disabled="selectedTags.length >= 5"
+              class="tags-input-field"
+            />
+            
+            <!-- Suggestions Dropdown -->
+            <div 
+              v-if="showSuggestions && filteredTags.length > 0 && selectedTags.length < 5" 
+              class="tags-suggestions"
+            >
+              <div 
+                v-for="tag in filteredTags" 
+                :key="tag"
+                @click="addTag(tag)"
+                class="suggestion-item"
+              >
+                {{ tag }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Tags Counter -->
+          <p class="tags-counter">
+            {{ $t('create-article.tagsCounter', { count: selectedTags.length, max: 5 }) }}
+          </p>
+        </div>
+
         <!-- Action buttons -->
         <div class="action-buttons">
           <button class="create-button" @click="handleCreateArticle" :disabled="loading || uploadingImage">
@@ -62,10 +121,11 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import Editor from 'primevue/editor'
+import Tag from 'primevue/tag'
 
 const { t } = useI18n()
 
@@ -75,11 +135,116 @@ import type { CreateArticleRequest } from '@/types/article'
 // Article data
 const articleTitle = ref('')
 const articleContent = ref('')
-const articleTags = ref('')
 const router = useRouter()
 const selectedFile = ref<File | null>(null)
 const localPreview = ref<string | null>(null) //URL.createObjectURL
 const uploadingImage = ref(false) //это для индикации загрузки изображения на imgBB. Надо потом накидать стилей под это
+
+// Tags grouped by colors for scalability
+// ============================================
+// КАК ДОБАВИТЬ НОВЫЙ ТЕГ:
+// 1. Добавьте новый тег в нужную цветовую группу ниже
+// 2. Тег автоматически появится в автодополнении
+// 3. Тег будет иметь цвет своей группы
+// 
+// ГРУППЫ ЦВЕТОВ:
+// - success (зеленый): Frontend технологии, обучение
+// - info (синий): Backend технологии, базы данных
+// - warning (желтый): Дизайн, игры, креатив
+// - danger (красный): Безопасность, тестирование, DevOps
+// - secondary (серый): Инструменты, платформы, прочее
+// ============================================
+const tagColorGroups: Record<'success' | 'info' | 'warning' | 'danger' | 'secondary', string[]> = {
+  success: [
+    'JavaScript',
+    'Vue.js',
+    'React',
+    'Node.js',
+    'Web Development',
+    'Frontend',
+    'Tutorial',
+    'Guide'
+  ],
+  info: [
+    'Python',
+    'TypeScript',
+    'Angular',
+    'Programming',
+    'Backend',
+    'Database',
+    'SQL',
+    'API',
+    'REST'
+  ],
+  warning: [
+    'Design',
+    'UI/UX',
+    'Mobile Development',
+    'Game Development',
+    'Unity',
+    'Unreal Engine',
+    'Review',
+    'Interview'
+  ],
+  danger: [
+    'Security',
+    'Testing',
+    'Cryptography',
+    'DevOps',
+    'Docker',
+    'Kubernetes',
+    'Blockchain'
+  ],
+  secondary: [
+    'Tools',
+    'Git',
+    'NoSQL',
+    'Fullstack',
+    'Artificial Intelligence',
+    'Machine Learning',
+    'GraphQL',
+    'Microservices',
+    'Cloud',
+    'AWS',
+    'Azure',
+    'Google Cloud',
+    'Linux',
+    'Windows',
+    'macOS',
+    'News',
+    'Case Study',
+    'Architecture',
+    'Algorithms',
+    'Design Patterns'
+  ]
+}
+
+// Flatten all tags for autocomplete
+const availableTags = ref([
+  ...tagColorGroups.success,
+  ...tagColorGroups.info,
+  ...tagColorGroups.warning,
+  ...tagColorGroups.danger,
+  ...tagColorGroups.secondary
+])
+
+const selectedTags = ref<string[]>([])
+const tagInput = ref('')
+const showSuggestions = ref(false)
+
+const filteredTags = computed(() => {
+  if (!tagInput.value.trim()) {
+    return availableTags.value.filter(tag => !selectedTags.value.includes(tag)).slice(0, 10)
+  }
+  
+  const searchTerm = tagInput.value.toLowerCase()
+  return availableTags.value
+    .filter(tag => 
+      tag.toLowerCase().includes(searchTerm) && 
+      !selectedTags.value.includes(tag)
+    )
+    .slice(0, 10)
+})
 
 // API integration
 const { createArticle, updateArticle, loading, error } = useArticles()
@@ -98,6 +263,90 @@ const disableReplying = ref(false)
 
 //debug
 console.log('VITE_IMGBB_API_KEY =', import.meta.env.VITE_IMGBB_API_KEY)
+
+// Tags functions
+const tagColors = ['success', 'info', 'warning', 'danger', 'secondary'] as const
+
+// Функция для получения цвета тега на основе его группы
+const getTagSeverity = (tagOrIndex: string | number): typeof tagColors[number] => {
+  // Если передан индекс (для обратной совместимости)
+  if (typeof tagOrIndex === 'number') {
+    return tagColors[tagOrIndex % tagColors.length]
+  }
+  
+  // Ищем тег в группах
+  const tag = tagOrIndex as string
+  
+  if (tagColorGroups.success.includes(tag)) return 'success'
+  if (tagColorGroups.info.includes(tag)) return 'info'
+  if (tagColorGroups.warning.includes(tag)) return 'warning'
+  if (tagColorGroups.danger.includes(tag)) return 'danger'
+  if (tagColorGroups.secondary.includes(tag)) return 'secondary'
+  
+  // Fallback: если тег не найден в группах, используем хеш
+  let hash = 0
+  for (let i = 0; i < tag.length; i++) {
+    hash = tag.charCodeAt(i) + ((hash << 5) - hash)
+  }
+  const index = Math.abs(hash) % tagColors.length
+  return tagColors[index]
+}
+
+const addTag = (tag: string) => {
+  if (selectedTags.value.length >= 5) {
+    alert('Максимум 5 тегов')
+    return
+  }
+  
+  if (!selectedTags.value.includes(tag)) {
+    selectedTags.value.push(tag)
+    tagInput.value = ''
+    showSuggestions.value = false
+  }
+}
+
+const removeTag = (tag: string) => {
+  const index = selectedTags.value.indexOf(tag)
+  if (index > -1) {
+    selectedTags.value.splice(index, 1)
+  }
+}
+
+const onTagInput = () => {
+  showSuggestions.value = true
+}
+
+const addTagFromInput = () => {
+  const inputValue = tagInput.value.trim()
+  
+  if (!inputValue) return
+  
+  if (selectedTags.value.length >= 5) {
+    alert('Максимум 5 тегов')
+    return
+  }
+  
+  // Проверяем, есть ли точное совпадение в отфильтрованных тегах
+  const exactMatch = filteredTags.value.find(
+    tag => tag.toLowerCase() === inputValue.toLowerCase()
+  )
+  
+  if (exactMatch) {
+    addTag(exactMatch)
+  } else if (filteredTags.value.length > 0) {
+    // Если есть предложения, берём первое
+    addTag(filteredTags.value[0])
+  }
+  // Кастомные теги больше не создаются
+}
+
+// Закрытие предложений при клике вне компонента
+const handleClickOutside = (event: MouseEvent) => {
+  const target = event.target as HTMLElement
+  if (!target.closest('.tag-input-wrapper')) {
+    showSuggestions.value = false
+  }
+}
 
 // Functions
 const exportToJSON = () => {
@@ -184,7 +433,7 @@ const exportToJSON = () => {
       html: articleContent.value,
       formatted: formattedContent
     },
-      tags: articleTags.value.split(',').map(tag => tag.trim()).filter(tag => tag),
+      tags: selectedTags.value, // используем selectedTags
       settings: {
         // publicationTime: publicationTimeEnabled.value,
         ranks: {
@@ -232,7 +481,7 @@ const handleCreateArticle = async () => {
             title: articleTitle.value.trim(),
             content: articleContent.value,
             excerpt: generateExcerpt(articleContent.value),
-            tags: articleTags.value.split(',').map(tag => tag.trim()).filter(tag => tag),
+            tags: selectedTags.value, // используем selectedTags вместо articleTags
             status: 'published',
             preview_image: previewUrl // <--- вместо previewImage
         }
@@ -274,13 +523,16 @@ const saveDraft = () => {
 }
 
 onMounted(() => {
+  // Add click outside handler
+  document.addEventListener('click', handleClickOutside)
+  
   // Load draft if exists
   const draft = localStorage.getItem('article_draft')
   if (draft) {
     try {
       const draftData = JSON.parse(draft)
       articleTitle.value = draftData.title || ''
-      articleTags.value = draftData.tags?.join(', ') || ''
+      selectedTags.value = draftData.tags || [] // загружаем теги в selectedTags
       articleContent.value = draftData.content?.html || ''
 
         if (draftData.settings) {
@@ -766,39 +1018,131 @@ async function uploadToImgBB(file: File): Promise<string> {
   background-color: var(--bg-primary) !important;
 }
 
-// .tags-title {
-//   color: var(--text-primary);
-//   font-size: 30px;
-//   font-family: var(--font-sans);
-//   font-weight: bold;
-//   margin-top: 24px;
-//   margin-left: 48px;
-// }
+// Tags Section
+.tags-section {
+  width: 100%;
+  margin-top: 48px;
+  padding: 0 48px;
+}
+
+.tags-title {
+  color: var(--text-primary);
+  font-size: 30px;
+  font-family: var(--font-sans);
+  font-weight: bold;
+  margin: 0;
+}
 
 .tags-subtitle {
   color: var(--text-secondary);
   font-size: 20px;
   font-family: var(--font-sans);
   font-weight: bold;
-  margin-left: 48px;
   width: 460px;
-  margin-top: 10px;
+  margin-top: 8px;
+  margin-bottom: 16px;
 }
 
-.tags-input {
-  width: 1300px;
+.selected-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+// Wrapper для тега с кнопкой удаления
+.custom-tag-wrapper {
+  display: inline-flex;
+  align-items: center;
+  padding: 13px 20px;
+  font-size: 20.8px;
+  font-family: var(--font-sans);
+  font-weight: bold;
+  border-radius: 15.6px;
+  transition: all 0.3s ease;
+  gap: 12px;
+  color: white;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  }
+  
+  // Цвета для разных типов тегов с повышенной прозрачностью (70%)
+  &.tag-success {
+    background-color: rgba(34, 197, 94, 0.3);
+  }
+  
+  &.tag-info {
+    background-color: rgba(59, 130, 246, 0.3);
+  }
+  
+  &.tag-warning {
+    background-color: rgba(245, 158, 11, 0.3);
+  }
+  
+  &.tag-danger {
+    background-color: rgba(239, 68, 68, 0.3);
+  }
+  
+  &.tag-secondary {
+    background-color: rgba(100, 116, 139, 0.3);
+  }
+}
+
+.tag-text {
+  font-weight: bold;
+  color: white;
+}
+
+// Кнопка удаления тега (крестик внутри тега)
+.tag-remove-btn {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+  flex-shrink: 0;
+  
+  &:hover {
+    transform: scale(1.2);
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+  
+  &:active {
+    transform: scale(0.9);
+  }
+  
+  i {
+    font-size: 11px;
+    font-weight: bold;
+  }
+}
+
+.tag-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.tags-input-field {
+  width: 100%;
   height: 68px;
   background-color: var(--btn-primary);
   border: none;
   border-radius: 20px;
-  margin-top: 16px;
-  margin-left: 48px;
   font-weight: bold;
   padding-left: 16px;
   padding-right: 16px;
   font-size: 22px;
   color: var(--text-primary);
-  transition: all 0s ease-in-out;
+  transition: all 0.3s ease;
 
   &::placeholder {
     color: var(--text-third);
@@ -806,9 +1150,74 @@ async function uploadToImgBB(file: File): Promise<string> {
 
   &:focus {
     outline: none;
-    border: 2px solid white;
+    border: 2px solid var(--primary-violet);
     border-radius: 20px;
   }
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.tags-suggestions {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background-color: var(--btn-primary);
+  border-radius: 20px;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: var(--primary-violet);
+    border-radius: 4px;
+  }
+}
+
+.suggestion-item {
+  padding: 14px 20px;
+  color: var(--text-primary);
+  font-size: 18px;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:first-child {
+    border-radius: 20px 20px 0 0;
+  }
+  
+  &:last-child {
+    border-radius: 0 0 20px 20px;
+  }
+  
+  &:only-child {
+    border-radius: 20px;
+  }
+  
+  &:hover {
+    background: rgba(139, 92, 246, 0.3);
+  }
+}
+
+.tags-counter {
+  color: var(--text-secondary);
+  font-size: 20px;
+  font-family: var(--font-sans);
+  margin-top: 12px;
+  font-weight: bold;
+  margin-bottom: 0;
 }
 
 .action-buttons {

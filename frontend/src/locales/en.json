@@ -50,19 +50,20 @@
     "subtitle1": "For violation of the rules your article may be restricted or deleted.",
     "button1": "Read the rules",
     "h4": "Article title",
+    "h5": "Give a brief description of the article",
     "subtitle2": "Give a brief description of the article",
     "input1": "Enter title...",
-    "h5": "Give a brief description of the article",
+    "h6": "Article tags",
+    "h7": "Select up to 5 tags for your article",
     "subtitle3": "Add a tag for better promotion of the article",
     "input2": "Enter tags (separated by commas)...",
     "button2": "Create",
     "button3": "Preview",
     "button4": "Save in draft",
     "button5": "Update",
-    "h6": "Publication time",
-    "h7": "Set the publication time of the article",
     "subtitle4": "Add a tag for better promotion of the article",
-    "input3": "ddmmyy"
+    "input3": "ddmmyy",
+    "tagsCounter": "Selected: {count}/{max}"
   },
 
 
