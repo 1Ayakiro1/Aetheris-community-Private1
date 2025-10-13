@@ -471,17 +471,27 @@ const confirmReport = () => {
     selectedReasons.value = []
 }
 
-// Функция для декодирования HTML-сущностей
-const decodeHtmlEntities = (text: string): string => {
+// Функция для удаления HTML-тегов и декодирования HTML-сущностей
+const stripHtmlTags = (text: string): string => {
+    if (!text) return ''
+    
+    // Создаем временный div элемент
+    const tempDiv = document.createElement('div')
+    tempDiv.innerHTML = text
+    
+    // Получаем текстовое содержимое без HTML-тегов
+    const textContent = tempDiv.textContent || tempDiv.innerText || ''
+    
+    // Декодируем HTML-сущности
     const textarea = document.createElement('textarea')
-    textarea.innerHTML = text
+    textarea.innerHTML = textContent
     return textarea.value
 }
 
-// Computed свойство для декодированного текста статьи
+// Computed свойство для очищенного текста статьи
 const decodedArticleText = computed(() => {
     const text = props.article.excerpt || props.article.content
-    return text ? decodeHtmlEntities(text) : ''
+    return text ? stripHtmlTags(text) : ''
 })
 
 // Функция для получения текста сложности
