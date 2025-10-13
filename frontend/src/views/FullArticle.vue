@@ -503,6 +503,7 @@ onMounted(() => {
   padding: 12px 16px;
   color: var(--text-primary);
   font-size: 16px;
+  font-weight: bold;
   font-family: var(--font-sans);
   resize: vertical;
   min-height: 80px;
@@ -551,7 +552,8 @@ onMounted(() => {
   text-align: center;
   padding: 40px 20px;
   color: var(--text-secondary);
-  font-size: 16px;
+  font-size: 20px;
+  font-weight: bold;
   font-family: var(--font-sans);
 }
 
