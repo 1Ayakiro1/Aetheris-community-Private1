@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import { useAuthStore } from '@/stores/auth'
 
 const routes = [
   // Main page (articles)
@@ -60,5 +61,27 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
 });
+
+// Global auth guard: allow only /login and /signin when not authenticated
+router.beforeEach((to) => {
+  const publicPaths = ['/login', '/signin', '/home']
+  const auth = useAuthStore()
+  const isPublic = publicPaths.includes(to.path)
+  if (!auth.isAuthenticated && !isPublic) {
+    try {
+      // Use PrimeVue Toast if available
+      // We can't import composables here cleanly; use a global event
+      document.dispatchEvent(new CustomEvent('auth-required', { detail: { redirect: to.fullPath } }))
+    } catch {}
+    return { path: '/home', query: { redirect: to.fullPath } }
+  }
+  if (auth.isAuthenticated && isPublic) {
+    return { path: to.query.redirect?.toString() || '/' }
+  }
+  // Default landing: if visiting root without auth, send to /home
+  if (!auth.isAuthenticated && to.path === '/') {
+    return { path: '/home' }
+  }
+})
 
 export default router;

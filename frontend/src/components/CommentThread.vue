@@ -1,84 +1,119 @@
 <template>
   <div class="comment-thread">
-    <CommentBlock
+    <!-- Main Comment -->
+    <AuthorCommentBlock
+      v-if="comment.author.isAuthor"
+      :id="`comment-${comment.id}`"
       :comment="comment"
-      :depth="comment.depth || 0"
-      :highlighted="comment.id === highlightedCommentId"
-      @like="forward('like', $event)"
-      @react="forward('react', $event)"
-      @reply="forward('reply', $event)"
-      @user-click="forward('user-click', $event)"
-      @mention-click="forward('mention-click', $event)"
-      @submit-reply="forward('submit-reply', $event)"
-      @cancel-reply="forward('cancel-reply', $event)"
+      :depth="comment.depth"
+      :highlighted="highlightedCommentId === comment.id"
+      @like="emit('like', comment.id)"
+      @react="(id, reaction) => emit('react', id, reaction)"
+      @reply="emit('reply', comment.id)"
+      @user-click="(userId) => emit('userClick', userId)"
+      @mention-click="(commentId) => emit('mentionClick', commentId)"
     />
-
-    <div v-if="comment.children && comment.children.length" class="comment-children">
+    
+    <CommentBlock
+      v-else
+      :id="`comment-${comment.id}`"
+      :comment="comment"
+      :depth="comment.depth"
+      :highlighted="highlightedCommentId === comment.id"
+      @like="emit('like', comment.id)"
+      @react="(id, reaction) => emit('react', id, reaction)"
+      @reply="emit('reply', comment.id)"
+      @user-click="(userId) => emit('userClick', userId)"
+      @mention-click="(commentId) => emit('mentionClick', commentId)"
+    />
+    
+    <!-- Reply Input for this comment -->
+    <CommentInput
+      v-if="replyingTo && replyingTo.id === comment.id"
+      :is-reply="true"
+      :reply-to-user="replyingTo.username"
+      :reply-to-id="replyingTo.id"
+      placeholder="Write your reply..."
+      submit-button-text="Reply"
+      @submit="(data) => emit('submitReply', data)"
+      @cancel="emit('cancelReply')"
+    />
+    
+    <!-- Child Comments (Recursive) -->
+    <template v-if="comment.children && comment.children.length > 0">
       <CommentThread
         v-for="child in comment.children"
         :key="child.id"
         :comment="child"
         :highlighted-comment-id="highlightedCommentId"
         :replying-to="replyingTo"
-        @like="forward('like', $event)"
-        @react="forward('react', $event)"
-        @reply="forward('reply', $event)"
-        @user-click="forward('user-click', $event)"
-        @mention-click="forward('mention-click', $event)"
-        @submit-reply="forward('submit-reply', $event)"
-        @cancel-reply="forward('cancel-reply', $event)"
+        @like="(id) => emit('like', id)"
+        @react="(id, reaction) => emit('react', id, reaction)"
+        @reply="(id) => emit('reply', id)"
+        @user-click="(userId) => emit('userClick', userId)"
+        @mention-click="(commentId) => emit('mentionClick', commentId)"
+        @submit-reply="(data) => emit('submitReply', data)"
+        @cancel-reply="emit('cancelReply')"
       />
-    </div>
+    </template>
   </div>
 </template>
 
 <script setup lang="ts">
-import CommentBlock from '@/components/CommentBlock.vue'
+import CommentBlock from './CommentBlock.vue'
+import AuthorCommentBlock from './AuthorCommentBlock.vue'
+import CommentInput from './CommentInput.vue'
 
-// Give the component a name to allow recursive self-reference
-// @ts-ignore
-defineOptions({ name: 'CommentThread' })
-
-type UiComment = {
+interface Comment {
   id: number
-  author: { id: number; username: string; avatar?: string; isAuthor?: boolean }
+  author: {
+    id: number
+    username: string
+    avatar?: string
+    isAuthor?: boolean
+  }
   text: string
   createdAt: string
-  likes?: number
-  dislikes?: number
-  userLiked?: boolean
+  likes: number
+  dislikes: number
+  userLiked: boolean
   userReaction?: string | null
   parentId?: number | null
   replyToCommentId?: number | null
   depth?: number
-  children?: UiComment[]
+  children?: Comment[]
 }
 
-const props = defineProps<{
-  comment: UiComment
+interface Props {
+  comment: Comment
   highlightedCommentId: number | null
-  replyingTo: { id: number; parentId: number; username: string } | null
-}>()
+  replyingTo: { id: number, parentId: number, username: string } | null
+}
 
-const emit = defineEmits<{
-  (e: 'like', payload: any): void
-  (e: 'react', payload: any): void
-  (e: 'reply', payload: any): void
-  (e: 'user-click', payload: any): void
-  (e: 'mention-click', payload: any): void
-  (e: 'submit-reply', payload: any): void
-  (e: 'cancel-reply', payload: any): void
-}>()
+interface Emits {
+  (e: 'like', commentId: number): void
+  (e: 'react', commentId: number, reaction: 'like' | 'dislike'): void
+  (e: 'reply', commentId: number): void
+  (e: 'userClick', userId: number): void
+  (e: 'mentionClick', commentId: number): void
+  (e: 'submitReply', data: { text: string, replyToId?: number, replyToUser?: string }): void
+  (e: 'cancelReply'): void
+}
 
-function forward(eventName: Parameters<typeof emit>[0], payload: any) {
-  emit(eventName as any, payload)
+defineProps<Props>()
+const emit = defineEmits<Emits>()
+</script>
+
+<script lang="ts">
+export default {
+  name: 'CommentThread'
 }
 </script>
 
 <style scoped>
-.comment-children {
-  margin-left: 40px;
+.comment-thread {
+  display: flex;
+  flex-direction: column;
 }
 </style>
-
 

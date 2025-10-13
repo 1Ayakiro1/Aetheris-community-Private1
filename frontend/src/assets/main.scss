@@ -215,3 +215,35 @@ html, body {
   color: var(--text-primary);
   font-family: var(--font-sans);
 }
+
+/* PrimeVue Toast customization to match site style */
+.p-toast {
+  .p-toast-message {
+    background: var(--bg-secondary);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: var(--text-primary);
+    border-radius: 16px;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+    font-family: var(--font-sans);
+  }
+  .p-toast-message-content {
+    padding: 14px 18px;
+    gap: 8px;
+  }
+  .p-toast-summary {
+    font-weight: 700;
+    font-family: var(--font-heading);
+    letter-spacing: 0.2px;
+  }
+  .p-toast-detail {
+    color: var(--text-secondary);
+    font-family: var(--font-body);
+  }
+  .p-toast-icon-close {
+    color: var(--text-third);
+  }
+  .p-toast-message-warn {
+    border-left: 3px solid var(--primary-violet);
+  }
+}

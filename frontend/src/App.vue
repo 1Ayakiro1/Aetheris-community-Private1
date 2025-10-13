@@ -1,4 +1,5 @@
 <template>
+  <Toast />
   <div v-if="$route.name === 'Welcome'">
     <div class="app-wrapper home-header-wrapper">
       <AppHeader />
