@@ -240,6 +240,7 @@ interface CommentBlockProps {
 
 interface CommentBlockEmits {
   (e: 'like', commentId: number): void
+  (e: 'react', commentId: number, reaction: 'like' | 'dislike'): void
   (e: 'reply', commentId: number): void
   (e: 'userClick', userId: number): void
   (e: 'mentionClick', commentId: number): void
@@ -371,6 +372,12 @@ const confirmReport = () => {
 }
 
 const handleVote = (voteType: 'up' | 'down') => {
+  const reaction = voteType === 'up' ? 'like' : 'dislike'
+  
+  // Emit reaction to parent for API call
+  emit('react', props.comment.id, reaction)
+  
+  // Update local state optimistically
   // If clicking the same vote, remove it
   if (userVote.value === voteType) {
     if (voteType === 'up') {

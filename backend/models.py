@@ -47,3 +47,27 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String, unique=True, nullable=False, index=True)
     password_hash = Column(String, nullable=False)
+
+class Comment(Base):
+    __tablename__ = "comments"
+
+    id = Column(Integer, primary_key=True, index=True)
+    article_id = Column(Integer, ForeignKey("articles.id", ondelete="CASCADE"), nullable=False)
+    parent_id = Column(Integer, ForeignKey("comments.id", ondelete="CASCADE"), nullable=True)
+    author_id = Column(Integer, nullable=True)  # временно, пока нет полноценной авторизации
+    author_name = Column(String, nullable=False, default="Guest")
+    text = Column(Text, nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    likes = Column(Integer, default=0)
+    dislikes = Column(Integer, default=0)
+
+class CommentReaction(Base):
+    __tablename__ = "comment_reactions"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, nullable=False)  # анонимный user_id из localStorage
+    comment_id = Column(Integer, ForeignKey("comments.id", ondelete="CASCADE"), nullable=False)
+    reaction = Column(String, nullable=False)  # 'like' or 'dislike'
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+    __table_args__ = (UniqueConstraint('user_id', 'comment_id', name='uix_user_comment'),)

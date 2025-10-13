@@ -33,3 +33,23 @@ def read_article(article_id: int, user_id: Optional[int] = None, db: Session = D
 @router.post("/articles/", response_model=schemas.Article)
 def create_article(article: schemas.ArticleCreate, db: Session = Depends(get_db)):
     return crud.create_article(db=db, article=article)
+
+# comments
+
+@router.get("/articles/{article_id}/comments", response_model=list[schemas.Comment])
+def list_comments(article_id: int, user_id: Optional[int] = None, db: Session = Depends(get_db)):
+    return crud.get_comments_by_article(db, article_id, user_id=user_id)
+
+@router.post("/articles/{article_id}/comments", response_model=schemas.Comment)
+def create_comment(article_id: int, payload: schemas.CommentCreate, db: Session = Depends(get_db)):
+    c = crud.create_comment(db, article_id, payload)
+    if not c:
+        raise HTTPException(status_code=404, detail="Article not found")
+    return c
+
+@router.post("/comments/{comment_id}/react", response_model=schemas.Comment)
+def react_comment_route(comment_id: int, payload: schemas.CommentReactionPayload, db: Session = Depends(get_db)):
+    comment = crud.react_comment(db, comment_id, payload.user_id, payload.reaction)
+    if not comment:
+        raise HTTPException(status_code=404, detail="Comment not found")
+    return comment

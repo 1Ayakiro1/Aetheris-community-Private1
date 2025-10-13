@@ -5,7 +5,10 @@ import {
     getArticle as apiGetArticle,
     reactArticle as apiReact,
     createArticle as apiCreateArticle,
-    updateArticle as apiUpdateArticle
+    updateArticle as apiUpdateArticle,
+    getArticleComments,
+    createArticleComment,
+    reactComment as apiReactComment,
 } from '@/api/articles'
 
 const articles = ref<Article[]>([])
@@ -131,5 +134,22 @@ export function useArticles() {
         }
     }
 
-    return { articles, loading, error, fetchArticles, react, getArticle, createArticle, updateArticle }
+    // comments
+    async function fetchComments(articleId: number) {
+        const userId = getOrCreateUserId()
+        return await getArticleComments(articleId, userId)
+    }
+
+    async function addComment(articleId: number, text: string, parentId?: number | null) {
+        const authorId = getOrCreateUserId()
+        const author_name = 'Guest'
+        return await createArticleComment(articleId, { text, parent_id: parentId ?? null, author_id: authorId, author_name })
+    }
+
+    async function reactCommentFn(commentId: number, reaction: 'like' | 'dislike') {
+        const userId = getOrCreateUserId()
+        return await apiReactComment(commentId, userId, reaction)
+    }
+
+    return { articles, loading, error, fetchArticles, react, getArticle, createArticle, updateArticle, fetchComments, addComment, reactCommentFn }
 }

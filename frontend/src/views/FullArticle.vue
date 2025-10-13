@@ -74,6 +74,7 @@
               :comment="comment"
               :highlighted="highlightedCommentId === comment.id"
               @like="handleCommentLike"
+              @react="handleCommentReact"
               @reply="handleCommentReply"
               @user-click="handleUserClick"
               @mention-click="handleMentionClick"
@@ -86,6 +87,7 @@
               :comment="comment"
               :highlighted="highlightedCommentId === comment.id"
               @like="handleCommentLike"
+              @react="handleCommentReact"
               @reply="handleCommentReply"
               @user-click="handleUserClick"
               @mention-click="handleMentionClick"
@@ -112,6 +114,7 @@
                 :reply-to-comment-id="reply.replyToCommentId"
                 :highlighted="highlightedCommentId === reply.id"
                 @like="handleCommentLike"
+                @react="handleCommentReact"
                 @reply="handleCommentReply"
                 @user-click="handleUserClick"
                 @mention-click="handleMentionClick"
@@ -160,7 +163,7 @@ import type { Article } from '@/types/article'
 const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
-const { getArticle } = useArticles()
+const { getArticle, fetchComments, addComment: addCommentApi, reactCommentFn } = useArticles()
 
 // Состояния
 const article = ref<Article | null>(null)
@@ -170,131 +173,25 @@ const newComment = ref('')
 const replyingTo = ref<{ id: number, parentId: number, username: string } | null>(null)
 const highlightedCommentId = ref<number | null>(null)
 
-// Temporary comment data (TODO: replace with real data from backend)
-const comments = ref([
-  {
-    id: 1,
-    author: {
-      id: 1,
-      username: 'Gesnhin player',
-      avatar: ''
-    },
-    text: 'Today i have been a beautiful day, becaus i did create this article and my friends have liked it lol xddddd \n im just need to kill my friends, im need to kill all of our eternal calamity',
-    createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
-    likes: 15,
-    dislikes: 3,
-    userLiked: false
-  },
-  {
-    id: 2,
-    author: {
-      id: 2,
-      username: 'Maria',
-      avatar: ''
-    },
-    text: 'Interesting approach to solving the problem. Will try to apply it in practice.',
-    createdAt: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(),
-    likes: 3,
-    dislikes: 10,
-    userLiked: false
-  },
-  {
-    id: 3,
-    author: {
-      id: 999,
-      username: 'ArticleAuthor',
-      avatar: '',
-      isAuthor: true
-    },
-    text: 'Thank you all for your feedback!\nI\'m glad you found this article helpful. If you have any questions, feel free to ask!',
-    createdAt: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(),
-    likes: 25,
-    dislikes: 1,
-    userLiked: false
-  },
-  {
-    id: 4,
-    author: {
-      id: 3,
-      username: 'Dmitry',
-      avatar: ''
-    },
-    text: 'Can you tell me where I can find more information on this topic?',
-    createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
-    likes: 4,
-    dislikes: 0,
-    userLiked: false
-  }
-])
+// Backend-powered comments
+type UiComment = {
+  id: number
+  author: { id: number, username: string, avatar?: string, isAuthor?: boolean }
+  text: string
+  createdAt: string
+  likes: number
+  dislikes: number
+  userLiked: boolean
+  userReaction?: string | null
+  parentId?: number | null
+  replyToCommentId?: number | null
+}
 
-// Temporary reply comments data (TODO: replace with real data from backend)
-const replyComments = ref([
-  {
-    id: 101,
-    parentId: 1, // Main comment this reply belongs to
-    replyToCommentId: 1, // Specific comment this is replying to
-    author: {
-      id: 4,
-      username: 'Лютi Анонимус',
-      avatar: ''
-    },
-    text: '@Gesnhin, Я вас взломал,господа,кланяйтесь мне и молите о пощаде,иначе мой коварный план по захвату мира будет приведен в исполнение!!! УХХУХААХХАХУХАУАХУАХУХАУХАУХАУХАХУАХУХАУХАУХУХАУХА \n Как говорится,один раз,хороший человек,а вот второй раз...уже хацкер жоски \n\n Мы будем сопротивлятся всем,ВСЕМ,УХАХУАХУАХХАУХА ',
-    createdAt: new Date(Date.now() - 1.5 * 60 * 60 * 1000).toISOString(),
-    likes: 7,
-    dislikes: 1,
-    userLiked: false
-  },
-  {
-    id: 102,
-    parentId: 1,
-    replyToCommentId: 101, // Replying to another reply
-    author: {
-      id: 5,
-      username: 'Viktor',
-      avatar: ''
-    },
-    text: '@Лютi, Thanks for sharing your experience!',
-    createdAt: new Date(Date.now() - 1 * 60 * 60 * 1000).toISOString(),
-    likes: 2,
-    dislikes: 8,
-    userLiked: false
-  },
-  {
-    id: 103,
-    parentId: 3,
-    replyToCommentId: 3, // Replying to main comment
-    author: {
-      id: 1,
-      username: 'Alexander',
-      avatar: ''
-    },
-    text: '@ArticleAuthor, Check out the official documentation, there is a lot of useful information there.',
-    createdAt: new Date(Date.now() - 20 * 60 * 60 * 1000).toISOString(),
-    likes: 10,
-    dislikes: 2,
-    userLiked: false
-  },
-  {
-    id: 104,
-    parentId: 1,
-    replyToCommentId: 102, // Replying to Viktor's reply
-    author: {
-      id: 6,
-      username: 'Anna',
-      avatar: ''
-    },
-    text: '@Viktor, I completely agree with your point!',
-    createdAt: new Date(Date.now() - 30 * 60 * 1000).toISOString(),
-    likes: 5,
-    dislikes: 0,
-    userLiked: false
-  }
-])
+const comments = ref<UiComment[]>([])
+const replyComments = ref<UiComment[]>([])
 
 // Total comments count (main comments + reply comments)
-const totalCommentsCount = computed(() => {
-  return comments.value.length + replyComments.value.length
-})
+const totalCommentsCount = computed(() => comments.value.length + replyComments.value.length)
 
 // Get article ID from route
 const articleId = ref<number>(parseInt(route.params.id as string))
@@ -311,6 +208,23 @@ const loadArticle = async () => {
     
     const fetchedArticle = await getArticle(articleId.value)
     article.value = fetchedArticle
+
+    // load comments from backend
+    const list = await fetchComments(articleId.value)
+    const mapped: UiComment[] = list.map(c => ({
+      id: c.id,
+      author: { id: c.author_id ?? 0, username: c.author_name || 'Guest', avatar: '' },
+      text: c.text,
+      createdAt: c.created_at,
+      likes: c.likes ?? 0,
+      dislikes: c.dislikes ?? 0,
+      userLiked: c.user_reaction === 'like',
+      userReaction: c.user_reaction ?? null,
+      parentId: c.parent_id ?? null,
+      replyToCommentId: c.parent_id ?? null,
+    }))
+    comments.value = mapped.filter(m => !m.parentId)
+    replyComments.value = mapped.filter(m => !!m.parentId)
   } catch (err) {
     console.error('Error loading article:', err)
     error.value = err instanceof Error ? err.message : 'Unknown error occurred'
@@ -325,30 +239,51 @@ const goBack = () => {
 }
 
 // Comment handlers
-const addComment = () => {
+const addComment = async () => {
   if (!newComment.value.trim()) return
-  
-  const comment = {
-    id: comments.value.length + 1,
-    author: {
-      id: 999,
-      username: 'Guest',
-      avatar: ''
-    },
-    text: newComment.value.trim(),
-    createdAt: new Date().toISOString(),
-    likes: 0,
-    dislikes: 0,
-    userLiked: false
-  }
-  
-  comments.value.unshift(comment)
+  const created = await addCommentToBackend(newComment.value)
+  comments.value.unshift(created)
   newComment.value = ''
+}
+
+async function addCommentToBackend(text: string, parentId?: number) {
+  const c = await addCommentApi(articleId.value, text, parentId ?? null)
+  const mapped: UiComment = {
+    id: c.id,
+    author: { id: c.author_id ?? 0, username: c.author_name || 'Guest', avatar: '' },
+    text: c.text,
+    createdAt: c.created_at,
+    likes: c.likes ?? 0,
+    dislikes: c.dislikes ?? 0,
+    userLiked: false,
+    parentId: c.parent_id ?? null,
+    replyToCommentId: c.parent_id ?? null,
+  }
+  return mapped
 }
 
 const handleCommentLike = (commentId: number) => {
   console.log('Like comment:', commentId)
   // TODO: Implement comment like functionality
+}
+
+const handleCommentReact = async (commentId: number, reaction: 'like' | 'dislike') => {
+  try {
+    const updated = await reactCommentFn(commentId, reaction)
+    // Update local comment state with API response
+    const updateComment = (c: UiComment) => {
+      if (c.id === commentId) {
+        c.likes = updated.likes ?? 0
+        c.dislikes = updated.dislikes ?? 0
+        c.userReaction = updated.user_reaction ?? null
+        c.userLiked = updated.user_reaction === 'like'
+      }
+    }
+    comments.value.forEach(updateComment)
+    replyComments.value.forEach(updateComment)
+  } catch (err) {
+    console.error('Error reacting to comment:', err)
+  }
 }
 
 const handleCommentReply = (commentId: number) => {
@@ -369,26 +304,10 @@ const handleCommentReply = (commentId: number) => {
   }
 }
 
-const handleReplySubmit = (data: { text: string, replyToId?: number, replyToUser?: string }) => {
+const handleReplySubmit = async (data: { text: string, replyToId?: number, replyToUser?: string }) => {
   if (!replyingTo.value) return
-  
-  const newReply = {
-    id: replyComments.value.length + 1000,
-    parentId: replyingTo.value.parentId, // Main comment thread
-    replyToCommentId: replyingTo.value.id, // Specific comment being replied to
-    author: {
-      id: 999,
-      username: 'Guest',
-      avatar: ''
-    },
-    text: data.text,
-    createdAt: new Date().toISOString(),
-    likes: 0,
-    dislikes: 0,
-    userLiked: false
-  }
-  
-  replyComments.value.push(newReply)
+  const created = await addCommentToBackend(data.text, replyingTo.value.parentId)
+  replyComments.value.push(created)
   replyingTo.value = null
 }
 

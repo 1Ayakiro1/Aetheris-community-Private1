@@ -42,3 +42,30 @@ class User(UserBase):
 
     class Config:
         from_attributes = True
+
+# Comments
+
+class CommentBase(BaseModel):
+    text: str
+    parent_id: Optional[int] = None
+    author_id: Optional[int] = None
+    author_name: Optional[str] = "Guest"
+
+class CommentCreate(CommentBase):
+    pass
+
+class Comment(CommentBase):
+    id: int
+    article_id: int
+    created_at: datetime
+    likes: int = 0
+    dislikes: int = 0
+    user_reaction: Optional[str] = None  # 'like', 'dislike' или None
+
+    class Config:
+        from_attributes = True
+
+# Comment reactions
+class CommentReactionPayload(BaseModel):
+    user_id: int
+    reaction: str  # 'like' or 'dislike'
