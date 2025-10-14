@@ -35,7 +35,7 @@
     <CommentInput
       v-if="replyingTo && replyingTo.id === comment.id"
       :is-reply="true"
-      :reply-to-user="replyingTo.username"
+      :reply-to-user="(comment.parentId != null || (comment.children && comment.children.length > 0)) ? replyingTo.username : null"
       :reply-to-id="replyingTo.id"
       placeholder="Write your reply..."
       submit-button-text="Reply"
