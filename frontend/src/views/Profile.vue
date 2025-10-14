@@ -22,8 +22,6 @@
                     <span class="stat-item">{{ userStats.comments_count }} {{ $t('profile_page.title2') }}</span>
                     <div class="stat-divider"></div>
                     <span class="stat-item">{{ $t('profile_page.title3') }} {{ formattedJoinDate }}</span>
-                    <div class="stat-divider"></div>
-                    <span class="stat-item">{{ $t('profile_page.title4') }}</span>
                 </div>
                 <div class="user-stats" v-else-if="auth.isAuthenticated && loading">
                     <span class="stat-item">Загрузка...</span>
@@ -34,7 +32,6 @@
             <div class="action-buttons" v-if="auth.isAuthenticated">
                 <button class="edit-button">
                     <img src="/src/assets/imgs/pen.png" alt="Edit" class="edit-icon" width="30" height="30">
-                    <span class="edit-text">{{ $t('profile_page.button1') }}</span>
                 </button>
 
                 <button class="more-button">
@@ -269,14 +266,18 @@ onMounted(async () => {
 .edit-button {
   display: flex;
   align-items: center;
-  width: 150px;
+  width: 60px;
   height: 56px;
-  background-color: var(--btn-primary);
+  background-color: transparent;
   border-radius: 20px;
   border: none;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   padding: 0 16px;
+
+  &:hover{
+    background-color: var(--btn-primary);
+  }
 }
 
 .edit-button:hover {
@@ -303,11 +304,15 @@ onMounted(async () => {
   justify-content: center;
   width: 56px;
   height: 56px;
-  background-color: var(--btn-primary);
+  background-color: transparent;
   border-radius: 50%;
   border: none;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
+
+  &:hover{
+    background-color: var(--btn-primary);
+  }
 }
 
 .more-button:hover {
@@ -334,7 +339,7 @@ onMounted(async () => {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 200px 0 210px 0;
+  padding: 50px 0 50px 0;
 }
 
 .empty-message {
