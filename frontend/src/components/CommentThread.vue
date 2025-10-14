@@ -5,6 +5,8 @@
       v-if="comment.author.isAuthor"
       :id="`comment-${comment.id}`"
       :comment="comment"
+      :parent-comment-id="comment.parentId"
+      :reply-to-comment-id="comment.replyToCommentId"
       :depth="comment.depth"
       :highlighted="highlightedCommentId === comment.id"
       @like="emit('like', comment.id)"
@@ -18,6 +20,8 @@
       v-else
       :id="`comment-${comment.id}`"
       :comment="comment"
+      :parent-comment-id="comment.parentId"
+      :reply-to-comment-id="comment.replyToCommentId"
       :depth="comment.depth"
       :highlighted="highlightedCommentId === comment.id"
       @like="emit('like', comment.id)"

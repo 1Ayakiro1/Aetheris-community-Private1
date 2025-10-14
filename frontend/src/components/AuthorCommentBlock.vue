@@ -241,6 +241,9 @@ interface Comment {
 
 interface CommentBlockProps {
   comment: Comment
+  // For mention navigation in replies, parent id helps resolve target
+  parentCommentId?: number
+  replyToCommentId?: number
   highlighted?: boolean
   depth?: number
 }
@@ -283,8 +286,9 @@ const formattedText = computed(() => {
 const handleTextClick = (event: MouseEvent) => {
   const target = event.target as HTMLElement
   if (target.classList.contains('mention')) {
-    const mention = target.getAttribute('data-mention')
-    // For author comments, we don't emit parent comment id
+    // If this is a reply, navigate to the parent comment; otherwise use self id
+    const targetCommentId = props.replyToCommentId || props.parentCommentId || props.comment.id
+    emit('mentionClick', targetCommentId)
     event.stopPropagation()
   }
 }
