@@ -28,6 +28,14 @@
   "articles": {
     "title": "Articles",
     "search": "Find articles...",
+    "searchResults": {
+      "title": "Search results for \"{query}\"",
+      "count": "Found articles: {count}",
+      "noResults": "No results found for \"{query}\"",
+      "noResultsDescription": "Try changing your search query or using different keywords",
+      "showAll": "Show all articles",
+      "resetFilters": "Reset filters"
+    },
     "info": {
       "title": "Article info",
       "date": "Date:",
@@ -39,6 +47,16 @@
     "similar": {
       "title": "Similar articles",
       "nothing": "no similar articles"
+    },
+    "filters": {
+      "difficulty": "Difficulty",
+      "readingTime": "Reading time",
+      "tags": "Tags",
+      "from": "From",
+      "to": "To",
+      "minutes": "minutes",
+      "reset": "Reset",
+      "close": "Close"
     }
     
   },

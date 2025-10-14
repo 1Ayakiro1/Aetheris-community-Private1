@@ -23,6 +23,13 @@ def react_article_route(article_id: int, payload: ReactionPayload, db: Session =
 def read_articles(skip: int = 0, limit: int = 100, user_id: Optional[int] = None, db: Session = Depends(get_db)):
     return crud.get_articles(db, skip=skip, limit=limit, user_id=user_id)
 
+@router.get("/articles/search", response_model=list[schemas.Article])
+def search_articles_route(q: str, skip: int = 0, limit: int = 100, user_id: Optional[int] = None, db: Session = Depends(get_db)):
+    """Поиск статей по тексту"""
+    if not q or len(q.strip()) < 2:
+        return []
+    return crud.search_articles(db, q.strip(), skip=skip, limit=limit, user_id=user_id)
+
 @router.get("/articles/{article_id}", response_model=schemas.Article)
 def read_article(article_id: int, user_id: Optional[int] = None, db: Session = Depends(get_db)):
     db_article = crud.get_article_with_user(db, article_id, user_id=user_id)

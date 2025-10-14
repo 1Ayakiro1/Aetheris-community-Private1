@@ -6,25 +6,132 @@
       <!-- First Left Block - Search -->
       <div class="search-section">
         <div class="search-container">
-          <svg class="search-icon" width="32" height="28" viewBox="0 0 42 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg 
+                    class="search-icon" 
+                    :class="{ 'active': showFilterDropdown }"
+                    width="32" 
+                    height="28" 
+                    viewBox="0 0 42 38" 
+                    fill="none" 
+                    xmlns="http://www.w3.org/2000/svg"
+                    @click="toggleFilterDropdown"
+                    style="cursor: pointer;"
+                  >
             <path d="M39.6119 2H2L17.0448 19.7375V32L24.5672 35.75V19.7375L39.6119 2Z" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           <div class="search-divider"></div>
-          <svg class="search-icon-2" width="28" height="28" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg 
+            class="search-icon-2" 
+            width="28" 
+            height="28" 
+            viewBox="0 0 38 38" 
+            fill="none" 
+            xmlns="http://www.w3.org/2000/svg"
+            @click="handleSearch"
+            style="cursor: pointer;"
+          >
             <path d="M35.8507 35.75L27.6701 27.5937M32.0895 17C32.0895 25.2843 25.3538 32 17.0448 32C8.73577 32 2 25.2843 2 17C2 8.71573 8.73577 2 17.0448 2C25.3538 2 32.0895 8.71573 32.0895 17Z" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           <!-- Search Bar -->
           <input
             type="text"
             class="search-input"
-            placeholder="Find articles..."
+            :placeholder="$t('articles.search')"
             :value="searchQuery"
             @input="onSearchInput"
+            @keydown.enter="handleSearch"
           >
+          <!-- Clear Search Button -->
+          <button
+            v-if="searchQuery"
+            @click="handleResetFilters"
+            class="clear-search-btn"
+            type="button"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Filter Dropdown -->
+        <div 
+          class="filter-dropdown"
+          :class="{ 'show': showFilterDropdown }"
+        >
+          <div class="filter-section">
+            <h4 class="filter-title">{{ $t('articles.filters.difficulty') }}</h4>
+            <div class="difficulty-circles">
+              <button 
+                v-for="(label, difficulty) in difficultyOptions" 
+                :key="difficulty"
+                @click="handleDifficultyFilter(filters.difficulty === difficulty ? null : difficulty)"
+                :class="['difficulty-circle', `difficulty-${difficulty}`, { 'selected': filters.difficulty === difficulty }]"
+                :title="label"
+                type="button"
+              >
+                <FireIcon class="difficulty-icon" />
+              </button>
+            </div>
+          </div>
+
+          <div class="filter-section">
+            <h4 class="filter-title">{{ $t('articles.filters.readingTime') }}</h4>
+            <div class="reading-time-inputs">
+              <div class="time-input-group">
+                <label>{{ $t('articles.filters.from') }}</label>
+                <input 
+                  type="number" 
+                  :value="filters.readingTimeMin" 
+                  @input="handleReadingTimeFilter($event.target.value ? Number($event.target.value) : null, filters.readingTimeMax)"
+                  :placeholder="$t('articles.filters.minutes')"
+                  min="0"
+                  class="time-input"
+                />
+              </div>
+              <div class="time-input-group">
+                <label>{{ $t('articles.filters.to') }}</label>
+                <input 
+                  type="number" 
+                  :value="filters.readingTimeMax" 
+                  @input="handleReadingTimeFilter(filters.readingTimeMin, $event.target.value ? Number($event.target.value) : null)"
+                  :placeholder="$t('articles.filters.minutes')"
+                  min="0"
+                  class="time-input"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="filter-section">
+            <h4 class="filter-title">{{ $t('articles.filters.tags') }}</h4>
+            <div class="filter-tags">
+              <button 
+                v-for="tag in availableTags" 
+                :key="tag"
+                @click="handleTagFilter(tag)"
+                :class="['filter-tag', { active: filters.tags.includes(tag) }]"
+              >
+                {{ tag }}
+              </button>
+            </div>
+          </div>
+
+          <div class="filter-actions">
+            <button @click="handleResetFilters" class="filter-reset-btn">
+              {{ $t('articles.filters.reset') }}
+            </button>
+            <button @click="toggleFilterDropdown" class="filter-close-btn">
+              {{ $t('articles.filters.close') }}
+            </button>
+          </div>
         </div>
 
         <!-- Articles Container -->
-        <div class="articles-list-container">
+        <div 
+          class="articles-list-container"
+          :class="{ 'shifted-down': showFilterDropdown }"
+        >
           <!-- Loading State -->
           <div v-if="loading" class="loading-container">
             <div class="loading-spinner"></div>
@@ -33,16 +140,23 @@
 
           <!-- Empty State -->
           <div v-else-if="isEmpty" class="empty-state">
-            <h3>Статьи не найдены</h3>
-            <p>Попробуйте изменить фильтры или поисковый запрос</p>
+            <h3 v-if="isSearching">{{ $t('articles.searchResults.noResults', { query: searchQuery }) }}</h3>
+            <h3 v-else>{{ $t('common.no_articles') }}</h3>
+            <p v-if="isSearching">{{ $t('articles.searchResults.noResultsDescription') }}</p>
+            <p v-else>{{ $t('articles.searchResults.noResultsDescription') }}</p>
             <button @click="handleResetFilters" class="reset-filters-btn">
-              Сбросить фильтры
+              {{ isSearching ? $t('articles.searchResults.showAll') : $t('articles.searchResults.resetFilters') }}
             </button>
           </div>
 
           <!-- Articles List -->
           <template v-else>
-              <!--              <ArticleCard :article="testArticle" />-->
+            <!-- Search Results Header -->
+            <div v-if="isSearching" class="search-results-header">
+              <h3>{{ $t('articles.searchResults.title', { query: searchQuery }) }}</h3>
+              <p class="search-results-count">{{ $t('articles.searchResults.count', { count: totalRecords }) }}</p>
+            </div>
+            
             <ArticleCard
               v-for="article in paginatedArticles"
               :key="article.id"
@@ -136,6 +250,7 @@ import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import ArticleCard from '@/components/ArticleCard.vue'
 import Paginator from 'primevue/paginator'
+import FireIcon from '@/assets/svgs/fire_ico.svg'
 
 import { useArticles } from '@/composables/useArticles'
 import { useI18n } from 'vue-i18n'
@@ -147,7 +262,8 @@ const {
   articles,
   loading,
   error,
-  fetchArticles
+  fetchArticles,
+  searchArticles
 } = useArticles()
 
 // Вычисляемые свойства
@@ -166,6 +282,24 @@ const paginatedArticles = computed(() => {
 const showBackToTop = ref(false)
 const buttonOpacity = ref(1)
 const searchQuery = ref('')
+const isSearching = ref(false)
+
+// Filter states
+const showFilterDropdown = ref(false)
+const filters = ref({
+  difficulty: null, // 'easy', 'medium', 'hard'
+  readingTimeMin: null,
+  readingTimeMax: null,
+  tags: []
+})
+const availableTags = ref([])
+
+// Difficulty options for filter
+const difficultyOptions = computed(() => ({
+  easy: t('create-article.difficulty.easy'),
+  medium: t('create-article.difficulty.medium'),
+  hard: t('create-article.difficulty.hard')
+} as Record<string, string>))
 
 // const onPageChange = async (event: any) => {
 //   first.value = event.first
@@ -197,9 +331,28 @@ const handleArticleClick = (articleId: number) => {
 }
 
 // Обработчик поиска
-const handleSearch = () => {
+const handleSearch = async () => {
   console.log('Поиск:', searchQuery.value)
-  // TODO: Реализовать поиск статей
+  
+  // Отменяем текущий таймаут при ручном запуске поиска
+  if (searchTimeout.value) {
+    clearTimeout(searchTimeout.value)
+    searchTimeout.value = null
+  }
+  
+  if (searchQuery.value.trim().length < 2) {
+    // Если запрос слишком короткий, загружаем все статьи
+    isSearching.value = false
+    await fetchArticles()
+    return
+  }
+  
+  isSearching.value = true
+  try {
+    await searchArticles(searchQuery.value.trim())
+  } catch (error) {
+    console.error('Ошибка поиска:', error)
+  }
 }
 
 // Обработчик изменения поискового запроса
@@ -219,10 +372,58 @@ const onSearchInput = async (event: Event) => {
 const searchTimeout = ref<ReturnType<typeof setTimeout> | null>(null)
 
 // Дополнительные обработчики
-const handleResetFilters = () => {
+const handleResetFilters = async () => {
   searchQuery.value = ''
+  isSearching.value = false
+  filters.value = {
+    difficulty: null,
+    readingTimeMin: null,
+    readingTimeMax: null,
+    tags: []
+  }
+  showFilterDropdown.value = false
   console.log('Фильтры сброшены')
-  // TODO: Реализовать сброс фильтров
+  // Загружаем все статьи при сбросе фильтров
+  await fetchArticles()
+}
+
+// Filter handlers
+const toggleFilterDropdown = () => {
+  showFilterDropdown.value = !showFilterDropdown.value
+}
+
+// Close dropdown when clicking outside
+const handleClickOutside = (event: Event) => {
+  const target = event.target as HTMLElement
+  if (!target.closest('.search-section')) {
+    showFilterDropdown.value = false
+  }
+}
+
+const handleDifficultyFilter = (difficulty: string | null) => {
+  filters.value.difficulty = difficulty
+  applyFilters()
+}
+
+const handleReadingTimeFilter = (min: number | null, max: number | null) => {
+  filters.value.readingTimeMin = min
+  filters.value.readingTimeMax = max
+  applyFilters()
+}
+
+const handleTagFilter = (tag: string) => {
+  const index = filters.value.tags.indexOf(tag)
+  if (index > -1) {
+    filters.value.tags.splice(index, 1)
+  } else {
+    filters.value.tags.push(tag)
+  }
+  applyFilters()
+}
+
+const applyFilters = async () => {
+  // TODO: Реализовать применение фильтров
+  console.log('Применяем фильтры:', filters.value)
 }
 
 const handlePageChange = (event: any) => {
@@ -285,12 +486,23 @@ const handleScroll = () => {
 
 onMounted(async () => {
   window.addEventListener('scroll', handleScroll)
+  document.addEventListener('click', handleClickOutside)
   await fetchArticles()
-    console.log('Статьи загружены следующие:', articles.value)
+  console.log('Статьи загружены следующие:', articles.value)
+  
+  // Получаем уникальные теги из загруженных статей
+  const allTags = new Set()
+  articles.value.forEach(article => {
+    if (article.tags && Array.isArray(article.tags)) {
+      article.tags.forEach(tag => allTags.add(tag))
+    }
+  })
+  availableTags.value = Array.from(allTags).sort()
 })
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
+  document.removeEventListener('click', handleClickOutside)
 })
 </script>
 
@@ -366,6 +578,7 @@ onUnmounted(() => {
   border-radius: 32px;
   display: flex;
   align-items: center;
+  position: relative;
 
   /* Мобильные устройства */
   @media (max-width: 768px) {
@@ -392,6 +605,29 @@ onUnmounted(() => {
 
 .search-icon {
   margin-left: 20px;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  color: var(--text-secondary);
+}
+
+.search-icon:hover {
+  transform: scale(1.1);
+  opacity: 0.8;
+  color: var(--text-primary);
+}
+
+.search-icon:active {
+  transform: scale(0.95);
+}
+
+.search-icon.active {
+  color: var(--primary-violet);
+  transform: scale(1.15);
+  filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.4));
+}
+
+.search-icon.active:hover {
+  color: #3b82f6;
+  filter: drop-shadow(0 0 12px rgba(59, 130, 246, 0.6));
 }
 
 .search-divider {
@@ -405,6 +641,16 @@ onUnmounted(() => {
 
 .search-icon-2 {
   margin-left: 20px;
+  transition: all 0.2s ease;
+}
+
+.search-icon-2:hover {
+  transform: scale(1.1);
+  opacity: 0.8;
+}
+
+.search-icon-2:active {
+  transform: scale(0.95);
 }
 
 .search-input {
@@ -418,6 +664,7 @@ onUnmounted(() => {
   font-family: var(--font-sans);
   font-weight: 500;
   padding-left: 16px;
+  padding-right: 60px; /* Отступ для кнопки очистки */
   border: none;
   outline: none;
 }
@@ -427,11 +674,36 @@ onUnmounted(() => {
   opacity: 0.3;
 }
 
+/* Clear Search Button */
+.clear-search-btn {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.clear-search-btn:hover {
+  color: var(--text-primary);
+  background-color: var(--bg-secondary);
+  transform: translateY(-50%) scale(1.1);
+}
+
 .loading-text {
   color: var(--text-secondary);
   font-size: 20px;
   font-family: var(--font-sans);
-  font-weight: 700;
+  font-weight: bold;
 }
 
 /* Articles List Container */
@@ -458,6 +730,31 @@ onUnmounted(() => {
     width: 1060px;
     gap: 20px;
   }
+}
+
+/* Search Results Header */
+.search-results-header {
+  background-color: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 10px;
+  border-left: 4px solid var(--primary-violet);
+}
+
+.search-results-header h3 {
+  color: var(--text-primary);
+  font-size: 20px;
+  font-family: var(--font-sans);
+  font-weight: bold;
+  margin: 0 0 8px 0;
+}
+
+.search-results-count {
+  color: var(--text-secondary);
+  font-size: 16px;
+  font-family: var(--font-sans);
+  font-weight: bold;
+  margin: 0;
 }
 
 /* Pagination Container */
@@ -612,11 +909,15 @@ onUnmounted(() => {
 .empty-state h3 {
   color: var(--text-primary);
   font-size: 24px;
+  font-family: var(--font-sans);
+  font-weight: bold;
   margin-bottom: 10px;
 }
 
 .empty-state p {
   font-size: 18px;
+  font-family: var(--font-sans);
+  font-weight: bold;
   margin-bottom: 20px;
 }
 
@@ -630,7 +931,8 @@ onUnmounted(() => {
   padding-right: 24px;
   border-radius: 8px;
   font-size: 16px;
-  font-weight: 600;
+  font-family: var(--font-sans);
+  font-weight: bold;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
@@ -775,6 +1077,320 @@ onUnmounted(() => {
   margin-left: 24px;
   margin-bottom: 0;
   margin-right: 0;
+}
+
+/* Articles Container Animation */
+.articles-list-container {
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(0);
+}
+
+.articles-list-container.shifted-down {
+  transform: translateY(50px);
+}
+
+/* Filter Dropdown */
+.filter-dropdown {
+  background-color: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 0;
+  margin-top: 0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--bg-primary);
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.filter-dropdown.show {
+  max-height: 600px;
+  padding: 24px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.filter-section {
+  margin-bottom: 24px;
+  padding: 16px;
+  background-color: var(--bg-primary);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.filter-section:last-of-type {
+  margin-bottom: 0;
+}
+
+.filter-title {
+  color: var(--text-primary);
+  font-size: 18px;
+  font-family: var(--font-sans);
+  font-weight: bold;
+  margin: 0 0 12px 0;
+}
+
+.difficulty-circles {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+}
+
+.difficulty-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  background-color: var(--bg-primary);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.difficulty-circle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.difficulty-circle:focus {
+  outline: none;
+  border-color: var(--primary-violet);
+}
+
+/* Color variants for different difficulties */
+.difficulty-circle.difficulty-easy:hover {
+  border-color: rgba(34, 197, 94, 0.7);
+  background-color: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+}
+
+.difficulty-circle.difficulty-easy.selected {
+  border-color: #22c55e;
+  background-color: rgba(34, 197, 94, 0.2);
+  color: #22c55e;
+}
+
+.difficulty-circle.difficulty-medium:hover {
+  border-color: rgba(245, 158, 11, 1);
+  background-color: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+}
+
+.difficulty-circle.difficulty-medium.selected {
+  border-color: #f59e0b;
+  background-color: rgba(245, 158, 11, 0.2);
+  color: #f59e0b;
+}
+
+.difficulty-circle.difficulty-hard:hover {
+  border-color: rgba(239, 68, 68, 1);
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.difficulty-circle.difficulty-hard.selected {
+  border-color: #ef4444;
+  background-color: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+.difficulty-icon {
+  width: 20px;
+  height: 20px;
+  transition: all 0.3s ease;
+  fill: currentColor;
+}
+
+.difficulty-circle:hover .difficulty-icon {
+  transform: scale(1.1);
+}
+
+.difficulty-circle.selected .difficulty-icon {
+  transform: scale(1.1);
+}
+
+/* Цвета для иконок в зависимости от сложности */
+.difficulty-circle.difficulty-easy .difficulty-icon {
+  fill: #22c55e !important;
+}
+
+.difficulty-circle.difficulty-medium .difficulty-icon {
+  fill: #f59e0b !important;
+}
+
+.difficulty-circle.difficulty-hard .difficulty-icon {
+  fill: #ef4444 !important;
+}
+
+/* Hover эффекты для иконок */
+.difficulty-circle:hover .difficulty-icon {
+  transform: scale(1.1);
+}
+
+/* ЗАПОЛНЕНИЕ иконки цветом при выборе */
+.difficulty-circle.selected.difficulty-easy .difficulty-icon {
+  fill: #16a34a !important; /* Полное заполнение зеленым */
+}
+
+.difficulty-circle.selected.difficulty-medium .difficulty-icon {
+  fill: #d97706 !important; /* Полное заполнение оранжевым */
+}
+
+.difficulty-circle.selected.difficulty-hard .difficulty-icon {
+  fill: #dc2626 !important; /* Полное заполнение красным */
+}
+
+.reading-time-inputs {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.time-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  min-width: 120px;
+}
+
+.time-input-group label {
+  color: var(--text-secondary);
+  font-size: 16px;
+  font-family: var(--font-sans);
+  font-weight: bold;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.time-input {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-family: var(--font-sans);
+  font-weight: bold;
+  outline: none;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.time-input:focus {
+  border-color: var(--primary-violet);
+}
+
+.time-input::placeholder {
+  color: var(--text-third);
+  opacity: 0.6;
+}
+
+.filter-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  max-height: 120px;
+  overflow-y: auto;
+  padding: 8px;
+  background-color: var(--bg-secondary);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.filter-tag {
+  background-color: var(--bg-primary);
+  color: var(--text-secondary);
+  border: 2px solid transparent;
+  border-radius: 20px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-family: var(--font-sans);
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.filter-tag:hover {
+  background-color: var(--btn-primary);
+  color: var(--text-primary);
+}
+
+.filter-tag.active {
+  background-color: var(--primary-violet);
+  color: white;
+  border-color: var(--primary-violet);
+}
+
+.filter-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--bg-primary);
+}
+
+.filter-reset-btn,
+.filter-close-btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: var(--font-sans);
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.filter-reset-btn {
+  background-color: var(--bg-primary);
+  color: var(--text-secondary);
+}
+
+.filter-reset-btn:hover {
+  background-color: var(--btn-primary);
+  color: var(--text-primary);
+}
+
+.filter-close-btn {
+  background-color: var(--primary-violet);
+  color: white;
+}
+
+.filter-close-btn:hover {
+  background-color: #3b82f6;
+}
+
+/* Mobile responsiveness for filter dropdown */
+@media (max-width: 768px) {
+  .filter-dropdown {
+    margin-top: 12px;
+    padding: 16px;
+  }
+  
+  .reading-time-inputs {
+    flex-direction: column;
+  }
+  
+  .time-input-group {
+    min-width: 100%;
+  }
+  
+  .filter-actions {
+    flex-direction: column;
+  }
+  
+  .filter-reset-btn,
+  .filter-close-btn {
+    width: 100%;
+  }
 }
 
 </style>
