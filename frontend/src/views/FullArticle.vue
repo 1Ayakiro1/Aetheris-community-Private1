@@ -96,7 +96,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, nextTick, computed } from 'vue'
+import { ref, onMounted, nextTick, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import FullArticleCard from '@/components/FullArticleCard.vue'
@@ -369,8 +369,69 @@ function buildCommentTree(flatComments: UiComment[], depth = 0): UiComment[] {
 }
 
 // Load on mount
-onMounted(() => {
-  loadArticle()
+onMounted(async () => {
+  console.log('FullArticle mounted, articleId:', articleId.value)
+  console.log('Current route:', route.path, route.params, route.hash)
+  
+  await loadArticle()
+  
+  // Проверяем, есть ли якорь для комментария в URL
+  const hash = window.location.hash
+  console.log('URL hash:', hash)
+  
+  if (hash && hash.startsWith('#comment-')) {
+    const commentId = parseInt(hash.replace('#comment-', ''))
+    console.log('Found comment anchor, commentId:', commentId)
+    
+    if (commentId) {
+      // Ждем, пока комментарии загрузятся, затем прокручиваем к нужному
+      await nextTick()
+      setTimeout(() => {
+        console.log('Attempting to scroll to comment:', commentId)
+        scrollToComment(commentId)
+      }, 500) // Небольшая задержка для полной загрузки
+    }
+  }
+})
+
+// Функция для прокрутки к комментарию
+const scrollToComment = (commentId: number) => {
+  console.log('scrollToComment called with commentId:', commentId)
+  const element = document.getElementById(`comment-${commentId}`)
+  console.log('Found element:', element)
+  
+  if (element) {
+    console.log('Scrolling to comment element')
+    // Подсвечиваем комментарий
+    highlightedCommentId.value = commentId
+    
+    // Прокручиваем к элементу
+    element.scrollIntoView({ 
+      behavior: 'smooth', 
+      block: 'center' 
+    })
+    
+    // Убираем подсветку через 3 секунды
+    setTimeout(() => {
+      highlightedCommentId.value = null
+    }, 3000)
+  } else {
+    console.log('Comment element not found, available elements with comment- prefix:')
+    const allElements = document.querySelectorAll('[id^="comment-"]')
+    allElements.forEach(el => console.log('Found comment element:', el.id))
+  }
+}
+
+// Следим за изменениями хеша в URL
+watch(() => route.hash, (newHash) => {
+  if (newHash && newHash.startsWith('#comment-')) {
+    const commentId = parseInt(newHash.replace('#comment-', ''))
+    if (commentId) {
+      setTimeout(() => {
+        scrollToComment(commentId)
+      }, 100)
+    }
+  }
 })
 </script>
 

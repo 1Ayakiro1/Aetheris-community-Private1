@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from sqlalchemy.sql import func
 from passlib.context import CryptContext
 from backend import models, schemas
 import json
@@ -149,6 +150,10 @@ def react_article(db: Session, article_id: int, user_id: int, reaction: str):
     db.commit()
     db.refresh(article)
 
+    # Проверяем пороги лайков для уведомлений (только при добавлении лайка)
+    if reaction == 'like' and (not existing or existing.reaction != 'like'):
+        check_and_create_like_threshold_notification(db, article_id, article.likes)
+
     article.tags = article.tags.split(",") if article.tags else []
     r = db.query(models.ArticleReaction).filter(
         models.ArticleReaction.article_id == article_id,
@@ -189,7 +194,45 @@ def create_comment(db: Session, article_id: int, comment: schemas.CommentCreate)
     db_article.comments_count = (db_article.comments_count or 0) + 1
     db.commit()
     db.refresh(db_comment)
+    
+    # Отправляем уведомления
+    _send_comment_notifications(db, db_comment, db_article)
+    
     return db_comment
+
+def _send_comment_notifications(db: Session, comment: models.Comment, article: models.Article):
+    """Отправить уведомления о новом комментарии"""
+    
+    # Если это ответ на комментарий, отправляем уведомление автору родительского комментария
+    if comment.parent_id:
+        parent_comment = db.query(models.Comment).filter(models.Comment.id == comment.parent_id).first()
+        if parent_comment and parent_comment.author_id and parent_comment.author_id != comment.author_id:
+            # Создаем уведомление для автора родительского комментария
+            notification = schemas.NotificationCreate(
+                user_id=parent_comment.author_id,
+                type="comment_reply",
+                title="Новый ответ на ваш комментарий",
+                message=f"{comment.author_name} ответил на ваш комментарий",
+                related_article_id=article.id,
+                related_comment_id=comment.id
+            )
+            create_notification(db, notification)
+    
+    # Отправляем уведомление автору статьи только для корневых комментариев (не ответов)
+    # и только если это не его комментарий
+    if not comment.parent_id and article.author != comment.author_name:
+        # Находим ID автора статьи по username
+        article_author = db.query(models.User).filter(models.User.username == article.author).first()
+        if article_author and article_author.id != comment.author_id:
+            notification = schemas.NotificationCreate(
+                user_id=article_author.id,
+                type="article_comment",
+                title="Новый комментарий к вашей статье",
+                message=f"{comment.author_name} прокомментировал вашу статью \"{article.title}\"",
+                related_article_id=article.id,
+                related_comment_id=comment.id
+            )
+            create_notification(db, notification)
 
 def get_comment(db: Session, comment_id: int):
     return db.query(models.Comment).filter(models.Comment.id == comment_id).first()
@@ -245,3 +288,98 @@ def react_comment(db: Session, comment_id: int, user_id: int, reaction: str):
     comment.user_reaction = r.reaction if r else None
 
     return comment
+
+# Notifications
+
+def create_notification(db: Session, notification: schemas.NotificationCreate):
+    """Создать новое уведомление"""
+    db_notification = models.Notification(**notification.dict())
+    db.add(db_notification)
+    db.commit()
+    db.refresh(db_notification)
+    return db_notification
+
+def get_user_notifications(db: Session, user_id: int, skip: int = 0, limit: int = 100):
+    """Получить уведомления пользователя"""
+    return db.query(models.Notification).filter(
+        models.Notification.user_id == user_id
+    ).order_by(models.Notification.created_at.desc()).offset(skip).limit(limit).all()
+
+def mark_notification_as_read(db: Session, notification_id: int, user_id: int):
+    """Отметить уведомление как прочитанное"""
+    notification = db.query(models.Notification).filter(
+        models.Notification.id == notification_id,
+        models.Notification.user_id == user_id
+    ).first()
+    if notification:
+        notification.is_read = 1
+        db.commit()
+        db.refresh(notification)
+    return notification
+
+def get_unread_notifications_count(db: Session, user_id: int):
+    """Получить количество непрочитанных уведомлений"""
+    return db.query(models.Notification).filter(
+        models.Notification.user_id == user_id,
+        models.Notification.is_read == 0
+    ).count()
+
+# Удалены функции настроек уведомлений - используем фиксированные пороги
+
+# Article Like Thresholds - упрощенная версия с фиксированными порогами
+def check_and_create_like_threshold_notification(db: Session, article_id: int, current_likes: int):
+    """Проверить и создать уведомление о достижении порога лайков (упрощенная версия)"""
+    
+    # Фиксированные пороги лайков
+    THRESHOLDS = [1, 5, 10, 25, 50, 100, 500, 1000]
+    
+    # Проверяем только если лайков достаточно для минимального порога
+    if current_likes < 1:
+        return
+    
+    # Получаем статью и автора одним запросом с JOIN
+    result = db.query(models.Article, models.User).join(
+        models.User, models.Article.author == models.User.username
+    ).filter(models.Article.id == article_id).first()
+    
+    if not result:
+        return
+    
+    article, author = result
+    
+    # Проверяем только достижимые пороги
+    reachable_thresholds = [t for t in THRESHOLDS if current_likes >= t]
+    if not reachable_thresholds:
+        return
+    
+    # Проверяем существующие пороги одним запросом
+    existing_thresholds = db.query(models.ArticleLikeThreshold.threshold).filter(
+        models.ArticleLikeThreshold.article_id == article_id,
+        models.ArticleLikeThreshold.threshold.in_(reachable_thresholds)
+    ).all()
+    
+    existing_threshold_values = {t[0] for t in existing_thresholds}
+    
+    # Находим первый недостигнутый порог
+    for threshold in sorted(reachable_thresholds):
+        if threshold not in existing_threshold_values:
+            # Создаем запись о достижении порога
+            threshold_record = models.ArticleLikeThreshold(
+                article_id=article_id,
+                user_id=author.id,
+                threshold=threshold
+            )
+            db.add(threshold_record)
+            
+            # Создаем уведомление
+            notification = schemas.NotificationCreate(
+                user_id=author.id,
+                type="article_like_threshold",
+                title="Новый порог лайков!",
+                message=f"Ваша статья \"{article.title}\" получила {current_likes} лайков!",
+                related_article_id=article_id
+            )
+            create_notification(db, notification)
+            
+            db.commit()
+            break  # Отправляем только одно уведомление за раз

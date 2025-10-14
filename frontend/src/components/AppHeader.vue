@@ -209,6 +209,7 @@
         </button>
       </router-link>
 
+
       <router-link to="/shop">
         <button class="panel-button">
           <ShopIcon class="panel-icon" />
