@@ -69,14 +69,15 @@ app.use(PrimeVue, {
 });
 app.use(ToastService)
 app.use(pinia)
+// Restore auth BEFORE installing router so guards see correct auth state
+const auth = useAuthStore()
+auth.tryRestoreFromStorage()
+
 app.use(i18n)
 
 app.component('Editor', Editor);
 app.component('Toast', Toast)
 app.use(router);
-
-const auth = useAuthStore()
-auth.tryRestoreFromStorage()
 
 app.mount('#app');
 
@@ -87,5 +88,21 @@ document.addEventListener('auth-required', (e: any) => {
   try {
     // @ts-ignore
     app.config.globalProperties.$toast.add({ severity: 'warn', summary: 'Требуется авторизация', detail: 'Для продолжения необходимо войти или зарегистрироваться', life: 4000 })
+  } catch {}
+})
+
+// Generic app toast with i18n keys
+document.addEventListener('app-toast', (e: any) => {
+  const { detail } = e || {}
+  try {
+    const summary = detail?.summaryKey ? i18n.global.t(detail.summaryKey, detail.params || {}) : (detail?.summary || '')
+    const msg = detail?.detailKey ? i18n.global.t(detail.detailKey, detail.params || {}) : (detail?.detail || '')
+    // @ts-ignore
+    app.config.globalProperties.$toast.add({
+      severity: detail?.severity || 'info',
+      summary,
+      detail: msg,
+      life: detail?.life || 4000
+    })
   } catch {}
 })

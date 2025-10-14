@@ -5,6 +5,8 @@
       v-if="comment.author.isAuthor"
       :id="`comment-${comment.id}`"
       :comment="comment"
+      :parent-comment-id="comment.parentId"
+      :reply-to-comment-id="comment.replyToCommentId"
       :depth="comment.depth"
       :highlighted="highlightedCommentId === comment.id"
       @like="emit('like', comment.id)"
@@ -18,6 +20,8 @@
       v-else
       :id="`comment-${comment.id}`"
       :comment="comment"
+      :parent-comment-id="comment.parentId"
+      :reply-to-comment-id="comment.replyToCommentId"
       :depth="comment.depth"
       :highlighted="highlightedCommentId === comment.id"
       @like="emit('like', comment.id)"
@@ -31,7 +35,7 @@
     <CommentInput
       v-if="replyingTo && replyingTo.id === comment.id"
       :is-reply="true"
-      :reply-to-user="replyingTo.username"
+      :reply-to-user="(comment.parentId != null || (comment.children && comment.children.length > 0)) ? replyingTo.username : null"
       :reply-to-id="replyingTo.id"
       placeholder="Write your reply..."
       submit-button-text="Reply"

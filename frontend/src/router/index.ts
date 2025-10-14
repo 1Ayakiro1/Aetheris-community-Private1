@@ -55,6 +55,18 @@ const routes = [
 
     //test view for articles
     { path: '/test-article', name: 'TestArticle', component: () => import('@/views/TestArticle.vue') },
+  
+  // Admin Panel (guarded)
+  {
+    path: '/admin',
+    component: () => import('@/views/admin/AdminLayout.vue'),
+    children: [
+      { path: '', redirect: { name: 'AdminArticles' } },
+      { path: 'articles', name: 'AdminArticles', component: () => import('@/views/admin/AdminReportedArticles.vue') },
+      { path: 'comments', name: 'AdminComments', component: () => import('@/views/admin/AdminReportedComments.vue') },
+      { path: 'profiles', name: 'AdminProfiles', component: () => import('@/views/admin/AdminReportedProfiles.vue') },
+    ]
+  },
 ];
 
 const router = createRouter({
@@ -67,6 +79,14 @@ router.beforeEach((to) => {
   const publicPaths = ['/login', '/signin', '/home']
   const auth = useAuthStore()
   const isPublic = publicPaths.includes(to.path)
+  // Admin guard
+  if (to.path.startsWith('/admin')) {
+    if (!auth.isAuthenticated) {
+      document.dispatchEvent(new CustomEvent('auth-required', { detail: { redirect: to.fullPath } }))
+      return { path: '/home', query: { redirect: to.fullPath } }
+    }
+    // Temporarily allow all authenticated users until roles are wired
+  }
   if (!auth.isAuthenticated && !isPublic) {
     try {
       // Use PrimeVue Toast if available

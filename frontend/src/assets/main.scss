@@ -228,17 +228,19 @@ html, body {
     font-family: var(--font-sans);
   }
   .p-toast-message-content {
-    padding: 14px 18px;
+    padding: 17px 22px; /* ~+20% size */
     gap: 8px;
   }
   .p-toast-summary {
     font-weight: 700;
-    font-family: var(--font-heading);
+    font-family: var(--font-sans); /* use sans instead of comfortaa */
+    font-size: 1.2rem; /* ~+20% */
     letter-spacing: 0.2px;
   }
   .p-toast-detail {
     color: var(--text-secondary);
-    font-family: var(--font-body);
+    font-family: var(--font-sans); /* use sans instead of comfortaa */
+    font-size: 1.1rem; /* ~+20% */
   }
   .p-toast-icon-close {
     color: var(--text-third);

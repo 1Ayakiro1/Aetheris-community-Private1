@@ -227,6 +227,7 @@
   </div>
   
   <!-- Report Panel -->
+  <Transition name="report-fade">
   <div v-if="isReportPanelOpen" class="report-panel-overlay" @click="closeReportPanel">
     <div class="report-panel" @click.stop>
       <div class="report-panel-content">
@@ -264,6 +265,7 @@
       </div>
     </div>
   </div>
+  </Transition>
 </template>
 
 <script setup lang="ts">
@@ -539,7 +541,7 @@ const getDifficultyText = (difficulty: string | undefined): string => {
     @media (min-width: 1025px) {
         width: 1055px;
         min-height: 800px; /* Оптимальная минимальная высота для десктопа */
-        border-radius: 30px 30px 15px 15px;
+        border-radius: 60px 30px 15px 15px;
     }
 
     &:hover {
@@ -647,6 +649,28 @@ const getDifficultyText = (difficulty: string | undefined): string => {
 .dropdown-fade-leave-to {
     opacity: 0;
     transform: translateY(-10px);
+}
+
+/* Report Panel Transition */
+.report-fade-enter-active,
+.report-fade-leave-active {
+    transition: opacity 0.25s ease;
+}
+
+.report-fade-enter-from,
+.report-fade-leave-to {
+    opacity: 0;
+}
+
+/* Subtle slide for panel */
+.report-fade-enter-from .report-panel,
+.report-fade-leave-to .report-panel {
+    transform: translateY(12px);
+    opacity: 0.98;
+}
+
+.report-panel {
+    transition: transform 0.25s ease, opacity 0.25s ease;
 }
 
 /* Report Panel */

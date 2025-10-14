@@ -391,6 +391,34 @@
     }
   },
 
+  "notifications": {
+    "login": {
+      "success": {
+        "summary": "Logged in",
+        "detail": "Welcome back, {user}!"
+      },
+      "error": {
+        "summary": "Login failed",
+        "detail": "Check your username and password and try again"
+      }
+    },
+    "register": {
+      "success": {
+        "summary": "Registration successful",
+        "detail": "Account {user} created. Please log in"
+      },
+      "error": {
+        "summary": "Registration failed",
+        "detail": "Could not create an account. Please try again"
+      }
+    },
+    "logout": {
+      "success": {
+        "summary": "Signed out",
+        "detail": "See you soon!"
+      }
+    }
+  },
 
 
   "footer": {

@@ -74,7 +74,7 @@
             <!-- Dropdown Menu -->
             <Transition name="dropdown-fade">
               <div v-if="showOptionsMenu" class="options-dropdown" @click.stop>
-                <button class="dropdown-item" @click="handleEdit">
+                <button v-if="isOwner" class="dropdown-item" @click="handleEdit">
                   <svg width="23" height="23" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M11 4H4C3.46957 4 2.96086 4.21071 2.58579 4.58579C2.21071 4.96086 2 5.46957 2 6V20C2 20.5304 2.21071 21.0391 2.58579 21.4142C2.96086 21.7893 3.46957 22 4 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M18.5 2.5C18.8978 2.10217 19.4374 1.87868 20 1.87868C20.5626 1.87868 21.1022 2.10217 21.5 2.5C21.8978 2.89783 22.1213 3.43739 22.1213 4C22.1213 4.56261 21.8978 5.10217 21.5 5.5L12 15L8 16L9 12L18.5 2.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -82,7 +82,7 @@
                   <span>Edit</span>
                 </button>
                 
-                <button class="dropdown-item danger" @click="handleDelete">
+                <button v-if="isOwner" class="dropdown-item danger" @click="handleDelete">
                   <svg width="23" height="23" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M3 6H5H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6H19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -222,6 +222,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import DropdownIcon from '@/assets/icons/DropdownIcon.vue'
+import { useAuthStore } from '@/stores/auth'
 
 interface CommentAuthor {
   id: number
@@ -241,6 +242,9 @@ interface Comment {
 
 interface CommentBlockProps {
   comment: Comment
+  // For mention navigation in replies, parent id helps resolve target
+  parentCommentId?: number
+  replyToCommentId?: number
   highlighted?: boolean
   depth?: number
 }
@@ -265,6 +269,20 @@ const isDeletePanelOpen = ref(false)
 const isReportPanelOpen = ref(false)
 const selectedReasons = ref<string[]>([])
 
+// Owner check: only comment creator can edit/delete
+const auth = useAuthStore()
+const anonId = computed(() => {
+  const key = 'anon_user_id'
+  let id = localStorage.getItem(key)
+  if (!id) {
+    id = String(Date.now() + Math.floor(Math.random() * 10000))
+    localStorage.setItem(key, id)
+  }
+  return Number(id)
+})
+const currentUserId = computed(() => auth.user?.id ?? anonId.value)
+const isOwner = computed(() => Number(props.comment.author.id) === Number(currentUserId.value))
+
 // Rating system
 const userVote = ref<'up' | 'down' | null>(null)
 const likes = ref(props.comment.likes || 0)
@@ -283,8 +301,9 @@ const formattedText = computed(() => {
 const handleTextClick = (event: MouseEvent) => {
   const target = event.target as HTMLElement
   if (target.classList.contains('mention')) {
-    const mention = target.getAttribute('data-mention')
-    // For author comments, we don't emit parent comment id
+    // If this is a reply, navigate to the parent comment; otherwise use self id
+    const targetCommentId = props.replyToCommentId || props.parentCommentId || props.comment.id
+    emit('mentionClick', targetCommentId)
     event.stopPropagation()
   }
 }
@@ -336,11 +355,13 @@ const toggleOptionsMenu = () => {
 }
 
 const handleEdit = () => {
+  if (!isOwner.value) return
   console.log('Edit comment:', props.comment.id)
   showOptionsMenu.value = false
 }
 
 const handleDelete = () => {
+  if (!isOwner.value) return
   showOptionsMenu.value = false
   isDeletePanelOpen.value = true
 }

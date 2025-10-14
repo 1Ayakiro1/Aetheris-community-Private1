@@ -1,5 +1,5 @@
 <template>
-  <div class="header-container" :class="{ 'home-page': isWelcomePage }">
+  <div class="header-container" :class="{ 'home-page': isWelcomePage, 'admin-access': auth.isAuthenticated }">
     <!-- Левая группа: Logo и Navigation -->
     <div class="header-left">
       <router-link to="/" class="header-brand-link">
@@ -193,6 +193,13 @@
         </button>
       </router-link>
 
+      <router-link v-if="auth.isAuthenticated" to="/admin">
+        <button class="panel-button">
+          <SettingsIcon class="panel-icon" />
+          <p class="panel-text">Admin Panel</p>
+        </button>
+      </router-link>
+
       <div class="panel-divider"></div>
 
       <router-link to="/settings/subscription">
@@ -211,10 +218,16 @@
 
       <div class="panel-divider"></div>
 
-        <button class="panel-button sign-out-button" @click="signOut">
-            <SignOutIcon class="panel-icon" />
-            <p class="panel-text sign-out-text">{{ t('header.profile.title11') }}</p>
+        <button v-if="auth.isAuthenticated" class="panel-button sign-out-button" @click="signOut">
+            <SignOutIcon class="panel-icon" color="currentColor" />
+            <p class="panel-text">{{ t('header.profile.title11') }}</p>
         </button>
+        <router-link v-else to="/login">
+          <button class="panel-button sign-in-button">
+            <ProfileIcon class="panel-icon" />
+            <p class="panel-text">{{ t('form.signin.title') }}</p>
+          </button>
+        </router-link>
     </div>
   </div>
 </template>
@@ -345,6 +358,13 @@ onMounted(() => {
   panels.prof.panel = document.getElementById('profile_panel')
   panels.prof.button = document.getElementById('logo-btn')
 
+  // If user has access to admin panel, shift dropdowns down a bit
+  if (auth.isAuthenticated) {
+    Object.values(panels).forEach(({ panel }) => {
+      if (panel) panel.classList.add('admin-access')
+    })
+  }
+
   // Add click handlers to buttons
   Object.values(panels).forEach(({ panel, button }) => {
     if (panel && button) {
@@ -459,6 +479,10 @@ function signOut() {
     flex-wrap: wrap;
   }
 }
+.header-container.admin-access {
+  height: 110px;
+}
+
 
 
 
@@ -778,6 +802,14 @@ function signOut() {
   }
 }
 
+/* When header is taller for admin access, offset dropdowns */
+.header-container.admin-access ~ .navigation-panel,
+.header-container.admin-access ~ .faq-panel,
+.header-container.admin-access ~ .additional-panel,
+.header-container.admin-access ~ .profile-panel {
+  top: 110px !important;
+}
+
 .panel-content {
   display: flex;
   flex-direction: column;
@@ -833,13 +865,24 @@ function signOut() {
 
 // Sign out button special styling
 .sign-out-button {
-  .panel-text {
-    color: #FF3B3B;
+  .panel-icon { color: #ef4444; transition: color 0.2s ease; }
+  .panel-icon path,
+  .panel-icon circle,
+  .panel-icon line,
+  .panel-icon polyline,
+  .panel-icon polygon { stroke: currentColor !important; }
+  &:hover {
+    background-color: #ef4444;
+    .panel-icon { color: #ffffff; }
   }
 }
 
-.sign-out-text {
-  color: #FF3B3B !important;
+.sign-in-button {
+  background-color: var(--btn-primary);
+  &:hover { 
+  background-color: var(--text-secondary); 
+  opacity: 0.4;
+  }
 }
 
 // Router link styling
