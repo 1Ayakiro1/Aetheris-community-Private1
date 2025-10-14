@@ -147,8 +147,10 @@ import { useRouter } from 'vue-router'
 import Editor from 'primevue/editor'
 import Tag from 'primevue/tag'
 import FireIcon from '@/assets/svgs/fire_ico.svg'
+import { useToast } from 'primevue/usetoast'
 
 const { t } = useI18n()
+const toast = useToast()
 
 import { useArticles } from '@/composables/useArticles'
 import { useAuthStore } from '@/stores/auth'
@@ -531,10 +533,21 @@ const handleCreateArticle = async () => {
 
         console.log('ArticleData перед API:', articleData)
         console.log('Созданная статья:', result)
+        toast.add({
+          severity: 'success',
+          summary: 'Статья опубликована',
+          detail: 'Ваша статья успешно опубликована и доступна на главной странице',
+          life: 4000
+        })
         await router.push('/')
     } catch (err) {
         console.error(err)
-        alert('Ошибка при создании статьи')
+        toast.add({
+          severity: 'error',
+          summary: 'Ошибка',
+          detail: 'Не удалось создать статью. Попробуйте ещё раз',
+          life: 5000
+        })
     }
 
 }

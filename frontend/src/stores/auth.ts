@@ -37,6 +37,14 @@ export const useAuthStore = defineStore('auth', {
             this.setToken(null)
             this.setUser(null)
             router.push('/login')
+            try {
+                document.dispatchEvent(new CustomEvent('app-toast', { detail: {
+                    severity: 'info',
+                    summaryKey: 'notifications.logout.success.summary',
+                    detailKey: 'notifications.logout.success.detail',
+                    life: 3500
+                }}))
+            } catch {}
         },
         tryRestoreFromStorage() {
             const token = localStorage.getItem('auth.token')

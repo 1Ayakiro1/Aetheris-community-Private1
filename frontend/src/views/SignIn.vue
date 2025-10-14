@@ -40,9 +40,13 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuth } from '@/composables/useAuth'
+import { useToast } from 'primevue/usetoast'
+import { useI18n } from 'vue-i18n'
 
 const router = useRouter()
 const { register, loading, error, clearError } = useAuth()
+const toast = useToast()
+const { t } = useI18n()
 
 const username = ref('')
 const password = ref('')
@@ -52,9 +56,21 @@ const handleSignIn = async () => {
     if (!username.value || !password.value) return
     try {
         await register(username.value, password.value)
+        toast.add({
+          severity: 'success',
+          summary: t('notifications.register.success.summary'),
+          detail: t('notifications.register.success.detail', { user: username.value }),
+          life: 3500
+        })
         router.push('/login')
     } catch (err) {
         console.error(err)
+        toast.add({
+          severity: 'error',
+          summary: t('notifications.register.error.summary'),
+          detail: t('notifications.register.error.detail'),
+          life: 4500
+        })
     }
 }
 </script>
