@@ -69,14 +69,15 @@ app.use(PrimeVue, {
 });
 app.use(ToastService)
 app.use(pinia)
+// Restore auth BEFORE installing router so guards see correct auth state
+const auth = useAuthStore()
+auth.tryRestoreFromStorage()
+
 app.use(i18n)
 
 app.component('Editor', Editor);
 app.component('Toast', Toast)
 app.use(router);
-
-const auth = useAuthStore()
-auth.tryRestoreFromStorage()
 
 app.mount('#app');
 

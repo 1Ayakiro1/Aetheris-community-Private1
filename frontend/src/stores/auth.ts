@@ -1,15 +1,20 @@
 import { defineStore } from 'pinia'
 import router from '@/router'
 import apiClient from '@/api/axios'
+import type { User } from '@/types/user'
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
-        user: null as null | { id?: number; username?: string },
+        user: null as null | User,
         token: null as string | null,
         loading: false as boolean,
     }),
     getters: {
         isAuthenticated: (state) => !!state.token,
+        isAdminLike: (state) => {
+            const role = state.user?.role
+            return role === 'moderator' || role === 'admin' || role === 'super_admin'
+        },
     },
     actions: {
         setToken(token: string | null) {

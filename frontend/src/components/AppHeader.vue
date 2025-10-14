@@ -1,5 +1,5 @@
 <template>
-  <div class="header-container" :class="{ 'home-page': isWelcomePage }">
+  <div class="header-container" :class="{ 'home-page': isWelcomePage, 'admin-access': auth.isAuthenticated }">
     <!-- Левая группа: Logo и Navigation -->
     <div class="header-left">
       <router-link to="/" class="header-brand-link">
@@ -193,6 +193,13 @@
         </button>
       </router-link>
 
+      <router-link v-if="auth.isAuthenticated" to="/admin">
+        <button class="panel-button">
+          <SettingsIcon class="panel-icon" />
+          <p class="panel-text">Admin Panel</p>
+        </button>
+      </router-link>
+
       <div class="panel-divider"></div>
 
       <router-link to="/settings/subscription">
@@ -351,6 +358,13 @@ onMounted(() => {
   panels.prof.panel = document.getElementById('profile_panel')
   panels.prof.button = document.getElementById('logo-btn')
 
+  // If user has access to admin panel, shift dropdowns down a bit
+  if (auth.isAuthenticated) {
+    Object.values(panels).forEach(({ panel }) => {
+      if (panel) panel.classList.add('admin-access')
+    })
+  }
+
   // Add click handlers to buttons
   Object.values(panels).forEach(({ panel, button }) => {
     if (panel && button) {
@@ -465,6 +479,10 @@ function signOut() {
     flex-wrap: wrap;
   }
 }
+.header-container.admin-access {
+  height: 110px;
+}
+
 
 
 
@@ -782,6 +800,14 @@ function signOut() {
   @media (min-width: 2860px) {    /*ДОРАБОТАТЬ! ДЛЯ ДРУГИХ ПАНЕЛЕЙ */
     left: 1350px;
   }
+}
+
+/* When header is taller for admin access, offset dropdowns */
+.header-container.admin-access ~ .navigation-panel,
+.header-container.admin-access ~ .faq-panel,
+.header-container.admin-access ~ .additional-panel,
+.header-container.admin-access ~ .profile-panel {
+  top: 110px !important;
 }
 
 .panel-content {

@@ -89,3 +89,25 @@ export async function getUserArticles(skip: number = 0, limit: number = 100): Pr
     })
     return res.data
 }
+
+// Admin stubs: reported entities (to be replaced with real API)
+export async function fetchReportedArticles(): Promise<Array<{ id: number; title: string; reportReason: string }>> {
+    return [
+        { id: 101, title: 'Formatting rules violation', reportReason: 'Spam/advertising in the text' },
+        { id: 102, title: 'Toxic article', reportReason: 'Offensive language' },
+    ]
+}
+
+export async function fetchReportedComments(): Promise<Array<{ id: number; content: string; reportReason: string }>> {
+    return [
+        { id: 201, content: "You don't understand anything!", reportReason: 'Toxic/abusive' },
+        { id: 202, content: 'Visit my website ...', reportReason: 'Spam' },
+    ]
+}
+
+export async function fetchReportedProfiles(): Promise<Array<{ id: number; nickname: string; reportReason: string }>> {
+    return [
+        { id: 301, nickname: 'bad_user123', reportReason: 'Suspicious activity' },
+        { id: 302, nickname: 'spammer', reportReason: 'Mass link spamming' },
+    ]
+}
