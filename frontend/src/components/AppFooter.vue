@@ -106,10 +106,10 @@
                 <div class="footer-bottom-right">
                     <div class="social-icons">
                         <a href="https://discord.gg/XUFmR4bDMw" class="social-icon-link" target="_blank" rel="noopener noreferrer" title="Discord">
-                            <img class="social-icon discord-icon" src="../assets/imgs/discord_ico.png" alt="Discord">
+                            <img class="social-icon discord-icon" src="../assets/imgs/discord_filled.svg" alt="Discord">
                         </a>
                         <a href="https://t.me/AetherisNews" class="social-icon-link" target="_blank" rel="noopener noreferrer" title="Telegram">
-                            <img class="social-icon telegram-icon" src="../assets/imgs/telegram_ico.png" alt="Telegram">
+                            <img class="social-icon telegram-icon" src="../assets/imgs/telegram_filled.svg" alt="Telegram">
                         </a>
                         <a href="https://boosty.to/aetheris" class="social-icon-link" target="_blank" rel="noopener noreferrer" title="Boosty">
                             <img class="social-icon boosty-icon" src="../assets/imgs/boosty_ico.png" alt="Boosty">
@@ -660,6 +660,14 @@
     transition: all 0.3s ease;
     position: relative;
     z-index: 2;
+}
+
+.discord-icon {
+    filter: brightness(0) invert(1);
+}
+
+.telegram-icon {
+    filter: brightness(0) invert(1);
 }
 
 .boosty-icon {
