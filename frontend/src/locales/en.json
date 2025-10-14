@@ -435,6 +435,54 @@
         "summary": "Signed out",
         "detail": "See you soon!"
       }
+    },
+    "copyLink": {
+      "success": {
+        "summary": "Link copied",
+        "detail": "Article link copied to clipboard"
+      },
+      "error": {
+        "summary": "Error",
+        "detail": "Failed to copy link"
+      }
+    },
+    "deleteArticle": {
+      "title": "Delete Article",
+      "subtitle": "This action cannot be undone",
+      "message": "Are you sure you want to delete the article",
+      "cancel": "Cancel",
+      "confirm": "Delete",
+      "deleting": "Deleting...",
+      "success": {
+        "summary": "Article deleted",
+        "detail": "Article has been successfully deleted"
+      },
+      "error": {
+        "summary": "Delete error",
+        "detail": "Failed to delete article"
+      }
+    },
+    "reportArticle": {
+      "title": "Report Article",
+      "subtitle": "Why are you reporting this article?",
+      "cancel": "Cancel",
+      "submit": "Submit Report",
+      "reasons": {
+        "spam": "Spam",
+        "spamDesc": "Unwanted commercial content or repetitive messages",
+        "harassment": "Harassment",
+        "harassmentDesc": "Bullying, threats, or personal attacks",
+        "hate": "Hate Speech",
+        "hateDesc": "Content promoting violence or hatred",
+        "inappropriate": "Inappropriate Content",
+        "inappropriateDesc": "Content not suitable for this community",
+        "misinformation": "Misinformation",
+        "misinformationDesc": "False or misleading information",
+        "copyright": "Copyright Violation",
+        "copyrightDesc": "Unauthorized use of copyrighted material",
+        "other": "Other",
+        "otherDesc": "Other reason not listed above"
+      }
     }
   },
 

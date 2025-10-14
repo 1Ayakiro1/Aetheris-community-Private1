@@ -134,6 +134,41 @@ def get_article_with_user(db: Session, article_id: int, user_id: int | None = No
         a.user_reaction = r.reaction if r else None
     return a
 
+def delete_article(db: Session, article_id: int, user_id: int):
+    """Удалить статью (только автор может удалить свою статью)"""
+    # Получаем статью
+    article = db.query(models.Article).filter(models.Article.id == article_id).first()
+    if not article:
+        return False
+    
+    # Получаем пользователя для проверки автора
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+    if not user:
+        return False
+    
+    # Проверяем, что пользователь является автором статьи
+    if article.author != user.username:
+        return False
+    
+    # Удаляем связанные данные
+    # Удаляем реакции на статью
+    db.query(models.ArticleReaction).filter(models.ArticleReaction.article_id == article_id).delete()
+    
+    # Удаляем комментарии к статье
+    db.query(models.Comment).filter(models.Comment.article_id == article_id).delete()
+    
+    # Удаляем уведомления связанные со статьей
+    db.query(models.Notification).filter(models.Notification.related_article_id == article_id).delete()
+    
+    # Удаляем пороги лайков
+    db.query(models.ArticleLikeThreshold).filter(models.ArticleLikeThreshold.article_id == article_id).delete()
+    
+    # Удаляем саму статью
+    db.delete(article)
+    db.commit()
+    
+    return True
+
 def react_article(db: Session, article_id: int, user_id: int, reaction: str):
     article = get_article(db, article_id)
     if not article:

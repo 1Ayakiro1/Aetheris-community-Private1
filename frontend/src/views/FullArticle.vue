@@ -12,7 +12,10 @@
     </div>
     
     <div v-else-if="article" class="article-container">
-      <FullArticleCard :article="article" />
+      <FullArticleCard 
+        :article="article" 
+        @article-deleted="handleArticleDeleted"
+      />
       
       <!-- Comments Section -->
       <div class="comments-section">
@@ -196,6 +199,13 @@ const loadArticle = async () => {
 // Go back
 const goBack = () => {
   router.go(-1)
+}
+
+// Handle article deletion
+const handleArticleDeleted = (articleId: number) => {
+  console.log('Статья удалена:', articleId)
+  // Перенаправляем на главную страницу после удаления
+  router.push('/')
 }
 
 // Comment handlers

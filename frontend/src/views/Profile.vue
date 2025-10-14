@@ -115,6 +115,7 @@
                     @tag-click="handleTagClick"
                     @author-click="handleAuthorClick"
                     @article-click="handleArticleClick"
+                    @article-deleted="handleArticleDeleted"
                 />
             </div>
         </div>
@@ -190,6 +191,16 @@ const handleArticleClick = (articleId: number) => {
     console.log('Клик по статье:', articleId)
     // Переход к полной статье
     router.push(`/article/${articleId}`)
+}
+
+const handleArticleDeleted = (articleId: number) => {
+    console.log('Статья удалена:', articleId)
+    // Удаляем статью из списка
+    articles.value = articles.value.filter(article => article.id !== articleId)
+    // Обновляем статистику
+    if (userStats.value) {
+        userStats.value.articles_count = Math.max(0, userStats.value.articles_count - 1)
+    }
 }
 
 const goToProfileSettings = () => {

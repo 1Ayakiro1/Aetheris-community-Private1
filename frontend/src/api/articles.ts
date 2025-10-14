@@ -62,6 +62,12 @@ export async function updateArticle(id: number, data: CreateArticleRequest): Pro
     return res.data
 }
 
+export async function deleteArticle(id: number, userId: number): Promise<void> {
+    await apiClient.delete(`/articles/${id}`, {
+        params: { user_id: userId }
+    })
+}
+
 // comments
 export async function getArticleComments(articleId: number, userId?: number): Promise<CommentDTO[]> {
     const res = await apiClient.get<CommentDTO[]>(`/articles/${articleId}/comments`, {

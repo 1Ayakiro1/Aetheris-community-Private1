@@ -50,6 +50,9 @@ export interface ArticleCardEmits {
     tagClick: [tag: string]
     authorClick: [authorId: number]
     articleClick: [articleId: number]
+    articleDeleted: [articleId: number]
+    deleteArticle: [article: { id: number; title: string }]
+    reportArticle: [article: { id: number; title: string }]
 }
 
 export interface ArticlesResponse {

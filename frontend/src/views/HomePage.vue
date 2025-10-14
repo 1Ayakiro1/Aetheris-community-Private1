@@ -164,6 +164,9 @@
               @tag-click="handleTagClick"
               @author-click="handleAuthorClick"
               @article-click="handleArticleClick"
+              @article-deleted="handleArticleDeleted"
+              @delete-article="handleDeleteArticle"
+              @report-article="handleReportArticle"
             />
           </template>
 
@@ -190,6 +193,58 @@
           </svg>
         </button>
       </div>
+      
+      <!-- Delete Confirmation Dialog -->
+      <DeleteConfirmDialog
+        :visible="isDeleteDialogOpen"
+        :article-title="articleToDelete?.title || ''"
+        :loading="isDeleting"
+        @confirm="confirmDelete"
+        @cancel="cancelDelete"
+      />
+      
+      <!-- Report Panel -->
+      <div v-if="isReportPanelOpen" class="report-panel-overlay" @click="closeReportPanel">
+        <div class="report-panel-content" @click.stop>
+          <div class="report-header">
+            <h3 class="report-panel-title">{{ t('notifications.reportArticle.title') }}</h3>
+            <button @click="closeReportPanel" class="close-btn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+          
+          <p class="report-panel-subtitle">{{ t('notifications.reportArticle.subtitle') }}</p>
+          
+          <div class="report-reasons">
+            <label v-for="reason in reportReasons" :key="reason.id" class="reason-item" :class="{ selected: selectedReasons.includes(reason.id) }">
+              <input 
+                type="checkbox" 
+                :value="reason.id" 
+                v-model="selectedReasons"
+                class="reason-checkbox"
+              >
+              <div class="reason-checkmark"></div>
+              <div class="reason-content">
+                <span class="reason-title">{{ reason.title }}</span>
+                <span class="reason-description">{{ reason.description }}</span>
+              </div>
+            </label>
+          </div>
+          
+          <div class="report-footer">
+            <button @click="closeReportPanel" class="report-btn cancel">{{ t('notifications.reportArticle.cancel') }}</button>
+            <button @click="confirmReport" class="report-btn submit" :disabled="selectedReasons.length === 0">
+              {{ t('notifications.reportArticle.submit') }}
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Toast for notifications -->
+      <Toast />
+      
       <!-- Second Right Block - Sidebar -->
       <div class="sidebar-section">
         <!-- Article Info -->
@@ -249,14 +304,22 @@
 import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import ArticleCard from '@/components/ArticleCard.vue'
+import DeleteConfirmDialog from '@/components/DeleteConfirmDialog.vue'
+import Toast from 'primevue/toast'
 import Paginator from 'primevue/paginator'
 import FireIcon from '@/assets/svgs/fire_ico.svg'
 
 import { useArticles } from '@/composables/useArticles'
 import { useI18n } from 'vue-i18n'
+import { deleteArticle } from '@/api/articles'
+import { useAuthStore } from '@/stores/auth'
+import { useToast } from 'primevue/usetoast'
 
 const { t } = useI18n()
 const router = useRouter()
+const authStore = useAuthStore()
+const toast = useToast()
+
 // Используем composable для работы со статьями
 const {
   articles,
@@ -265,6 +328,16 @@ const {
   fetchArticles,
   searchArticles
 } = useArticles()
+
+// Delete dialog state
+const isDeleteDialogOpen = ref(false)
+const isDeleting = ref(false)
+const articleToDelete = ref<{ id: number; title: string } | null>(null)
+
+// Report panel state
+const isReportPanelOpen = ref(false)
+const selectedReasons = ref<string[]>([])
+const articleToReport = ref<{ id: number; title: string } | null>(null)
 
 // Вычисляемые свойства
 const isEmpty = computed(() => articles.value.length === 0)
@@ -328,6 +401,87 @@ const handleArticleClick = (articleId: number) => {
   console.log('Клик по статье:', articleId)
   // Переход к полной статье
   router.push(`/article/${articleId}`)
+}
+
+const handleArticleDeleted = (articleId: number) => {
+  console.log('Статья удалена:', articleId)
+  // Удаляем статью из списка
+  articles.value = articles.value.filter(article => article.id !== articleId)
+  // Обновляем общее количество
+  totalRecords.value = Math.max(0, totalRecords.value - 1)
+}
+
+// Delete article handlers
+const handleDeleteArticle = (article: { id: number; title: string }) => {
+  articleToDelete.value = article
+  isDeleteDialogOpen.value = true
+}
+
+const confirmDelete = async () => {
+  if (!articleToDelete.value || !authStore.user) return
+  
+  isDeleting.value = true
+  try {
+    await deleteArticle(articleToDelete.value.id, authStore.user.id)
+    // Удаляем статью из списка
+    articles.value = articles.value.filter(article => article.id !== articleToDelete.value!.id)
+    totalRecords.value = Math.max(0, totalRecords.value - 1)
+    
+    // Показываем уведомление об успешном удалении
+    toast.add({
+      severity: 'success',
+      summary: t('notifications.deleteArticle.success.summary'),
+      detail: t('notifications.deleteArticle.success.detail'),
+      life: 3000
+    })
+  } catch (error) {
+    console.error('Ошибка при удалении статьи:', error)
+    
+    // Показываем уведомление об ошибке
+    toast.add({
+      severity: 'error',
+      summary: t('notifications.deleteArticle.error.summary'),
+      detail: t('notifications.deleteArticle.error.detail'),
+      life: 3000
+    })
+  } finally {
+    isDeleting.value = false
+    isDeleteDialogOpen.value = false
+    articleToDelete.value = null
+  }
+}
+
+const cancelDelete = () => {
+  isDeleteDialogOpen.value = false
+  articleToDelete.value = null
+}
+
+// Report panel handlers
+const reportReasons = computed(() => [
+  { id: 'spam', title: t('notifications.reportArticle.reasons.spam'), description: t('notifications.reportArticle.reasons.spamDesc') },
+  { id: 'harassment', title: t('notifications.reportArticle.reasons.harassment'), description: t('notifications.reportArticle.reasons.harassmentDesc') },
+  { id: 'hate', title: t('notifications.reportArticle.reasons.hate'), description: t('notifications.reportArticle.reasons.hateDesc') },
+  { id: 'inappropriate', title: t('notifications.reportArticle.reasons.inappropriate'), description: t('notifications.reportArticle.reasons.inappropriateDesc') },
+  { id: 'misinformation', title: t('notifications.reportArticle.reasons.misinformation'), description: t('notifications.reportArticle.reasons.misinformationDesc') },
+  { id: 'copyright', title: t('notifications.reportArticle.reasons.copyright'), description: t('notifications.reportArticle.reasons.copyrightDesc') },
+  { id: 'other', title: t('notifications.reportArticle.reasons.other'), description: t('notifications.reportArticle.reasons.otherDesc') }
+])
+
+const handleReportArticle = (article: { id: number; title: string }) => {
+  articleToReport.value = article
+  isReportPanelOpen.value = true
+  selectedReasons.value = []
+}
+
+const closeReportPanel = () => {
+  isReportPanelOpen.value = false
+  selectedReasons.value = []
+  articleToReport.value = null
+}
+
+const confirmReport = () => {
+  console.log('Report article:', articleToReport.value?.id, 'Reasons:', selectedReasons.value)
+  closeReportPanel()
 }
 
 // Обработчик поиска
@@ -1390,6 +1544,210 @@ onUnmounted(() => {
   .filter-reset-btn,
   .filter-close-btn {
     width: 100%;
+  }
+}
+
+/* Report Panel Styles */
+.report-panel-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 30000;
+}
+
+.report-panel-content {
+  background-color: var(--bg-secondary);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  min-width: 550px;
+  max-width: 650px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.report-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.report-header h3 {
+  color: var(--text-primary);
+  font-size: 28px;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  margin: 0;
+}
+
+.report-message {
+  color: var(--text-secondary);
+  font-size: 18px;
+  font-family: var(--font-sans);
+  margin: 0 0 20px 0;
+}
+
+.report-reasons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.reason-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  background-color: var(--bg-primary);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.reason-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.reason-item.selected {
+  background-color: rgba(140, 0, 255, 0.1);
+  border-color: var(--primary-violet);
+}
+
+.reason-checkbox {
+  position: absolute;
+  opacity: 0;
+}
+
+.reason-checkmark {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--text-secondary);
+  border-radius: 8px;
+  margin-right: 14px;
+  flex-shrink: 0;
+}
+
+.reason-checkbox:checked + .reason-checkmark {
+  background-color: var(--primary-violet);
+  border-color: var(--primary-violet);
+}
+
+.reason-checkbox:checked + .reason-checkmark::after {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 2px;
+  width: 6px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.reason-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.reason-title {
+  color: var(--text-primary);
+  font-size: 16px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+}
+
+.reason-description {
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.report-footer {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.report-btn {
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.report-btn.cancel {
+  background-color: var(--btn-primary);
+  color: var(--text-primary);
+  border: 2px solid var(--text-secondary);
+}
+
+.report-btn.cancel:hover {
+  background-color: var(--text-secondary);
+  color: var(--bg-primary);
+}
+
+.report-btn.submit {
+  background-color: var(--primary-violet);
+  color: white;
+}
+
+.report-btn.submit:hover:not(:disabled) {
+  background-color: var(--primary-blue);
+}
+
+.report-btn.submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.close-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+}
+
+@media (max-width: 768px) {
+  .report-panel-content {
+    padding: 24px;
+    min-width: 320px;
+    max-width: 90vw;
+    margin: 0 20px;
+  }
+  .report-header h3 {
+    font-size: 24px;
+  }
+  .report-message {
+    font-size: 16px;
   }
 }
 

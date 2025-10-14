@@ -41,6 +41,14 @@ def read_article(article_id: int, user_id: Optional[int] = None, db: Session = D
 def create_article(article: schemas.ArticleCreate, db: Session = Depends(get_db)):
     return crud.create_article(db=db, article=article)
 
+@router.delete("/articles/{article_id}")
+def delete_article(article_id: int, user_id: int, db: Session = Depends(get_db)):
+    """Удалить статью (только автор может удалить свою статью)"""
+    success = crud.delete_article(db, article_id, user_id)
+    if not success:
+        raise HTTPException(status_code=404, detail="Article not found or you don't have permission to delete it")
+    return {"message": "Article deleted successfully"}
+
 # comments
 
 @router.get("/articles/{article_id}/comments", response_model=list[schemas.Comment])
