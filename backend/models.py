@@ -73,3 +73,29 @@ class CommentReaction(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     __table_args__ = (UniqueConstraint('user_id', 'comment_id', name='uix_user_comment'),)
+
+class Notification(Base):
+    __tablename__ = "notifications"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, nullable=False)  # ID пользователя, которому отправляется уведомление
+    type = Column(String, nullable=False)  # 'comment_reply', 'article_like', 'comment_like', etc.
+    title = Column(String, nullable=False)
+    message = Column(Text, nullable=False)
+    is_read = Column(Integer, default=0)  # 0 = не прочитано, 1 = прочитано
+    related_article_id = Column(Integer, ForeignKey("articles.id", ondelete="CASCADE"), nullable=True)
+    related_comment_id = Column(Integer, ForeignKey("comments.id", ondelete="CASCADE"), nullable=True)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+class ArticleLikeThreshold(Base):
+    __tablename__ = "article_like_thresholds"
+
+    id = Column(Integer, primary_key=True, index=True)
+    article_id = Column(Integer, ForeignKey("articles.id", ondelete="CASCADE"), nullable=False)
+    user_id = Column(Integer, nullable=False)  # ID автора статьи
+    threshold = Column(Integer, nullable=False)  # Пороговое значение лайков
+    reached_at = Column(DateTime(timezone=True), server_default=func.now())
+
+    __table_args__ = (UniqueConstraint('article_id', 'threshold', name='uix_article_threshold'),)
+
+# Модель настроек уведомлений удалена - используем фиксированные пороги

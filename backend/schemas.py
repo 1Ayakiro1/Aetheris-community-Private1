@@ -76,3 +76,41 @@ class Comment(CommentBase):
 class CommentReactionPayload(BaseModel):
     user_id: int
     reaction: str  # 'like' or 'dislike'
+
+# Notifications
+class NotificationBase(BaseModel):
+    type: str
+    title: str
+    message: str
+    related_article_id: Optional[int] = None
+    related_comment_id: Optional[int] = None
+
+class NotificationCreate(NotificationBase):
+    user_id: int
+
+class Notification(NotificationBase):
+    id: int
+    user_id: int
+    is_read: int = 0
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+# Схемы настроек уведомлений удалены - используем фиксированные пороги
+
+# Article Like Thresholds
+class ArticleLikeThresholdBase(BaseModel):
+    article_id: int
+    user_id: int
+    threshold: int
+
+class ArticleLikeThresholdCreate(ArticleLikeThresholdBase):
+    pass
+
+class ArticleLikeThreshold(ArticleLikeThresholdBase):
+    id: int
+    reached_at: datetime
+
+    class Config:
+        from_attributes = True
