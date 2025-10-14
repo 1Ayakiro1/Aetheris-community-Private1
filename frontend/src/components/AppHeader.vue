@@ -211,10 +211,16 @@
 
       <div class="panel-divider"></div>
 
-        <button class="panel-button sign-out-button" @click="signOut">
-            <SignOutIcon class="panel-icon" />
-            <p class="panel-text sign-out-text">{{ t('header.profile.title11') }}</p>
+        <button v-if="auth.isAuthenticated" class="panel-button sign-out-button" @click="signOut">
+            <SignOutIcon class="panel-icon" color="currentColor" />
+            <p class="panel-text">{{ t('header.profile.title11') }}</p>
         </button>
+        <router-link v-else to="/login">
+          <button class="panel-button sign-in-button">
+            <ProfileIcon class="panel-icon" />
+            <p class="panel-text">{{ t('form.signin.title') }}</p>
+          </button>
+        </router-link>
     </div>
   </div>
 </template>
@@ -833,13 +839,24 @@ function signOut() {
 
 // Sign out button special styling
 .sign-out-button {
-  .panel-text {
-    color: #FF3B3B;
+  .panel-icon { color: #ef4444; transition: color 0.2s ease; }
+  .panel-icon path,
+  .panel-icon circle,
+  .panel-icon line,
+  .panel-icon polyline,
+  .panel-icon polygon { stroke: currentColor !important; }
+  &:hover {
+    background-color: #ef4444;
+    .panel-icon { color: #ffffff; }
   }
 }
 
-.sign-out-text {
-  color: #FF3B3B !important;
+.sign-in-button {
+  background-color: var(--btn-primary);
+  &:hover { 
+  background-color: var(--text-secondary); 
+  opacity: 0.4;
+  }
 }
 
 // Router link styling
