@@ -1,41 +1,64 @@
 import { ref, computed } from 'vue'
-import { useAuthStore } from '@/stores/auth'
+import { getUserStats, getUserArticles, type UserStats } from '@/api/articles'
 import type { UserArticle } from '@/types/article'
-import { getUserStats, getUserArticles } from '@/api/articles'
 
 export function useProfile() {
-    const auth = useAuthStore()
-
-    const userStats = ref<{ articles_count: number; comments_count: number; join_date: string } | null>(null)
+    const userStats = ref<UserStats | null>(null)
     const userArticles = ref<UserArticle[]>([])
     const loading = ref(false)
     const error = ref<string | null>(null)
 
     const formattedJoinDate = computed(() => {
-        if (!userStats.value?.join_date) return ''
+        if (!userStats.value?.join_date) return 'Неизвестно'
         const date = new Date(userStats.value.join_date)
-        return date.toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' })
+        return date.toLocaleDateString('ru-RU', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        })
     })
 
-    async function refreshProfile() {
-        if (!auth.isAuthenticated) return
-        loading.value = true
-        error.value = null
+    const fetchUserStats = async () => {
         try {
-            const [stats, articles] = await Promise.all([
-                getUserStats(),
-                getUserArticles(0, 100)
-            ])
-            userStats.value = stats
-            userArticles.value = articles
-        } catch (e: any) {
-            error.value = e?.message || 'Не удалось загрузить профиль'
+            loading.value = true
+            error.value = null
+            userStats.value = await getUserStats()
+        } catch (err) {
+            error.value = 'Ошибка загрузки статистики'
+            console.error('Error fetching user stats:', err)
         } finally {
             loading.value = false
         }
     }
 
-    return { userStats, userArticles, loading, error, formattedJoinDate, refreshProfile }
+    const fetchUserArticles = async (skip: number = 0, limit: number = 100) => {
+        try {
+            loading.value = true
+            error.value = null
+            userArticles.value = await getUserArticles(skip, limit)
+        } catch (err) {
+            error.value = 'Ошибка загрузки статей'
+            console.error('Error fetching user articles:', err)
+        } finally {
+            loading.value = false
+        }
+    }
+
+    const refreshProfile = async () => {
+        await Promise.all([
+            fetchUserStats(),
+            fetchUserArticles()
+        ])
+    }
+
+    return {
+        userStats,
+        userArticles,
+        loading,
+        error,
+        formattedJoinDate,
+        fetchUserStats,
+        fetchUserArticles,
+        refreshProfile
+    }
 }
-
-
