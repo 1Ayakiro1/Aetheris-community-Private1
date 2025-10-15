@@ -69,3 +69,8 @@ def get_user_stats(current_user = Depends(get_current_user), db: Session = Depen
 @router.get("/auth/me/articles", response_model=list[schemas.Article])
 def get_user_articles(skip: int = 0, limit: int = 100, current_user = Depends(get_current_user), db: Session = Depends(database.get_db)):
     return crud.get_user_articles(db, current_user.id, skip=skip, limit=limit)
+
+# Тестовый эндпоинт без аутентификации для проверки
+@router.get("/test/user-articles/{user_id}", response_model=list[schemas.Article])
+def get_user_articles_test(user_id: int, skip: int = 0, limit: int = 100, db: Session = Depends(database.get_db)):
+    return crud.get_user_articles(db, user_id, skip=skip, limit=limit)
