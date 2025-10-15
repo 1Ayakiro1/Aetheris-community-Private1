@@ -20,6 +20,13 @@
     "title4": "ранг",
     "button1": "Редактировать"
   },
+  "navigation": {
+    "title": "Навигация",
+    "articles": "Статьи",
+    "news": "Новости",
+    "research": "Исследования",
+    "development": "Разработка"
+  },
   "articles": {
     "title": "Статьи",
     "search": "Найти статьи...",

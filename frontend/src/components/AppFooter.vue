@@ -28,10 +28,7 @@
                     
                     <div class="newsletter-section">
                         <h3 class="newsletter-title">Subscribe to our developer newsletter</h3>
-                        <p class="newsletter-description">Get tips, technical guides, and best practices. Twice a month.</p>
-                        <button class="newsletter-button">
-                            Subscribe
-                        </button>
+                        <p class="newsletter-description">We have github. Our community is opensource</p>
                     </div>
                 </div>
 
@@ -94,7 +91,7 @@
         <div class="footer-bottom">
             <div class="footer-bottom-container">
                 <div class="footer-bottom-left">
-                    <span class="copyright-text">© 2024 Aetheris Community. All rights reserved.</span>
+                    <span class="copyright-text">© 2025 Aetheris Community. All rights reserved.</span>
                     <div class="legal-links">
                         <router-link to="/legal/terms-of-use" class="legal-link">Terms</router-link>
                         <router-link to="/legal/privacy-policy" class="legal-link">Privacy</router-link>
@@ -115,12 +112,12 @@
                             <img class="social-icon boosty-icon" src="../assets/imgs/boosty_ico.png" alt="Boosty">
                         </a>
                     </div>
-                    <div class="language-selector">
+                    <!-- <div class="language-selector">
                         <span class="language-text">English</span>
                         <svg class="language-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none">
                             <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -196,7 +193,7 @@
 }
 
 .footer-container {
-    max-width: 1400px;
+    max-width: 1500px;
     margin: 0 auto;
     padding: 0 24px;
     display: flex;
@@ -282,7 +279,7 @@
 
 .newsletter-title {
     font-family: var(--font-comfortaa);
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     color: var(--text-primary);
     margin: 0 0 8px 0;
@@ -291,33 +288,15 @@
 
 .newsletter-description {
     font-family: var(--font-comfortaa);
-    font-size: 13px;
+    font-size: 18px;
     color: var(--text-secondary);
     margin: 0 0 16px 0;
     line-height: 1.5;
 }
 
-.newsletter-button {
-    background: transparent;
-    color: var(--text-primary);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 6px;
-    padding: 8px 14px;
-    font-family: var(--font-comfortaa);
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s ease, border-color 0.2s ease;
-    
-    &:hover {
-        background: rgba(255, 255, 255, 0.06);
-        border-color: rgba(255, 255, 255, 0.25);
-    }
-}
-
 .eternity-text {
     font-family: var(--font-comfortaa);
-    font-size: 12px;
+    font-size: 16px;
     font-weight: 500;
     color: var(--text-secondary);
     margin: 0;
@@ -353,7 +332,7 @@
 
 .column-title {
     font-family: var(--font-comfortaa);
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 600;
     color: var(--text-primary);
     margin: 0 0 16px 0;
@@ -371,7 +350,7 @@
 
 .column-link {
     font-family: var(--font-comfortaa);
-    font-size: 14px;
+    font-size: 18px;
     color: var(--text-secondary);
     text-decoration: none;
     transition: color 0.2s ease;
@@ -387,7 +366,7 @@
         left: 0;
         width: 0;
         height: 2px;
-        background: linear-gradient(90deg, var(--primary-violet), var(--primary-pink));
+        background: white;
         transition: width 0.2s ease;
         border-radius: 1px;
     }
@@ -467,7 +446,7 @@
 
 .copyright-text {
     font-family: var(--font-comfortaa);
-    font-size: 12px;
+    font-size: 14px;
     color: var(--text-secondary);
     margin: 0;
 }
@@ -486,7 +465,7 @@
 
 .legal-link {
     font-family: var(--font-comfortaa);
-    font-size: 12px;
+    font-size: 14px;
     color: var(--text-secondary);
     text-decoration: none;
     transition: color 0.2s ease;
@@ -501,7 +480,7 @@
         left: 0;
         width: 0;
         height: 1px;
-        background: linear-gradient(90deg, var(--primary-violet), var(--primary-pink));
+        background: white;
         transition: width 0.3s ease;
         border-radius: 1px;
     }
@@ -643,7 +622,7 @@
 /* Dark mode enhancements */
 @media (prefers-color-scheme: dark) {
     .footer-wrapper {
-        background: linear-gradient(135deg, var(--bg-primary) 0%, rgba(139, 92, 246, 0.08) 50%, var(--bg-primary) 100%);
+        background: black;
     }
     
     .footer-bottom {

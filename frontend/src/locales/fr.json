@@ -24,6 +24,13 @@
     "shop": "Boutique",
     "signout": "Se déconnecter"
   },
+  "navigation": {
+    "title": "Navigation",
+    "articles": "Articles",
+    "news": "Actualités",
+    "research": "Recherche",
+    "development": "Développement"
+  },
   "page": {
     "home": {
       "title": "Aetheris",

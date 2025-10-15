@@ -25,6 +25,13 @@
 
 
 
+  "navigation": {
+    "title": "Navigation",
+    "articles": "Articles",
+    "news": "News",
+    "research": "Research",
+    "development": "Development"
+  },
   "articles": {
     "title": "Articles",
     "search": "Find articles...",

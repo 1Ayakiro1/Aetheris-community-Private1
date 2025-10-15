@@ -83,7 +83,7 @@
                 <input 
                   type="number" 
                   :value="filters.readingTimeMin" 
-                  @input="handleReadingTimeFilter($event.target.value ? Number($event.target.value) : null, filters.readingTimeMax)"
+                  @input="handleReadingTimeFilter(($event.target as HTMLInputElement).value ? Number(($event.target as HTMLInputElement).value) : null, filters.readingTimeMax)"
                   :placeholder="$t('articles.filters.minutes')"
                   min="0"
                   class="time-input"
@@ -94,7 +94,7 @@
                 <input 
                   type="number" 
                   :value="filters.readingTimeMax" 
-                  @input="handleReadingTimeFilter(filters.readingTimeMin, $event.target.value ? Number($event.target.value) : null)"
+                  @input="handleReadingTimeFilter(filters.readingTimeMin, ($event.target as HTMLInputElement).value ? Number(($event.target as HTMLInputElement).value) : null)"
                   :placeholder="$t('articles.filters.minutes')"
                   min="0"
                   class="time-input"
@@ -247,38 +247,68 @@
       
       <!-- Second Right Block - Sidebar -->
       <div class="sidebar-section">
-        <!-- Article Info -->
-        <div class="article-info-card">
+        <!-- Navigation Buttons -->
+        <div class="navigation-buttons-card">
           <div class="card-header">
             <svg class="card-icon" width="25" height="27" viewBox="0 0 25 27" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M13.7083 1.41666L1.625 15.9167H12.5L11.2917 25.5833L23.375 11.0833H12.5L13.7083 1.41666Z" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <h2 class="card-title">{{ $t('articles.info.title') }}</h2>
+            <h2 class="card-title">{{ $t('navigation.title') }}</h2>
           </div>
-
-          <div class="info-item">
-            <p class="info-label">{{ $t('articles.info.date') }}</p>
-            <p class="info-value">unknown</p>
-          </div>
-
-          <div class="info-item">
-            <p class="info-label">{{ $t('articles.info.likes') }}</p>
-            <p class="info-value">unknown</p>
-          </div>
-
-          <div class="info-item">
-            <p class="info-label">{{ $t('articles.info.views') }}</p>
-            <p class="info-value">unknown</p>
-          </div>
-
-          <div class="info-item">
-            <p class="info-label">{{ $t('articles.info.comments') }}</p>
-            <p class="info-value">unknown</p>
-          </div>
-
-          <div class="info-item">
-            <p class="info-label">{{ $t('articles.info.symbols') }}</p>
-            <p class="info-value">unknown</p>
+          
+          <div class="navigation-buttons">
+            <button 
+              class="nav-button" 
+              :class="{ active: activeSection === 'articles' }"
+              @click="setActiveSection('articles')"
+            >
+              <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.89 22 5.99 22H18C19.1 22 20 21.1 20 20V8L14 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M14 2V8H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16 13H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16 17H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10 9H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              {{ $t('navigation.articles') }}
+            </button>
+            
+            <button 
+              class="nav-button" 
+              :class="{ active: activeSection === 'news' }"
+              @click="setActiveSection('news')"
+            >
+              <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 11C4 6.58172 7.58172 3 12 3C16.4183 3 20 6.58172 20 11V13C20 17.4183 16.4183 21 12 21C7.58172 21 4 17.4183 4 13V11Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              {{ $t('navigation.news') }}
+            </button>
+            
+            <button 
+              class="nav-button" 
+              :class="{ active: activeSection === 'research' }"
+              @click="setActiveSection('research')"
+            >
+              <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.663 17H4.337C3.6 17 3 16.4 3 15.663V8.337C3 7.6 3.6 7 4.337 7H9.663C10.4 7 11 7.6 11 8.337V15.663C11 16.4 10.4 17 9.663 17Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16.337 17H11.663C10.926 17 10.326 16.4 10.326 15.663V8.337C10.326 7.6 10.926 7 11.663 7H16.337C17.074 7 17.674 7.6 17.674 8.337V15.663C17.674 16.4 17.074 17 16.337 17Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M20.337 17H15.663C14.926 17 14.326 16.4 14.326 15.663V8.337C14.326 7.6 14.926 7 15.663 7H20.337C21.074 7 21.674 7.6 21.674 8.337V15.663C21.674 16.4 21.074 17 20.337 17Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              {{ $t('navigation.research') }}
+            </button>
+            
+            <button 
+              class="nav-button" 
+              :class="{ active: activeSection === 'development' }"
+              @click="setActiveSection('development')"
+            >
+              <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              {{ $t('navigation.development') }}
+            </button>
           </div>
         </div>
 
@@ -360,12 +390,15 @@ const isSearching = ref(false)
 // Filter states
 const showFilterDropdown = ref(false)
 const filters = ref({
-  difficulty: null, // 'easy', 'medium', 'hard'
-  readingTimeMin: null,
-  readingTimeMax: null,
-  tags: []
+  difficulty: null as string | null, // 'easy', 'medium', 'hard'
+  readingTimeMin: null as number | null,
+  readingTimeMax: null as number | null,
+  tags: [] as string[]
 })
-const availableTags = ref([])
+const availableTags = ref<string[]>([])
+
+// Navigation state
+const activeSection = ref('articles')
 
 // Difficulty options for filter
 const difficultyOptions = computed(() => ({
@@ -406,9 +439,10 @@ const handleArticleClick = (articleId: number) => {
 const handleArticleDeleted = (articleId: number) => {
   console.log('Статья удалена:', articleId)
   // Удаляем статью из списка
-  articles.value = articles.value.filter(article => article.id !== articleId)
-  // Обновляем общее количество
-  totalRecords.value = Math.max(0, totalRecords.value - 1)
+  const articleIndex = articles.value.findIndex(article => article.id === articleId)
+  if (articleIndex > -1) {
+    articles.value.splice(articleIndex, 1)
+  }
 }
 
 // Delete article handlers
@@ -424,8 +458,10 @@ const confirmDelete = async () => {
   try {
     await deleteArticle(articleToDelete.value.id, authStore.user.id)
     // Удаляем статью из списка
-    articles.value = articles.value.filter(article => article.id !== articleToDelete.value!.id)
-    totalRecords.value = Math.max(0, totalRecords.value - 1)
+    const articleIndex = articles.value.findIndex(article => article.id === articleToDelete.value!.id)
+    if (articleIndex > -1) {
+      articles.value.splice(articleIndex, 1)
+    }
     
     // Показываем уведомление об успешном удалении
     toast.add({
@@ -580,6 +616,13 @@ const applyFilters = async () => {
   console.log('Применяем фильтры:', filters.value)
 }
 
+// Navigation handlers
+const setActiveSection = (section: string) => {
+  activeSection.value = section
+  console.log('Активная секция:', section)
+  // TODO: Реализовать логику переключения между секциями
+}
+
 const handlePageChange = (event: any) => {
   first.value = event.first
   rows.value = event.rows
@@ -645,10 +688,10 @@ onMounted(async () => {
   console.log('Статьи загружены следующие:', articles.value)
   
   // Получаем уникальные теги из загруженных статей
-  const allTags = new Set()
+  const allTags = new Set<string>()
   articles.value.forEach(article => {
     if (article.tags && Array.isArray(article.tags)) {
-      article.tags.forEach(tag => allTags.add(tag))
+      article.tags.forEach((tag: string) => allTags.add(tag))
     }
   })
   availableTags.value = Array.from(allTags).sort()
@@ -1120,6 +1163,94 @@ onUnmounted(() => {
   }
 }
 
+/* Navigation Buttons Card */
+.navigation-buttons-card {
+  background-color: var(--bg-secondary);
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    width: 100%;
+    height: auto;
+    margin-bottom: 16px;
+  }
+
+  /* Tabplets */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    width: 280px;
+    height: auto;
+    margin-bottom: 16px;
+  }
+
+  /* Desktop */
+  @media (min-width: 1025px) {
+    width: 300px;
+    height: 365px;
+    margin-bottom: 16px;
+  }
+}
+
+.navigation-buttons {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 16px;
+}
+
+.card-header{
+  padding-right: 20px;
+}
+
+.nav-button {
+  display: flex;
+  align-items: center;
+  width: 255px;
+  padding: 16px 18px;
+  background: none;
+  border: none;
+  border-radius: 15px;
+  color: var(--text-primary);
+  font-size: 20px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.nav-button:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.nav-button.active {
+  background-color: rgba(139, 92, 246, 0.1);
+  color: var(--primary-violet);
+}
+
+.nav-button.active:hover {
+  background-color: rgba(139, 92, 246, 0.15);
+}
+
+.nav-icon {
+  width: 23px;
+  height: 23px;
+  margin-right: 10px;
+  color: var(--text-secondary);
+  transition: color 0.2s ease;
+}
+
+.nav-button:hover .nav-icon {
+  color: var(--text-primary);
+}
+
+.nav-button.active .nav-icon {
+  color: var(--primary-violet);
+}
+
 /* Article Info Card */
 .article-info-card {
   background-color: var(--bg-secondary);
@@ -1150,6 +1281,7 @@ onUnmounted(() => {
 .card-header {
   display: flex;
   margin-top: 24px;
+  padding: 0 100px 10px 0px;
 }
 
 .card-icon {
@@ -1164,22 +1296,9 @@ onUnmounted(() => {
   font-weight: 500;
   margin-left: 10px;
   margin-top: 0;
+  width: 150px;
   margin-bottom: 0;
   margin-right: 0;
-}
-
-.info-item {
-  display: flex;
-  margin-top: 24px;
-  margin-left: 24px;
-}
-
-.info-label {
-  color: var(--text-secondary);
-  font-size: 20px;
-  font-family: var(--font-sans);
-  font-weight: 500;
-  margin: 0;
 }
 
 .info-value {
@@ -1246,7 +1365,7 @@ onUnmounted(() => {
 /* Filter Dropdown */
 .filter-dropdown {
   background-color: var(--bg-secondary);
-  border-radius: 16px;
+  border-radius: 25px;
   padding: 0;
   margin-top: 0;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
@@ -1269,7 +1388,7 @@ onUnmounted(() => {
   margin-bottom: 24px;
   padding: 16px;
   background-color: var(--bg-primary);
-  border-radius: 12px;
+  border-radius: 25px;
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -1279,7 +1398,7 @@ onUnmounted(() => {
 
 .filter-title {
   color: var(--text-primary);
-  font-size: 18px;
+  font-size: 20px;
   font-family: var(--font-sans);
   font-weight: bold;
   margin: 0 0 12px 0;
@@ -1415,7 +1534,7 @@ onUnmounted(() => {
 
 .time-input-group label {
   color: var(--text-secondary);
-  font-size: 16px;
+  font-size: 18px;
   font-family: var(--font-sans);
   font-weight: bold;
   margin-bottom: 8px;
@@ -1425,10 +1544,10 @@ onUnmounted(() => {
 .time-input {
   background-color: var(--bg-secondary);
   color: var(--text-primary);
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid transparent;
   border-radius: 8px;
   padding: 10px 12px;
-  font-size: 14px;
+  font-size: 16px;
   font-family: var(--font-sans);
   font-weight: bold;
   outline: none;
@@ -1454,7 +1573,7 @@ onUnmounted(() => {
   padding: 8px;
   background-color: var(--bg-secondary);
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+ 
 }
 
 .filter-tag {
