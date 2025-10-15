@@ -436,8 +436,8 @@ onUnmounted(() => {
   color: var(--text-secondary);
   border: 1px solid var(--text-secondary);
   border-radius: 999px;
-  padding: 6px 12px;
-  font-size: 13px;
+  padding: 7px 14px;
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -445,7 +445,7 @@ onUnmounted(() => {
 
 .status-chip.active,
 .status-chip:hover {
-  background-color: var(--text-secondary);
+  background-color: white;
   color: var(--bg-primary);
 }
 
@@ -847,7 +847,7 @@ onUnmounted(() => {
   /* Десктоп */
   @media (min-width: 1025px) {
     width: 300px;
-    height: 400px;
+    height: 230px;
     margin-top: 16px;
   }
 }
@@ -859,19 +859,24 @@ onUnmounted(() => {
   background-color: transparent;
   color: var(--text-secondary);
   border: 1px solid var(--text-secondary);
-  border-radius: 8px;
+  border-radius: 15px;
   padding: 12px 16px;
   margin: 12px 24px;
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
+  width: 260px;
+  height: 56px;
   transition: all 0.2s ease;
+  font-family: var(--font-sans);
+  font-weight: bold;
 }
 
 .action-button:hover {
-  background-color: var(--text-secondary);
+  background-color: white;
   color: var(--bg-primary);
   transform: translateY(-1px);
+  transition: all 0.3s ease;
 }
 
 .action-button svg {

@@ -45,7 +45,10 @@
 
       <div class="user-info">
         <div class="user-name-row">
-          <h3 class="username" @click="onUserClick">{{ comment.author.username }}</h3>
+          <div class="username-with-badge">
+            <h3 class="username" @click="onUserClick">{{ comment.author.username }}</h3>
+            <span v-if="isOwner" class="self-badge">{{ t('labels.you') }}</span>
+          </div>
           <span class="comment-time">{{ formatDate(comment.createdAt) }}</span>
           <div class="more-options-wrapper">
             <svg 
@@ -213,6 +216,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import DropdownIcon from '@/assets/icons/DropdownIcon.vue'
 import { useAuthStore } from '@/stores/auth'
 
@@ -252,6 +256,7 @@ interface CommentBlockEmits {
 const props = defineProps<CommentBlockProps>()
 const emit = defineEmits<CommentBlockEmits>()
 
+const { t } = useI18n()
 const isLiked = ref(props.comment.userLiked || false)
 const likesCount = ref(props.comment.likes || 0)
 const upArrowHover = ref(false)
@@ -469,6 +474,26 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.username-with-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.self-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 10px;
+  background: rgba(140, 0, 255, 0.1);
+  color: var(--primary-violet);
+  font-size: 12px;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
 .dropdown-icon1 {
   display: flex;
   align-items: center;

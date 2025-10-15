@@ -496,20 +496,17 @@ function setArticlesView(mode: 'default' | 'line' | 'square') {
 
   /* Десктоп (базовые значения) */
   height: 80px;
-  margin-top: 20px;
   padding: 0 20px;
 
   /* Планшеты */
   @media (max-width: 1024px) {
     height: 70px;
-    margin-top: 16px;
     padding: 0 16px;
   }
 
   /* Мобильные устройства */
   @media (max-width: 768px) {
     height: 60px;
-    margin-top: 12px;
     padding: 0 12px;
     flex-wrap: wrap;
   }

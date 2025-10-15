@@ -1,4 +1,7 @@
 {
+  "labels": {
+    "you": "You"
+  },
   "home": {
     "title": "Aetheris",
     "subtitle": "A community of IT developers, neural network scientists and ML engineers",
