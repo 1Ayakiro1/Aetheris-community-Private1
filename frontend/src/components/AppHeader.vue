@@ -31,7 +31,7 @@
       </button>
 
       <button id="logo-btn" class="profile-button">
-        <div class="profile-avatar"></div>
+        <div class="profile-avatar" @click="goToProfile"></div>
         <DropdownIcon class="dropdown-icon profile-arrow" />
       </button>
     </div>
@@ -420,6 +420,10 @@ onMounted(() => {
 
 function signOut() {
     auth.logout()
+}
+
+function goToProfile() {
+    router.push('/profile')
 }
 
 function setArticlesView(mode: 'default' | 'line' | 'square') {
