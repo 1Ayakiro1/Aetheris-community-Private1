@@ -172,13 +172,6 @@
         </button>
       </router-link>
 
-      <router-link to="/draft">
-        <button class="panel-button">
-          <DraftIcon class="panel-icon" />
-          <p class="panel-text">{{ t('header.profile.title6') }}</p>
-        </button>
-      </router-link>
-
       <router-link to="/analytics">
         <button class="panel-button">
           <AnalyticsIcon class="panel-icon" />
