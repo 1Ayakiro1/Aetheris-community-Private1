@@ -86,7 +86,23 @@ def create_article(db: Session, article: schemas.ArticleCreate):
     return db_article
 
 def get_articles(db: Session, skip: int = 0, limit: int = 100, user_id: int | None = None):
-    articles = db.query(models.Article).offset(skip).limit(limit).all()
+    """Return articles visible to the requester. Drafts are only visible to their author."""
+    requester_username = None
+    if user_id is not None:
+        user = db.query(models.User).filter(models.User.id == user_id).first()
+        requester_username = user.username if user else None
+
+    from sqlalchemy import or_
+    visibility_filter = (
+        or_(
+            models.Article.status != 'draft',
+            models.Article.author == requester_username
+        ) if requester_username is not None else (models.Article.status != 'draft')
+    )
+
+    query = db.query(models.Article).filter(visibility_filter).offset(skip).limit(limit)
+    articles = query.all()
+
     for a in articles:
         a.tags = a.tags.split(",") if a.tags else []
         if user_id is not None:
@@ -108,8 +124,27 @@ def search_articles(db: Session, query: str, skip: int = 0, limit: int = 100, us
         models.Article.tags.ilike(f"%{query}%"),
         models.Article.author.ilike(f"%{query}%")
     )
-    
-    articles = db.query(models.Article).filter(search_filter).offset(skip).limit(limit).all()
+    # Ограничиваем видимость черновиков: только автор видит свои черновики
+    requester_username = None
+    if user_id is not None:
+        user = db.query(models.User).filter(models.User.id == user_id).first()
+        requester_username = user.username if user else None
+
+    visibility_filter = (
+        or_(
+            models.Article.status != 'draft',
+            models.Article.author == requester_username
+        ) if requester_username is not None else (models.Article.status != 'draft')
+    )
+
+    articles = (
+        db.query(models.Article)
+        .filter(search_filter)
+        .filter(visibility_filter)
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
     
     for a in articles:
         a.tags = a.tags.split(",") if a.tags else []
@@ -125,6 +160,14 @@ def get_article_with_user(db: Session, article_id: int, user_id: int | None = No
     a = db.query(models.Article).filter(models.Article.id == article_id).first()
     if not a:
         return None
+    # Если статья черновик, доступна только автору
+    if a.status == 'draft':
+        requester_username = None
+        if user_id is not None:
+            user = db.query(models.User).filter(models.User.id == user_id).first()
+            requester_username = user.username if user else None
+        if requester_username is None or a.author != requester_username:
+            return None
     a.tags = a.tags.split(",") if a.tags else []
     if user_id is not None:
         r = db.query(models.ArticleReaction).filter(
