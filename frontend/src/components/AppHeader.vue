@@ -115,17 +115,17 @@
 
       <div class="panel-divider"></div>
 
-      <button class="panel-button">
+      <button class="panel-button" @click="setArticlesView('line')">
         <div class="icon-placeholder panel-icon"></div>
         <p class="panel-text">{{ t('header.additional.title2') }}</p>
       </button>
 
-      <button class="panel-button">
+      <button class="panel-button" @click="setArticlesView('square')">
         <div class="icon-placeholder panel-icon"></div>
         <p class="panel-text">{{ t('header.additional.title3') }}</p>
       </button>
 
-      <button class="panel-button">
+      <button class="panel-button" @click="setArticlesView('default')">
         <div class="icon-placeholder panel-icon"></div>
         <p class="panel-text">{{ t('header.additional.title4') }}</p>
       </button>
@@ -420,6 +420,17 @@ onMounted(() => {
 
 function signOut() {
     auth.logout()
+}
+
+function setArticlesView(mode: 'default' | 'line' | 'square') {
+  try {
+    window.dispatchEvent(new CustomEvent('articles:viewMode', { detail: mode }))
+  } catch {}
+  // Hide the Additional panel after selection if open
+  const addPanel = panels.add.panel
+  if (addPanel && !addPanel.classList.contains('hidden')) {
+    hidePanel(addPanel)
+  }
 }
 
 </script>

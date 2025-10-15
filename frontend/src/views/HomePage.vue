@@ -157,17 +157,45 @@
               <p class="search-results-count">{{ $t('articles.searchResults.count', { count: totalRecords }) }}</p>
             </div>
             
-            <ArticleCard
-              v-for="article in paginatedArticles"
-              :key="article.id"
-              :article="article"
-              @tag-click="handleTagClick"
-              @author-click="handleAuthorClick"
-              @article-click="handleArticleClick"
-              @article-deleted="handleArticleDeleted"
-              @delete-article="handleDeleteArticle"
-              @report-article="handleReportArticle"
-            />
+            <div
+              :class="{
+                'articles-list-vertical': viewMode === 'default' || viewMode === 'line',
+                'articles-grid': viewMode === 'square',
+              }"
+            >
+              <template v-if="viewMode === 'default'">
+                <ArticleCard
+                  v-for="article in paginatedArticles"
+                  :key="article.id"
+                  :article="article"
+                  @tag-click="handleTagClick"
+                  @author-click="handleAuthorClick"
+                  @article-click="handleArticleClick"
+                  @article-deleted="handleArticleDeleted"
+                  @delete-article="handleDeleteArticle"
+                  @report-article="handleReportArticle"
+                />
+              </template>
+              <template v-else-if="viewMode === 'line'">
+                <ArticleCardLine
+                  v-for="article in paginatedArticles"
+                  :key="article.id"
+                  :article="article"
+                  @tag-click="handleTagClick"
+                  @author-click="handleAuthorClick"
+                  @article-click="handleArticleClick"
+                />
+              </template>
+              <template v-else>
+                <ArticleCardSquare
+                  v-for="article in paginatedArticles"
+                  :key="article.id"
+                  :article="article"
+                  @author-click="handleAuthorClick"
+                  @article-click="handleArticleClick"
+                />
+              </template>
+            </div>
           </template>
 
           <!-- Pagination -->
@@ -356,6 +384,8 @@
 import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import ArticleCard from '@/components/ArticleCard.vue'
+import ArticleCardLine from '@/components/ArticleCardLine.vue'
+import ArticleCardSquare from '@/components/ArticleCardSquare.vue'
 import DeleteConfirmDialog from '@/components/DeleteConfirmDialog.vue'
 import Toast from 'primevue/toast'
 import Paginator from 'primevue/paginator'
@@ -439,6 +469,12 @@ const showBackToTop = ref(false)
 const buttonOpacity = ref(1)
 const searchQuery = ref('')
 const isSearching = ref(false)
+const viewMode = ref<'default' | 'line' | 'square'>('default')
+const currentCardComponent = computed(() => {
+  if (viewMode.value === 'line') return ArticleCardLine
+  if (viewMode.value === 'square') return ArticleCardSquare
+  return ArticleCard
+})
 
 // Filter states
 const showFilterDropdown = ref(false)
@@ -744,6 +780,12 @@ const handleScroll = () => {
 onMounted(async () => {
   window.addEventListener('scroll', handleScroll)
   document.addEventListener('click', handleClickOutside)
+  window.addEventListener('articles:viewMode', (e: Event) => {
+    const mode = (e as CustomEvent).detail
+    if (mode === 'default' || mode === 'line' || mode === 'square') {
+      viewMode.value = mode
+    }
+  })
   await fetchArticles()
   console.log('Статьи загружены следующие:', articles.value)
   
@@ -760,6 +802,7 @@ onMounted(async () => {
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
   document.removeEventListener('click', handleClickOutside)
+  window.removeEventListener('articles:viewMode', () => {})
 })
 </script>
 
@@ -986,6 +1029,33 @@ onUnmounted(() => {
   @media (min-width: 1025px) {
     width: 1060px;
     gap: 20px;
+  }
+}
+
+/* Cards flow for list/default */
+.articles-list-vertical {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+/* Grid for square mode: 2 columns */
+.articles-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 768px) {
+  .articles-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .articles-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
