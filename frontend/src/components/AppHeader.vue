@@ -316,9 +316,23 @@ function showPanel(panel: HTMLElement): void {
 
   panel.classList.remove('hidden')
 
-  // Add active class to corresponding button
+  // Position panel directly under its trigger button
   const button = Object.values(panels).find(({ panel: p }) => p === panel)?.button
-  if (button) button.classList.add('active')
+  if (button) {
+    const rect = button.getBoundingClientRect()
+    // Measure panel width to center it under the button
+    const panelWidth = panel.offsetWidth || 0
+    const viewportWidth = window.innerWidth
+    let left = rect.left + rect.width / 2 - panelWidth / 2
+    // Clamp within viewport with 8px padding
+    left = Math.max(8, Math.min(left, viewportWidth - panelWidth - 8))
+    panel.style.left = `${Math.round(left)}px`
+    panel.style.top = `${Math.round(rect.bottom + 15)}px` // 15px gap
+  }
+
+  // Add active class to corresponding button
+  const activeBtn = Object.values(panels).find(({ panel: p }) => p === panel)?.button
+  if (activeBtn) activeBtn.classList.add('active')
 
   // First frame - just show
   requestAnimationFrame(() => {
@@ -390,6 +404,22 @@ onMounted(() => {
             hidePanel(panel)
           }
         }
+      }
+    })
+  })
+
+  // Reposition panels on window resize to keep under buttons
+  window.addEventListener('resize', () => {
+    Object.values(panels).forEach(({ panel, button }) => {
+      if (!panel || !button) return
+      if (!panel.classList.contains('hidden') && panel.classList.contains('opacity-100')) {
+        const rect = button.getBoundingClientRect()
+        const panelWidth = panel.offsetWidth || 0
+        const viewportWidth = window.innerWidth
+        let left = rect.left + rect.width / 2 - panelWidth / 2
+        left = Math.max(8, Math.min(left, viewportWidth - panelWidth - 8))
+        panel.style.left = `${Math.round(left)}px`
+        panel.style.top = `${Math.round(rect.bottom + 15)}px`
       }
     })
   })
@@ -649,7 +679,7 @@ function signOut() {
 
 // Dropdown panels
 .dropdown-panel {
-  position: absolute;
+  position: fixed; /* фиксируем относительно окна */
   background-color: var(--bg-secondary);
   border-radius: 20px;
   border: 2px solid var(--text-secondary);
@@ -701,119 +731,29 @@ function signOut() {
  */
 
 .dropdown-panel.navigation-panel {
-  /* Десктоп (базовые значения) */
   width: 260px;
   height: 280px;
-  top: 80px;
-  left: 550px;
-
-  /* Планшеты */
-  @media (max-width: 1024px) {
-    left: 220px;
-    width: 220px;
-    height: 260px;
-  }
-
-  /* Мобильные устройства */
-  @media (max-width: 768px) {
-    left: 10px;
-    width: 200px;
-    height: 240px;
-  }
 }
 
 .dropdown-panel.faq-panel {
-  /* Десктоп (базовые значения) */
   width: 260px;
   height: 280px;
-  top: 80px;
-  left: 870px;
-
-  /* Планшеты */
-  @media (max-width: 1024px) {
-    left: 400px;
-    width: 200px;
-    height: 260px;
-  }
-
-  /* Мобильные устройства */
-  @media (max-width: 768px) {
-    left: 150px;
-    width: 180px;
-    height: 240px;
-  }
-
-    /* 2К экраны */
-    @media (min-width: 2860px) {    /*ДОРАБОТАТЬ! ДЛЯ ДРУГИХ ПАНЕЛЕЙ */
-    left: 920px;
-  }
 }
 
 .dropdown-panel.additional-panel {
-  /* Десктоп (базовые значения) */
   width: 260px;
-  height: 290px;
-  top: 80px;
-  left: 1110px;
-
-  /* Планшеты */
-  @media (max-width: 1024px) {
-    left: 570px;
-    width: 200px;
-    height: 270px;
-  }
-
-  /* Мобильные устройства */
-  @media (max-width: 768px) {
-    left: 280px;
-    width: 180px;
-    height: 250px;
-  }
-
-  /* 2К экраны */
-  @media (min-width: 2860px) {    /*ДОРАБОТАТЬ! ДЛЯ ДРУГИХ ПАНЕЛЕЙ */
-    left: 1250px;
-  }
+  height: 315px;
 }
 
 .dropdown-panel.profile-panel {
-  /* Десктоп (базовые значения) */
-  width: 300px;
+  width: 310px;
   height: auto;
   min-height: 400px;
   max-height: 80vh;
-  top: 80px;
-  left: 1210px;
-
-  /* Планшеты */
-  @media (max-width: 1024px) {
-    left: 720px;
-    width: 280px;
-    min-height: 350px;
-    max-height: 75vh;
-  }
-
-  /* Мобильные устройства */
-  @media (max-width: 768px) {
-    left: 400px;
-    width: 260px;
-    min-height: 300px;
-    max-height: 70vh;
-  }
-
-  /* 2К экраны */
-  @media (min-width: 2860px) {    /*ДОРАБОТАТЬ! ДЛЯ ДРУГИХ ПАНЕЛЕЙ */
-    left: 1350px;
-  }
 }
 
 /* When header is taller for admin access, offset dropdowns */
-.header-container.admin-access ~ .navigation-panel,
-.header-container.admin-access ~ .faq-panel,
-.header-container.admin-access ~ .additional-panel,
-.header-container.admin-access ~ .profile-panel {
-  top: 110px !important;
-}
+/* top managed dynamically; no admin-specific offset needed */
 
 .panel-content {
   display: flex;
@@ -830,7 +770,10 @@ function signOut() {
 .profile-panel .panel-content {
   max-height: calc(80vh - 20px);
   overflow-y: auto;
-  padding-right: 4px;
+  /* Смещаем визуально полосу прокрутки внутрь контейнера */
+  padding-right: 12px;
+  /* Резервируем стабильное место под полосу прокрутки (поддерживается современными браузерами) */
+  scrollbar-gutter: stable;
   padding-bottom: 30px;
 }
 
@@ -849,20 +792,35 @@ function signOut() {
 
 /* Стилизация скроллбара для панели профиля */
 .profile-panel .panel-content::-webkit-scrollbar {
-  width: 6px;
+  width: 7px; /* на пиксель толще */
 }
 
 .profile-panel .panel-content::-webkit-scrollbar-track {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.03); /* менее заметный трек */
+  border-radius: 4px;
 }
 
 .profile-panel .panel-content::-webkit-scrollbar-thumb {
-  background: var(--text-secondary);
-  border-radius: 3px;
+  background: white; /* постоянно белый */
+  border-radius: 6px;
+  /* Уменьшаем высоту бегунка в половину */
+  min-height: 20px; /* минимальная высота */
+  background-image: linear-gradient(to bottom, 
+    white 0%, 
+    white 50%, 
+    transparent 50%, 
+    transparent 100%
+  );
 }
 
 .profile-panel .panel-content::-webkit-scrollbar-thumb:hover {
-  background: var(--text-primary);
+  background: white; /* отключаем подсветку на hover */
+}
+
+/* Firefox (стандартное API) */
+.profile-panel .panel-content {
+  scrollbar-width: thin; /* уменьшенная ширина */
+  scrollbar-color: white rgba(255, 255, 255, 0.03);
 }
 
 // Panel buttons

@@ -1207,9 +1207,8 @@ onUnmounted(() => {
 
 .nav-button {
   display: flex;
-  align-items: center;
   width: 255px;
-  padding: 16px 18px;
+  padding: 16px 0px 16px 20px;
   background: none;
   border: none;
   border-radius: 15px;
@@ -1220,6 +1219,7 @@ onUnmounted(() => {
   cursor: pointer;
   transition: all 0.2s ease;
   text-align: left;
+  justify-content: flex-start;
 }
 
 .nav-button:hover {

@@ -278,7 +278,7 @@
 }
 
 .newsletter-title {
-    font-family: var(--font-comfortaa);
+    font-family: var(--font-sans-serif);
     font-size: 18px;
     font-weight: 600;
     color: var(--text-primary);
@@ -287,7 +287,7 @@
 }
 
 .newsletter-description {
-    font-family: var(--font-comfortaa);
+    font-family: var(--font-sans-serif);
     font-size: 18px;
     color: var(--text-secondary);
     margin: 0 0 16px 0;
@@ -349,7 +349,7 @@
 }
 
 .column-link {
-    font-family: var(--font-comfortaa);
+    font-family: var(--font-sans-serif);
     font-size: 18px;
     color: var(--text-secondary);
     text-decoration: none;
@@ -405,8 +405,7 @@
 
 /* Bottom section: Copyright and Social */
 .footer-bottom {
-    background: rgba(0, 0, 0, 0.1);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--bg-primary);
     padding: 20px 0;
     position: relative;
     z-index: 3;
@@ -445,7 +444,7 @@
 }
 
 .copyright-text {
-    font-family: var(--font-comfortaa);
+    font-family: var(--font-sans-serif);
     font-size: 14px;
     color: var(--text-secondary);
     margin: 0;
@@ -464,7 +463,7 @@
 }
 
 .legal-link {
-    font-family: var(--font-comfortaa);
+    font-family: var(--font-sans-serif);
     font-size: 14px;
     color: var(--text-secondary);
     text-decoration: none;
@@ -622,11 +621,11 @@
 /* Dark mode enhancements */
 @media (prefers-color-scheme: dark) {
     .footer-wrapper {
-        background: black;
+        background: var(--bg-primary);
     }
     
     .footer-bottom {
-        background: rgba(0, 0, 0, 0.2);
+        background: var(--bg-primary);
     }
 }
 

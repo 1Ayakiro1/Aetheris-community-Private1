@@ -95,7 +95,7 @@ router.beforeEach((to) => {
     } catch {}
     return { path: '/home', query: { redirect: to.fullPath } }
   }
-  if (auth.isAuthenticated && isPublic) {
+  if (auth.isAuthenticated && isPublic && to.path !== '/home') {
     return { path: to.query.redirect?.toString() || '/' }
   }
   // Default landing: if visiting root without auth, send to /home
