@@ -18,7 +18,7 @@
       />
       
       <!-- Comments Section -->
-      <div class="comments-section">
+      <div class="comments-section" id="comments">
         <h2 class="comments-title">Comments ({{ totalCommentsCount }})</h2>
         
         <!-- Comment Input -->
@@ -56,6 +56,7 @@
             </svg>
           </div>
           <textarea
+            ref="commentInput"
             v-model="newComment"
             class="comment-input"
             placeholder="Write a comment..."
@@ -123,6 +124,7 @@ const error = ref<string | null>(null)
 const newComment = ref('')
 const replyingTo = ref<{ id: number, parentId: number, username: string } | null>(null)
 const highlightedCommentId = ref<number | null>(null)
+const commentInput = ref<HTMLTextAreaElement | null>(null)
 
 // Backend-powered comments
 type UiComment = {
@@ -389,18 +391,28 @@ onMounted(async () => {
   const hash = window.location.hash
   console.log('URL hash:', hash)
   
-  if (hash && hash.startsWith('#comment-')) {
-    const commentId = parseInt(hash.replace('#comment-', ''))
-    console.log('Found comment anchor, commentId:', commentId)
-    
-    if (commentId) {
-      // Ждем, пока комментарии загрузятся, затем прокручиваем к нужному
-      await nextTick()
-      setTimeout(() => {
-        console.log('Attempting to scroll to comment:', commentId)
-        scrollToComment(commentId)
-      }, 500) // Небольшая задержка для полной загрузки
-    }
+  if (hash && (hash === '#comments' || hash.startsWith('#comment-'))) {
+    await nextTick()
+    setTimeout(() => {
+      if (hash === '#comments') {
+        const el = document.getElementById('comments')
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          // Фокусируемся на поле ввода комментария
+          setTimeout(() => {
+            if (commentInput.value) {
+              commentInput.value.focus()
+            }
+          }, 300)
+        }
+      } else {
+        const commentId = parseInt(hash.replace('#comment-', ''))
+        if (commentId) {
+          console.log('Attempting to scroll to comment:', commentId)
+          scrollToComment(commentId)
+        }
+      }
+    }, 500)
   }
 })
 
@@ -434,7 +446,23 @@ const scrollToComment = (commentId: number) => {
 
 // Следим за изменениями хеша в URL
 watch(() => route.hash, (newHash) => {
-  if (newHash && newHash.startsWith('#comment-')) {
+  if (!newHash) return
+  if (newHash === '#comments') {
+    setTimeout(() => {
+      const el = document.getElementById('comments')
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        // Фокусируемся на поле ввода комментария
+        setTimeout(() => {
+          if (commentInput.value) {
+            commentInput.value.focus()
+          }
+        }, 300)
+      }
+    }, 100)
+    return
+  }
+  if (newHash.startsWith('#comment-')) {
     const commentId = parseInt(newHash.replace('#comment-', ''))
     if (commentId) {
       setTimeout(() => {

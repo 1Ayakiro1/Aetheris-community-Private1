@@ -63,7 +63,8 @@
           </svg>
 
           <Transition name="dropdown-fade">
-            <div v-if="showOptionsMenu" class="options-dropdown" @click.stop>
+            <teleport to="body">
+            <div v-if="showOptionsMenu" class="options-dropdown" :style="optionsStyle" @click.stop>
               <button class="dropdown-item" @click="onCopyLink">
                 <svg width="23" height="23" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M10 13a5 5 0 0 1 7.07 0l1.41 1.41a5 5 0 0 1 0 7.07v0a5 5 0 0 1-7.07 0l-1.41-1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -94,6 +95,7 @@
                 <span>Report</span>
               </button>
             </div>
+            </teleport>
           </Transition>
         </div>
     </div>
@@ -272,6 +274,7 @@
 
 <script setup lang="ts">
 import { ref, watch, computed, onMounted, onUnmounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import Tag from 'primevue/tag'
 import type { Article, ArticleCardProps, ArticleCardEmits } from '@/types/article'
 import { useArticles } from '@/composables/useArticles'
@@ -279,6 +282,7 @@ import { useAuthStore } from '@/stores/auth'
 import { deleteArticle } from '@/api/articles'
 import DeleteConfirmDialog from './DeleteConfirmDialog.vue'
 const fireIcon = new URL('@/assets/svgs/fire_ico.svg', import.meta.url).href
+import { computed } from 'vue'
 
 // === props и emits ===
 const props = defineProps<ArticleCardProps>()
@@ -287,6 +291,8 @@ const emit = defineEmits<ArticleCardEmits>()
 // === composable ===
 const { react } = useArticles()
 const authStore = useAuthStore()
+const route = useRoute()
+const router = useRouter()
 
 // === состояния ===
 const isLiked = ref(props.article.userReaction === 'like')
@@ -312,12 +318,12 @@ const isAuthor = computed(() => {
   
   // Если author - это строка (username), сравниваем по username
   if (typeof props.article.author === 'string') {
-    return authStore.user && props.article.author === authStore.user.username
+    return authStore.user && props.article.author === (authStore.user.nickname || (authStore.user as any).username)
   }
   
   // Если author - это объект с username, сравниваем по username
-  if (props.article.author.username) {
-    return authStore.user && props.article.author.username === authStore.user.username
+  if ((props.article.author as any).username) {
+    return authStore.user && (props.article.author as any).username === (authStore.user.nickname || (authStore.user as any).username)
   }
   
   return false
@@ -392,13 +398,49 @@ const getTagSeverity = (tagOrIndex: string | number): typeof tagColors[number] =
 // === прочее ===
 const onShare = () => {}
 const onTagClick = (tag: string) => {}
-const onComment = () => {}
+const onComment = () => {
+  // Обновляем hash, чтобы страница прокрутилась к разделу комментариев
+  if (route.hash !== '#comments') {
+    router.replace({ hash: '#comments' })
+  } else {
+    // Если уже на нужном hash — вручную инициируем прокрутку и фокус
+    const el = document.getElementById('comments')
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      // Фокусируемся на поле ввода комментария
+      setTimeout(() => {
+        const commentInput = document.querySelector('.comment-input') as HTMLTextAreaElement
+        if (commentInput) {
+          commentInput.focus()
+        }
+      }, 300)
+    }
+  }
+}
 const onAuthorClick = () => {}
 const onBookmark = () => {}
 
 const toggleOptionsMenu = () => {
     showOptionsMenu.value = !showOptionsMenu.value
 }
+
+// Позиционирование меню в портале: вычисляем координаты относительно экрана
+const optionsStyle = computed(() => {
+    const trigger = document.querySelector('.more-options-wrapper') as HTMLElement | null
+    if (!trigger) return {
+        position: 'fixed',
+        top: '0px',
+        left: '0px',
+        zIndex: 50000
+    } as Record<string, string | number>
+    const rect = trigger.getBoundingClientRect()
+    return {
+        position: 'fixed',
+        top: `${rect.top - 10}px`,
+        left: `${rect.left + 70}px`,
+        zIndex: 50000
+    } as Record<string, string | number>
+})
 
 const onCopyLink = async () => {
     try {
@@ -616,6 +658,7 @@ const getDifficultyText = (difficulty: string | undefined): string => {
     position: relative;
     margin-left: auto;
     margin-right: 30px;
+    z-index: 50000; /* Поверх сайдбара на главной */
 }
 
 .more-options-icon {
@@ -643,7 +686,7 @@ const getDifficultyText = (difficulty: string | undefined): string => {
     padding: 10px;
     min-width: 260px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-    z-index: 100;
+    z-index: 50000; /* Поверх боковой панели на главной */
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 

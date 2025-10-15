@@ -63,7 +63,8 @@
           </svg>
 
           <Transition name="dropdown-fade">
-            <div v-if="showOptionsMenu" class="options-dropdown" @click.stop>
+            <teleport to="body">
+            <div v-if="showOptionsMenu" class="options-dropdown" :style="optionsStyle" @click.stop>
               <button class="dropdown-item" @click="handleCopyLink">
                 <svg width="23" height="23" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M10 13a5 5 0 0 1 7.07 0l1.41 1.41a5 5 0 0 1 0 7.07v0a5 5 0 0 1-7.07 0l-1.41-1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -94,6 +95,7 @@
                 <span>Report</span>
               </button>
             </div>
+            </teleport>
           </Transition>
         </div>
     </div>
@@ -296,6 +298,8 @@
 
 <script setup lang="ts">
 import { ref, watch, computed, onMounted, onUnmounted } from 'vue'
+import { computed as vueComputed } from 'vue'
+import { useRouter } from 'vue-router'
 import Tag from 'primevue/tag'
 import Toast from 'primevue/toast'
 import { useToast } from 'primevue/usetoast'
@@ -314,6 +318,7 @@ const emit = defineEmits<ArticleCardEmits>()
 // === composable ===
 const { react } = useArticles()
 const authStore = useAuthStore()
+const router = useRouter()
 const toast = useToast()
 const { t } = useI18n()
 
@@ -347,12 +352,12 @@ const isAuthor = computed(() => {
   
   // Если author - это строка (username), сравниваем по username
   if (typeof props.article.author === 'string') {
-    return authStore.user && props.article.author === authStore.user.username
+    return authStore.user && props.article.author === (authStore.user.nickname || (authStore.user as any).username)
   }
   
   // Если author - это объект с username, сравниваем по username
-  if (props.article.author.username) {
-    return authStore.user && props.article.author.username === authStore.user.username
+  if ((props.article.author as any).username) {
+    return authStore.user && (props.article.author as any).username === (authStore.user.nickname || (authStore.user as any).username)
   }
   
   return false
@@ -429,7 +434,10 @@ const onShare = () => {}
 const onTagClick = (tag: string) => {
   emit('tagClick', tag)
 }
-const onComment = () => {}
+const onComment = () => {
+  // Переходим на страницу статьи и прокручиваем к разделу комментариев
+  router.push(`/article/${props.article.id}#comments`)
+}
 const onArticleClick = () => {
   emit('articleClick', props.article.id)
 }
@@ -515,6 +523,23 @@ const reportReasons = [
     { id: 'inappropriate', title: 'Inappropriate Content', description: 'Sexual, violent, or disturbing content' },
     { id: 'misinformation', title: 'Misinformation', description: 'False or misleading information' },
 ]
+// Позиционирование меню в портале: вычисляем координаты относительно экрана
+const optionsStyle = vueComputed(() => {
+    const trigger = document.querySelector('.more-options-wrapper') as HTMLElement | null
+    if (!trigger) return {
+        position: 'fixed',
+        top: '0px',
+        left: '0px',
+        zIndex: 50000
+    } as Record<string, string | number>
+    const rect = trigger.getBoundingClientRect()
+    return {
+        position: 'fixed',
+        top: `${rect.top - 10}px`,
+        left: `${rect.left + 70}px`,
+        zIndex: 50000
+    } as Record<string, string | number>
+})
 
 const closeReportPanel = () => {
     isReportPanelOpen.value = false
@@ -642,6 +667,7 @@ const getDifficultyText = (difficulty: string | undefined): string => {
     position: relative;
     margin-left: auto;
     margin-right: 30px;
+    z-index: 50000; /* Поверх боковой панели на главной */
 }
 
 .more-options-icon {
@@ -669,7 +695,7 @@ const getDifficultyText = (difficulty: string | undefined): string => {
     padding: 10px;
     min-width: 260px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-    z-index: 100;
+    z-index: 50000; /* Поверх боковой панели на главной */
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 

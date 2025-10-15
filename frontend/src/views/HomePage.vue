@@ -179,6 +179,28 @@
               template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
               @page="handlePageChange"
             />
+            <div class="page-size-control">
+              <label class="page-size-label">Per page:</label>
+              <div class="custom-select" :class="{ 'is-open': isSelectOpen }">
+                <div class="select-trigger" @click="toggleSelect">
+                  <span class="select-value">{{ rows }}</span>
+                  <svg class="select-arrow" :class="{ 'is-rotated': isSelectOpen }" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div class="select-dropdown" v-show="isSelectOpen">
+                  <div 
+                    v-for="opt in pageSizeOptions" 
+                    :key="opt" 
+                    class="select-option"
+                    :class="{ 'is-selected': opt === rows }"
+                    @click="selectOption(opt)"
+                  >
+                    {{ opt }}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -375,6 +397,37 @@ const totalRecords = computed(() => articles.value.length)
 
 const first = ref(0)
 const rows = ref(10)
+const pageSizeOptions = [5, 10, 20, 30, 50]
+
+// Custom select logic
+const isSelectOpen = ref(false)
+
+const toggleSelect = () => {
+  isSelectOpen.value = !isSelectOpen.value
+}
+
+const selectOption = (value: number) => {
+  rows.value = value
+  isSelectOpen.value = false
+  handleRowsChange(value.toString())
+}
+
+// Закрытие выпадающего списка при клике вне его
+const closeSelectOnOutsideClick = (event: Event) => {
+  const target = event.target as HTMLElement
+  if (!target.closest('.custom-select')) {
+    isSelectOpen.value = false
+  }
+}
+
+// Добавляем обработчик при монтировании компонента
+onMounted(() => {
+  document.addEventListener('click', closeSelectOnOutsideClick)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('click', closeSelectOnOutsideClick)
+})
 
 // Пагинированные статьи - показываем только 10 статей на текущей странице
 const paginatedArticles = computed(() => {
@@ -632,6 +685,13 @@ const handlePageChange = (event: any) => {
   scrollToTop()
 }
 
+const handleRowsChange = (value: string) => {
+  const size = Number(value)
+  if (!Number.isFinite(size) || size <= 0) return
+  rows.value = size
+  first.value = 0
+}
+
 const scrollToTop = () => {
   window.scrollTo({
     top: 0,
@@ -767,7 +827,7 @@ onUnmounted(() => {
 .search-section {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 12px;
 }
 
 .search-container {
@@ -961,6 +1021,141 @@ onUnmounted(() => {
   padding-bottom: 20px;
   padding-top: 3px;
   background-color: transparent;
+  gap: 12px;
+}
+
+.page-size-control { 
+  display: flex; 
+  align-items: center; 
+  gap: 8px; 
+  position: relative;
+}
+
+.page-size-label { 
+  color: var(--text-secondary); 
+  font-family: var(--font-sans); 
+  font-weight: bold; 
+}
+
+/* Custom Select Styles */
+.custom-select {
+  position: relative;
+  min-width: 90px;
+}
+
+.select-trigger {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 2px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  user-select: none;
+}
+
+.select-trigger:hover {
+  background-color: rgba(139, 92, 246, 0.1);
+  border-color: var(--accent-primary);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.select-trigger:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.select-value {
+  flex: 1;
+  text-align: left;
+}
+
+.select-arrow {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  color: var(--text-primary);
+  flex-shrink: 0;
+}
+
+.select-arrow.is-rotated {
+  transform: rotate(180deg);
+}
+
+.select-dropdown {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  background: var(--bg-secondary);
+  border: 2px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  margin-bottom: 6px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(20px);
+  z-index: 40000; /* above footer */
+  overflow: hidden;
+  animation: dropdownSlideUp 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes dropdownSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.select-option {
+  padding: 12px 16px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.select-option:last-child {
+  border-bottom: none;
+}
+
+.select-option:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+}
+
+.select-option.is-selected {
+  background: var(--accent-primary);
+  color: white;
+  font-weight: 700;
+  box-shadow: inset 0 0 0 9999px rgba(139, 92, 246, 0.15);
+}
+
+/* Закрытие при клике вне элемента */
+.custom-select.is-open::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
 }
 
 /* PrimeVue Paginator - Community Colors */
