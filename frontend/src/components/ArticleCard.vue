@@ -140,6 +140,7 @@
                 class="preview-image" 
                 v-if="article.previewImage && !imageError"
                 :style="{ '--preview-bg': `url(${article.previewImage})` }"
+                @click.stop="openImagePreview"
             >
                 <img
                     :src="article.previewImage"
@@ -147,6 +148,12 @@
                     class="preview-img"
                     @error="onImageError"
                 />
+                <div class="preview-indicator">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" />
+                    </svg>
+                </div>
             </div>
 
             <!-- Если ссылка есть, но изображение не загрузилось -->
@@ -245,6 +252,25 @@
   
   </div>
   
+  <!-- Image Preview Modal -->
+  <teleport to="body">
+    <Transition name="image-fade">
+    <div v-if="isImagePreviewOpen" class="image-preview-overlay" @click="closeImagePreview">
+      <div class="image-preview-content" @click.stop>
+        <div class="image-zoom-box" :class="[`zoom-${zoomLevel}`]">
+          <img 
+            :src="article.previewImage" 
+            :alt="article.title" 
+            class="image-preview-img"
+            @click.stop="toggleImageZoom"
+          />
+          <button class="image-preview-close" @click="closeImagePreview" aria-label="Close preview">×</button>
+        </div>
+      </div>
+    </div>
+    </Transition>
+  </teleport>
+
   <!-- Report Panel -->
   <Transition name="report-fade">
   <div v-if="isReportPanelOpen" class="report-panel-overlay" @click="closeReportPanel">
@@ -344,6 +370,9 @@ const isReportPanelOpen = ref(false)
 const selectedReasons = ref<string[]>([])
 const isDeleteDialogOpen = ref(false)
 const isDeleting = ref(false)
+const isImagePreviewOpen = ref(false)
+const isImageZoomed = ref(false) // legacy flag no longer used for class
+const zoomLevel = ref(1) // 1 = 1.6x (default), 2 = 2.2x, 3 = 3.0x
 
 // === computed ===
 const isAuthor = computed(() => {
@@ -517,6 +546,37 @@ onMounted(() => {
 onUnmounted(() => {
     document.removeEventListener('click', handleClickOutside)
 })
+
+function onKeydown(e: KeyboardEvent) {
+    if (e.key === 'Escape' && isImagePreviewOpen.value) {
+        closeImagePreview()
+    }
+}
+
+onMounted(() => {
+    window.addEventListener('keydown', onKeydown)
+})
+
+onUnmounted(() => {
+    window.removeEventListener('keydown', onKeydown)
+})
+
+function openImagePreview() {
+    isImagePreviewOpen.value = true
+    zoomLevel.value = 1
+    try { document.body.style.overflow = 'hidden' } catch {}
+}
+
+function closeImagePreview() {
+    isImagePreviewOpen.value = false
+    isImageZoomed.value = false
+    zoomLevel.value = 1
+    try { document.body.style.overflow = '' } catch {}
+}
+
+function toggleImageZoom() {
+    zoomLevel.value = zoomLevel.value >= 3 ? 1 : zoomLevel.value + 1
+}
 
 const reportReasons = [
     { id: 'spam', title: 'Spam', description: 'Unwanted commercial content or repetitive messages' },
@@ -1180,6 +1240,7 @@ const getDifficultyText = (difficulty: string | undefined): string => {
     white-space: normal !important;
     /* Ограничиваем текст с плавным затуханием */
     -webkit-line-clamp: 10;
+    line-clamp: 10;
     -webkit-box-orient: vertical;
     text-overflow: ellipsis;
 }
@@ -1527,11 +1588,83 @@ const getDifficultyText = (difficulty: string | undefined): string => {
     }
 }
 
+/* Image Preview Modal */
+.image-fade-enter-active,
+.image-fade-leave-active { transition: opacity 0.2s ease; }
+.image-fade-enter-from,
+.image-fade-leave-to { opacity: 0; }
+
+.image-preview-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 60000;
+    cursor: zoom-out;
+}
+
+.image-preview-content {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 96vw;
+    max-height: 96vh;
+}
+
+.image-zoom-box {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transform-origin: center center;
+    transition: transform 0.25s ease;
+}
+
+.image-zoom-box.zoom-1 { transform: scale(1.6); }
+.image-zoom-box.zoom-2 { transform: scale(2.2); }
+.image-zoom-box.zoom-3 { transform: scale(3.0); }
+
+.image-preview-img {
+    max-width: 96vw;
+    max-height: 96vh;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    transition: transform 0.25s ease, cursor 0.2s ease;
+    cursor: zoom-in;
+}
+
+.image-zoom-box.zoom-1 .image-preview-img { cursor: zoom-in; }
+.image-zoom-box.zoom-2 .image-preview-img { cursor: zoom-in; }
+.image-zoom-box.zoom-3 .image-preview-img { cursor: zoom-out; }
+
+.image-preview-close {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    font-size: 22px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .preview-image {
     width: 100%;
     height: 100%;
     position: relative;
     overflow: hidden;
+    cursor: zoom-in;
     
     /* Размытый фон из того же изображения */
     &::before {
@@ -1556,7 +1689,33 @@ const getDifficultyText = (difficulty: string | undefined): string => {
     object-fit: contain;
     position: relative;
     z-index: 2;
+    transition: transform 0.25s ease;
 }
+
+.preview-image:hover .preview-img {
+    transform: scale(1.03);
+}
+
+.preview-indicator {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    color: var(--text-primary);
+    background: rgba(0,0,0,0.35);
+    backdrop-filter: saturate(140%) blur(4px);
+    font-size: 14px;
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.preview-image:hover .preview-indicator { opacity: 1; }
 
 .preview-content {
     width: 100%;
