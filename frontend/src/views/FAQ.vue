@@ -4,37 +4,35 @@
     <h2 class="page-title">Frequently Asked Questions</h2>
     <div class="content-wrapper">
       <!-- Sidebar -->
-      <div class="sidebar">
-        <router-link to="/faq">
-          <button class="sidebar-button">FAQ</button>
-        </router-link>
-        <router-link to="/faq/user-ranks">
-          <button class="sidebar-button">User ranks</button>
-        </router-link>
-        <router-link to="/faq/clan-ranks">
-          <button class="sidebar-button">Clan ranks</button>
-        </router-link>
-        <router-link to="/faq/keywords">
-          <button class="sidebar-button">Keywords</button>
-        </router-link>
-        <router-link to="/faq/changes">
-          <button class="sidebar-button">Site changes</button>
-        </router-link>
-        <router-link to="/faq/help">
-          <button class="sidebar-button">Help</button>
-        </router-link>
-      </div>
+      <FAQSidebar />
       
-      <!-- Content -->
-      <div class="content">
-        <h2 class="content-title">FAQ</h2>
+      <!-- Tiles -->
+      <div class="tiles">
+        <InfoBlock
+          v-for="it in items"
+          :key="it.id"
+          :title="it.title"
+          :subtitle="it.subtitle"
+          class="tile"
+          @click="openItem(it.id)"
+        >
+          <p>{{ it.content }}</p>
+        </InfoBlock>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
+import InfoBlock from '@/components/InfoBlock.vue'
+import FAQSidebar from '@/components/FAQSidebar.vue'
+import { faqItems as items } from './faq/items'
 
+const router = useRouter()
+function openItem(id: string) {
+  router.push({ name: 'FAQDetail', params: { id } })
+}
 </script>
 
 <style scoped lang="scss">
@@ -42,29 +40,13 @@
 @import '@/assets/main.scss';
 
 .faq-container {
+  width: 100%; max-width: 1400px;
   margin: 0 auto;
-  background-color: var(--bg-primary);
-  padding: 100px 16px 200px;
+  padding: 0 16px;
   box-sizing: border-box;
-  
-  /* Мобильные устройства */
-  @media (max-width: 768px) {
-    padding: 60px 12px 120px;
-  }
-  
-  /* Планшеты */
-  @media (min-width: 769px) and (max-width: 1024px) {
-    padding: 80px 20px 160px;
-    max-width: 1000px;
-  }
-  
-  /* Десктоп */
-  @media (min-width: 1025px) {
-    padding: 100px 24px 200px;
-    max-width: 1400px;
-  }
-
-
+  background-color: var(--bg-primary);
+  padding-top: 100px;
+  padding-bottom: 200px;
 }
 
 .page-title {
@@ -83,60 +65,29 @@
   flex-direction: row;
 }
 
-.sidebar {
+/* Sidebar styles moved to reusable component */
+
+.tiles {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  background-color: var(--bg-secondary);
-  border-radius: 20px;
-  width: 414px;
-  height: 429px;
+  flex-direction: row;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  width: 1100px;
+  margin-left: 12px;
   margin-top: 56px;
-  gap: 8px;
+  box-sizing: border-box;
 
+  /* Не выходим за пределы app-wrapper: контейнер уже ограничен max-width,
+     поэтому плитки занимают доступную ширину и сжимаются при нехватке места */
 
-}
-
-.sidebar-button {
-  width: 333px;
-  height: 56px;
-  background-color: rgba(67, 73, 86, 0);
-  border-radius: 15px;
-  color: var(--text-primary);
-  font-size: 25px;
-  font-family: var(--font-sans-serif);
-  font-weight: bold;
-  transition: all 0.3s ease-in-out;
-  border: none;
-  cursor: pointer;
-
-
-
-  &:hover {
-    background-color: rgba(67, 73, 86, 1);
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+    margin-left: 0;
   }
 }
 
-.content {
-  width: 990px;
-  height: 200px;
-  background-color: var(--bg-secondary);
-  border-radius: 20px;
-  margin-left: 12px;
-  margin-top: 56px;
-
-
-}
-
-.content-title {
-  color: var(--text-primary);
-  font-size: 30px;
-  font-family: var(--font-sans-serif);
-  font-weight: bold;
-  margin-top: 20px;
-  text-align: center;
-
-
+.tile {
+  cursor: pointer;
 }
 </style>

@@ -13,6 +13,7 @@ const routes = [
 
   // FAQ
   { path: '/faq', name: 'FAQ', component: () => import('@/views/FAQ.vue') },
+  { path: '/faq/item/:id', name: 'FAQDetail', component: () => import('@/views/faq/FAQDetail.vue') },
   { path: '/faq/help', name: 'FAQHelp', component: () => import('@/views/FAQHelp.vue') },
   { path: '/faq/changes', name: 'FAQChanges', component: () => import('@/views/FAQChanges.vue') },
   { path: '/faq/keywords', name: 'FAQKeywords', component: () => import('@/views/FAQKeywords.vue') },
