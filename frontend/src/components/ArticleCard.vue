@@ -64,14 +64,28 @@
 
           <Transition name="dropdown-fade">
             <div v-if="showOptionsMenu" class="options-dropdown" @click.stop>
-              <button class="dropdown-item" @click="onCopyLink">
+              <button class="dropdown-item" @click="handleCopyLink">
                 <svg width="23" height="23" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M10 13a5 5 0 0 1 7.07 0l1.41 1.41a5 5 0 0 1 0 7.07v0a5 5 0 0 1-7.07 0l-1.41-1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   <path d="M14 11a5 5 0 0 1-7.07 0L5.5 9.57a5 5 0 0 1 0-7.07v0a5 5 0 0 1 7.07 0L14 3.91" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 <span>Copy link</span>
               </button>
-              <button class="dropdown-item danger" @mousedown.stop.prevent="handleReportArticle" @pointerdown.stop="handleReportArticle" @click.stop="handleReportArticle">
+              <button 
+                v-if="isAuthor" 
+                class="dropdown-item danger" 
+                @click="handleDeleteArticle"
+              >
+                <svg width="23" height="23" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3 6h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M10 11v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M14 11v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>Delete</span>
+              </button>
+              <button class="dropdown-item danger" @click="handleReportArticle">
                 <svg width="23" height="23" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M10.29 3.86L1.82 18c-.175.302-.267.645-.268.994-.001.35.089.693.262.997.173.303.423.556.724.733.3.177.642.272.991.276H20.47c.349-.004.691-.099.992-.276.301-.177.55-.43.723-.733.173-.304.263-.647.262-.997-.001-.349-.093-.692-.268-.994L13.71 3.86A2.5 2.5 0 0 0 12 2.897a2.5 2.5 0 0 0-1.71.963Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   <path d="M12 9v4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -266,13 +280,31 @@
     </div>
   </div>
   </Transition>
+
+  <!-- Delete Confirmation Dialog -->
+  <DeleteConfirmDialog
+    :visible="isDeleteDialogOpen"
+    :article-title="article.title"
+    :loading="isDeleting"
+    @confirm="confirmDelete"
+    @cancel="cancelDelete"
+  />
+  
+  <!-- Toast for notifications -->
+  <Toast />
 </template>
 
 <script setup lang="ts">
 import { ref, watch, computed, onMounted, onUnmounted } from 'vue'
 import Tag from 'primevue/tag'
+import Toast from 'primevue/toast'
+import { useToast } from 'primevue/usetoast'
+import { useI18n } from 'vue-i18n'
 import type { Article, ArticleCardProps, ArticleCardEmits } from '@/types/article'
 import { useArticles } from '@/composables/useArticles'
+import { useAuthStore } from '@/stores/auth'
+import { deleteArticle } from '@/api/articles'
+import DeleteConfirmDialog from './DeleteConfirmDialog.vue'
 const fireIcon = new URL('@/assets/svgs/fire_ico.svg', import.meta.url).href
 
 // === props и emits ===
@@ -281,6 +313,14 @@ const emit = defineEmits<ArticleCardEmits>()
 
 // === composable ===
 const { react } = useArticles()
+const authStore = useAuthStore()
+const toast = useToast()
+const { t } = useI18n()
+
+// Инициализируем authStore при монтировании
+onMounted(() => {
+  authStore.tryRestoreFromStorage()
+})
 
 // === состояния ===
 const isLiked = ref(props.article.userReaction === 'like')
@@ -295,6 +335,28 @@ const imageError = ref(false)
 const showOptionsMenu = ref(false)
 const isReportPanelOpen = ref(false)
 const selectedReasons = ref<string[]>([])
+const isDeleteDialogOpen = ref(false)
+const isDeleting = ref(false)
+
+// === computed ===
+const isAuthor = computed(() => {
+  // Если author - это объект с id, используем id для сравнения
+  if (props.article.author.id) {
+    return authStore.user && props.article.author.id === authStore.user.id
+  }
+  
+  // Если author - это строка (username), сравниваем по username
+  if (typeof props.article.author === 'string') {
+    return authStore.user && props.article.author === authStore.user.username
+  }
+  
+  // Если author - это объект с username, сравниваем по username
+  if (props.article.author.username) {
+    return authStore.user && props.article.author.username === authStore.user.username
+  }
+  
+  return false
+})
 
 // === watchers ===
 watch(() => props.article.userReaction, (v) => {
@@ -397,22 +459,36 @@ const toggleOptionsMenu = () => {
     showOptionsMenu.value = !showOptionsMenu.value
 }
 
-const onCopyLink = async () => {
-    try {
-        const url = `${window.location.origin}/article/${props.article.id}`
-        await navigator.clipboard.writeText(url)
-    } catch (e) {
-        console.error('Не удалось скопировать ссылку:', e)
-    } finally {
-        showOptionsMenu.value = false
-    }
-}
 
 function handleReportArticle() {
     showOptionsMenu.value = false
-    isReportPanelOpen.value = true
-    selectedReasons.value = []
-    console.log('[ArticleCard] open report panel')
+    emit('reportArticle', { id: props.article.id, title: props.article.title })
+    console.log('[ArticleCard] emit report-article event')
+}
+
+// === copy link function ===
+const handleCopyLink = async () => {
+    showOptionsMenu.value = false
+    
+    try {
+        const articleUrl = `${window.location.origin}/article/${props.article.id}`
+        await navigator.clipboard.writeText(articleUrl)
+        
+        toast.add({
+            severity: 'success',
+            summary: t('notifications.copyLink.success.summary'),
+            detail: t('notifications.copyLink.success.detail'),
+            life: 3000
+        })
+    } catch (err) {
+        console.error('Ошибка при копировании ссылки:', err)
+        toast.add({
+            severity: 'error',
+            summary: t('notifications.copyLink.error.summary'),
+            detail: t('notifications.copyLink.error.detail'),
+            life: 3000
+        })
+    }
 }
 
 // Закрывать меню при клике вне области
@@ -426,32 +502,10 @@ const handleClickOutside = (event: MouseEvent) => {
 
 onMounted(() => {
     document.addEventListener('click', handleClickOutside)
-    // Глобальный делегированный обработчик для Report (на случай перекрытий)
-    const delegatedReportHandler = (event: MouseEvent) => {
-        const target = event.target as HTMLElement
-        if (target.closest('.options-dropdown .dropdown-item.danger')) {
-            event.stopPropagation()
-            showOptionsMenu.value = false
-            isReportPanelOpen.value = true
-            selectedReasons.value = []
-            console.log('[ArticleCard] delegated open report panel')
-        }
-    }
-    // Сохраняем на window чтобы удалить корректно
-    // @ts-ignore
-    window.__articleCardDelegatedReportHandler__ = delegatedReportHandler
-    document.addEventListener('click', delegatedReportHandler, true)
 })
 
 onUnmounted(() => {
     document.removeEventListener('click', handleClickOutside)
-    // @ts-ignore
-    const delegated = window.__articleCardDelegatedReportHandler__ as (e: MouseEvent) => void
-    if (delegated) {
-        document.removeEventListener('click', delegated, true)
-        // @ts-ignore
-        window.__articleCardDelegatedReportHandler__ = undefined
-    }
 })
 
 const reportReasons = [
@@ -471,6 +525,33 @@ const confirmReport = () => {
     console.log('Report article:', props.article.id, 'Reasons:', selectedReasons.value)
     isReportPanelOpen.value = false
     selectedReasons.value = []
+}
+
+// === delete functions ===
+const handleDeleteArticle = () => {
+    console.log('Delete button clicked!')
+    showOptionsMenu.value = false
+    emit('deleteArticle', { id: props.article.id, title: props.article.title })
+}
+
+const confirmDelete = async () => {
+    if (!authStore.user) return
+    
+    isDeleting.value = true
+    try {
+        await deleteArticle(props.article.id, authStore.user.id)
+        emit('articleDeleted', props.article.id)
+        isDeleteDialogOpen.value = false
+    } catch (error) {
+        console.error('Ошибка удаления статьи:', error)
+        // Здесь можно добавить уведомление об ошибке
+    } finally {
+        isDeleting.value = false
+    }
+}
+
+const cancelDelete = () => {
+    isDeleteDialogOpen.value = false
 }
 
 // Функция для удаления HTML-тегов и декодирования HTML-сущностей

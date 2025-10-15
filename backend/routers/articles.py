@@ -23,6 +23,13 @@ def react_article_route(article_id: int, payload: ReactionPayload, db: Session =
 def read_articles(skip: int = 0, limit: int = 100, user_id: Optional[int] = None, db: Session = Depends(get_db)):
     return crud.get_articles(db, skip=skip, limit=limit, user_id=user_id)
 
+@router.get("/articles/search", response_model=list[schemas.Article])
+def search_articles_route(q: str, skip: int = 0, limit: int = 100, user_id: Optional[int] = None, db: Session = Depends(get_db)):
+    """Поиск статей по тексту"""
+    if not q or len(q.strip()) < 2:
+        return []
+    return crud.search_articles(db, q.strip(), skip=skip, limit=limit, user_id=user_id)
+
 @router.get("/articles/{article_id}", response_model=schemas.Article)
 def read_article(article_id: int, user_id: Optional[int] = None, db: Session = Depends(get_db)):
     db_article = crud.get_article_with_user(db, article_id, user_id=user_id)
@@ -33,6 +40,14 @@ def read_article(article_id: int, user_id: Optional[int] = None, db: Session = D
 @router.post("/articles/", response_model=schemas.Article)
 def create_article(article: schemas.ArticleCreate, db: Session = Depends(get_db)):
     return crud.create_article(db=db, article=article)
+
+@router.delete("/articles/{article_id}")
+def delete_article(article_id: int, user_id: int, db: Session = Depends(get_db)):
+    """Удалить статью (только автор может удалить свою статью)"""
+    success = crud.delete_article(db, article_id, user_id)
+    if not success:
+        raise HTTPException(status_code=404, detail="Article not found or you don't have permission to delete it")
+    return {"message": "Article deleted successfully"}
 
 # comments
 

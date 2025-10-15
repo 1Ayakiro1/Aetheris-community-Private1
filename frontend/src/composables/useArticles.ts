@@ -3,6 +3,7 @@ import type { Article, CreateArticleRequest } from '@/types/article'
 import { useAuthStore } from '@/stores/auth'
 import {
     getAllArticles,
+    searchArticles as apiSearchArticles,
     getArticle as apiGetArticle,
     reactArticle as apiReact,
     createArticle as apiCreateArticle,
@@ -68,6 +69,20 @@ export function useArticles() {
             articles.value = raw.map(mapServerArticle)
         } catch (e: any) {
             error.value = e.message || 'Ошибка загрузки'
+        } finally {
+            loading.value = false
+        }
+    }
+
+    async function searchArticles(query: string) {
+        loading.value = true
+        error.value = null
+        try {
+            const userId = getOrCreateUserId()
+            const raw = await apiSearchArticles(query, userId)
+            articles.value = raw.map(mapServerArticle)
+        } catch (e: any) {
+            error.value = e.message || 'Ошибка поиска'
         } finally {
             loading.value = false
         }
@@ -158,5 +173,5 @@ export function useArticles() {
         return await apiReactComment(commentId, userId, reaction)
     }
 
-    return { articles, loading, error, fetchArticles, react, getArticle, createArticle, updateArticle, fetchComments, addComment, reactCommentFn }
+    return { articles, loading, error, fetchArticles, searchArticles, react, getArticle, createArticle, updateArticle, fetchComments, addComment, reactCommentFn }
 }

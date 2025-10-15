@@ -778,23 +778,27 @@ function signOut() {
 
 .dropdown-panel.profile-panel {
   /* Десктоп (базовые значения) */
-  width: 290px;
-  height: 777px;
+  width: 300px;
+  height: auto;
+  min-height: 400px;
+  max-height: 80vh;
   top: 80px;
   left: 1210px;
 
   /* Планшеты */
   @media (max-width: 1024px) {
     left: 720px;
-    width: 270px;
-    height: 700px;
+    width: 280px;
+    min-height: 350px;
+    max-height: 75vh;
   }
 
   /* Мобильные устройства */
   @media (max-width: 768px) {
     left: 400px;
-    width: 250px;
-    height: 600px;
+    width: 260px;
+    min-height: 300px;
+    max-height: 70vh;
   }
 
   /* 2К экраны */
@@ -816,6 +820,49 @@ function signOut() {
   flex-direction: column;
   margin-top: 8px;
   gap: 8px;
+}
+
+.panel-content .panel-divider {
+  align-self: flex-start;
+  margin: 12px 0 12px 40px;
+}
+
+.profile-panel .panel-content {
+  max-height: calc(80vh - 20px);
+  overflow-y: auto;
+  padding-right: 4px;
+  padding-bottom: 30px;
+}
+
+/* Адаптивные настройки для скроллбара панели профиля */
+@media (max-width: 1024px) {
+  .profile-panel .panel-content {
+    max-height: calc(75vh - 20px);
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-panel .panel-content {
+    max-height: calc(70vh - 20px);
+  }
+}
+
+/* Стилизация скроллбара для панели профиля */
+.profile-panel .panel-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.profile-panel .panel-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.profile-panel .panel-content::-webkit-scrollbar-thumb {
+  background: var(--text-secondary);
+  border-radius: 3px;
+}
+
+.profile-panel .panel-content::-webkit-scrollbar-thumb:hover {
+  background: var(--text-primary);
 }
 
 // Panel buttons
@@ -840,7 +887,7 @@ function signOut() {
 }
 
 .profile-panel .panel-button {
-  width: 270px;
+  width: 280px;
 }
 
 .panel-text {
@@ -854,18 +901,28 @@ function signOut() {
 // Panel divider
 .panel-divider {
   width: 120px;
-  height: 1px;
+  height: 2px;
   background-color: var(--btn-primary);
-  margin-left: 48px;
+  margin: 8px 0 8px 48px;
+  border-radius: 1px;
 }
 
 .profile-panel .panel-divider {
-  width: 180px;
-  margin-left: 38px;
+  width: 200px;
+  height: 2px;
+  background-color: var(--btn-primary);
+  opacity: 1;
+  display: block;
+  flex-shrink: 0;
+  align-self: flex-start;
 }
 
 // Sign out button special styling
 .sign-out-button {
+  height: 59px !important;
+  min-height: 59px !important;
+  max-height: 59px !important;
+  flex-shrink: 0 !important;
   .panel-icon { color: #ef4444; transition: color 0.2s ease; }
   .panel-icon path,
   .panel-icon circle,
@@ -879,6 +936,10 @@ function signOut() {
 }
 
 .sign-in-button {
+  height: 59px !important;
+  min-height: 59px !important;
+  max-height: 59px !important;
+  flex-shrink: 0 !important;
   background-color: var(--btn-primary);
   &:hover { 
   background-color: var(--text-secondary); 

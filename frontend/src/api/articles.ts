@@ -21,6 +21,18 @@ export async function getAllArticles(userId?: number): Promise<Article[]> {
     return res.data
 }
 
+export async function searchArticles(query: string, userId?: number, skip: number = 0, limit: number = 100): Promise<Article[]> {
+    const res = await apiClient.get<Article[]>('/articles/search', {
+        params: { 
+            q: query,
+            skip,
+            limit,
+            ...(userId ? { user_id: userId } : {})
+        }
+    })
+    return res.data
+}
+
 export async function getArticle(id: number, userId?: number): Promise<Article> {
     const res = await apiClient.get<Article>(`/articles/${id}`, {
         params: userId ? { user_id: userId } : {}
@@ -48,6 +60,12 @@ export async function createArticle(data: CreateArticleRequest): Promise<Article
 export async function updateArticle(id: number, data: CreateArticleRequest): Promise<Article> {
     const res = await apiClient.put<Article>(`/articles/${id}`, data)
     return res.data
+}
+
+export async function deleteArticle(id: number, userId: number): Promise<void> {
+    await apiClient.delete(`/articles/${id}`, {
+        params: { user_id: userId }
+    })
 }
 
 // comments

@@ -34,13 +34,31 @@
     "articles": {
       "title": "Artículos",
       "search": "Buscar cualquier cosa",
+      "searchResults": {
+        "title": "Resultados de búsqueda para \"{query}\"",
+        "count": "Artículos encontrados: {count}",
+        "noResults": "No se encontraron resultados para \"{query}\"",
+        "noResultsDescription": "Intenta cambiar tu consulta de búsqueda o usar palabras clave diferentes",
+        "showAll": "Mostrar todos los artículos",
+        "resetFilters": "Restablecer filtros"
+      },
       "info": "Información del artículo",
       "similar": "Artículos similares",
       "date": "Fecha:",
       "likes": "Me gusta:",
       "views": "Vistas:",
       "comments": "Comentarios:",
-      "symbols": "Símbolos:"
+      "symbols": "Símbolos:",
+      "filters": {
+        "difficulty": "Dificultad",
+        "readingTime": "Tiempo de lectura",
+        "tags": "Etiquetas",
+        "from": "Desde",
+        "to": "Hasta",
+        "minutes": "minutos",
+        "reset": "Restablecer",
+        "close": "Cerrar"
+      }
     },
     "your-articles": {
       "title": "Tus artículos"
