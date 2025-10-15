@@ -86,7 +86,7 @@
                 </svg>
                 <span>Delete</span>
               </button>
-              <button class="dropdown-item danger" @click="handleReportArticle">
+              <button v-if="!isAuthor" class="dropdown-item danger" @click="handleReportArticle">
                 <svg width="23" height="23" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M10.29 3.86L1.82 18c-.175.302-.267.645-.268.994-.001.35.089.693.262.997.173.303.423.556.724.733.3.177.642.272.991.276H20.47c.349-.004.691-.099.992-.276.301-.177.55-.43.723-.733.173-.304.263-.647.262-.997-.001-.349-.093-.692-.268-.994L13.71 3.86A2.5 2.5 0 0 0 12 2.897a2.5 2.5 0 0 0-1.71.963Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   <path d="M12 9v4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -101,7 +101,10 @@
     </div>
     <!-- Content -->
     <div class="article-card-content">
-        <h2 class="article-card-content-title">{{ article.title }}</h2>
+        <div class="title-row">
+          <h2 class="article-card-content-title">{{ article.title }}</h2>
+          <span v-if="article.status === 'draft'" class="draft-badge">Draft</span>
+        </div>
 
         <!-- Metadata Panel -->
         <div class="metadata-panel">
@@ -171,7 +174,7 @@
     <!-- Footer block with icons and read more button -->
     <div class="article-card-footer">
         <div class="article-actions">
-            <div class="action-group">
+            <div class="action-group" v-if="article.status !== 'draft'">
                 <button class="action-btn like-btn" @click.stop="onLike" :class="{ 'active': isLiked }">
                     <svg class="heart-icon" :class="{ 'filled': isLiked }" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
@@ -298,7 +301,6 @@
 
 <script setup lang="ts">
 import { ref, watch, computed, onMounted, onUnmounted } from 'vue'
-import { computed as vueComputed } from 'vue'
 import { useRouter } from 'vue-router'
 import Tag from 'primevue/tag'
 import Toast from 'primevue/toast'
@@ -524,22 +526,24 @@ const reportReasons = [
     { id: 'misinformation', title: 'Misinformation', description: 'False or misleading information' },
 ]
 // Позиционирование меню в портале: вычисляем координаты относительно экрана
-const optionsStyle = vueComputed(() => {
-    const trigger = document.querySelector('.more-options-wrapper') as HTMLElement | null
-    if (!trigger) return {
-        position: 'fixed',
-        top: '0px',
-        left: '0px',
-        zIndex: 50000
-    } as Record<string, string | number>
-    const rect = trigger.getBoundingClientRect()
+const optionsStyle = (() => {
     return {
-        position: 'fixed',
-        top: `${rect.top - 10}px`,
-        left: `${rect.left + 70}px`,
-        zIndex: 50000
-    } as Record<string, string | number>
-})
+        get position() { return 'fixed' },
+        get top() {
+            const trigger = document.querySelector('.more-options-wrapper') as HTMLElement | null
+            if (!trigger) return '0px'
+            const rect = trigger.getBoundingClientRect()
+            return `${rect.top - 10}px`
+        },
+        get left() {
+            const trigger = document.querySelector('.more-options-wrapper') as HTMLElement | null
+            if (!trigger) return '0px'
+            const rect = trigger.getBoundingClientRect()
+            return `${rect.left + 70}px`
+        },
+        get zIndex() { return 50000 }
+    } as any
+})()
 
 const closeReportPanel = () => {
     isReportPanelOpen.value = false
@@ -1038,6 +1042,25 @@ const getDifficultyText = (difficulty: string | undefined): string => {
     margin-top: 30px;
     font-family: var(--font-sans);
     font-weight: 700;
+}
+
+.title-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.draft-badge {
+    align-self: flex-start;
+    margin-top: 30px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    background-color: rgba(245, 158, 11, 0.15);
+    color: #f59e0b;
+    border: 1px solid rgba(245, 158, 11, 0.6);
 }
 
 .metadata-panel {

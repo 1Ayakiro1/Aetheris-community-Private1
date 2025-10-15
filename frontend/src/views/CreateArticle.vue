@@ -568,10 +568,58 @@ const previewArticle = () => {
   alert('Предпросмотр статьи (данные в консоли)')
 }
 
-const saveDraft = () => {
-  const articleData = exportToJSON()
-  localStorage.setItem('article_draft', JSON.stringify(articleData))
-  alert('Черновик сохранен!')
+const saveDraft = async () => {
+  if (!articleTitle.value.trim()) {
+    alert('Пожалуйста, введите заголовок статьи')
+    return
+  }
+
+  try {
+    let previewUrl: string | undefined = undefined
+    if (selectedFile.value) {
+      uploadingImage.value = true
+      try {
+        previewUrl = await uploadToImgBB(selectedFile.value)
+      } catch (err) {
+        console.error(err)
+        // Продолжаем без превью для черновика
+      } finally {
+        uploadingImage.value = false
+      }
+    }
+
+    const articleData: CreateArticleRequest = {
+      title: articleTitle.value.trim(),
+      content: articleContent.value,
+      excerpt: generateExcerpt(articleContent.value),
+      tags: selectedTags.value,
+      status: 'draft',
+      preview_image: previewUrl,
+      difficulty: selectedDifficulty.value,
+      author: auth.user?.username || 'Anonymous'
+    }
+
+    const result = isEditing.value && editingArticleId.value
+      ? await updateArticle(editingArticleId.value, articleData)
+      : await createArticle(articleData)
+
+    console.log('Черновик сохранен:', result)
+    toast.add({
+      severity: 'success',
+      summary: 'Черновик сохранен',
+      detail: 'Статья сохранена как черновик на вашей странице статей',
+      life: 4000
+    })
+    await router.push('/your-articles')
+  } catch (err) {
+    console.error(err)
+    toast.add({
+      severity: 'error',
+      summary: 'Ошибка',
+      detail: 'Не удалось сохранить черновик. Попробуйте ещё раз',
+      life: 5000
+    })
+  }
 }
 
 onMounted(() => {

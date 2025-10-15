@@ -10,6 +10,25 @@
       <div class="articles-body">
         <!-- First Left Block - Search -->
         <div class="search-section">
+          <!-- Status Filter -->
+          <div class="status-filter">
+            <button
+              class="status-chip"
+              :class="{ active: statusFilter === 'all' }"
+              @click="statusFilter = 'all'"
+            >All</button>
+            <button
+              class="status-chip"
+              :class="{ active: statusFilter === 'published' }"
+              @click="statusFilter = 'published'"
+            >Published</button>
+            <button
+              class="status-chip"
+              :class="{ active: statusFilter === 'draft' }"
+              @click="statusFilter = 'draft'"
+            >Drafts</button>
+          </div>
+
           <div class="search-container">
             <svg class="search-icon" width="32" height="28" viewBox="0 0 42 38" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M39.6119 2H2L17.0448 19.7375V32L24.5672 35.75V19.7375L39.6119 2Z" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -165,9 +184,16 @@ const {
 } = useUserArticles()
 
 // Вычисляемые свойства
-const totalRecords = computed(() => articles.value.length)
-const totalLikes = computed(() => articles.value.reduce((sum, article) => sum + (article.likes || 0), 0))
-const totalComments = computed(() => articles.value.reduce((sum, article) => sum + (article.comments_count || 0), 0))
+const statusFilter = ref<'all' | 'published' | 'draft'>('all')
+
+const filteredArticlesRaw = computed(() => {
+  if (statusFilter.value === 'all') return articles.value
+  return articles.value.filter(a => a.status === statusFilter.value)
+})
+
+const totalRecords = computed(() => filteredArticlesRaw.value.length)
+const totalLikes = computed(() => filteredArticlesRaw.value.reduce((sum, article) => sum + (article.likes || 0), 0))
+const totalComments = computed(() => filteredArticlesRaw.value.reduce((sum, article) => sum + (article.comments_count || 0), 0))
 
 const first = ref(0)
 const rows = ref(10)
@@ -200,7 +226,7 @@ const convertToArticle = (userArticle: UserArticle) => {
 const paginatedArticles = computed(() => {
   const start = first.value
   const end = start + rows.value
-  return articles.value.slice(start, end).map(convertToArticle)
+  return filteredArticlesRaw.value.slice(start, end).map(convertToArticle)
 })
 
 const showBackToTop = ref(false)
@@ -398,6 +424,29 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+.status-filter {
+  display: flex;
+  gap: 8px;
+}
+
+.status-chip {
+  background-color: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--text-secondary);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.status-chip.active,
+.status-chip:hover {
+  background-color: var(--text-secondary);
+  color: var(--bg-primary);
 }
 
 .search-container {

@@ -17,8 +17,13 @@
         @article-deleted="handleArticleDeleted"
       />
       
+<<<<<<< HEAD
       <!-- Comments Section -->
       <div class="comments-section" id="comments">
+=======
+      <!-- Comments Section (hidden for drafts) -->
+      <div class="comments-section" v-if="article.status !== 'draft'">
+>>>>>>> 0947520cacb15709d9b20b75d88d19ee393a321f
         <h2 class="comments-title">Comments ({{ totalCommentsCount }})</h2>
         
         <!-- Comment Input -->
