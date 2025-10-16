@@ -1,5 +1,5 @@
 <template>
-  <div class="article-card" @click="handleCardClick">
+  <div class="article-card">
     <!-- Header -->
     <div class="article-card-header">
         <div class="logo" @click.stop="onAuthorClick">
@@ -246,7 +246,7 @@
         </div>
 
         <button class="read-more-btn" @click.stop="onArticleClick">
-            Читать далее
+            {{ t('common.read_more') }}
         </button>
     </div>
   
@@ -1172,6 +1172,84 @@ const getDifficultyText = (difficulty: string | undefined): string => {
     /* Убираем все ограничения для текста */
     max-height: none;
     height: auto;
+    
+    /* Эффект размытия и тени поверх текста - перемещен сюда */
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: 60px; /* Поднимаем размытие выше */
+        left: -30px; /* Компенсируем margin-left */
+        right: -30px; /* Компенсируем margin-right */
+        height: 80px;
+        background: linear-gradient(
+            to bottom,
+            transparent 0%,
+            rgba(0, 0, 0, 0.05) 10%,
+            rgba(0, 0, 0, 0.15) 30%,
+            rgba(0, 0, 0, 0.4) 70%,
+            var(--bg-secondary) 100%
+        );
+        pointer-events: none;
+        z-index: 1; /* Ниже футера */
+        border-radius: 0 0 15px 15px;
+        /* Плавное нарастающее размытие */
+        filter: blur(1px);
+        backdrop-filter: blur(2px);
+        /* Создаем маску для плавного перехода */
+        mask: linear-gradient(
+            to bottom,
+            transparent 0%,
+            transparent 15%,
+            black 25%,
+            black 100%
+        );
+        -webkit-mask: linear-gradient(
+            to bottom,
+            transparent 0%,
+            transparent 15%,
+            black 25%,
+            black 100%
+        );
+        box-shadow: 
+            0 -10px 20px rgba(0, 0, 0, 0.1),
+            0 -5px 10px rgba(0, 0, 0, 0.05);
+    }
+    
+    /* Дополнительный слой для более глубокого эффекта с нарастающим размытием */
+    &::before {
+        content: '';
+        position: absolute;
+        bottom: 60px; /* Синхронизируем с основным слоем */
+        left: -30px;
+        right: -30px;
+        height: 60px;
+        background: linear-gradient(
+            to bottom,
+            transparent 0%,
+            rgba(0, 0, 0, 0.1) 30%,
+            rgba(0, 0, 0, 0.3) 70%,
+            rgba(0, 0, 0, 0.5) 100%
+        );
+        pointer-events: none;
+        z-index: 0;
+        border-radius: 0 0 15px 15px;
+        /* Мягкое размытие для дополнительного слоя */
+        filter: blur(0.5px);
+        mask: linear-gradient(
+            to bottom,
+            transparent 0%,
+            transparent 20%,
+            black 35%,
+            black 100%
+        );
+        -webkit-mask: linear-gradient(
+            to bottom,
+            transparent 0%,
+            transparent 20%,
+            black 35%,
+            black 100%
+        );
+    }
 }
 
 .article-card-content-title {
@@ -1321,6 +1399,21 @@ const getDifficultyText = (difficulty: string | undefined): string => {
     line-clamp: 10;
     -webkit-box-orient: vertical;
     text-overflow: ellipsis;
+    
+    /* Дополнительная защита для обрезки текста */
+    mask-image: linear-gradient(
+        to bottom,
+        black 0%,
+        black 85%,
+        transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        black 0%,
+        black 85%,
+        transparent 100%
+    );
+    
 }
 
 
@@ -1369,6 +1462,7 @@ const getDifficultyText = (difficulty: string | undefined): string => {
     justify-content: space-between;
     padding: 0 20px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 2; /* Поверх эффекта размытия */
 }
 
 .article-actions {

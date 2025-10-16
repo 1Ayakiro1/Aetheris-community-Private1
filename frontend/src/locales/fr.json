@@ -160,6 +160,7 @@
   },
   "common": {
     "unknown": "inconnu",
-    "sameArticle": "même article"
+    "sameArticle": "même article",
+    "read_more": "Lire la suite"
   }
 }

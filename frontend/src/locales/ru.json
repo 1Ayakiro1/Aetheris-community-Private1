@@ -360,7 +360,8 @@
     "loading": "Загрузка...",
     "error": "Ошибка",
     "go_back": "Назад",
-    "article_not_found": "Статья не найдена"
+    "article_not_found": "Статья не найдена",
+    "read_more": "Читать далее"
   },
   "header": {
     "navigation": {

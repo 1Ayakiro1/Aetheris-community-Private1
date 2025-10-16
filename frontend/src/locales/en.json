@@ -377,7 +377,8 @@
     "sameArticle": "same article",
     "not_registered": "You're not logged in",
     "in_development": "This page in development now",
-    "no_articles": "The user has not created any articles yet!"
+    "no_articles": "The user has not created any articles yet!",
+    "read_more": "Read more"
   },
 
 

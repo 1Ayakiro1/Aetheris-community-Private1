@@ -903,29 +903,46 @@ const applyFilters = async () => {
   if (filters.value.difficulty || filters.value.readingTimeMin || filters.value.readingTimeMax || filters.value.tags.length > 0) {
     await applyTagFilters()
   } else {
-    // Если нет фильтров, загружаем все статьи
-    await fetchArticles()
+    // Если нет фильтров, восстанавливаем все статьи
+    if (allArticles.value.length > 0) {
+      articles.value = [...allArticles.value]
+    } else {
+      await fetchArticles()
+      allArticles.value = [...articles.value]
+    }
   }
 }
 
 const applyTagFilters = async () => {
   try {
-    // Используем все статьи для фильтрации, если они есть, иначе текущие
-    const sourceArticles = allArticles.value.length > 0 ? allArticles.value : articles.value
-    let filteredArticles = [...sourceArticles]
+    // Если allArticles пустой, загружаем все статьи сначала
+    if (allArticles.value.length === 0) {
+      await fetchArticles()
+      allArticles.value = [...articles.value]
+    }
+    
+    // Используем все статьи для фильтрации
+    let filteredArticles = [...allArticles.value]
+    
+    console.log('Исходные статьи для фильтрации:', filteredArticles.length)
+    console.log('Фильтр сложности:', filters.value.difficulty)
     
     // Фильтр по тегам
     if (filters.value.tags.length > 0) {
       filteredArticles = filteredArticles.filter(article => 
         filters.value.tags.some(tag => article.tags.includes(tag))
       )
+      console.log('После фильтрации по тегам:', filteredArticles.length)
     }
     
     // Фильтр по сложности
     if (filters.value.difficulty) {
-      filteredArticles = filteredArticles.filter(article => 
-        article.difficulty === filters.value.difficulty
-      )
+      filteredArticles = filteredArticles.filter(article => {
+        const matches = article.difficulty === filters.value.difficulty
+        console.log(`Статья "${article.title}" сложность: ${article.difficulty}, фильтр: ${filters.value.difficulty}, совпадает: ${matches}`)
+        return matches
+      })
+      console.log('После фильтрации по сложности:', filteredArticles.length)
     }
     
     // Фильтр по времени чтения (примерная оценка)
@@ -936,10 +953,12 @@ const applyTagFilters = async () => {
         const maxTime = filters.value.readingTimeMax || Infinity
         return estimatedReadingTime >= minTime && estimatedReadingTime <= maxTime
       })
+      console.log('После фильтрации по времени чтения:', filteredArticles.length)
     }
     
     // Обновляем список статей
     articles.value = filteredArticles
+    console.log('Итоговое количество статей:', articles.value.length)
   } catch (error) {
     console.error('Ошибка при применении фильтров:', error)
   }
