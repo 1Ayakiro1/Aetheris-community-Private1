@@ -26,12 +26,18 @@
 import { onMounted } from 'vue'
 import AppHeader from './components/AppHeader.vue';
 import AppFooter from './components/AppFooter.vue';
+import { useAuthStore } from './stores/auth'
+
+const authStore = useAuthStore()
 
 // Принудительно устанавливаем тему при загрузке
 onMounted(() => {
   if (!document.documentElement.getAttribute('data-theme')) {
     document.documentElement.setAttribute('data-theme', 'aquamarine')
   }
+  
+  // Инициализируем authStore при загрузке приложения
+  authStore.tryRestoreFromStorage()
 })
 </script>
 

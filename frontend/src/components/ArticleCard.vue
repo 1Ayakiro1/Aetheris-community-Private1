@@ -1,5 +1,5 @@
 <template>
-  <div class="article-card">
+  <div class="article-card" @click="handleCardClick">
     <!-- Header -->
     <div class="article-card-header">
         <div class="logo" @click.stop="onAuthorClick">
@@ -351,10 +351,7 @@ const router = useRouter()
 const toast = useToast()
 const { t } = useI18n()
 
-// Инициализируем authStore при монтировании
-onMounted(() => {
-  authStore.tryRestoreFromStorage()
-})
+// Инициализация authStore убрана - она должна происходить в главном компоненте
 
 // === состояния ===
 const isLiked = ref(props.article.userReaction === 'like')
@@ -406,6 +403,18 @@ watch(() => props.article.dislikes, (v) => { dislikesCount.value = v ?? dislikes
 
 // === реакция (лайк/дизлайк) ===
 const onLike = async () => {
+    // Проверяем авторизацию
+    if (!authStore.isAuthenticated) {
+        toast.add({
+            severity: 'warn',
+            summary: t('notifications.authRequired.summary'),
+            detail: t('notifications.authRequired.detail'),
+            life: 4000
+        })
+        router.push('/login')
+        return
+    }
+    
     try {
         const updated = await react(props.article.id, 'like')
         likesCount.value = updated.likes ?? 0
@@ -418,6 +427,18 @@ const onLike = async () => {
 }
 
 const onDislike = async () => {
+    // Проверяем авторизацию
+    if (!authStore.isAuthenticated) {
+        toast.add({
+            severity: 'warn',
+            summary: t('notifications.authRequired.summary'),
+            detail: t('notifications.authRequired.detail'),
+            life: 4000
+        })
+        router.push('/login')
+        return
+    }
+    
     try {
         const updated = await react(props.article.id, 'dislike')
         likesCount.value = updated.likes ?? 0
@@ -471,16 +492,68 @@ const onTagClick = (tag: string) => {
   emit('tagClick', tag)
 }
 const onComment = () => {
+  // Проверяем авторизацию
+  if (!authStore.isAuthenticated) {
+    toast.add({
+      severity: 'warn',
+      summary: t('notifications.authRequired.summary'),
+      detail: t('notifications.authRequired.detail'),
+      life: 4000
+    })
+    router.push('/login')
+    return
+  }
+  
   // Переходим на страницу статьи и прокручиваем к разделу комментариев
   router.push(`/article/${props.article.id}#comments`)
 }
+const handleCardClick = () => {
+  console.log('Клик по карточке статьи:', props.article.id, 'Авторизован:', authStore.isAuthenticated)
+  
+  // Проверяем авторизацию (дополнительная проверка на null/undefined)
+  if (!authStore.isAuthenticated || authStore.isAuthenticated === null || authStore.isAuthenticated === undefined) {
+    console.log('Пользователь не авторизован, показываем уведомление')
+    // Показываем уведомление о необходимости авторизации
+    toast.add({
+      severity: 'warn',
+      summary: t('notifications.authRequired.summary'),
+      detail: t('notifications.authRequired.detail'),
+      life: 4000
+    })
+    
+    // Перенаправляем на страницу авторизации
+    router.push('/login')
+    return
+  }
+  
+  console.log('Пользователь авторизован, переходим к статье')
+  // Эмитим событие для перехода к статье
+  emit('articleClick', props.article.id)
+}
+
 const onArticleClick = () => {
+  // Эмитим событие для перехода к статье
   emit('articleClick', props.article.id)
 }
 const onAuthorClick = () => {
   emit('authorClick', props.article.author.id)
 }
-const onBookmark = () => {}
+const onBookmark = () => {
+  // Проверяем авторизацию
+  if (!authStore.isAuthenticated) {
+    toast.add({
+      severity: 'warn',
+      summary: t('notifications.authRequired.summary'),
+      detail: t('notifications.authRequired.detail'),
+      life: 4000
+    })
+    router.push('/login')
+    return
+  }
+  
+  // TODO: Реализовать функциональность закладок
+  console.log('Добавление в закладки:', props.article.id)
+}
 
 const formatDate = (date: string | Date): string => {
     const dateObj = typeof date === 'string' ? new Date(date) : date

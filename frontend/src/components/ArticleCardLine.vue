@@ -1,5 +1,5 @@
 <template>
-  <div class="article-card-line" @click.stop="emit('articleClick', article.id)">
+  <div class="article-card-line" @click="handleCardClick">
     <div class="thumbnail">
       <img v-if="article.previewImage" :src="article.previewImage" :alt="article.title" />
       <div v-else class="thumb-fallback">{{ article.title.charAt(0).toUpperCase() }}</div>
@@ -29,11 +29,20 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { useToast } from 'primevue/usetoast'
+import { useI18n } from 'vue-i18n'
 import Tag from 'primevue/tag'
+import { useAuthStore } from '@/stores/auth'
 import type { Article } from '@/types/article'
 
 const props = defineProps<{ article: Article }>()
 const emit = defineEmits(['tagClick','authorClick','articleClick'])
+
+const router = useRouter()
+const toast = useToast()
+const { t } = useI18n()
+const authStore = useAuthStore()
 
 const shortText = computed(() => {
   const text = props.article.excerpt || props.article.content || ''
@@ -44,6 +53,26 @@ const shortText = computed(() => {
 function formatDate(date: string | Date): string {
   const d = typeof date === 'string' ? new Date(date) : date
   return d.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })
+}
+
+const handleCardClick = () => {
+  // Проверяем авторизацию
+  if (!authStore.isAuthenticated) {
+    // Показываем уведомление о необходимости авторизации
+    toast.add({
+      severity: 'warn',
+      summary: t('notifications.authRequired.summary'),
+      detail: t('notifications.authRequired.detail'),
+      life: 4000
+    })
+    
+    // Перенаправляем на страницу авторизации
+    router.push('/login')
+    return
+  }
+  
+  // Эмитим событие для перехода к статье
+  emit('articleClick', props.article.id)
 }
 </script>
 

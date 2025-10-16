@@ -513,6 +513,10 @@
         "other": "Other",
         "otherDesc": "Other reason not listed above"
       }
+    },
+    "authRequired": {
+      "summary": "Authentication Required",
+      "detail": "You need to log in to read community materials"
     }
   },
 

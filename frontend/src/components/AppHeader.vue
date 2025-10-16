@@ -108,7 +108,9 @@
     <div class="panel-content">
       <router-link to="/create-article">
         <button class="panel-button">
-          <div class="icon-placeholder panel-icon"></div>
+          <svg class="panel-icon" width="25" height="29" viewBox="0 0 25 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1.95125 7.72883L12.5 14.2474L23.0488 7.72883M12.5 27.2458V14.2345M23.375 19.3977V9.07127C23.3746 8.61855 23.2627 8.17391 23.0506 7.78196C22.8385 7.39002 22.5337 7.06454 22.1667 6.83818L13.7083 1.67497C13.341 1.44839 12.9242 1.3291 12.5 1.3291C12.0758 1.3291 11.659 1.44839 11.2917 1.67497L2.83333 6.83818C2.46632 7.06454 2.16148 7.39002 1.94939 7.78196C1.73731 8.17391 1.62543 8.61855 1.625 9.07127V19.3977C1.62543 19.8504 1.73731 20.295 1.94939 20.687C2.16148 21.0789 2.46632 21.4044 2.83333 21.6308L11.2917 26.794C11.659 27.0206 12.0758 27.1398 12.5 27.1398C12.9242 27.1398 13.341 27.0206 13.7083 26.794L22.1667 21.6308C22.5337 21.4044 22.8385 21.0789 23.0506 20.687C23.2627 20.295 23.3746 19.8504 23.375 19.3977Z" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
           <p class="panel-text">{{ t('header.additional.title1') }}</p>
         </button>
       </router-link>
@@ -116,17 +118,30 @@
       <div class="panel-divider"></div>
 
       <button class="panel-button" @click="setArticlesView('line')">
-        <div class="icon-placeholder panel-icon"></div>
+        <svg class="panel-icon" width="25" height="18" viewBox="0 0 25 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1.625 8.83026H23.375M1.625 1.08545H23.375M1.625 16.5751H23.375" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+
+
         <p class="panel-text">{{ t('header.additional.title2') }}</p>
       </button>
 
       <button class="panel-button" @click="setArticlesView('square')">
-        <div class="icon-placeholder panel-icon"></div>
+        <svg class="panel-icon" width="29" height="31" viewBox="0 0 29 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12.0833 3.87256H3.625V12.9082H12.0833V3.87256Z" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M25.375 3.87256H16.9167V12.9082H25.375V3.87256Z" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M25.375 18.0714H16.9167V27.107H25.375V18.0714Z" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M12.0833 18.0714H3.625V27.107H12.0833V18.0714Z" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+
         <p class="panel-text">{{ t('header.additional.title3') }}</p>
       </button>
 
       <button class="panel-button" @click="setArticlesView('default')">
-        <div class="icon-placeholder panel-icon"></div>
+        <svg class="panel-icon" width="25" height="27" viewBox="0 0 25 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M23.375 13.5669V22.6025C23.375 23.2872 23.1204 23.9439 22.6672 24.428C22.214 24.9121 21.5993 25.1841 20.9583 25.1841H4.04167C3.40073 25.1841 2.78604 24.9121 2.33283 24.428C1.87961 23.9439 1.625 23.2872 1.625 22.6025V13.5669M23.375 13.5669V4.53131C23.375 3.84663 23.1204 3.18999 22.6672 2.70584C22.214 2.2217 21.5993 1.94971 20.9583 1.94971H4.04167C3.40073 1.94971 2.78604 2.2217 2.33283 2.70584C1.87961 3.18999 1.625 3.84663 1.625 4.53131V13.5669M23.375 13.5669H1.625" stroke="#9BA4AE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+
         <p class="panel-text">{{ t('header.additional.title4') }}</p>
       </button>
     </div>
@@ -255,6 +270,7 @@ import ShopIcon from '@/assets/icons/ShopIcon.vue'
 import SignOutIcon from '@/assets/icons/SignOutIcon.vue'
 import ChangesIcon from '@/assets/icons/ChangesIcon.vue'
 import RulesIcon from '@/assets/icons/RulesIcon.vue'
+import EditorIcons from '@/assets/icons/EditorIcons.vue'
 import { useI18n } from 'vue-i18n'
 import { useNotifications } from '@/composables/useNotifications'
 
@@ -689,6 +705,12 @@ function setArticlesView(mode: 'default' | 'line' | 'square') {
 .panel-icon {
   margin-left: 16px;
   margin-right: 12px;
+}
+
+// EditorIcons specific styling for panel
+.panel-button .editor-icons {
+  color: var(--text-primary);
+  transition: color 0.3s ease-in-out;
 }
 
 // Dropdown panels

@@ -584,7 +584,7 @@ const handleAuthorClick = (authorId: number) => {
 }
 
 const handleArticleClick = (articleId: number) => {
-  console.log('Клик по статье:', articleId)
+  console.log('HomePage: Клик по статье:', articleId, 'Авторизован:', authStore.isAuthenticated)
   // Переход к полной статье
   router.push(`/article/${articleId}`)
 }

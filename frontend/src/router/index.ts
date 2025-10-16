@@ -77,9 +77,10 @@ const router = createRouter({
 
 // Global auth guard: allow only /login and /signin when not authenticated
 router.beforeEach((to) => {
-  const publicPaths = ['/login', '/signin', '/home']
+  const publicPaths = ['/login', '/signin', '/home', '/articles/interactive', '/articles/companies']
   const auth = useAuthStore()
-  const isPublic = publicPaths.includes(to.path)
+  const isPublic = publicPaths.includes(to.path) || to.path.startsWith('/article/')
+  
   // Admin guard
   if (to.path.startsWith('/admin')) {
     if (!auth.isAuthenticated) {
@@ -88,6 +89,12 @@ router.beforeEach((to) => {
     }
     // Temporarily allow all authenticated users until roles are wired
   }
+  
+  // Allow access to main page and articles for everyone
+  if (to.path === '/' || to.path.startsWith('/article/')) {
+    return true // Allow access
+  }
+  
   if (!auth.isAuthenticated && !isPublic) {
     try {
       // Use PrimeVue Toast if available
@@ -96,12 +103,9 @@ router.beforeEach((to) => {
     } catch {}
     return { path: '/home', query: { redirect: to.fullPath } }
   }
+  
   if (auth.isAuthenticated && isPublic && to.path !== '/home') {
     return { path: to.query.redirect?.toString() || '/' }
-  }
-  // Default landing: if visiting root without auth, send to /home
-  if (!auth.isAuthenticated && to.path === '/') {
-    return { path: '/home' }
   }
 })
 
