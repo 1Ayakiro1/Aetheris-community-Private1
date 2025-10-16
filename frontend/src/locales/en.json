@@ -102,6 +102,39 @@
     }
   },
 
+  "edit-article": {
+    "title": "Edit Article",
+    "subtitle": "Make changes to your article",
+    "loading": "Loading article...",
+    "error": {
+      "title": "Error loading article",
+      "retry": "Try again"
+    },
+    "form": {
+      "title": "Article title",
+      "content": "Article content",
+      "tags": "Article tags",
+      "difficulty": "Difficulty level",
+      "status": "Publication status"
+    },
+    "buttons": {
+      "save": "Save Changes",
+      "cancel": "Cancel",
+      "publish": "Publish",
+      "draft": "Save as Draft"
+    },
+    "success": {
+      "saved": "Article updated successfully!",
+      "published": "Article published successfully!",
+      "draft": "Article saved as draft!"
+    },
+    "error": {
+      "save": "Failed to save changes",
+      "publish": "Failed to publish article",
+      "draft": "Failed to save as draft"
+    }
+  },
+
 
 
 

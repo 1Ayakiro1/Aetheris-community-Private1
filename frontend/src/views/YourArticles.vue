@@ -73,6 +73,9 @@
                 @tag-click="handleTagClick"
                 @author-click="handleAuthorClick"
                 @article-click="handleArticleClick"
+                @delete-article="handleDeleteArticle"
+                @edit-article="handleEditArticle"
+                @article-deleted="handleArticleDeleted"
               />
             </template>
 
@@ -247,6 +250,24 @@ const handleArticleClick = (articleId: number) => {
   console.log('Клик по статье:', articleId)
   // Переход к полной статье
   router.push(`/article/${articleId}`)
+}
+
+const handleDeleteArticle = (articleData: { id: number; title: string }) => {
+  console.log('Удаление статьи:', articleData)
+  // Здесь можно добавить дополнительную логику перед удалением
+  // Например, показать диалог подтверждения
+}
+
+const handleEditArticle = (articleData: { id: number; title: string }) => {
+  console.log('Редактирование статьи:', articleData)
+  // Переходим на страницу редактирования статьи
+  router.push(`/edit-article/${articleData.id}`)
+}
+
+const handleArticleDeleted = (articleId: number) => {
+  console.log('Статья удалена:', articleId)
+  // Обновляем список статей после удаления
+  refreshArticles()
 }
 
 // Обработчик поиска

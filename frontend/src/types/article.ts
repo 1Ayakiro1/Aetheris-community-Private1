@@ -15,6 +15,7 @@ export interface Article {
     }
     tags: string[]
     createdAt: string
+    updatedAt?: string
     status: 'draft' | 'published' | 'archived'
     likes?: number
     dislikes?: number
@@ -33,6 +34,7 @@ export interface UserArticle {
     author: string  // Backend stores author as string (username)
     tags: string[]
     created_at: string  // Backend uses snake_case
+    updated_at?: string
     status: 'draft' | 'published' | 'archived'
     likes?: number
     dislikes?: number
@@ -52,6 +54,7 @@ export interface ArticleCardEmits {
     articleClick: [articleId: number]
     articleDeleted: [articleId: number]
     deleteArticle: [article: { id: number; title: string }]
+    editArticle: [article: { id: number; title: string }]
     reportArticle: [article: { id: number; title: string }]
     shareArticle: [article: { id: number; title: string }]
 }

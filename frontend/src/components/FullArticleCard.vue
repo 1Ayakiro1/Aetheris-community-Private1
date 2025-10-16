@@ -104,6 +104,7 @@
         <div class="title-row">
           <h1 class="article-card-content-title">{{ article.title }}</h1>
           <span v-if="article.status === 'draft'" class="draft-badge">Draft</span>
+          <span v-if="isEdited" class="edited-badge">Edited</span>
         </div>
 
         <!-- Metadata Panel -->
@@ -330,6 +331,17 @@ const isAuthor = computed(() => {
   }
   
   return false
+})
+
+const isEdited = computed(() => {
+  const updated = (props.article as any).updatedAt || (props.article as any).updated_at
+  const created = (props.article as any).createdAt || (props.article as any).created_at
+  if (!updated || !created) return false
+  try {
+    const cu = new Date(String(created)).getTime()
+    const uu = new Date(String(updated)).getTime()
+    return !isNaN(cu) && !isNaN(uu) && uu > cu + 60_000
+  } catch { return false }
 })
 
 
@@ -803,6 +815,19 @@ const getDifficultyText = (difficulty: string | undefined): string => {
     background-color: rgba(245, 158, 11, 0.15);
     color: #f59e0b;
     border: 1px solid rgba(245, 158, 11, 0.6);
+}
+
+.edited-badge {
+    align-self: flex-start;
+    margin-top: 30px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    background-color: rgba(59, 130, 246, 0.15);
+    color: #3b82f6;
+    border: 1px solid rgba(59, 130, 246, 0.6);
 }
 
 .metadata-panel {

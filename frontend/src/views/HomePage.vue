@@ -2093,6 +2093,8 @@ onUnmounted(() => {
 
 .articles-list-container.shifted-down {
   transform: translateY(50px);
+  /* Ensure pagination doesn't get covered by the footer when filters are open */
+  padding-bottom: 140px;
 }
 
 /* Filter Dropdown */

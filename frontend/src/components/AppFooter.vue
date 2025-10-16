@@ -28,7 +28,7 @@
                     
                     <div class="newsletter-section">
                         <h3 class="newsletter-title">Subscribe to our developer newsletter</h3>
-                        <p class="newsletter-description">We have github. Our community is opensource</p>
+                        <p class="newsletter-description">We have github. Our community is <a class="opensource-table" href="https://github.com/Aetheris-Community" target="_blank" rel="noopener noreferrer">opensource</a></p>
                     </div>
                 </div>
 
@@ -103,13 +103,13 @@
                 <div class="footer-bottom-right">
                     <div class="social-icons">
                         <a href="https://discord.gg/XUFmR4bDMw" class="social-icon-link" target="_blank" rel="noopener noreferrer" title="Discord">
-                            <img class="social-icon discord-icon" src="../assets/imgs/discord_filled.svg" alt="Discord">
+                            <img class="social-icon discord-icon" :src="discordIcon" alt="Discord">
                         </a>
                         <a href="https://t.me/AetherisNews" class="social-icon-link" target="_blank" rel="noopener noreferrer" title="Telegram">
-                            <img class="social-icon telegram-icon" src="../assets/imgs/telegram_filled.svg" alt="Telegram">
+                            <img class="social-icon telegram-icon" :src="telegramIcon" alt="Telegram">
                         </a>
                         <a href="https://boosty.to/aetheris" class="social-icon-link" target="_blank" rel="noopener noreferrer" title="Boosty">
-                            <img class="social-icon boosty-icon" src="../assets/imgs/boosty_ico.png" alt="Boosty">
+                            <img class="social-icon boosty-icon" :src="boostyIcon" alt="Boosty">
                         </a>
                     </div>
                     <!-- <div class="language-selector">
@@ -125,6 +125,9 @@
 </template>
 
 <script setup lang="ts">
+import discordIcon from '../assets/imgs/discord_ico.png';
+import telegramIcon from '../assets/imgs/telegram_ico.png';
+import boostyIcon from '../assets/imgs/boosty_ico.png';
 
 </script>
 
@@ -290,8 +293,15 @@
     font-family: var(--font-sans-serif);
     font-size: 18px;
     color: var(--text-secondary);
-    margin: 0 0 16px 0;
+    margin: 0 0 5px 0;
     line-height: 1.5;
+}
+
+.opensource-table{
+    color: var(--primary-blue);
+    font-family: var(--font-sans-serif);
+    font-weight: bold;
+    font-size: 18px;
 }
 
 .eternity-text {
