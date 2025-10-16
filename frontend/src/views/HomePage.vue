@@ -412,9 +412,67 @@
             <h2 class="card-title">{{ $t('articles.similar.title') }}</h2>
           </div>
 
-          <div class="similar-item">{{ $t('articles.similar.nothing') }}</div>
-          <div class="similar-item">{{ $t('articles.similar.nothing') }}</div>
-          <div class="similar-item">{{ $t('articles.similar.nothing') }}</div>
+          <div class="similar-articles-list">
+            <!-- Similar Article Card 1 -->
+            <div class="similar-article-card" @click="handleSimilarArticleClick(1)">
+              <h3 class="similar-article-title">Введение в машинное обучение</h3>
+              <div class="similar-article-stats">
+                <div class="stat-item">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 12S5 4 12 4S23 12 23 12S19 20 12 20S1 12 1 12Z" stroke="currentColor" stroke-width="2"/>
+                    <path d="M12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9Z" stroke="currentColor" stroke-width="2"/>
+                  </svg>
+                  <span>1.2K</span>
+                </div>
+                <div class="stat-item">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="currentColor" stroke-width="2"/>
+                  </svg>
+                  <span>24</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Similar Article Card 2 -->
+            <div class="similar-article-card" @click="handleSimilarArticleClick(2)">
+              <h3 class="similar-article-title">Продвинутые алгоритмы сортировки</h3>
+              <div class="similar-article-stats">
+                <div class="stat-item">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 12S5 4 12 4S23 12 23 12S19 20 12 20S1 12 1 12Z" stroke="currentColor" stroke-width="2"/>
+                    <path d="M12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9Z" stroke="currentColor" stroke-width="2"/>
+                  </svg>
+                  <span>856</span>
+                </div>
+                <div class="stat-item">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="currentColor" stroke-width="2"/>
+                  </svg>
+                  <span>12</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Similar Article Card 3 -->
+            <div class="similar-article-card" @click="handleSimilarArticleClick(3)">
+              <h3 class="similar-article-title">Нейронные сети и глубокое обучение</h3>
+              <div class="similar-article-stats">
+                <div class="stat-item">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 12S5 4 12 4S23 12 23 12S19 20 12 20S1 12 1 12Z" stroke="currentColor" stroke-width="2"/>
+                    <path d="M12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9Z" stroke="currentColor" stroke-width="2"/>
+                  </svg>
+                  <span>2.1K</span>
+                </div>
+                <div class="stat-item">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="currentColor" stroke-width="2"/>
+                  </svg>
+                  <span>45</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -585,6 +643,12 @@ const handleAuthorClick = (authorId: number) => {
 
 const handleArticleClick = (articleId: number) => {
   console.log('HomePage: Клик по статье:', articleId, 'Авторизован:', authStore.isAuthenticated)
+  // Переход к полной статье
+  router.push(`/article/${articleId}`)
+}
+
+const handleSimilarArticleClick = (articleId: number) => {
+  console.log('Клик по похожей статье:', articleId)
   // Переход к полной статье
   router.push(`/article/${articleId}`)
 }
@@ -1862,9 +1926,10 @@ onUnmounted(() => {
   font-weight: 500;
   margin-left: 10px;
   margin-top: 0;
-  width: 150px;
+  width: auto; /* allow full width */
   margin-bottom: 0;
   margin-right: 0;
+  white-space: nowrap; /* keep on one line */
 }
 
 .info-value {
@@ -1883,11 +1948,12 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   margin-top: 16px;
+  padding: 0 0 20px 0;
 
   /* Мобильные устройства */
   @media (max-width: 768px) {
     width: 100%;
-    height: 350px;
+    min-height: 350px;
     border-radius: 25px;
     margin-top: 12px;
   }
@@ -1895,27 +1961,109 @@ onUnmounted(() => {
   /* Планшеты */
   @media (min-width: 769px) and (max-width: 1024px) {
     width: 280px;
-    height: 380px;
+    min-height: 380px;
     margin-top: 14px;
   }
 
   /* Десктоп */
   @media (min-width: 1025px) {
     width: 300px;
-    height: 400px;
+    min-height: 400px;
     margin-top: 16px;
   }
 }
 
-.similar-item {
+.similar-articles-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 20px;
+  margin-top: 10px;
+}
+
+.similar-article-card {
+  background-color: var(--bg-primary);
+  border-radius: 12px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.similar-article-card:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+  border-color: #ffffff;
+  box-shadow: none;
+}
+
+.similar-article-title {
+  color: var(--text-primary);
+  font-size: 16px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.similar-article-stats {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 4px;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   color: var(--text-secondary);
-  font-size: 20px;
+  font-size: 12px;
   font-family: var(--font-sans);
   font-weight: 500;
-  margin-top: 24px;
-  margin-left: 24px;
-  margin-bottom: 0;
-  margin-right: 0;
+}
+
+.stat-item svg {
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.stat-item:hover svg {
+  opacity: 1;
+}
+
+/* Responsive adjustments for similar articles */
+@media (max-width: 768px) {
+  .similar-articles-list {
+    padding: 0 16px;
+    gap: 10px;
+  }
+  
+  .similar-article-card {
+    padding: 12px;
+    gap: 6px;
+  }
+  
+  .similar-article-title {
+    font-size: 14px;
+  }
+  
+  .similar-article-stats {
+    gap: 12px;
+  }
+  
+  .stat-item {
+    font-size: 11px;
+    gap: 4px;
+  }
 }
 
 /* Articles Container Animation */
