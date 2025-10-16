@@ -1395,6 +1395,8 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  position: relative;
+  z-index: 1; /* гарантируем, что список статей и его дропдауны над сайдбаром */
 
   /* Мобильные устройства */
   @media (max-width: 768px) {
@@ -1820,6 +1822,8 @@ onUnmounted(() => {
   align-items: center;
   flex-direction: column;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 0; /* слой ниже контента со статьями */
 
   /* Mobile */
   @media (max-width: 768px) {
