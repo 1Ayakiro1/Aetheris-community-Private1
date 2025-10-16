@@ -89,6 +89,12 @@ export async function reactComment(commentId: number, userId: number, reaction: 
     return res.data
 }
 
+export async function deleteComment(commentId: number, userId: number): Promise<void> {
+    await apiClient.delete(`/comments/${commentId}`, {
+        params: { user_id: userId }
+    })
+}
+
 // User stats and articles
 export interface UserStats {
     articles_count: number

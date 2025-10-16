@@ -391,6 +391,35 @@ def react_comment(db: Session, comment_id: int, user_id: int, reaction: str):
 
     return comment
 
+def delete_comment(db: Session, comment_id: int, user_id: int):
+    """Удалить комментарий (только автор может удалить свой комментарий)"""
+    comment = get_comment(db, comment_id)
+    if not comment:
+        return False
+    
+    # Проверяем, что пользователь является автором комментария
+    if comment.author_id != user_id:
+        return False
+    
+    # Удаляем все реакции на этот комментарий
+    db.query(models.CommentReaction).filter(models.CommentReaction.comment_id == comment_id).delete()
+    
+    # Удаляем все дочерние комментарии (рекурсивно)
+    child_comments = db.query(models.Comment).filter(models.Comment.parent_id == comment_id).all()
+    for child in child_comments:
+        delete_comment(db, child.id, user_id)  # Рекурсивно удаляем дочерние комментарии
+    
+    # Уменьшаем счетчик комментариев в статье
+    article = get_article(db, comment.article_id)
+    if article:
+        article.comments_count = max(0, (article.comments_count or 0) - 1)
+    
+    # Удаляем сам комментарий
+    db.delete(comment)
+    db.commit()
+    
+    return True
+
 # Notifications
 
 def create_notification(db: Session, notification: schemas.NotificationCreate):
