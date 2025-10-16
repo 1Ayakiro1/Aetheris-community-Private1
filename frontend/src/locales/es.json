@@ -15,7 +15,7 @@
     "rules": "Reglas del foro",
     "profile": "Perfil",
     "notifications": "Notificaciones",
-    "stared": "Artículos favoritos",
+    "stared": "Favoritos",
     "settings": "Configuración",
     "articles": {
       "yours": "Tus artículos"
@@ -59,16 +59,17 @@
       "views": "Vistas:",
       "comments": "Comentarios:",
       "symbols": "Símbolos:",
-      "filters": {
-        "difficulty": "Dificultad",
-        "readingTime": "Tiempo de lectura",
-        "tags": "Etiquetas",
-        "from": "Desde",
-        "to": "Hasta",
-        "minutes": "minutos",
-        "reset": "Restablecer",
-        "close": "Cerrar"
-      }
+    "filters": {
+      "difficulty": "Dificultad",
+      "readingTime": "Tiempo de lectura",
+      "tags": "Etiquetas",
+      "searchTags": "Buscar etiquetas...",
+      "from": "Desde",
+      "to": "Hasta",
+      "minutes": "minutos",
+      "reset": "Restablecer",
+      "close": "Cerrar"
+    }
     },
     "your-articles": {
       "title": "Tus artículos"

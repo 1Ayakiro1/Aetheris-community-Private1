@@ -323,6 +323,7 @@
   
   <!-- Toast for notifications -->
   <Toast />
+
 </template>
 
 <script setup lang="ts">
@@ -394,6 +395,7 @@ const isAuthor = computed(() => {
   return false
 })
 
+
 // === watchers ===
 watch(() => props.article.userReaction, (v) => {
     isLiked.value = v === 'like'
@@ -461,7 +463,10 @@ const getTagSeverity = (tagOrIndex: string | number): typeof tagColors[number] =
 }
 
 // === прочее ===
-const onShare = () => {}
+const onShare = () => {
+  // Эмитим событие для открытия панели поделиться в родительском компоненте
+  emit('shareArticle', { id: props.article.id, title: props.article.title })
+}
 const onTagClick = (tag: string) => {
   emit('tagClick', tag)
 }

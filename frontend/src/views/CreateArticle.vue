@@ -153,6 +153,7 @@ const { t } = useI18n()
 const toast = useToast()
 
 import { useArticles } from '@/composables/useArticles'
+import { useTags } from '@/composables/useTags'
 import { useAuthStore } from '@/stores/auth'
 import type { CreateArticleRequest } from '@/types/article'
 
@@ -178,79 +179,7 @@ const uploadingImage = ref(false) //это для индикации загру�
 // - danger (красный): Безопасность, тестирование, DevOps
 // - secondary (серый): Инструменты, платформы, прочее
 // ============================================
-const tagColorGroups: Record<'success' | 'info' | 'warning' | 'danger' | 'secondary', string[]> = {
-  success: [
-    'javaScript',
-    'vue.js',
-    'react',
-    'node.js',
-    'web development',
-    'frontend',
-    'tutorial',
-    'guide'
-  ],
-  info: [
-    'python',
-    'typescript',
-    'angular',
-    'programming',
-    'backend',
-    'database',
-    'sql',
-    'api',
-    'rest'
-  ],
-  warning: [
-    'design',
-    'ui/ux',
-    'mobile development',
-    'game development',
-    'unity',
-    'unreal engine',
-    'review',
-    'interview'
-  ],
-  danger: [
-    'security',
-    'testing',
-    'cryptography',
-    'devops',
-    'docker',
-    'kubernetes',
-    'blockchain'
-  ],
-  secondary: [
-    'tools',
-    'git',
-    'nosql',
-    'fullstack',
-    'artificial intelligence',
-    'machine learning',
-    'graphql',
-    'microservices',
-    'cloud',
-    'aws',
-    'azure',
-    'google cloud',
-    'linux',
-    'windows',
-    'macos',
-    'news',
-    'case study',
-    'architecture',
-    'algorithms',
-    'design patterns'
-  ]
-}
-
-// Flatten all tags for autocomplete
-const availableTags = ref([
-  ...tagColorGroups.success,
-  ...tagColorGroups.info,
-  ...tagColorGroups.warning,
-  ...tagColorGroups.danger,
-  ...tagColorGroups.secondary
-])
+const { allTags, getTagSeverity, filterTags } = useTags()
 
 const selectedTags = ref<string[]>([])
 const tagInput = ref('')
@@ -265,17 +194,7 @@ const difficultyOptions = computed(() => ({
 } as Record<string, string>))
 
 const filteredTags = computed(() => {
-  if (!tagInput.value.trim()) {
-    return availableTags.value.filter(tag => !selectedTags.value.includes(tag)).slice(0, 10)
-  }
-  
-  const searchTerm = tagInput.value.toLowerCase()
-  return availableTags.value
-    .filter(tag => 
-      tag.toLowerCase().includes(searchTerm) && 
-      !selectedTags.value.includes(tag)
-    )
-    .slice(0, 10)
+  return filterTags(tagInput.value, selectedTags.value).slice(0, 10)
 })
 
 // API integration
@@ -300,30 +219,6 @@ console.log('VITE_IMGBB_API_KEY =', import.meta.env.VITE_IMGBB_API_KEY)
 // Tags functions
 const tagColors = ['success', 'info', 'warning', 'danger', 'secondary'] as const
 
-// Функция для получения цвета тега на основе его группы
-const getTagSeverity = (tagOrIndex: string | number): typeof tagColors[number] => {
-  // Если передан индекс (для обратной совместимости)
-  if (typeof tagOrIndex === 'number') {
-    return tagColors[tagOrIndex % tagColors.length]
-  }
-  
-  // Ищем тег в группах
-  const tag = tagOrIndex as string
-  
-  if (tagColorGroups.success.includes(tag)) return 'success'
-  if (tagColorGroups.info.includes(tag)) return 'info'
-  if (tagColorGroups.warning.includes(tag)) return 'warning'
-  if (tagColorGroups.danger.includes(tag)) return 'danger'
-  if (tagColorGroups.secondary.includes(tag)) return 'secondary'
-  
-  // Fallback: если тег не найден в группах, используем хеш
-  let hash = 0
-  for (let i = 0; i < tag.length; i++) {
-    hash = tag.charCodeAt(i) + ((hash << 5) - hash)
-  }
-  const index = Math.abs(hash) % tagColors.length
-  return tagColors[index]
-}
 
 const addTag = (tag: string) => {
   if (selectedTags.value.length >= 5) {

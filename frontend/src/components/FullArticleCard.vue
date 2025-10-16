@@ -273,6 +273,7 @@
     @confirm="confirmDelete"
     @cancel="cancelDelete"
   />
+
 </template>
 
 <script setup lang="ts">
@@ -330,6 +331,7 @@ const isAuthor = computed(() => {
   
   return false
 })
+
 
 // === watchers ===
 watch(() => props.article.userReaction, (v) => {
@@ -398,7 +400,10 @@ const getTagSeverity = (tagOrIndex: string | number): typeof tagColors[number] =
 }
 
 // === прочее ===
-const onShare = () => {}
+const onShare = () => {
+  // Эмитим событие для открытия панели поделиться в родительском компоненте
+  emit('shareArticle', { id: props.article.id, title: props.article.title })
+}
 const onTagClick = (tag: string) => {}
 const onComment = () => {
   // Обновляем hash, чтобы страница прокрутилась к разделу комментариев

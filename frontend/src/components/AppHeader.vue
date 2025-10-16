@@ -146,6 +146,7 @@
         <button class="panel-button">
           <NotificationsIcon class="panel-icon" />
           <p class="panel-text">{{ t('header.profile.title2') }}</p>
+          <div v-if="hasUnread" class="notification-indicator"></div>
         </button>
       </router-link>
 
@@ -255,9 +256,11 @@ import SignOutIcon from '@/assets/icons/SignOutIcon.vue'
 import ChangesIcon from '@/assets/icons/ChangesIcon.vue'
 import RulesIcon from '@/assets/icons/RulesIcon.vue'
 import { useI18n } from 'vue-i18n'
+import { useNotifications } from '@/composables/useNotifications'
 
 const { t } = useI18n()
 const auth = useAuthStore()
+const { unreadCount, hasUnread } = useNotifications()
 
 // Route setup
 const route = useRoute()
@@ -355,7 +358,7 @@ function hidePanel(panel: HTMLElement): void {
 }
 
 // Initialize panels and add event listeners
-onMounted(() => {
+onMounted(async () => {
   // Get panel elements
   panels.nav.panel = document.getElementById('navigation_panel')
   panels.nav.button = document.getElementById('nav-btn')
@@ -365,6 +368,12 @@ onMounted(() => {
   panels.add.button = document.getElementById('add-btn')
   panels.prof.panel = document.getElementById('profile_panel')
   panels.prof.button = document.getElementById('logo-btn')
+
+  // Load unread notifications count if user is authenticated
+  if (auth.isAuthenticated) {
+    const { fetchUnreadCount } = useNotifications()
+    await fetchUnreadCount()
+  }
 
   // If user has access to admin panel, shift dropdowns down a bit
   if (auth.isAuthenticated) {
@@ -830,6 +839,7 @@ function setArticlesView(mode: 'default' | 'line' | 'square') {
 
 // Panel buttons
 .panel-button {
+  position: relative;
   display: flex;
   align-items: center;
   background-color: rgba(67, 73, 86, 0);
@@ -907,6 +917,35 @@ function setArticlesView(mode: 'default' | 'line' | 'square') {
   &:hover { 
   background-color: var(--text-secondary); 
   opacity: 0.4;
+  }
+}
+
+// Notification indicator
+.notification-indicator {
+  position: absolute;
+  top: 40%;
+  right: 20px;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  background-color: #3b82f6; /* голубой цвет */
+  border-radius: 50%;
+  z-index: 1;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
   }
 }
 

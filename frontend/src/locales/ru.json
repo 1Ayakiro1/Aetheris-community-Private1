@@ -57,6 +57,7 @@
       "difficulty": "Сложность",
       "readingTime": "Время прочтения",
       "tags": "Теги",
+      "searchTags": "Поиск тегов...",
       "from": "От",
       "to": "До",
       "minutes": "минут",
@@ -386,7 +387,7 @@
     "profile": {
       "title1": "Профиль",
       "title2": "Уведомления",
-      "title3": "Избранные статьи",
+      "title3": "Избранное",
       "title4": "Настройки",
       "title5": "Ваши статьи",
       "title6": "Черновик",
@@ -412,6 +413,25 @@
     "subtitle1": "Вечность в наших руках",
     "subtitle2": "Сообщество является",
     "subtitle3": "открытым"
+  },
+  "share": {
+    "title": "Поделиться статьей",
+    "subtitle": "Выберите способ для поделиться",
+    "copyLink": "Скопировать ссылку",
+    "twitter": "Twitter",
+    "facebook": "Facebook",
+    "linkedin": "LinkedIn",
+    "telegram": "Telegram",
+    "whatsapp": "WhatsApp",
+    "cancel": "Отмена",
+    "success": {
+      "summary": "Ссылка скопирована",
+      "detail": "Ссылка на статью скопирована в буфер обмена"
+    },
+    "error": {
+      "summary": "Ошибка",
+      "detail": "Не удалось скопировать ссылку"
+    }
   },
   "notifications": {
     "login": {

@@ -53,6 +53,7 @@ export interface ArticleCardEmits {
     articleDeleted: [articleId: number]
     deleteArticle: [article: { id: number; title: string }]
     reportArticle: [article: { id: number; title: string }]
+    shareArticle: [article: { id: number; title: string }]
 }
 
 export interface ArticlesResponse {

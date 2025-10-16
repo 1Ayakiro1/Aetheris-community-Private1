@@ -33,18 +33,35 @@
             <path d="M35.8507 35.75L27.6701 27.5937M32.0895 17C32.0895 25.2843 25.3538 32 17.0448 32C8.73577 32 2 25.2843 2 17C2 8.71573 8.73577 2 17.0448 2C25.3538 2 32.0895 8.71573 32.0895 17Z" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           <!-- Search Bar -->
-          <input
-            type="text"
-            class="search-input"
-            :placeholder="$t('articles.search')"
-            :value="searchQuery"
-            @input="onSearchInput"
-            @keydown.enter="handleSearch"
-          >
+          <div class="search-input-container">
+            <input
+              type="text"
+              class="search-input"
+              :class="{ 'has-tags': filters.tags.length > 0 }"
+              :placeholder="$t('articles.search')"
+              :value="searchQuery"
+              @input="onSearchInput"
+              @keydown.enter="handleSearch"
+            >
+            <!-- Selected Tags Display -->
+            <div v-if="filters.tags.length > 0" class="selected-tags" :class="{ 'scrollable': filters.tags.length > 2 }">
+              <span 
+                v-for="tag in filters.tags" 
+                :key="tag" 
+                class="selected-tag"
+                @click="removeTag(tag)"
+              >
+                {{ tag }}
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </div>
+          </div>
           <!-- Clear Search Button -->
           <button
-            v-if="searchQuery"
-            @click="handleResetFilters"
+            v-if="searchQuery || filters.tags.length > 0"
+            @click="handleClearSearch"
             class="clear-search-btn"
             type="button"
           >
@@ -105,9 +122,24 @@
 
           <div class="filter-section">
             <h4 class="filter-title">{{ $t('articles.filters.tags') }}</h4>
+            
+            <!-- Tag Search Input -->
+            <div class="tag-search-container">
+              <input
+                type="text"
+                class="tag-search-input"
+                :placeholder="$t('articles.filters.searchTags')"
+                :value="tagSearchQuery"
+                @input="onTagSearchInput"
+              />
+              <svg class="tag-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21 21L16.65 16.65M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            
             <div class="filter-tags">
               <button 
-                v-for="tag in availableTags" 
+                v-for="tag in filteredTags" 
                 :key="tag"
                 @click="handleTagFilter(tag)"
                 :class="['filter-tag', { active: filters.tags.includes(tag) }]"
@@ -144,7 +176,7 @@
             <h3 v-else>{{ $t('common.no_articles') }}</h3>
             <p v-if="isSearching">{{ $t('articles.searchResults.noResultsDescription') }}</p>
             <p v-else>{{ $t('articles.searchResults.noResultsDescription') }}</p>
-            <button @click="handleResetFilters" class="reset-filters-btn">
+            <button @click="handleClearSearch" class="reset-filters-btn">
               {{ isSearching ? $t('articles.searchResults.showAll') : $t('articles.searchResults.resetFilters') }}
             </button>
           </div>
@@ -174,6 +206,7 @@
                   @article-deleted="handleArticleDeleted"
                   @delete-article="handleDeleteArticle"
                   @report-article="handleReportArticle"
+                  @share-article="handleShareArticle"
                 />
               </template>
               <template v-else-if="viewMode === 'line'">
@@ -294,6 +327,14 @@
       
       <!-- Toast for notifications -->
       <Toast />
+
+      <!-- Share Panel -->
+      <SharePanel
+        :visible="isSharePanelOpen"
+        :article-url="articleUrl"
+        :article-title="articleToShare?.title || ''"
+        @close="closeSharePanel"
+      />
       
       <!-- Second Right Block - Sidebar -->
       <div class="sidebar-section">
@@ -387,15 +428,18 @@ import ArticleCard from '@/components/ArticleCard.vue'
 import ArticleCardLine from '@/components/ArticleCardLine.vue'
 import ArticleCardSquare from '@/components/ArticleCardSquare.vue'
 import DeleteConfirmDialog from '@/components/DeleteConfirmDialog.vue'
+import SharePanel from '@/components/SharePanel.vue'
 import Toast from 'primevue/toast'
 import Paginator from 'primevue/paginator'
 import FireIcon from '@/assets/svgs/fire_ico.svg'
 
 import { useArticles } from '@/composables/useArticles'
+import { useTags } from '@/composables/useTags'
 import { useI18n } from 'vue-i18n'
 import { deleteArticle } from '@/api/articles'
 import { useAuthStore } from '@/stores/auth'
 import { useToast } from 'primevue/usetoast'
+import type { Article } from '@/types/article'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -411,6 +455,9 @@ const {
   searchArticles
 } = useArticles()
 
+// Сохраняем все статьи для фильтрации
+const allArticles = ref<Article[]>([])
+
 // Delete dialog state
 const isDeleteDialogOpen = ref(false)
 const isDeleting = ref(false)
@@ -420,6 +467,10 @@ const articleToDelete = ref<{ id: number; title: string } | null>(null)
 const isReportPanelOpen = ref(false)
 const selectedReasons = ref<string[]>([])
 const articleToReport = ref<{ id: number; title: string } | null>(null)
+
+// Share panel state
+const isSharePanelOpen = ref(false)
+const articleToShare = ref<{ id: number; title: string } | null>(null)
 
 // Вычисляемые свойства
 const isEmpty = computed(() => articles.value.length === 0)
@@ -484,7 +535,8 @@ const filters = ref({
   readingTimeMax: null as number | null,
   tags: [] as string[]
 })
-const availableTags = ref<string[]>([])
+const { allTags, filterTags } = useTags()
+const tagSearchQuery = ref('')
 
 // Navigation state
 const activeSection = ref('articles')
@@ -495,6 +547,11 @@ const difficultyOptions = computed(() => ({
   medium: t('create-article.difficulty.medium'),
   hard: t('create-article.difficulty.hard')
 } as Record<string, string>))
+
+// Filtered tags based on search query
+const filteredTags = computed(() => {
+  return filterTags(tagSearchQuery.value, [])
+})
 
 // const onPageChange = async (event: any) => {
 //   first.value = event.first
@@ -511,7 +568,14 @@ const difficultyOptions = computed(() => ({
 // Обработчики событий ArticleCard
 const handleTagClick = (tag: string) => {
   console.log('Клик по тегу:', tag)
-  // TODO: Реализовать фильтрацию по тегу
+  
+  // Добавляем тег только в фильтры, не в поисковую строку
+  if (!filters.value.tags.includes(tag)) {
+    filters.value.tags.push(tag)
+  }
+  
+  // Применяем фильтры
+  applyFilters()
 }
 
 const handleAuthorClick = (authorId: number) => {
@@ -609,6 +673,25 @@ const confirmReport = () => {
   closeReportPanel()
 }
 
+// Share panel handlers
+const handleShareArticle = (article: { id: number; title: string }) => {
+  articleToShare.value = article
+  isSharePanelOpen.value = true
+}
+
+const closeSharePanel = () => {
+  isSharePanelOpen.value = false
+  articleToShare.value = null
+}
+
+// Computed property for article URL
+const articleUrl = computed(() => {
+  if (articleToShare.value && typeof window !== 'undefined') {
+    return `${window.location.origin}/article/${articleToShare.value.id}`
+  }
+  return ''
+})
+
 // Обработчик поиска
 const handleSearch = async () => {
   console.log('Поиск:', searchQuery.value)
@@ -620,15 +703,21 @@ const handleSearch = async () => {
   }
   
   if (searchQuery.value.trim().length < 2) {
-    // Если запрос слишком короткий, загружаем все статьи
+    // Если запрос слишком короткий, применяем только фильтры
     isSearching.value = false
-    await fetchArticles()
+    await applyFilters()
     return
   }
   
   isSearching.value = true
   try {
     await searchArticles(searchQuery.value.trim())
+    // Сохраняем результаты поиска для фильтрации
+    allArticles.value = [...articles.value]
+    // После поиска применяем фильтры к результатам
+    if (filters.value.difficulty || filters.value.readingTimeMin || filters.value.readingTimeMax || filters.value.tags.length > 0) {
+      await applyTagFilters()
+    }
   } catch (error) {
     console.error('Ошибка поиска:', error)
   }
@@ -652,7 +741,7 @@ const searchTimeout = ref<ReturnType<typeof setTimeout> | null>(null)
 
 // Дополнительные обработчики
 const handleResetFilters = async () => {
-  searchQuery.value = ''
+  // Очищаем только фильтры, но не поисковую строку
   isSearching.value = false
   filters.value = {
     difficulty: null,
@@ -662,8 +751,34 @@ const handleResetFilters = async () => {
   }
   showFilterDropdown.value = false
   console.log('Фильтры сброшены')
-  // Загружаем все статьи при сбросе фильтров
-  await fetchArticles()
+  // Восстанавливаем все статьи
+  if (allArticles.value.length > 0) {
+    articles.value = [...allArticles.value]
+  } else {
+    await fetchArticles()
+    allArticles.value = [...articles.value]
+  }
+}
+
+// Отдельная функция для полного сброса (включая поиск)
+const handleClearSearch = async () => {
+  searchQuery.value = ''
+  isSearching.value = false
+  filters.value = {
+    difficulty: null,
+    readingTimeMin: null,
+    readingTimeMax: null,
+    tags: []
+  }
+  showFilterDropdown.value = false
+  console.log('Поиск и фильтры сброшены')
+  // Восстанавливаем все статьи
+  if (allArticles.value.length > 0) {
+    articles.value = [...allArticles.value]
+  } else {
+    await fetchArticles()
+    allArticles.value = [...articles.value]
+  }
 }
 
 // Filter handlers
@@ -700,9 +815,70 @@ const handleTagFilter = (tag: string) => {
   applyFilters()
 }
 
+const removeTag = (tag: string) => {
+  // Удаляем тег из фильтров
+  const index = filters.value.tags.indexOf(tag)
+  if (index > -1) {
+    filters.value.tags.splice(index, 1)
+  }
+  
+  // Применяем фильтры
+  applyFilters()
+}
+
+// Tag search handler
+const onTagSearchInput = (event: Event) => {
+  const target = event.target as HTMLInputElement
+  tagSearchQuery.value = target.value
+}
+
 const applyFilters = async () => {
-  // TODO: Реализовать применение фильтров
   console.log('Применяем фильтры:', filters.value)
+  
+  // Если есть активные фильтры, применяем их
+  if (filters.value.difficulty || filters.value.readingTimeMin || filters.value.readingTimeMax || filters.value.tags.length > 0) {
+    await applyTagFilters()
+  } else {
+    // Если нет фильтров, загружаем все статьи
+    await fetchArticles()
+  }
+}
+
+const applyTagFilters = async () => {
+  try {
+    // Используем все статьи для фильтрации, если они есть, иначе текущие
+    const sourceArticles = allArticles.value.length > 0 ? allArticles.value : articles.value
+    let filteredArticles = [...sourceArticles]
+    
+    // Фильтр по тегам
+    if (filters.value.tags.length > 0) {
+      filteredArticles = filteredArticles.filter(article => 
+        filters.value.tags.some(tag => article.tags.includes(tag))
+      )
+    }
+    
+    // Фильтр по сложности
+    if (filters.value.difficulty) {
+      filteredArticles = filteredArticles.filter(article => 
+        article.difficulty === filters.value.difficulty
+      )
+    }
+    
+    // Фильтр по времени чтения (примерная оценка)
+    if (filters.value.readingTimeMin || filters.value.readingTimeMax) {
+      filteredArticles = filteredArticles.filter(article => {
+        const estimatedReadingTime = Math.ceil(article.content.length / 1000) // Примерно 1000 символов в минуту
+        const minTime = filters.value.readingTimeMin || 0
+        const maxTime = filters.value.readingTimeMax || Infinity
+        return estimatedReadingTime >= minTime && estimatedReadingTime <= maxTime
+      })
+    }
+    
+    // Обновляем список статей
+    articles.value = filteredArticles
+  } catch (error) {
+    console.error('Ошибка при применении фильтров:', error)
+  }
 }
 
 // Navigation handlers
@@ -789,14 +965,8 @@ onMounted(async () => {
   await fetchArticles()
   console.log('Статьи загружены следующие:', articles.value)
   
-  // Получаем уникальные теги из загруженных статей
-  const allTags = new Set<string>()
-  articles.value.forEach(article => {
-    if (article.tags && Array.isArray(article.tags)) {
-      article.tags.forEach((tag: string) => allTags.add(tag))
-    }
-  })
-  availableTags.value = Array.from(allTags).sort()
+  // Сохраняем все статьи для фильтрации
+  allArticles.value = [...articles.value]
 })
 
 onUnmounted(() => {
@@ -953,9 +1123,16 @@ onUnmounted(() => {
   transform: scale(0.95);
 }
 
-.search-input {
+.search-input-container {
   margin-left: 16px;
   width: 912px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-input {
+  width: 100%;
   height: 50px;
   background-color: var(--bg-primary);
   border-radius: 25px;
@@ -967,6 +1144,130 @@ onUnmounted(() => {
   padding-right: 60px; /* Отступ для кнопки очистки */
   border: none;
   outline: none;
+  transition: padding-left 0.3s ease;
+}
+
+.search-input:focus {
+  padding-left: 16px;
+}
+
+/* Добавляем отступ для текста, когда есть теги */
+.search-input.has-tags {
+  padding-left: 320px; /* Увеличенный отступ для контейнера тегов */
+}
+
+.selected-tags {
+  position: absolute;
+  top: 50%;
+  left: 24px; /* Увеличиваем отступ от левого края */
+  transform: translateY(-50%);
+  display: flex;
+  gap: 6px;
+  pointer-events: none;
+  z-index: 1;
+  align-items: center;
+  animation: fadeInUp 0.3s ease-out;
+  max-width: 280px; /* Примерно ширина двух тегов */
+  overflow: hidden;
+  width: fit-content;
+}
+
+/* Ограничиваем ширину контейнера тегов */
+.selected-tags:not(.scrollable) {
+  max-width: 280px;
+}
+
+.selected-tags.scrollable {
+  max-width: 280px;
+  width: 280px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  flex-wrap: nowrap;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+  scroll-behavior: smooth;
+  padding-bottom: 2px;
+}
+
+.selected-tags.scrollable::-webkit-scrollbar {
+  height: 4px;
+}
+
+.selected-tags.scrollable::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.selected-tags.scrollable::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+}
+
+.selected-tags.scrollable::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(-50%) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%) translateY(0);
+  }
+}
+
+.selected-tag {
+  background-color: var(--primary-violet);
+  color: white;
+  padding: 6px 10px;
+  border-radius: 16px;
+  font-size: 13px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  pointer-events: auto;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  max-width: 140px;
+  min-width: fit-content;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  animation: tagSlideIn 0.3s ease-out;
+  flex-shrink: 0;
+}
+
+@keyframes tagSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.selected-tag:hover {
+  background-color: #3b82f6;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4), 0 2px 6px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.selected-tag svg {
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+.selected-tag:hover svg {
+  opacity: 1;
 }
 
 .search-input::placeholder {
@@ -1829,6 +2130,44 @@ onUnmounted(() => {
   opacity: 0.6;
 }
 
+.tag-search-container {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.tag-search-input {
+  width: 100%;
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 10px 12px 10px 40px;
+  font-size: 14px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.tag-search-input:focus {
+  border-color: var(--primary-violet);
+  background-color: var(--bg-primary);
+}
+
+.tag-search-input::placeholder {
+  color: var(--text-third);
+  opacity: 0.6;
+}
+
+.tag-search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  pointer-events: none;
+}
+
 .filter-tags {
   display: flex;
   gap: 8px;
@@ -1838,7 +2177,6 @@ onUnmounted(() => {
   padding: 8px;
   background-color: var(--bg-secondary);
   border-radius: 8px;
- 
 }
 
 .filter-tag {
@@ -1928,6 +2266,36 @@ onUnmounted(() => {
   .filter-reset-btn,
   .filter-close-btn {
     width: 100%;
+  }
+  
+  .search-input-container {
+    width: 100%;
+    margin-left: 0;
+  }
+  
+  .selected-tags {
+    left: 12px; /* Отступ на мобильных */
+    top: 50%;
+    transform: translateY(-50%);
+    max-width: 200px; /* Меньше на мобильных */
+    width: fit-content;
+  }
+  
+  .selected-tags.scrollable {
+    max-width: 200px;
+    width: 200px;
+  }
+  
+  .selected-tag {
+    font-size: 11px;
+    padding: 4px 8px;
+    max-width: 80px;
+    min-width: fit-content;
+    border-radius: 12px;
+  }
+  
+  .search-input.has-tags {
+    padding-left: 240px; /* Увеличенный отступ для мобильных */
   }
 }
 
