@@ -79,3 +79,11 @@ def react_comment_route(comment_id: int, payload: schemas.CommentReactionPayload
     if not comment:
         raise HTTPException(status_code=404, detail="Comment not found")
     return comment
+
+@router.delete("/comments/{comment_id}")
+def delete_comment_route(comment_id: int, user_id: int, db: Session = Depends(get_db)):
+    """Удалить комментарий (только автор может удалить свой комментарий)"""
+    success = crud.delete_comment(db, comment_id, user_id)
+    if not success:
+        raise HTTPException(status_code=404, detail="Comment not found or you don't have permission to delete it")
+    return {"message": "Comment deleted successfully"}

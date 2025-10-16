@@ -222,6 +222,7 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import DropdownIcon from '@/assets/icons/DropdownIcon.vue'
 import { useAuthStore } from '@/stores/auth'
+import { deleteComment } from '@/api/articles'
 
 interface CommentAuthor {
   id: number
@@ -254,6 +255,7 @@ interface CommentBlockEmits {
   (e: 'reply', commentId: number): void
   (e: 'userClick', userId: number): void
   (e: 'mentionClick', commentId: number): void
+  (e: 'delete', commentId: number): void
 }
 
 const props = defineProps<CommentBlockProps>()
@@ -376,11 +378,16 @@ const closeDeletePanel = () => {
   isDeletePanelOpen.value = false
 }
 
-const confirmDelete = () => {
-  console.log('Delete comment:', props.comment.id)
-  isDeletePanelOpen.value = false
-  // TODO: Implement comment deletion via API
-  // emit('delete', props.comment.id) - can add emit for deletion
+const confirmDelete = async () => {
+  try {
+    console.log('Delete comment:', props.comment.id)
+    await deleteComment(props.comment.id, currentUserId.value)
+    isDeletePanelOpen.value = false
+    emit('delete', props.comment.id)
+  } catch (error) {
+    console.error('Failed to delete comment:', error)
+    // Можно добавить уведомление об ошибке
+  }
 }
 
 const handleReport = () => {

@@ -47,6 +47,7 @@
               @reply="handleCommentReply"
               @user-click="handleUserClick"
               @mention-click="handleMentionClick"
+              @delete="handleCommentDelete"
               @submit-reply="handleReplySubmit"
               @cancel-reply="cancelReply"
             />
@@ -268,6 +269,19 @@ const cancelReply = () => {
 const handleUserClick = (userId: number) => {
   console.log('User clicked:', userId)
   // TODO: Navigate to user profile
+}
+
+const handleCommentDelete = (commentId: number) => {
+  // Remove comment from local state
+  comments.value = comments.value.filter(c => c.id !== commentId)
+  replyComments.value = replyComments.value.filter(c => c.id !== commentId)
+  
+  // Rebuild tree
+  const allComments = [...comments.value, ...replyComments.value]
+  commentTree.value = buildCommentTree(allComments)
+  
+  // Update total comments count
+  totalCommentsCount.value = allComments.length
 }
 
 const handleMentionClick = (commentId: number) => {

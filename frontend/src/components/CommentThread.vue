@@ -14,6 +14,7 @@
       @reply="emit('reply', comment.id)"
       @user-click="(userId) => emit('userClick', userId)"
       @mention-click="(commentId) => emit('mentionClick', commentId)"
+      @delete="emit('delete', comment.id)"
     />
     
     <CommentBlock
@@ -29,6 +30,7 @@
       @reply="emit('reply', comment.id)"
       @user-click="(userId) => emit('userClick', userId)"
       @mention-click="(commentId) => emit('mentionClick', commentId)"
+      @delete="emit('delete', comment.id)"
     />
     
     <!-- Reply Input for this comment -->
@@ -56,6 +58,7 @@
         @reply="(id) => emit('reply', id)"
         @user-click="(userId) => emit('userClick', userId)"
         @mention-click="(commentId) => emit('mentionClick', commentId)"
+        @delete="(id) => emit('delete', id)"
         @submit-reply="(data) => emit('submitReply', data)"
         @cancel-reply="emit('cancelReply')"
       />
@@ -100,6 +103,7 @@ interface Emits {
   (e: 'reply', commentId: number): void
   (e: 'userClick', userId: number): void
   (e: 'mentionClick', commentId: number): void
+  (e: 'delete', commentId: number): void
   (e: 'submitReply', data: { text: string, replyToId?: number, replyToUser?: string }): void
   (e: 'cancelReply'): void
 }
