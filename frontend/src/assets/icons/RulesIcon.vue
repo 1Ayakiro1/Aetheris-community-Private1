@@ -42,7 +42,7 @@ interface Props {
 
 withDefaults(defineProps<Props>(), {
   size: 27,
-  color: '#9BA4AE',
+  color: 'var(--ico-color)',
   className: ''
 })
 </script>

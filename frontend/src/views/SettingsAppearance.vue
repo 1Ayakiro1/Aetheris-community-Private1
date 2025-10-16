@@ -102,7 +102,7 @@
                 <span class="language-name">{{ getCurrentLanguageName() }}</span>
               </div>
               <svg class="dropdown-icon" width="22" height="12" viewBox="0 0 25 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M2.25 2.375L12.5 12.625L22.75 2.375" stroke="#9BA4AE" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M2.25 2.375L12.5 12.625L22.75 2.375" stroke="var(--ico-color)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </button>
 
@@ -161,7 +161,7 @@
             >
               <p class="font-select-text">{{ getCurrentFontName() }}</p>
               <svg class="dropdown-icon" width="22" height="12" viewBox="0 0 25 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M2.25 2.375L12.5 12.625L22.75 2.375" stroke="#9BA4AE" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M2.25 2.375L12.5 12.625L22.75 2.375" stroke="var(--ico-color)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </button>
 

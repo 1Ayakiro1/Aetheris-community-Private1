@@ -269,7 +269,7 @@ const { t } = useI18n()
   flex-direction: row;
   align-items: center;
   background-color: var(--bg-primary);
-  border: 2px solid #9BA4AE;
+  border: 2px solid var(--ico-color);
   border-radius: 25px;
   width: 880px;
   height: 139px;

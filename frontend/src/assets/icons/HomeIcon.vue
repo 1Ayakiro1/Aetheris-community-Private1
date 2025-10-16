@@ -28,7 +28,7 @@ interface Props {
 withDefaults(defineProps<Props>(), {
   width: 23,
   height: 28,
-  color: '#9BA4AE',
+  color: 'var(--ico-color)',
   className: ''
 })
 </script>

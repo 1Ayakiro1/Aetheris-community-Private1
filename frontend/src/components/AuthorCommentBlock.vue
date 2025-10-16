@@ -133,7 +133,7 @@
           @mouseenter="upArrowHover = true"
           @mouseleave="upArrowHover = false"
         >
-          <DropdownIcon :color="userVote === 'up' ? '#22c55e' : (upArrowHover ? '#22c55e' : '#9BA4AE')" />
+          <DropdownIcon :color="userVote === 'up' ? '#22c55e' : (upArrowHover ? '#22c55e' : 'var(--ico-color)')" />
         </div>
         <p class="rating-text" :class="{ 'positive': rating > 0, 'negative': rating < 0 }">{{ rating }}</p>
         <div 
@@ -143,7 +143,7 @@
           @mouseenter="downArrowHover = true"
           @mouseleave="downArrowHover = false"
         >
-          <DropdownIcon :color="userVote === 'down' ? '#ef4444' : (downArrowHover ? '#ef4444' : '#9BA4AE')" />
+          <DropdownIcon :color="userVote === 'down' ? '#ef4444' : (downArrowHover ? '#ef4444' : 'var(--ico-color)')" />
         </div>
         
         <!-- Rating Tooltip -->
