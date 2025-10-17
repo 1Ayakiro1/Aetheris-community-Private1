@@ -1,0 +1,1 @@
+import{a5 as t,a6 as a,c as s,a as o,N as n,o as c,ae as _}from"./index-QOySC_5N.js";const l={class:"development-text"},p=t({__name:"Analytics",setup(r){const{t:i}=a();return(e,m)=>(c(),s("div",null,[o("h1",l,n(e.$t("common.in_development")),1)]))}}),f=_(p,[["__scopeId","data-v-5764f793"]]);export{f as default};

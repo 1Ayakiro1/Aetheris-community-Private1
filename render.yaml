@@ -1,0 +1,34 @@
+services:
+  - type: web
+    name: aetheris-community
+    env: python
+    plan: free
+    buildCommand: |
+      # Install Python dependencies
+      pip install -r backend/requirements.txt
+      
+      # Install Node.js dependencies and build frontend
+      cd frontend
+      npm install
+      npm run build
+      cd ..
+      
+      # Copy frontend build to backend static directory
+      mkdir -p backend/static
+      cp -r frontend/dist/* backend/static/
+    startCommand: cd backend && python run.py
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: aetheris-db
+          property: connectionString
+      - key: FRONTEND_URL
+        value: https://aetheris-community.onrender.com
+      - key: VITE_API_BASE_URL
+        value: https://aetheris-community.onrender.com
+
+databases:
+  - name: aetheris-db
+    plan: free
+    databaseName: aetheris
+    user: aetheris_user
