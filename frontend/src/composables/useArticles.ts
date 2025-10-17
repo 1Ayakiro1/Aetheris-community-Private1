@@ -47,6 +47,7 @@ function mapServerArticle(a: any): Article {
             ? a.tags
             : (typeof a.tags === 'string' ? a.tags.split(',') : []),
         createdAt: a.created_at || a.createdAt,
+        updatedAt: a.updated_at || a.updatedAt || a.modified_at || a.modifiedAt,
         status: a.status || 'published',
         difficulty: a.difficulty || 'medium', // Добавляем обработку difficulty
         likes: a.likes ?? 0,

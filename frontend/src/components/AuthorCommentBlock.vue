@@ -55,7 +55,10 @@
               Author
             </span>
           </div>
-          <span class="comment-time">{{ formatDate(comment.createdAt) }}</span>
+          <div class="comment-meta">
+            <span class="comment-time">{{ formatDate(comment.createdAt) }}</span>
+            <span class="comment-id">#{{ comment.id }}</span>
+          </div>
           <div class="more-options-wrapper">
             <svg 
               width="24" 
@@ -807,11 +810,28 @@ onUnmounted(() => {
   }
 }
 
+.comment-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .comment-time {
   color: var(--text-secondary);
   font-size: 14px;
   font-family: var(--font-sans);
   font-weight: 400;
+}
+
+.comment-id {
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  opacity: 0.7;
 }
 
 .comment-content {

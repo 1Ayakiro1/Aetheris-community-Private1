@@ -49,6 +49,17 @@ def delete_article(article_id: int, user_id: int, db: Session = Depends(get_db))
         raise HTTPException(status_code=404, detail="Article not found or you don't have permission to delete it")
     return {"message": "Article deleted successfully"}
 
+class ArticleUpdatePayload(schemas.ArticleCreate):
+    pass
+
+@router.put("/articles/{article_id}", response_model=schemas.Article)
+def update_article_route(article_id: int, user_id: int, payload: ArticleUpdatePayload, db: Session = Depends(get_db)):
+    """Обновить статью (только автор может обновлять свою статью)"""
+    article = crud.update_article(db, article_id, user_id, payload)
+    if not article:
+        raise HTTPException(status_code=404, detail="Article not found or you don't have permission to update it")
+    return article
+
 # comments
 
 @router.get("/articles/{article_id}/comments", response_model=list[schemas.Comment])

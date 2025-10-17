@@ -46,7 +46,7 @@
             <h2 class="nickname">{{ article.author.username }}</h2>
             <h2 class="publication-time">{{ formatDate(article.createdAt) }}</h2>
         </div>
-        <div class="more-options-wrapper">
+        <div class="more-options-wrapper" ref="moreMenuRef">
           <svg 
             width="24" 
             height="24" 
@@ -63,14 +63,24 @@
           </svg>
 
           <Transition name="dropdown-fade">
-            <teleport to="body">
-            <div v-if="showOptionsMenu" class="options-dropdown" :style="optionsStyle" @click.stop>
+            <div v-if="showOptionsMenu" class="options-dropdown" @click.stop>
               <button class="dropdown-item" @click="handleCopyLink">
                 <svg width="23" height="23" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M10 13a5 5 0 0 1 7.07 0l1.41 1.41a5 5 0 0 1 0 7.07v0a5 5 0 0 1-7.07 0l-1.41-1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   <path d="M14 11a5 5 0 0 1-7.07 0L5.5 9.57a5 5 0 0 1 0-7.07v0a5 5 0 0 1 7.07 0L14 3.91" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 <span>Copy link</span>
+              </button>
+              <button 
+                v-if="isAuthor" 
+                class="dropdown-item" 
+                @click="handleEditArticle"
+              >
+                <svg width="23" height="23" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>Edit</span>
               </button>
               <button 
                 v-if="isAuthor" 
@@ -95,7 +105,6 @@
                 <span>Report</span>
               </button>
             </div>
-            </teleport>
           </Transition>
         </div>
     </div>
@@ -104,6 +113,7 @@
         <div class="title-row">
           <h2 class="article-card-content-title">{{ article.title }}</h2>
           <span v-if="article.status === 'draft'" class="draft-badge">Draft</span>
+          <span v-if="isEdited" class="edited-badge">Edited</span>
         </div>
 
         <!-- Metadata Panel -->
@@ -374,22 +384,47 @@ const zoomLevel = ref(1) // 1 = 1.6x (default), 2 = 2.2x, 3 = 3.0x
 
 // === computed ===
 const isAuthor = computed(() => {
+  console.log('🔍 Checking isAuthor:', {
+    'authStore.user': authStore.user,
+    'article.author': props.article.author,
+    'article.author.id': props.article.author.id,
+    'article.author.username': (props.article.author as any).username
+  })
+  
   // Если author - это объект с id, используем id для сравнения
   if (props.article.author.id) {
-    return authStore.user && props.article.author.id === authStore.user.id
+    const result = authStore.user && props.article.author.id === authStore.user.id
+    console.log('🔍 ID comparison result:', result)
+    return result
   }
   
   // Если author - это строка (username), сравниваем по username
   if (typeof props.article.author === 'string') {
-    return authStore.user && props.article.author === (authStore.user.nickname || (authStore.user as any).username)
+    const result = authStore.user && props.article.author === (authStore.user.nickname || (authStore.user as any).username)
+    console.log('🔍 String username comparison result:', result)
+    return result
   }
   
   // Если author - это объект с username, сравниваем по username
   if ((props.article.author as any).username) {
-    return authStore.user && (props.article.author as any).username === (authStore.user.nickname || (authStore.user as any).username)
+    const result = authStore.user && (props.article.author as any).username === (authStore.user.nickname || (authStore.user as any).username)
+    console.log('🔍 Object username comparison result:', result)
+    return result
   }
   
+  console.log('🔍 No match found, returning false')
   return false
+})
+
+const isEdited = computed(() => {
+  const updated = (props.article as any).updatedAt || (props.article as any).updated_at
+  const created = (props.article as any).createdAt || (props.article as any).created_at
+  if (!updated || !created) return false
+  try {
+    const cu = new Date(String(created)).getTime()
+    const uu = new Date(String(updated)).getTime()
+    return !isNaN(cu) && !isNaN(uu) && uu > cu + 60_000 // больше минуты после создания
+  } catch { return false }
 })
 
 
@@ -612,7 +647,8 @@ const handleCopyLink = async () => {
 const handleClickOutside = (event: MouseEvent) => {
     const target = event.target as HTMLElement
     const dropdown = target.closest('.more-options-wrapper')
-    if (!dropdown && showOptionsMenu.value) {
+    const dropdownMenu = target.closest('.options-dropdown')
+    if (!dropdown && !dropdownMenu && showOptionsMenu.value) {
         showOptionsMenu.value = false
     }
 }
@@ -663,25 +699,8 @@ const reportReasons = [
     { id: 'inappropriate', title: 'Inappropriate Content', description: 'Sexual, violent, or disturbing content' },
     { id: 'misinformation', title: 'Misinformation', description: 'False or misleading information' },
 ]
-// Позиционирование меню в портале: вычисляем координаты относительно экрана
-const optionsStyle = (() => {
-    return {
-        get position() { return 'fixed' },
-        get top() {
-            const trigger = document.querySelector('.more-options-wrapper') as HTMLElement | null
-            if (!trigger) return '0px'
-            const rect = trigger.getBoundingClientRect()
-            return `${rect.top - 10}px`
-        },
-        get left() {
-            const trigger = document.querySelector('.more-options-wrapper') as HTMLElement | null
-            if (!trigger) return '0px'
-            const rect = trigger.getBoundingClientRect()
-            return `${rect.left + 70}px`
-        },
-        get zIndex() { return 50000 }
-    } as any
-})()
+// Позиционирование меню в портале: вычисляем координаты относительно текущей кнопки
+// No computed positioning needed when dropdown is inside wrapper
 
 const closeReportPanel = () => {
     isReportPanelOpen.value = false
@@ -694,11 +713,19 @@ const confirmReport = () => {
     selectedReasons.value = []
 }
 
+// === edit functions ===
+const handleEditArticle = () => {
+    showOptionsMenu.value = false
+    emit('editArticle', { id: props.article.id, title: props.article.title })
+    // Навигация на страницу редактирования на случай, если родитель не перехватывает событие
+    router.push(`/edit-article/${props.article.id}`)
+}
+
 // === delete functions ===
 const handleDeleteArticle = () => {
     console.log('Delete button clicked!')
     showOptionsMenu.value = false
-    emit('deleteArticle', { id: props.article.id, title: props.article.title })
+    isDeleteDialogOpen.value = true
 }
 
 const confirmDelete = async () => {
@@ -709,9 +736,22 @@ const confirmDelete = async () => {
         await deleteArticle(props.article.id, authStore.user.id)
         emit('articleDeleted', props.article.id)
         isDeleteDialogOpen.value = false
+        
+        // Показываем уведомление об успешном удалении
+        toast.add({
+            severity: 'success',
+            summary: t('notifications.deleteArticle.success.summary'),
+            detail: t('notifications.deleteArticle.success.detail'),
+            life: 3000
+        })
     } catch (error) {
         console.error('Ошибка удаления статьи:', error)
-        // Здесь можно добавить уведомление об ошибке
+        toast.add({
+            severity: 'error',
+            summary: t('notifications.deleteArticle.error.summary'),
+            detail: t('notifications.deleteArticle.error.detail'),
+            life: 3000
+        })
     } finally {
         isDeleting.value = false
     }
@@ -809,7 +849,7 @@ const getDifficultyText = (difficulty: string | undefined): string => {
     position: relative;
     margin-left: auto;
     margin-right: 30px;
-    z-index: 50000; /* Поверх боковой панели на главной */
+    z-index: 9999999999; /* Поверх всего контента */
 }
 
 .more-options-icon {
@@ -830,15 +870,17 @@ const getDifficultyText = (difficulty: string | undefined): string => {
 
 .options-dropdown {
     position: absolute;
-    top: -10px;
-    left: 70px;
+    top: 0px; /* выравниваем по центру иконки по вертикали */
+    left: calc(100% + 8px); /* панель справа от кнопки */
+    transform: none;
     background-color: var(--bg-secondary);
     border-radius: 16px;
     padding: 10px;
     min-width: 260px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-    z-index: 50000; /* Поверх боковой панели на главной */
+    z-index: 1000002;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 0; /* для легкой анимации сверху */
 }
 
 .dropdown-item {
@@ -887,17 +929,13 @@ const getDifficultyText = (difficulty: string | undefined): string => {
 
 .dropdown-fade-enter-active,
 .dropdown-fade-leave-active {
-    transition: all 0.3s ease;
+    transition: opacity 0.16s ease-in-out, margin-top 0.16s ease-in-out;
 }
 
-.dropdown-fade-enter-from {
-    opacity: 0;
-    transform: translateY(-10px);
-}
-
+.dropdown-fade-enter-from,
 .dropdown-fade-leave-to {
     opacity: 0;
-    transform: translateY(-10px);
+    margin-top: -4px; /* очень легкое появление сверху */
 }
 
 /* Report Panel Transition */
@@ -1180,39 +1218,38 @@ const getDifficultyText = (difficulty: string | undefined): string => {
         bottom: 60px; /* Поднимаем размытие выше */
         left: -30px; /* Компенсируем margin-left */
         right: -30px; /* Компенсируем margin-right */
-        height: 80px;
+        /* Верхний мягкий слой (меньше размытие, выше по высоте) */
+        height: 140px;
+        /* Градиентная вуаль без затемняющей тени */
         background: linear-gradient(
             to bottom,
             transparent 0%,
-            rgba(0, 0, 0, 0.05) 10%,
-            rgba(0, 0, 0, 0.15) 30%,
-            rgba(0, 0, 0, 0.4) 70%,
+            rgba(0, 0, 0, 0) 30%,
+            rgba(0, 0, 0, 0) 55%,
             var(--bg-secondary) 100%
         );
         pointer-events: none;
         z-index: 1; /* Ниже футера */
         border-radius: 0 0 15px 15px;
-        /* Плавное нарастающее размытие */
-        filter: blur(1px);
-        backdrop-filter: blur(2px);
+        /* Только размытие, без теней */
+        filter: blur(6px);
+        backdrop-filter: blur(10px);
         /* Создаем маску для плавного перехода */
+        /* Резче нарастание ближе к низу */
         mask: linear-gradient(
             to bottom,
             transparent 0%,
-            transparent 15%,
-            black 25%,
-            black 100%
+            rgba(0,0,0,0.2) 35%,
+            rgba(0,0,0,0.7) 75%,
+            black 92%
         );
         -webkit-mask: linear-gradient(
             to bottom,
             transparent 0%,
-            transparent 15%,
-            black 25%,
-            black 100%
+            rgba(0,0,0,0.2) 35%,
+            rgba(0,0,0,0.7) 75%,
+            black 92%
         );
-        box-shadow: 
-            0 -10px 20px rgba(0, 0, 0, 0.1),
-            0 -5px 10px rgba(0, 0, 0, 0.05);
     }
     
     /* Дополнительный слой для более глубокого эффекта с нарастающим размытием */
@@ -1222,31 +1259,33 @@ const getDifficultyText = (difficulty: string | undefined): string => {
         bottom: 60px; /* Синхронизируем с основным слоем */
         left: -30px;
         right: -30px;
-        height: 60px;
+        /* Нижний плотный слой (сильнее размытие у самого низа) */
+        height: 110px;
+        /* Дополнительный мягкий слой для глубины, без затемнения */
         background: linear-gradient(
             to bottom,
             transparent 0%,
-            rgba(0, 0, 0, 0.1) 30%,
-            rgba(0, 0, 0, 0.3) 70%,
-            rgba(0, 0, 0, 0.5) 100%
+            rgba(0,0,0,0) 55%,
+            var(--bg-secondary) 100%
         );
         pointer-events: none;
         z-index: 0;
         border-radius: 0 0 15px 15px;
         /* Мягкое размытие для дополнительного слоя */
-        filter: blur(0.5px);
+        filter: blur(30px);
+        /* Резкий «срез» в самом низу для сильного перехода */
         mask: linear-gradient(
             to bottom,
             transparent 0%,
-            transparent 20%,
-            black 35%,
+            rgba(0,0,0,0.5) 70%,
+            rgba(0,0,0,1) 92%,
             black 100%
         );
         -webkit-mask: linear-gradient(
             to bottom,
             transparent 0%,
-            transparent 20%,
-            black 35%,
+            rgba(0,0,0,0.5) 70%,
+            rgba(0,0,0,1) 92%,
             black 100%
         );
     }
@@ -1277,6 +1316,19 @@ const getDifficultyText = (difficulty: string | undefined): string => {
     background-color: rgba(245, 158, 11, 0.15);
     color: #f59e0b;
     border: 1px solid rgba(245, 158, 11, 0.6);
+}
+
+.edited-badge {
+    align-self: flex-start;
+    margin-top: 30px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    background-color: rgba(59, 130, 246, 0.15);
+    color: #3b82f6;
+    border: 1px solid rgba(59, 130, 246, 0.6);
 }
 
 .metadata-panel {

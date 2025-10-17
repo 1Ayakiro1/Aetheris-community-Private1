@@ -143,7 +143,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import Editor from 'primevue/editor'
 import Tag from 'primevue/tag'
 import FireIcon from '@/assets/svgs/fire_ico.svg'
@@ -153,6 +153,7 @@ const { t } = useI18n()
 const toast = useToast()
 
 import { useArticles } from '@/composables/useArticles'
+import { getArticleForEdit, updateArticle as apiUpdateArticle } from '@/api/articles'
 import { useTags } from '@/composables/useTags'
 import { useAuthStore } from '@/stores/auth'
 import type { CreateArticleRequest } from '@/types/article'
@@ -161,6 +162,7 @@ import type { CreateArticleRequest } from '@/types/article'
 const articleTitle = ref('')
 const articleContent = ref('')
 const router = useRouter()
+const route = useRoute()
 const selectedFile = ref<File | null>(null)
 const localPreview = ref<string | null>(null) //URL.createObjectURL
 const uploadingImage = ref(false) //это для индикации загрузки изображения на imgBB. Надо потом накидать стилей под это
@@ -200,7 +202,7 @@ const filteredTags = computed(() => {
 // API integration
 const { createArticle, updateArticle, loading, error } = useArticles()
 const auth = useAuthStore()
-const isEditing = ref(false)
+const isEditing = ref(true)
 const editingArticleId = ref<number | null>(null)
 
 // Reactive variables for checkboxes
@@ -426,8 +428,8 @@ const handleCreateArticle = async () => {
             author: auth.user?.username || 'Anonymous'
         }
 
-        const result = isEditing.value && editingArticleId.value
-            ? await updateArticle(editingArticleId.value, articleData)
+        const result = isEditing.value && editingArticleId.value && auth.user?.id
+            ? await apiUpdateArticle(editingArticleId.value, auth.user.id, articleData)
             : await createArticle(articleData)
 
         console.log('ArticleData перед API:', articleData)
@@ -438,7 +440,7 @@ const handleCreateArticle = async () => {
           detail: 'Ваша статья успешно опубликована и доступна на главной странице',
           life: 4000
         })
-        await router.push('/')
+        await router.push('/your-articles')
     } catch (err) {
         console.error(err)
         toast.add({
@@ -498,8 +500,8 @@ const saveDraft = async () => {
       author: auth.user?.username || 'Anonymous'
     }
 
-    const result = isEditing.value && editingArticleId.value
-      ? await updateArticle(editingArticleId.value, articleData)
+    const result = isEditing.value && editingArticleId.value && auth.user?.id
+      ? await apiUpdateArticle(editingArticleId.value, auth.user.id, articleData)
       : await createArticle(articleData)
 
     console.log('Черновик сохранен:', result)
@@ -521,32 +523,24 @@ const saveDraft = async () => {
   }
 }
 
-onMounted(() => {
+onMounted(async () => {
   // Add click outside handler
   document.addEventListener('click', handleClickOutside)
   
-  // Load draft if exists
-  const draft = localStorage.getItem('article_draft')
-  if (draft) {
+  // Load existing article for edit
+  const idParam = route.params.id
+  const id = typeof idParam === 'string' ? parseInt(idParam, 10) : Array.isArray(idParam) ? parseInt(idParam[0], 10) : NaN
+  if (!isNaN(id)) {
     try {
-      const draftData = JSON.parse(draft)
-      articleTitle.value = draftData.title || ''
-      selectedTags.value = draftData.tags || [] // загружаем теги в selectedTags
-      selectedDifficulty.value = draftData.difficulty || 'medium' // загружаем сложность
-      articleContent.value = draftData.content?.html || ''
-
-        if (draftData.settings) {
-          // publicationTimeEnabled.value = draftData.settings.publicationTime || false
-          rank1Enabled.value = draftData.settings.ranks?.rank1 || false
-        rank2Enabled.value = draftData.settings.ranks?.rank2 || false
-        disableCommenting.value = draftData.settings.disableCommenting || false
-        doNotNotify.value = draftData.settings.doNotNotify || false
-        hideContacts.value = draftData.settings.hideContacts || false
-        hideCommentatorsInfo.value = draftData.settings.hideCommentatorsInfo || false
-        disableReplying.value = draftData.settings.disableReplying || false
-      }
-    } catch (error) {
-      console.warn('Не удалось загрузить черновик:', error)
+      const a = await getArticleForEdit(id)
+      editingArticleId.value = a.id
+      articleTitle.value = a.title || ''
+      articleContent.value = a.content || ''
+      selectedTags.value = Array.isArray((a as any).tags) ? (a as any).tags : ((a as any).tags ? String((a as any).tags).split(',').map(t => t.trim()).filter(Boolean) : [])
+      selectedDifficulty.value = (a as any).difficulty || 'medium'
+      localPreview.value = (a as any).previewImage || (a as any).preview_image || null
+    } catch (e) {
+      toast.add({ severity: 'error', summary: 'Ошибка', detail: 'Не удалось загрузить статью для редактирования', life: 4000 })
     }
   }
 })

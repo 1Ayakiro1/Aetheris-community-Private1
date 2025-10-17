@@ -57,8 +57,10 @@ export async function createArticle(data: CreateArticleRequest): Promise<Article
     return res.data
 }
 
-export async function updateArticle(id: number, data: CreateArticleRequest): Promise<Article> {
-    const res = await apiClient.put<Article>(`/articles/${id}`, data)
+export async function updateArticle(id: number, userId: number, data: CreateArticleRequest): Promise<Article> {
+    const res = await apiClient.put<Article>(`/articles/${id}`, data, {
+        params: { user_id: userId }
+    })
     return res.data
 }
 
@@ -111,6 +113,11 @@ export async function getUserArticles(skip: number = 0, limit: number = 100): Pr
     const res = await apiClient.get<UserArticle[]>('/auth/me/articles', {
         params: { skip, limit }
     })
+    return res.data
+}
+
+export async function getArticleForEdit(id: number): Promise<Article> {
+    const res = await apiClient.get<Article>(`/articles/${id}`)
     return res.data
 }
 

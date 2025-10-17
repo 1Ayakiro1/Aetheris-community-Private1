@@ -48,7 +48,121 @@
       <!-- Content -->
       <div class="content">
         <div class="content-block">
-          <!-- Content will be added here -->
+          <div class="legal-content">
+            <h1 class="content-title">Дополнительные правовые положения Aetheris Community</h1>
+            <p class="last-updated">Последнее обновление: {{ new Date().toLocaleDateString('ru-RU') }}</p>
+            
+            <section class="legal-section">
+              <h2>1. Применимое право</h2>
+              <p>Настоящие правовые положения регулируются законодательством Российской Федерации. Все споры подлежат рассмотрению в судах по месту нахождения Aetheris Community.</p>
+            </section>
+
+            <section class="legal-section">
+              <h2>2. Ограничение ответственности</h2>
+              <p>В максимальной степени, разрешенной законом, Aetheris Community не несет ответственности за:</p>
+              <ul>
+                <li>Косвенные, случайные или штрафные убытки</li>
+                <li>Потерю данных, прибыли или деловых возможностей</li>
+                <li>Действия третьих лиц или внешних сервисов</li>
+                <li>Временные сбои в работе платформы</li>
+                <li>Контент, созданный пользователями</li>
+              </ul>
+            </section>
+
+            <section class="legal-section">
+              <h2>3. Возмещение ущерба</h2>
+              <p>Пользователи соглашаются возместить и защищать Aetheris Community от любых претензий, убытков и расходов, возникающих в связи с:</p>
+              <ul>
+                <li>Нарушением настоящих условий</li>
+                <li>Нарушением прав третьих лиц</li>
+                <li>Использованием платформы не по назначению</li>
+                <li>Публикацией незаконного контента</li>
+                <li>Действиями, причиняющими вред другим пользователям</li>
+              </ul>
+            </section>
+
+            <section class="legal-section">
+              <h2>4. Прекращение действия</h2>
+              <p>Мы оставляем за собой право прекратить или приостановить доступ к сервису в случае:</p>
+              <ul>
+                <li>Нарушения условий использования</li>
+                <li>Технических проблем или обновлений</li>
+                <li>Требований правоохранительных органов</li>
+                <li>Нарушения законодательства</li>
+                <li>Прекращения деятельности платформы</li>
+              </ul>
+            </section>
+
+            <section class="legal-section">
+              <h2>5. Форс-мажор</h2>
+              <p>Мы не несем ответственности за невыполнение обязательств в случае обстоятельств непреодолимой силы, включая:</p>
+              <ul>
+                <li>Стихийные бедствия</li>
+                <li>Технические сбои инфраструктуры</li>
+                <li>Действия государственных органов</li>
+                <li>Военные действия или терроризм</li>
+                <li>Пандемии или эпидемии</li>
+              </ul>
+            </section>
+
+            <section class="legal-section">
+              <h2>6. Налогообложение</h2>
+              <p>Пользователи самостоятельно несут ответственность за:</p>
+              <ul>
+                <li>Соблюдение налогового законодательства</li>
+                <li>Уплату налогов с доходов от использования платформы</li>
+                <li>Ведение учета финансовых операций</li>
+                <li>Предоставление отчетности в налоговые органы</li>
+                <li>Соблюдение валютного законодательства</li>
+              </ul>
+            </section>
+
+            <section class="legal-section">
+              <h2>7. Экспортные ограничения</h2>
+              <p>При использовании платформы соблюдайте:</p>
+              <ul>
+                <li>Международные санкции и эмбарго</li>
+                <li>Ограничения на экспорт технологий</li>
+                <li>Требования по контролю за экспортом</li>
+                <li>Запреты на передачу данных в определенные страны</li>
+                <li>Ограничения на использование криптографии</li>
+              </ul>
+            </section>
+
+            <section class="legal-section">
+              <h2>8. Согласие на обработку данных</h2>
+              <p>Используя платформу, вы даете согласие на:</p>
+              <ul>
+                <li>Обработку персональных данных в соответствии с Политикой конфиденциальности</li>
+                <li>Использование данных для улучшения сервиса</li>
+                <li>Передачу данных партнерам при необходимости</li>
+                <li>Хранение данных в течение установленного срока</li>
+                <li>Международную передачу данных</li>
+              </ul>
+            </section>
+
+            <section class="legal-section">
+              <h2>9. Изменения в правовых положениях</h2>
+              <p>Мы можем изменять настоящие положения в любое время. Изменения вступают в силу с момента публикации на сайте. Продолжение использования сервиса означает согласие с новыми условиями.</p>
+            </section>
+
+            <section class="legal-section">
+              <h2>10. Разделимость положений</h2>
+              <p>Если какое-либо положение настоящих условий будет признано недействительным, остальные положения сохраняют свою силу. Недействительное положение будет заменено на максимально близкое по смыслу действующее положение.</p>
+            </section>
+
+            <section class="legal-section">
+              <h2>11. Язык документации</h2>
+              <p>Основным языком правовых документов является русский. В случае противоречий между переводами приоритет имеет русскоязычная версия.</p>
+            </section>
+
+            <section class="legal-section">
+              <h2>12. Контактная информация</h2>
+              <p>По всем правовым вопросам обращайтесь: legal@aetheris-community.com</p>
+              <p>Почтовый адрес: [Адрес компании]</p>
+              <p>Телефон: [Номер телефона]</p>
+            </section>
+          </div>
         </div>
       </div>
     </div>
@@ -95,14 +209,14 @@
   align-items: center;
   justify-content: center;
   margin-top: 16px;
-  color: red !important;
+  color: var(--text-primary);
   font-size: 50px !important;
   font-family: var(--font-sans-serif);
   font-weight: bold;
 
   @media screen and (min-width: 1px) {
-    font-size: 50px !important;
-    color: red !important;
+    font-size: 30px;
+    color: var(--text-primary);
   }
 
   @media screen and (min-width: 1200px) {
@@ -326,17 +440,138 @@
   height: 655px;
   background-color: var(--bg-secondary);
   border-radius: 20px;
+  padding: 30px;
+  overflow-y: auto;
 
   @include responsive-2k {
     width: 1300px;
     height: 852px;
     border-radius: 26px;
+    padding: 39px;
   }
 
   @include responsive-4k {
     width: 1600px;
     height: 1048px;
     border-radius: 32px;
+    padding: 48px;
+  }
+}
+
+.legal-content {
+  color: var(--text-primary);
+  line-height: 1.6;
+  font-family: var(--font-sans-serif);
+}
+
+.content-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: var(--text-primary);
+  font-family: var(--font-sans-serif);
+
+  @include responsive-2k {
+    font-size: 36px;
+  }
+
+  @include responsive-4k {
+    font-size: 44px;
+  }
+}
+
+.last-updated {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 30px;
+  font-style: italic;
+  font-family: var(--font-sans-serif);
+
+  @include responsive-2k {
+    font-size: 18px;
+    margin-bottom: 39px;
+  }
+
+  @include responsive-4k {
+    font-size: 22px;
+    margin-bottom: 48px;
+  }
+}
+
+.legal-section {
+  margin-bottom: 25px;
+
+  @include responsive-2k {
+    margin-bottom: 33px;
+  }
+
+  @include responsive-4k {
+    margin-bottom: 40px;
+  }
+}
+
+.legal-section h2 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: var(--text-primary);
+  font-family: var(--font-sans-serif);
+
+  @include responsive-2k {
+    font-size: 26px;
+    margin-bottom: 13px;
+  }
+
+  @include responsive-4k {
+    font-size: 32px;
+    margin-bottom: 16px;
+  }
+}
+
+.legal-section p {
+  margin-bottom: 10px;
+  color: var(--text-primary);
+  font-family: var(--font-sans-serif);
+
+  @include responsive-2k {
+    font-size: 18px;
+    margin-bottom: 13px;
+  }
+
+  @include responsive-4k {
+    font-size: 22px;
+    margin-bottom: 16px;
+  }
+}
+
+.legal-section ul {
+  margin: 10px 0;
+  padding-left: 20px;
+
+  @include responsive-2k {
+    margin: 13px 0;
+    padding-left: 26px;
+  }
+
+  @include responsive-4k {
+    margin: 16px 0;
+    padding-left: 32px;
+  }
+}
+
+.legal-section li {
+  margin-bottom: 5px;
+  color: var(--text-primary);
+  font-family: var(--font-sans-serif);
+
+  @include responsive-2k {
+    font-size: 18px;
+    margin-bottom: 7px;
+  }
+
+  @include responsive-4k {
+    font-size: 22px;
+    margin-bottom: 8px;
   }
 }
 </style>

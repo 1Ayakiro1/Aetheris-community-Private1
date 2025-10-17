@@ -34,6 +34,7 @@ const routes = [
   { path: '/login', name: 'Login', component: () => import('@/views/Login.vue') },
   { path: '/signin', name: 'SignIn', component: () => import('@/views/SignIn.vue') },
   { path: '/create-article', name: 'CreateArticle', component: () => import('@/views/CreateArticle.vue') },
+  { path: '/edit-article/:id', name: 'EditArticle', component: () => import('@/views/EditArticle.vue'), props: true },
   { path: '/your-articles', name: 'YourArticles', component: () => import('@/views/YourArticles.vue') },
   { path: '/stared-articles', name: 'StaredArticles', component: () => import('@/views/StaredArticles.vue') },
   { path: '/draft-articles', name: 'DraftArticles', component: () => import('@/views/DraftArticles.vue') },

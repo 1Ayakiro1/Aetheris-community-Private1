@@ -212,6 +212,39 @@ def delete_article(db: Session, article_id: int, user_id: int):
     
     return True
 
+def update_article(db: Session, article_id: int, user_id: int, payload: schemas.ArticleCreate):
+    """Обновить статью (только автор может обновлять свою статью)"""
+    # Получаем статью
+    article = db.query(models.Article).filter(models.Article.id == article_id).first()
+    if not article:
+        return None
+
+    # Получаем пользователя для проверки автора
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+    if not user:
+        return None
+
+    # Проверяем, что пользователь является автором статьи
+    if article.author != user.username:
+        return None
+
+    # Обновляем поля
+    article.title = payload.title
+    article.content = payload.content
+    # Теги в хранилище представлены строкой (см. create_article)
+    article.tags = ",".join(payload.tags) if isinstance(payload.tags, list) else payload.tags
+    article.status = payload.status
+    article.difficulty = payload.difficulty
+    article.preview_image = payload.preview_image
+
+    db.add(article)
+    db.commit()
+    db.refresh(article)
+
+    # Преобразуем теги назад в список для ответа
+    article.tags = article.tags.split(",") if article.tags else []
+    return article
+
 def react_article(db: Session, article_id: int, user_id: int, reaction: str):
     article = get_article(db, article_id)
     if not article:

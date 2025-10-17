@@ -31,7 +31,7 @@
       </button>
 
       <button id="logo-btn" class="profile-button">
-        <div class="profile-avatar" @click="goToProfile"></div>
+        <div class="profile-avatar"></div>
         <DropdownIcon class="dropdown-icon profile-arrow" />
       </button>
     </div>
@@ -447,9 +447,6 @@ function signOut() {
     auth.logout()
 }
 
-function goToProfile() {
-    router.push('/profile')
-}
 
 function setArticlesView(mode: 'default' | 'line' | 'square') {
   try {
@@ -722,7 +719,7 @@ function setArticlesView(mode: 'default' | 'line' | 'square') {
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 1000;
+  z-index: 99999;
   min-width: 200px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   transition: opacity 0.3s ease-in-out;
